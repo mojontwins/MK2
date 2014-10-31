@@ -1,0 +1,253 @@
+// Motor.h
+#ifndef PLAYER_MIN_KILLABLE
+#define PLAYER_MIN_KILLABLE 0
+#endif
+
+// Animation frames
+#include "engine/frames.h"
+
+// Prepare level (compressed levels)
+#ifdef COMPRESSED_LEVELS
+#include "engine/clevels.h"
+#endif
+
+// Init player
+#include "engine/initplayer.h"
+
+// Collision
+#include "engine/collision.h"
+
+// Random
+#include "engine/random.h"
+
+// Messages
+#include "engine/messages.h"
+
+#ifdef PLAYER_STEP_SOUND
+void step (void) {
+	#asm
+		ld a, 16
+		out (254), a
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+		nop
+		xor 16
+		out (254), a
+	#endasm
+}
+#endif
+
+void cortina (void) {
+	#asm
+		ld b, 7
+		.fade_out_extern
+		push bc
+		
+			ld   e, 3               ; 3 tercios 
+			ld   hl, 22528          ; aquí empiezan los atributos 
+			halt                    ; esperamos retrazo. 
+		.fade_out_bucle  
+			ld   a, (hl )           ; nos traemos el atributo actual 
+		 	
+			ld   d, a               ; tomar atributo 
+			and  7                  ; aislar la tinta 
+			jr   z, ink_done        ; si vale 0, no se decrementa 
+			dec  a                  ; decrementamos tinta 
+		.ink_done 
+			ld   b, a               ; en b tenemos ahora la tinta ya procesada. 
+			
+			ld   a, d               ; tomar atributo 
+			and  56                 ; aislar el papel, sin modificar su posiciÃ³n en el byte 
+			jr   z, paper_done      ; si vale 0, no se decrementa 
+			sub  8                  ; decrementamos papel restando 8 
+		.paper_done 
+			ld   c, a               ; en c tenemos ahora el papel ya procesado. 
+			ld   a, d  
+			and  192                ; nos quedamos con bits 6 y 7 (BRIGHT y FLASH) 
+			or   c                  ; añadimos paper 
+			or   b                  ; e ink, con lo que recompuesto el atributo 
+			ld   (hl),a             ; lo escribimos, 
+			inc  l                  ; e incrementamos el puntero. 
+			jr   nz, fade_out_bucle ; continuamos hasta acabar el tercio (cuando L valga 0) 
+			inc  h                  ; siguiente tercio 
+			dec  e 
+			jr   nz, fade_out_bucle ; repetir las 3 veces 
+		pop bc
+		djnz fade_out_extern
+	#endasm
+}
+
+signed int addsign (signed int n, signed int value) {
+	if (n >= 0) return value; else return -value;
+}
+
+unsigned int abs (int n) {
+	if (n < 0)
+		return (unsigned int) (-n);
+	else
+		return (unsigned int) n;
+}
+
+// Engine globals (for speed) & size!
+unsigned char gpx, gpy, gpd, gpc, gpt;
+unsigned char gpxx, gpyy, gpcx, gpcy;
+unsigned char possee, hit_v, hit_h, hit, wall_h, wall_v;
+unsigned char gpen_x, gpen_y, gpen_cx, gpen_cy, gpen_xx, gpen_yy, gpaux;
+unsigned char tocado, active;
+unsigned char gpit, gpjt;
+unsigned char enoffsmasi;
+unsigned char *map_pointer;
+#ifdef PLAYER_CAN_FIRE
+unsigned char blx, bly;
+#endif
+
+void kill_player (unsigned char sound) {
+	p_life --;
+#ifdef DIE_AND_RESPAWN
+#ifdef MODE_128K
+	wyz_stop_sound ();
+	//wyz_play_sound (sound);
+#else
+	//peta_el_beeper (sound);
+#endif
+	p_killme = 1;
+	half_life = 0;
+#endif
+#ifdef PLAYER_FLICKERS
+	p_estado = EST_PARP;
+	p_ct_estado = 50;
+#endif
+}
+
+// Animated tiles
+#ifdef ENABLE_TILANIMS
+#include "tilanim.h"
+#endif
+
+// Breakable tiles helper functions
+#ifdef BREAKABLE_WALLS
+#include "engine/breakable.h"
+#endif
+
+#ifdef BREAKABLE_WALLS_SIMPLE
+#include "engine/breakable-s.h"
+#endif
+
+// Initialization functions
+#include "engine/inits.h"
+
+// Hitter (punch/sword) helper functions
+#if defined(PLAYER_CAN_PUNCH) || defined(PLAYER_CAN_SWORD)
+#include "engine/hitter.h"
+#endif
+
+// Bullets helper functions
+#ifdef PLAYER_CAN_FIRE
+#include "engine/bullets.h"
+#endif
+
+// Block processing
+#include "engine/blocks.h"
+
+// Main player movement
+#include "engine/playermove.h"
+
+#ifdef ACTIVATE_SCRIPTING
+void run_entering_script (void) {
+#ifdef EXTENDED_LEVELS
+	if (level_data->activate_scripting) {
+#endif
+#ifdef LINE_OF_TEXT
+		print_str (LINE_OF_TEXT_X, LINE_OF_TEXT, LINE_OF_TEXT_ATTR, "                              ");
+#endif
+		// Ejecutamos los scripts de entrar en pantalla:
+		run_script (2 * MAP_W * MAP_H + 1);
+		run_script (n_pant + n_pant);
+#ifdef EXTENDED_LEVELS
+	}
+#endif		
+}
+#endif
+
+// Screen drawing
+#include "engine/drawscr.h"
+
+// Enemies
+#include "engine/enems.h"
+
+void espera_activa (int espera) {
+	do {
+#ifndef MODE_128K
+		gpjt = 250; do { gpit = 1; } while (--gpjt);
+#else
+		#asm
+			halt
+		#endasm
+#endif
+#ifdef DIE_AND_RESPAWN
+		if (p_killme == 0 && button_pressed ()) break;
+#else
+		if (button_pressed ()) break;
+#endif
+	} while (--espera);
+}
+
+#ifdef ACTIVATE_SCRIPTING
+void run_fire_script (void) {
+	run_script (2 * MAP_W * MAP_H + 2);
+	run_script (n_pant + n_pant + 1);
+/*
+	for (gpit = 0; gpit < 16; gpit ++) {
+		sp_PrintAtInv (23, gpit + gpit, 71, 16 + flags [gpit]);
+	}
+*/
+/*
+	for (gpit = 0; gpit < 3; gpit ++) {
+		sp_PrintAtInv (23, gpit + gpit, 71, 16 + malotes [enoffs + gpit].t);
+	}
+*/
+}
+#endif
+
+void select_joyfunc (void) {
+
+#ifdef MODE_128K
+#else
+	#asm
+		; Music generated by beepola
+		call musicstart
+	#endasm
+#endif
+	while (1) {
+		gpit = sp_GetKey ();
+		if (gpit == '1') {
+			joyfunc = sp_JoyKeyboard;
+			break;
+		} else if (gpit == '2') {
+			joyfunc = sp_JoyKempston;
+			break;
+		} else if (gpit == '3') {
+			joyfunc = sp_JoySinclair1;
+			break;
+		}
+	}
+#ifdef MODE_128K
+	wyz_play_sound (0);
+	sp_WaitForNoKey ();
+#else
+	#asm
+		di
+	#endasm
+#endif
+}
+
+// Experimental
+#ifdef ENABLE_LAVA
+#include "engine\lava.h"
+#endif

@@ -1,0 +1,116 @@
+Fase 0:
+	Intro
+	Tipo: Especial2
+	mapa5/ts5/ss0
+	{37, 38, 39, 6, 40, 41, 42, 0, 
+	 8, 7, 7, 99, 7, 3, 99, 1, 2, SENG_JUMP, 1}
+
+Fase 1:
+	Bajamos por el risco del mordisco.
+	Tipo: Montaña
+	mapa0/ts0/ss0
+	{3, 4, 5, 6, 7, 8, 9, 0, 
+	 0, 2, 2, 99, 1, 12, 1, 1, 0, SENG_JUMP, 0},
+	
+Fase 2:
+	Atravesamos el lago verde.
+	Tipo: Nadar
+	mapa2/ts2/ss2
+	{17, 18, 19, 20, 21, 22, 23, 1,
+	 9, 12, 2, 99, 10, 1, 1, 1, 0, SENG_SWIM, 0},
+	
+Fase 3:
+	Los llanos del marrano.
+	Tipo: Pradera
+	mapa4/ts4/ss4
+	{30, 31, 32, 33, 34, 35, 36, 2,
+	 0, 3, 2, 99, 12, 1, 1, 1, 0, SENG_JUMP, 0}
+	
+Fase 4:
+	El pozo poroso
+	Tipo: Nadar
+	mapa6/ts2/ss2
+	
+Fase 5:
+	Isla de la Bruja Sarollán
+	Tipo: Especial1
+	mapa8/ts7/ss4
+	{43, 44, 45, 33, 46, 47, 48, 2,
+	 13, 6, 10, 99, 7, 3, 99, 1, 2, SENG_JUMP, 1}
+	
+Fase 6:
+	La cueva Kave
+	Tipo: Cueva
+	mapa3/ts3/ss1
+	{24, 25, 26, 13, 27, 28, 29, 2,
+	 0, 3, 2, 99, 10, 2, 1, 1, 0, SENG_JUMP, 0}
+	
+Fase 7:	
+	Nadar palir de la cueva.
+	Tipo: Nadar
+	ts2/ss2
+	
+Fase 8:
+	El bosque de los monos chungos.
+	Tipo: Bosque
+	mapa1/ts1/ss1
+	{10, 11, 12, 13, 14, 15, 16, 0,
+	 0, 2, 2, 99, 12, 1, 1, 1, 0, SENG_JUMP, 0},
+	
+Fase 9:
+	CASTILLO 1: El castillo de la carne de membrillo. Con trampas y cosas.
+	Tipo: Castillo
+	
+Fase 10:
+	Bajamos por el acantilado al pie del castillo
+	Tipo: Montaña
+	ts0/ss0
+	
+Fase 11:
+	otro bosque de los monos chungos, más chungo.
+	Tipo: Bosque
+	ts1/ss1
+	
+Fase 12:
+	Cueva Yelo: con resbalones
+	Tipo: Cueva
+	ts3/ss1
+	
+Fase 13:
+	Pantano goo
+	Tipo: Pantano / volar (si cabe el engine, será volando sobre el pantano)
+
+Fase 14:
+	CASTILLO 2: El castillo del peinado de cepillo. Con más trampas y más cosas.
+	Tipo: Castillo
+	
+Fase 15: 
+	Pantano super chungo. Al final: la novia.
+	Tipo: Pantano / volar
+	
+	
+	
+	---------
+	
+	apuntes final
+	
+	
+	
+Sí, eso es más o menos lo que he abocetao...
+
+Podemos poner primero en negro el texto que diga "NINJAJAR LLEGA A PEPINONI. EL SOL BRILLA Y EL AGUA ESTA BUENISIMA", y luego sacar el dibujo.
+
+La novia basicamente dice que se desperto de repente en el castillo del mono, le dio una paliza y salió tranquilamente. Fuera, se encontró a "este señor tan amable" que la llevó a la playa para que se relajase.
+
+Podemos terminar con zunda zunda diciendo "bueno, vamonos al chiringuito, que te invito a un tropifruti" y que diga la novia "¡me encantan los tropifrutis! Adios, Ninjajar. Ya nos veremos".
+
+Y al final que ponga "AL FINAL NO CATAS TOTETE".
+
+O algo asín.
+
+Tropifruti? :lol: :lol:
+
+Grande :lol:
+
+Y que luego ponga: si querías otro final más molón, a ver tenido huevos de ir al castillo cuando pudiste :lol:
+
