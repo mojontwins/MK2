@@ -28,7 +28,11 @@ MK2 es copyleft The Mojon Twins y se distribuye bajo una licencia CC BY-NC-SA 3.
 Si haces tu juego basado en MK2 debes citarlo en los créditos y colocar el logo en algún sitio visible.
 
 Logo para artes
+---------------
+
 ![MK2 logo](https://raw.githubusercontent.com/mojontwins/MK2/master/mk2_logo.png)
 
 Logo para ZX Spectrum
+---------------------
+
 ![MK2 logo spectrum](https://raw.githubusercontent.com/mojontwins/MK2/master/mk2_logo_orig.png)
