@@ -1,6 +1,6 @@
 @echo off
 
-SET game=nicademo
+SET game=game
 
 echo ### COMPILING ###
 zcc +zx -vn %game%.c -o %game%.bin -lsplib2 -zorg=24200

@@ -4,6 +4,7 @@
 ' I need to get rid of the crashy, allegro-needing old one.
 
 ' fbc.exe ponedor.bas cmdlineparser.bas mtparser.bas gui.bas bmp.bas
+
 ' Needs libpng.a, fbpng.bi, cmdlineparser.*, mtparser.*, gui.*, bmp.* to compile.
 ' Needs zlib1.dll to run.
 

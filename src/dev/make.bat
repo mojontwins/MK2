@@ -2,7 +2,7 @@
 
 rem set here the game name (used in filenames)
 
-SET game=ramiro1r
+SET game=game
 
 echo ------------------------------------------------------------------------------
 echo    BUILDING %game%
@@ -159,7 +159,7 @@ zcc +zx -vn %game%.c -o work\%game%.bin -lsplib2 -zorg=24200
 zcc +zx -vn %game%e.c -o work\%game%e.bin -lsplib2 -zorg=24200
 
 echo ### MAKING TAPS ###
-..\utils\bas2tap -a10 -sFINAL loader\loader-ramiro.bas work\loader.tap
+..\utils\bas2tap -a10 -sFINAL loader\loader.bas work\loader.tap
 ..\utils\bin2tap -o work\loading.tap -a 16384 work\loading.bin
 ..\utils\bin2tap -o work\main.tap -a 24200 work\%game%.bin
 ..\utils\bin2tap -o work\maine.tap -a 24200 work\%game%e.bin

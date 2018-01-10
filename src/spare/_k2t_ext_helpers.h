@@ -2,6 +2,9 @@
 // Various helper functions for custom extern actions
 // Copyleft 2015 The Mojon Twins
 
+// This file must be preprocessed by nicanor.exe to be usable
+// nicanor.exe will fill in values for BASE_PORTRAITS and BASE_ITEMDESCS
+
 #define K2T_MENU_X 			13
 #define K2T_MENU_Y 			7
 #define K2T_MENU_WIDTH 		6
