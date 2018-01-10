@@ -3,10 +3,12 @@ MT Engine MK2
 
 MT Engine MK2 es un framework compuesto por un motor modular programado en C y un conjunto de herramientas para hacer juegos para ZX Spectrum. MK2 es el sucesor de la Churrera. Como nuestro anterior framework, MK2 necesita z88dk para compilarse y emplea la biblioteca gráfica splib2 de Alvin Albrecht (*).
 
+MK2 no seguirá evolucionando salvo para corregir bugs. Forks muy bienvenidos.
+
 Recursos
 ========
 
-* La última versión estable y pública -> disponible aquí o en el código fuente de nuestro juego más reciente.
+* La última versión estable y pública -> disponible aquí.
 * Si estás familiarizado con la Churrera, te será fácil adaptarte. Asegúrate de leer whantsnew.txt para saber tódo lo que MK2 puede hacer. Existe un tutorial en El Mundo del Spectrum sobre la Churrera que te puede ser de ayuda, http://www.elmundodelspectrum.com/taller.php
 
 Créditos
