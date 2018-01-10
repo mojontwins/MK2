@@ -18,7 +18,11 @@ MK2 emplea el siguiente código de terceros:
 * Efectos de sonido y Phaser1 engine music player por Shiru.
 * Decompresor appack por dwedit, adaptado por Utopian y optimizado por Metalbrain.
 
-MK2 es copyleft The Mojon Twins y se distribuye bajo una licencia CC BY-NC-SA 3.0.
-
 (*) splib2 lleva tiempo sin mantenerse. Existe una copia de la antigua web oficial en http://www.oocities.org/aralbrec/spritepack/programmer-intro.htm . Debido a los muchos cambios que ha experimentado el compilador a lo largo del tiempo, resulta complicado compilarla tal cual con la versión actual de z88dk, por lo que puedes descargarte una versión precompilada en http://www.mojontwins.com/churrera/mt-splib2.zip . También puedes descargar el paquete completo para Windows de z88dk10 + splib2 en http://www.mojontwins.com/churrera/mt-z88dk10.zip . Los usuarios de Linux lo tienen todo preparadito en el paquete mantenido por son-link.
 
+License & Requirements
+======================
+
+MK2 es copyleft The Mojon Twins y se distribuye bajo una licencia CC BY-NC-SA 3.0.
+
+![MK2 logo](https://raw.githubusercontent.com/mojontwins/MK2/master/mk2_logo.png)
