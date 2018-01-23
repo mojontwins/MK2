@@ -376,7 +376,7 @@
 			"file": "README.md",
 			"settings":
 			{
-				"buffer_size": 2095,
+				"buffer_size": 2144,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -1044,15 +1044,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2095,
+						"buffer_size": 2144,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1812,
-								1812
+								435,
+								435
 							]
 						],
 						"settings":
@@ -1119,7 +1119,7 @@
 	"project": "mk2.sublime-project",
 	"replace":
 	{
-		"height": 74.0
+		"height": 48.0
 	},
 	"save_all_on_build": true,
 	"select_file":

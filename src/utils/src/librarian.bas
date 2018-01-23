@@ -66,9 +66,9 @@ While Not Eof (f1)
 		currentMem = currentMem + 1
 	Wend
 	Close f2
-	
+
 	' Append or adding a new one?
-	If currentMem + mempointer > 16384 Then
+	While currentMem + mempointer > 16384 
 		' new
 		' First write binary
 		f2 = FreeFile
@@ -82,7 +82,7 @@ While Not Eof (f1)
 		' Move to new RAM page
 		ramPage = ramPage + 1
 		mempointer = preload (ramPage)
-	End If
+	Wend
 
 	Print " + File " & linea & "		" & currentMem
 	
