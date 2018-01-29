@@ -100,5 +100,6 @@
 #endif
 	}
 	
+	gpy = p_y >> 6;
 	gpxx = gpx >> 4;
 	gpyy = gpy >> 4;

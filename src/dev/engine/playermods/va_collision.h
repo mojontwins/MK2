@@ -95,5 +95,6 @@
 	if (p_vy) hit_v = ((pt1 IS_EVIL) || (pt2 IS_EVIL));
 #endif
 	
+	gpy = p_y >> 6;
 	gpxx = gpx >> 4;
 	gpyy = gpy >> 4;

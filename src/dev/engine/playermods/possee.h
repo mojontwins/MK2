@@ -1,11 +1,9 @@
 #ifdef PLAYER_GENITAL
 	// Very perliminar 2.5D
-	gpy = p_y >> 6;
 	pty1 = (gpy + 15) >> 4;
 	ptx1 = (gpx + 8) >> 4;
 	possee = (p_z == 0) && (attr (ptx1, pty1) != 3);
-#else
-	gpy = p_y >> 6;
+#else	
 	pty3 = (gpy + 16) >> 4;
 	possee = ((attr (ptx1, pty3) & 12) || (attr (ptx2, pty3) & 12)) && (gpy & 15) < 8;
 
