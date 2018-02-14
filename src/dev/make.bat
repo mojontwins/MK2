@@ -163,5 +163,5 @@ echo ### MAKING TAPS ###
 ..\utils\bin2tap -o work\loading.tap -a 16384 work\loading.bin
 ..\utils\bin2tap -o work\main.tap -a 24200 work\%game%.bin
 ..\utils\bin2tap -o work\maine.tap -a 24200 work\%game%e.bin
-copy /b work\loader.tap + work\loading.tap + work\main.tap + work\passion.tap %game%.tap
-copy /b work\loader.tap + work\loading.tap + work\maine.tap + work\passion.tap %game%e.tap
+copy /b work\loader.tap + work\loading.tap + work\main.tap %game%.tap
+copy /b work\loader.tap + work\loading.tap + work\maine.tap %game%e.tap
