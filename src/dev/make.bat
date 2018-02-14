@@ -77,9 +77,9 @@ rem many chars per line. Word wrapping is automatic.
 
 echo ### MAKING TEXTS ###
 cd ..\texts
-..\utils\textstuffer2.exe texts.bin textfile=texts.txt mode=simple wordwrap=24 ramiro=30
+..\utils\textstuffer2.exe texts.bin textfile=texts.txt mode=simple wordwrap=24 
 copy texts.bin ..\bin\texts.bin
-..\utils\textstuffer2.exe texts-eng.bin textfile=texts-eng.txt mode=simple wordwrap=24 ramiro=30
+..\utils\textstuffer2.exe texts-eng.bin textfile=texts-eng.txt mode=simple wordwrap=24 
 copy texts-eng.bin ..\bin\texts-eng.bin
 
 rem echo ### MAKING PORTRAITS ####

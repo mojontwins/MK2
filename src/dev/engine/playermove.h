@@ -146,7 +146,7 @@ pushed_any = 0;
 			p_n_f = FALLING_FRAME;
 			main_spr_frame (gpx, gpy);
 #ifdef MODE_128K
-			_AY_PL_SND (SFX_FALL_HOLE)
+			_AY_PL_SND (SFX_FALL_HOLE);
 			active_sleep (25);
 #else			
 			beep_fx (SFX_FALL_HOLE);
