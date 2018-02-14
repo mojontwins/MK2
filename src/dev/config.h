@@ -269,7 +269,7 @@
 
 // Kill slowly (Ramiro)
 // --------------------
-#define ENABLE_KILL_SLOWLY				// Beh 3 kills slowly
+//#define ENABLE_KILL_SLOWLY			// Beh 3 kills slowly
 #define KILL_SLOWLY_ON_FLAG		30 		// If defined, flag controls behaviour. If 0,beh 1.
 #define KILL_SLOWLY_GAUGE		32 		// # of ticks before kill
 #define KILL_SLOWLY_FRAMES		8 		// # of frames per tick
