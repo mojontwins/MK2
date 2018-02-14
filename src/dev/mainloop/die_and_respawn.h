@@ -12,10 +12,12 @@
 						draw_scr ();
 					}
 #if !defined (DISABLE_AUTO_SAFE_SPOT) && !defined (PLAYER_GENITAL)
-					while (
-						!(attr (p_safe_x, p_safe_y + 1) & 12) ||
-						(attr (p_safe_x, p_safe_y) & 8)
-					) p_safe_x ++;
+					gpjt = p_safe_x; gpit = 15; while (
+						gpit -- && 
+						(!(attr (p_safe_x, p_safe_y + 1) & 12) ||
+						(attr (p_safe_x, p_safe_y) & 8))
+					) gpjt ++;
+					if (gpit) p_safe_x = gpjt;
 #endif
 #if defined (PHANTOMAS_ENGINE) || defined (HANNA_ENGINE)
 					p_x = p_safe_x << 4;

@@ -145,7 +145,9 @@ void do_extern_action (unsigned char n) {
 			read_print_text_line ();
 			if (keyp) {
 				sp_UpdateNow ();
+#ifndef MODE_128K
 				beep_fx (7 + ((rand () & 1) << 2));
+#endif
 			}
 			if (button_pressed ()) keyp = 0;
 			exty += 2; 
