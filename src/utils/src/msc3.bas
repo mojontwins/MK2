@@ -739,7 +739,11 @@ Function procesaClausulas (f As integer) As String
 						clausula = clausula + Chr (&HE5) + Chr (Pval (lP (1)))
 						actionsUsed (&HE5) = -1
 					Case "MUSIC"
-						clausula = clausula + Chr (&HE6) + Chr (Pval (lP (1)))
+						If lP (1) = "OFF" Then
+							clausula = clausula + Chr (&HE6) + Chr (&HFF)
+						Else
+							clausula = clausula + Chr (&HE6) + Chr (Pval (lP (1)))
+						End If
 						actionsUsed (&HE6) = -1
 					Case "REDRAW_ITEMS"
 						clausula = clausula + Chr (&HE7)
@@ -2014,12 +2018,17 @@ End If
 If actionsUsed (&HE6) Then
 	print #f3, "                    case 0xE6:"
 	print #f3, "                        // MUSIC n"
+	print #f3, "                        sc_n = read_vbyte ();"
+	print #f3, "                        if (sc_n == 0xff) {"
+	print #f3, "                            wyz_stop_sound ();"
+	print #f3, "                        } else {"
 	print #f3, "#ifdef COMPRESSED_LEVELS"
-	print #f3, "                        level_data->music_id = read_vbyte ();"
-	print #f3, "                        wyz_play_music (level_data->music_id);"
+	print #f3, "                            level_data->music_id = sc_n;"
+	print #f3, "                            wyz_play_music (level_data->music_id);"
 	print #f3, "#else"
-	print #f3, "                        wyz_play_music (read_vbyte ());"
+	print #f3, "                            wyz_play_music (sc_n);"
 	print #f3, "#endif"
+	print #f3, "                        }"
 	print #f3, "                        break;"
 End If
 
