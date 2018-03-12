@@ -21,6 +21,8 @@ void enemy_kill (unsigned char amount) {
 
 // No life left?
 	if (baddies [enoffsmasi].life == 0) {
+#else
+	if (killable) {
 #endif								
 
 // Play sound								

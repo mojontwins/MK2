@@ -213,6 +213,7 @@
 #define PLAYER_BULLET_X_OFFSET	0		// vertical offset from the player's left/right.
 #define PLAYER_BULLETS_STRENGTH 1		// Amount of life bullets take from baddies.
 //#define BULLETS_BREAK_WALLS			// If defined, bullets break breakable walls.
+#define BULLETS_DONT_COLLIDE_PLATFORMS	// Bullets and platforms don't collide
 */
 /*
 #define LIMITED_BULLETS 				// If defined, bullets die after N frames
