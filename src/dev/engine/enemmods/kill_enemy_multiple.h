@@ -71,6 +71,8 @@ void enemy_kill (unsigned char amount) {
 			baddies [enoffsmasi].mx = -baddies [enoffsmasi].mx;
 			baddies [enoffsmasi].my = -baddies [enoffsmasi].my;
 		}
+#else
+		}
 #endif
 
 	} else {
