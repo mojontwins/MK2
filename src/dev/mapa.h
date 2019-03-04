@@ -13,26 +13,26 @@ extern unsigned char map [0];
 #endasm
 
 #ifndef COMPRESSED_LEVELS
-typedef struct {
-    unsigned char np, x, y, st;
-} BOLTS;
+	typedef struct {
+	    unsigned char np, x, y, st;
+	} BOLTS;
 #endif
 
 #ifndef DEACTIVATE_KEYS
-#define MAX_bolts 32
-extern BOLTS bolts [0];
-#asm
-	._bolts
-		BINARY "../bin/bolts.bin"
-#endasm
+	#define MAX_bolts 32
+	extern BOLTS bolts [0];
+	#asm
+		._bolts
+			BINARY "../bin/bolts.bin"
+	#endasm
 #else
-#define MAX_bolts 0
+	#define MAX_bolts 0
 #endif
 
 #ifdef ENABLE_CUSTOM_CONNECTIONS
-typedef struct {
-	unsigned char left, right, up, down;
-} CUSTOM_CONNECTION;
+	typedef struct {
+		unsigned char left, right, up, down;
+	} CUSTOM_CONNECTION;
 
-CUSTOM_CONNECTION custom_connections [MAP_W * MAP_H];
+	CUSTOM_CONNECTION custom_connections [MAP_W * MAP_H];
 #endif

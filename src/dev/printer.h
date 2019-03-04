@@ -8,18 +8,18 @@
 unsigned char *spacer = "            ";
 
 #ifdef DEBUG
-unsigned char get_hex_digit (unsigned char v) {
-	v = v & 0xf;
-	return v < 10 ? 16 + v : 23 + v;
-}
+	unsigned char get_hex_digit (unsigned char v) {
+		v = v & 0xf;
+		return v < 10 ? 16 + v : 23 + v;
+	}
 
-unsigned char debug_print_16bits (unsigned char x, unsigned char y, unsigned int var) {
-	sp_PrintAtInv (y, x, 7, get_hex_digit (var >> 12));
-	sp_PrintAtInv (y, x + 1, 7, get_hex_digit (var >> 8));
-	sp_PrintAtInv (y, x + 2, 7, get_hex_digit (var >> 4));
-	sp_PrintAtInv (y, x + 3, 7, get_hex_digit (var));
-	sp_UpdateNow ();
-}
+	unsigned char debug_print_16bits (unsigned char x, unsigned char y, unsigned int var) {
+		sp_PrintAtInv (y, x, 7, get_hex_digit (var >> 12));
+		sp_PrintAtInv (y, x + 1, 7, get_hex_digit (var >> 8));
+		sp_PrintAtInv (y, x + 2, 7, get_hex_digit (var >> 4));
+		sp_PrintAtInv (y, x + 3, 7, get_hex_digit (var));
+		sp_UpdateNow ();
+	}
 #endif
 
 unsigned char attr (char x, char y) {
@@ -34,87 +34,79 @@ unsigned char qtile (unsigned char x, unsigned char y) {
 }
 
 #ifdef UNPACKED_MAP
-// Draw unpacked tile
+	// Draw unpacked tile
 
-void draw_coloured_tile (unsigned char x, unsigned char y, unsigned char t) {
-	t = 64 + (t << 2);
-	gen_pt = tileset + 2048 + t;
-	sp_PrintAtInv (y, x, *gen_pt ++, t ++);
-	sp_PrintAtInv (y, x + 1, *gen_pt ++, t ++);
-	sp_PrintAtInv (y + 1, x, *gen_pt ++, t ++);
-	sp_PrintAtInv (y + 1, x + 1, *gen_pt, t);
-}
-
-#else
-// Draw packed tile
-
-void draw_coloured_tile (unsigned char x, unsigned char y, unsigned char t) {
-	unsigned char xx, yy;
-#ifdef USE_AUTO_TILE_SHADOWS
-	unsigned char *gen_pt_alt;
-	unsigned char t_alt;
-#endif
-
-#ifdef USE_AUTO_SHADOWS
-	xx = (x - VIEWPORT_X) >> 1;
-	yy = (y - VIEWPORT_Y) >> 1;
-	if (!(attr (xx, yy) & 8) && (t < 16 || t == 19)) {
-		t = 64 + (t << 2);
-		gen_pt = tileset + 2048 + t;
-		sp_PrintAtInv (y, x, attr (xx - 1, yy - 1) & 8 ? (gen_pt[0] & 7)-1 : gen_pt [0], t);
-		sp_PrintAtInv (y, x + 1, attr (xx, yy - 1) & 8 ? (gen_pt[1] & 7)-1 : gen_pt [1], t + 1);
-		sp_PrintAtInv (y + 1, x, attr (xx - 1, yy) & 8 ? (gen_pt[2] & 7)-1 : gen_pt [2], t + 2);
-		sp_PrintAtInv (y + 1, x + 1, gen_pt [3], t + 3);
-	} else {
-#endif
-
-#ifdef USE_AUTO_TILE_SHADOWS
-	xx = (x - VIEWPORT_X) >> 1;
-	yy = (y - VIEWPORT_Y) >> 1;
-	if (!(attr (xx, yy) & 8) && (t < 16 || t == 19)) {
-		t = 64 + (t << 2);
-		if (t == 140) {
-			gen_pt = (unsigned char *) &tileset [2188];
-			t_alt = 192;
-			gen_pt_alt = (unsigned char *) &tileset [2048 + 192];
-		} else {
-			gen_pt = (unsigned char *) &tileset [2048 + t];
-			t_alt = 128 + t;
-			gen_pt_alt = (unsigned char *) &tileset [2048 + t + 128];
-		}
-
-		if (attr (xx - 1, yy - 1) & 8) {
-			sp_PrintAtInv (y, x, gen_pt_alt [0], t_alt);
-		} else {
-			sp_PrintAtInv (y, x, gen_pt [0], t);
-		}
-		if (attr (xx, yy - 1) & 8) {
-			sp_PrintAtInv (y, x + 1, gen_pt_alt [1], t_alt + 1);
-		} else {
-			sp_PrintAtInv (y, x + 1, gen_pt [1], t + 1);
-		}
-		if (attr (xx - 1, yy) & 8) {
-			sp_PrintAtInv (y + 1, x, gen_pt_alt [2], t_alt + 2);
-		} else {
-			sp_PrintAtInv (y + 1, x, gen_pt [2], t + 2);
-		}
-		sp_PrintAtInv (y + 1, x + 1, gen_pt [3], t + 3);
-	} else {
-#endif
+	void draw_coloured_tile (unsigned char x, unsigned char y, unsigned char t) {
 		t = 64 + (t << 2);
 		gen_pt = tileset + 2048 + t;
 		sp_PrintAtInv (y, x, *gen_pt ++, t ++);
 		sp_PrintAtInv (y, x + 1, *gen_pt ++, t ++);
 		sp_PrintAtInv (y + 1, x, *gen_pt ++, t ++);
 		sp_PrintAtInv (y + 1, x + 1, *gen_pt, t);
-#ifdef USE_AUTO_SHADOWS
 	}
-#endif
 
-#ifdef USE_AUTO_TILE_SHADOWS
+#else
+	// Draw packed tile
+
+	#ifdef USE_AUTO_TILE_SHADOWS
+		unsigned char *gen_pt_alt;
+		unsigned char t_alt;
+	#endif
+	unsigned char xx, yy;
+	void draw_coloured_tile (unsigned char x, unsigned char y, unsigned char t) {
+		#ifdef USE_AUTO_SHADOWS
+			xx = (x - VIEWPORT_X) >> 1;
+			yy = (y - VIEWPORT_Y) >> 1;
+			if (!(attr (xx, yy) & 8) && (t < 16 || t == 19)) {
+				t = 64 + (t << 2);
+				gen_pt = tileset + 2048 + t;
+				sp_PrintAtInv (y, x, attr (xx - 1, yy - 1) & 8 ? (gen_pt[0] & 7)-1 : gen_pt [0], t);
+				sp_PrintAtInv (y, x + 1, attr (xx, yy - 1) & 8 ? (gen_pt[1] & 7)-1 : gen_pt [1], t + 1);
+				sp_PrintAtInv (y + 1, x, attr (xx - 1, yy) & 8 ? (gen_pt[2] & 7)-1 : gen_pt [2], t + 2);
+				sp_PrintAtInv (y + 1, x + 1, gen_pt [3], t + 3);
+			} else 
+		#elif defined (USE_AUTO_TILE_SHADOWS)
+			xx = (x - VIEWPORT_X) >> 1;
+			yy = (y - VIEWPORT_Y) >> 1;
+			if (!(attr (xx, yy) & 8) && (t < 16 || t == 19)) {
+				t = 64 + (t << 2);
+				if (t == 140) {
+					gen_pt = (unsigned char *) &tileset [2188];
+					t_alt = 192;
+					gen_pt_alt = (unsigned char *) &tileset [2048 + 192];
+				} else {
+					gen_pt = (unsigned char *) &tileset [2048 + t];
+					t_alt = 128 + t;
+					gen_pt_alt = (unsigned char *) &tileset [2048 + t + 128];
+				}
+
+				if (attr (xx - 1, yy - 1) & 8) {
+					sp_PrintAtInv (y, x, gen_pt_alt [0], t_alt);
+				} else {
+					sp_PrintAtInv (y, x, gen_pt [0], t);
+				}
+				if (attr (xx, yy - 1) & 8) {
+					sp_PrintAtInv (y, x + 1, gen_pt_alt [1], t_alt + 1);
+				} else {
+					sp_PrintAtInv (y, x + 1, gen_pt [1], t + 1);
+				}
+				if (attr (xx - 1, yy) & 8) {
+					sp_PrintAtInv (y + 1, x, gen_pt_alt [2], t_alt + 2);
+				} else {
+					sp_PrintAtInv (y + 1, x, gen_pt [2], t + 2);
+				}
+				sp_PrintAtInv (y + 1, x + 1, gen_pt [3], t + 3);
+			} else
+		#endif
+		{
+			t = 64 + (t << 2);
+			gen_pt = tileset + 2048 + t;
+			sp_PrintAtInv (y, x, *gen_pt ++, t ++);
+			sp_PrintAtInv (y, x + 1, *gen_pt ++, t ++);
+			sp_PrintAtInv (y + 1, x, *gen_pt ++, t ++);
+			sp_PrintAtInv (y + 1, x + 1, *gen_pt, t);
+		}
 	}
-#endif
-}
 #endif
 
 void draw_coloured_tile_gamearea (unsigned char x, unsigned char y, unsigned char tn) {
@@ -127,21 +119,21 @@ void print_number2 (unsigned char x, unsigned char y, unsigned char number) {
 }
 
 #ifndef DEACTIVATE_OBJECTS
-void draw_objs () {
-#if defined (ONLY_ONE_OBJECT) && defined (ACTIVATE_SCRIPTING)
-	if (p_objs) {
-		sp_PrintAtInv (OBJECTS_ICON_Y, OBJECTS_ICON_X, 135, 132);
-		sp_PrintAtInv (OBJECTS_ICON_Y, OBJECTS_ICON_X + 1, 135, 133);
-		sp_PrintAtInv (OBJECTS_ICON_Y + 1, OBJECTS_ICON_X, 135, 134);
-		sp_PrintAtInv (OBJECTS_ICON_Y + 1, OBJECTS_ICON_X + 1, 135, 135);
-	} else {
-		draw_coloured_tile (OBJECTS_ICON_X, OBJECTS_ICON_Y, 17);
+	void draw_objs () {
+		#if defined (ONLY_ONE_OBJECT) && defined (ACTIVATE_SCRIPTING)
+			if (p_objs) {
+				sp_PrintAtInv (OBJECTS_ICON_Y, OBJECTS_ICON_X, 135, 132);
+				sp_PrintAtInv (OBJECTS_ICON_Y, OBJECTS_ICON_X + 1, 135, 133);
+				sp_PrintAtInv (OBJECTS_ICON_Y + 1, OBJECTS_ICON_X, 135, 134);
+				sp_PrintAtInv (OBJECTS_ICON_Y + 1, OBJECTS_ICON_X + 1, 135, 135);
+			} else {
+				draw_coloured_tile (OBJECTS_ICON_X, OBJECTS_ICON_Y, 17);
+			}
+			print_number2 (OBJECTS_X, OBJECTS_Y, flags [OBJECT_COUNT]);
+		#else
+			print_number2 (OBJECTS_X, OBJECTS_Y, p_objs);
+		#endif
 	}
-	print_number2 (OBJECTS_X, OBJECTS_Y, flags [OBJECT_COUNT]);
-#else
-	print_number2 (OBJECTS_X, OBJECTS_Y, p_objs);
-#endif
-}
 #endif
 
 void print_str (unsigned char x, unsigned char y, unsigned char c, unsigned char *s) {
@@ -149,32 +141,32 @@ void print_str (unsigned char x, unsigned char y, unsigned char c, unsigned char
 }
 
 #if defined (COMPRESSED_LEVELS) || defined (SHOW_LEVEL_ON_SCREEN)
-void blackout_area (void) {
-	// blackens gameplay area for LEVEL XX display
-	asm_int [0] = 22528 + 32 * VIEWPORT_Y + VIEWPORT_X;
-	#asm
-		ld	hl, _asm_int
-		ld	a, (hl)
-		ld	e, a
-		inc	hl
-		ld	a, (hl)
-		ld	d, a
+	void blackout_area (void) {
+		// blackens gameplay area for LEVEL XX display
+		asm_int [0] = 22528 + 32 * VIEWPORT_Y + VIEWPORT_X;
+		#asm
+			ld	hl, _asm_int
+			ld	a, (hl)
+			ld	e, a
+			inc	hl
+			ld	a, (hl)
+			ld	d, a
 
-		ld b, 20
-	.bal1
-		push bc
-		push de
-		pop hl
-		ld	(hl), 0
-		inc de
-		ld bc, 29
-		ldir
-		inc de
-		inc de
-		pop bc
-		djnz bal1
-	#endasm
-}
+			ld b, 20
+		.bal1
+			push bc
+			push de
+			pop hl
+			ld	(hl), 0
+			inc de
+			ld bc, 29
+			ldir
+			inc de
+			inc de
+			pop bc
+			djnz bal1
+		#endasm
+	}
 #endif
 
 unsigned char utaux = 0;
@@ -198,26 +190,26 @@ unsigned char button_pressed (void) {
 }
 
 #if defined (ENABLE_HOLES)
-void main_spr_frame (unsigned char x, unsigned char y) {
-	sp_MoveSprAbs (sp_player, spritesClip, p_n_f - p_c_f, VIEWPORT_Y + (y >> 3), VIEWPORT_X + (x >> 3), x & 7, y & 7);
-	p_c_f = p_n_f;
-	sp_UpdateNow ();
-}
+	void main_spr_frame (unsigned char x, unsigned char y) {
+		sp_MoveSprAbs (sp_player, spritesClip, p_n_f - p_c_f, VIEWPORT_Y + (y >> 3), VIEWPORT_X + (x >> 3), x & 7, y & 7);
+		p_c_f = p_n_f;
+		sp_UpdateNow ();
+	}
 #endif
 
 #ifdef ENABLE_SUBTILESETS
-// Subtileset loader
-unsigned int offs_attr, offs_behs;
-unsigned char load_subtileset (unsigned char res, unsigned char n) {
-	// Get offsets
-	offs_attr = read_offset (res, 0);
-	offs_behs = read_offset (res, 2);
+	// Subtileset loader
+	unsigned int offs_attr, offs_behs;
+	unsigned char load_subtileset (unsigned char res, unsigned char n) {
+		// Get offsets
+		offs_attr = read_offset (res, 0);
+		offs_behs = read_offset (res, 2);
 
-	// Unpack patterns
-	unpack_RAMn (resources [res].ramPage, resources [res].ramOffset + 4, (unsigned int) (tileset + (n << 9) + 512));
-	// Unpack attributes
-	unpack_RAMn (resources [res].ramPage, resources [res].ramOffset + offs_attr, (unsigned int) (tileset + (n << 6) + 2112));
-	// Unpack behs
-	unpack_RAMn (resources [res].ramPage, resources [res].ramOffset + offs_behs, (unsigned int) (behs + (n << 4)));
-}
+		// Unpack patterns
+		unpack_RAMn (resources [res].ramPage, resources [res].ramOffset + 4, (unsigned int) (tileset + (n << 9) + 512));
+		// Unpack attributes
+		unpack_RAMn (resources [res].ramPage, resources [res].ramOffset + offs_attr, (unsigned int) (tileset + (n << 6) + 2112));
+		// Unpack behs
+		unpack_RAMn (resources [res].ramPage, resources [res].ramOffset + offs_behs, (unsigned int) (behs + (n << 4)));
+	}
 #endif

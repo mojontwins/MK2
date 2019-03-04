@@ -24,24 +24,24 @@ typedef struct {
 // Map data
 extern unsigned char map [0];
 #ifdef UNPACKED_MAP
-#asm
-	._map defs MAP_W * MAP_H * 150
-#endasm
+	#asm
+		._map defs MAP_W * MAP_H * 150
+	#endasm
 #else
-#asm
-	._map defs MAP_W * MAP_H * 75
-#endasm
+	#asm
+		._map defs MAP_W * MAP_H * 75
+	#endasm
 #endif
 
 // Custom connections data
 #ifdef ENABLE_CUSTOM_CONNECTIONS
-typedef struct {
-	unsigned char left, right, up, down;
-} CUSTOM_CONNECTION;
-extern CUSTOM_CONNECTION custom_connections [MAP_W * MAP_H];
-#asm
-	._custom_connections defs MAP_W * MAP_H * 4
-#endasm
+	typedef struct {
+		unsigned char left, right, up, down;
+	} CUSTOM_CONNECTION;
+	extern CUSTOM_CONNECTION custom_connections [MAP_W * MAP_H];
+	#asm
+		._custom_connections defs MAP_W * MAP_H * 4
+	#endasm
 #endif
 
 // Tileset
