@@ -45,7 +45,9 @@
 #endif
 	
 	// Possee - player is on solid floor.
+#if !defined(PLAYER_GENITAL) || defined (PLAYER_HAS_JUMP)
 	#include "engine/playermods/possee.h"
+#endif	
 
 	// Jumping Jack!
 #ifdef PLAYER_HAS_JUMP

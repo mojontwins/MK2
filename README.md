@@ -11,6 +11,11 @@ Recursos
 * La última versión estable y pública -> disponible aquí.
 * Si estás familiarizado con la Churrera, te será fácil adaptarte. Asegúrate de leer whantsnew.txt para saber tódo lo que MK2 puede hacer. Existe un tutorial en El Mundo del Spectrum sobre la Churrera que te puede ser de ayuda, http://www.elmundodelspectrum.com/taller.php
 
+Novedades
+=========
+
+El diario de añadidos y novedades contiene casi toda la documentación que existe sobre MK2. [Consúltalo aquí](https://github.com/mojontwins/MK2/blob/master/docs/whatsnew.md).
+
 Créditos
 ========
 

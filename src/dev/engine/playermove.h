@@ -10,13 +10,13 @@
 	#define BUTTON_FIRE	((gpit & sp_FIRE) == 0 || sp_KeyPressed (key_fire))
 	#define BUTTON_JUMP	(sp_KeyPressed (key_jump))
 #else
-#if defined (PLAYER_CAN_FIRE) || defined (PLAYER_CAN_PUNCH) || defined (PLAYER_HAZ_SWORD) || defined (CARRIABLE_BOXES_THROWABLE)
-	#define BUTTON_FIRE	((gpit & sp_FIRE) == 0)
-	#define BUTTON_JUMP	((gpit & sp_UP) == 0)
-#else
-	#define BUTTON_FIRE	(0)
-	#define BUTTON_JUMP	((gpit & sp_FIRE) == 0)
-#endif
+	#if defined (PLAYER_CAN_FIRE) || defined (PLAYER_CAN_PUNCH) || defined (PLAYER_HAZ_SWORD) || defined (CARRIABLE_BOXES_THROWABLE)
+		#define BUTTON_FIRE	((gpit & sp_FIRE) == 0)
+		#define BUTTON_JUMP	((gpit & sp_UP) == 0)
+	#else
+		#define BUTTON_FIRE	(0)
+		#define BUTTON_JUMP	((gpit & sp_FIRE) == 0)
+	#endif
 #endif
 
 #if defined (ENABLE_FLOATING_OBJECTS) && defined (ENABLE_FO_CARRIABLE_BOXES) && defined (CARRIABLE_BOXES_CORCHONETA)
@@ -139,7 +139,12 @@ pushed_any = 0;
 	pty1 = (gpy + 15) >> 4;
 	ptx1 = (gpx + 4) >> 4;
 	ptx2 = (gpx + 12) >> 4;
-	if (p_z == 0 && p_gotten == 0 && attr (ptx1, pty1) == 3 && attr (ptx2, pty1) == 3 && p_state == EST_NORMAL) {
+	if (
+		#if defined (PLAYER_GENITAL) && defined (PLAYER_HAS_JUMP)
+			p_z == 0 && 
+		#endif
+		p_gotten == 0 && attr (ptx1, pty1) == 3 && attr (ptx2, pty1) == 3 && p_state == EST_NORMAL
+	) {
 		if (p_ct_hole < 2) {
 			p_ct_hole ++;
 		} else {
@@ -326,9 +331,12 @@ pushed_any = 0;
 	}
 #endif
 #else
-	if (p_z != 0) {
-		p_n_f = player_frames [1 + p_jmp_facing];
-	} else {
+	#if defined (PLAYER_GENITAL) && defined (PLAYER_HAS_JUMP)
+		if (p_z != 0) {
+			p_n_f = player_frames [1 + p_jmp_facing];
+		} else 
+	#endif		
+	{
 		if (p_vx == 0 && p_vy == 0) {
 			p_n_f = player_frames [p_facing];
 		} else if (p_thrust) {

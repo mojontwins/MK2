@@ -1,3 +1,13 @@
+MT Engine MK2 v 0.92 (Godkiller Edition 1)
+==========================================
+
+Correcciones para volver a hacer funcionar el modo genital normal, arreglos en los controles, y una [pequeña documentación al respecto](https://github.com/mojontwins/MK2/blob/master/docs/settingUpControls.md).
+
+MT Engine MK2 v 0.91 (Greenweb Edition 1)
+=========================================
+
+Un millón de arreglos a bugs reportados por Antonio Greenweb y algunas mejoras que no recuerdo.
+
 MT Engine MK2 v 0.90b (Ramiro R Edition)
 ========================================
 
