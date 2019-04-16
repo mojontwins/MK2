@@ -151,6 +151,7 @@
 //#define ENABLE_SIMPLE_PURSUERS		// Simpler type 7s [NOT YET]
 
 //#define MAX_COCOS 			3		// Max # of cocos.
+#define COCOS_COLLIDE					// Cocos will die with beh 8
 
 //#define ENABLE_SHOOTERS				// Activate this if your raise bit 4 in any enemies.
 /*

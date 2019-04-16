@@ -12,101 +12,102 @@
 				// Was it an object, key or life boost?
 				if (hotspots [n_pant].act == 0) {
 					p_life += PLAYER_REFILL;
-#ifndef DONT_LIMIT_LIFE
+	#ifndef DONT_LIMIT_LIFE
 					if (p_life > PLAYER_LIFE)
 						p_life = PLAYER_LIFE;
-#endif
+	#endif
 					hotspots [n_pant].act = 2;
-#ifdef MODE_128K
+	#ifdef MODE_128K
 					_AY_PL_SND (SFX_REFILL);
-#else
+	#else
 					beep_fx (SFX_REFILL);
-#endif
+	#endif
 				} else {
 					switch (hotspots [n_pant].tipo) {
-#ifndef DEACTIVATE_OBJECTS
+	#ifndef DEACTIVATE_OBJECTS
 						case 1:
-#ifdef ONLY_ONE_OBJECT
+		#ifdef ONLY_ONE_OBJECT
 							if (p_objs == 0) {
 								p_objs ++;
-#ifdef MODE_128K
+			#ifdef MODE_128K
 								_AY_PL_SND (SFX_OBJECT);
-#else
+			#else
 								beep_fx (SFX_OBJECT);
-#endif
+			#endif
 							} else {
-#ifdef MODE_128K
+			#ifdef MODE_128K
 								_AY_PL_SND (SFX_WRONG);
-#else
+			#else
 								beep_fx (SFX_WRONG);
-#endif
+			#endif
 								draw_coloured_tile (VIEWPORT_X + (hotspot_x >> 3), VIEWPORT_Y + (hotspot_y >> 3), 17);
 								gpit = 1;
 							}
-#else
+		#else
 							p_objs ++;
-#ifdef OBJECT_COUNT
-							flags [OBJECT_COUNT] = player.objs;
-#endif
-#ifdef MODE_128K
+			#ifdef OBJECT_COUNT
+							flags [OBJECT_COUNT] = p_objs;
+			#endif
+
+			#ifdef MODE_128K
 							_AY_PL_SND (SFX_OBJECT);
-#else
+			#else
 							beep_fx (SFX_OBJECT);
-#endif
-#endif
+			#endif
+		#endif
 							break;
-#endif
-#ifndef DEACTIVATE_KEYS
+	#endif
+
+	#ifndef DEACTIVATE_KEYS
 						case 2:
 							p_keys ++;
-#ifdef MODE_128K
+		#ifdef MODE_128K
 							_AY_PL_SND (SFX_KEY);
-#else
+		#else
 							beep_fx (SFX_KEY);
-#endif
+		#endif
 							break;
-#endif
-#ifdef MAX_AMMO
+	#endif
+
+	#ifdef MAX_AMMO
 						case 4:
 							if (MAX_AMMO - p_ammo > AMMO_REFILL)
 								p_ammo += AMMO_REFILL;
 							else
 								p_ammo = MAX_AMMO;
-#ifdef MODE_128K
+		#ifdef MODE_128K
 							_AY_PL_SND (SFX_AMMO);
-#else
+		#else
 							beep_fx (SFX_AMMO);
-#endif
+		#endif
 							break;
-#endif
+	#endif
 
-#ifdef TIMER_ENABLE
-#ifdef TIMER_REFILL
+	#if defined (TIMER_ENABLE) && defined (TIMER_REFILL)
 						case 5:
 							if (99 - ctimer.t > TIMER_REFILL)
 								ctimer.t += TIMER_REFILL;
 							else
 								ctimer.t = 99;
-#ifdef MODE_128K
+		#ifdef MODE_128K
 							_AY_PL_SND (SFX_TIME);
-#else
+		#else
 							beep_fx (SFX_TIME);
-#endif
+		#endif
 							break;
-#endif
-#endif
+	#endif
 
-#if defined (PLAYER_HAS_JETPAC) && defined (JETPAC_DEPLETES) && defined (JETPAC_REFILLS)
+	#if defined (PLAYER_HAS_JETPAC) && defined (JETPAC_DEPLETES) && defined (JETPAC_REFILLS)
 						case 6:
 							p_fuel += JETPAC_FUEL_REFILL;
 							if (p_fuel > JETPAC_FUEL_MAX) p_fuel = JETPAC_FUEL_MAX;
-#ifdef MODE_128K
+		#ifdef MODE_128K
 							_AY_PL_SND (SFX_FUEL);
-#else
+		#else
 							beep_fx (SFX_FUEL);
-#endif
+		#endif
 							break;
-#endif
+	#endif
 					}
 					hotspots [n_pant].act = gpit;
 				}
@@ -118,47 +119,47 @@
 				if (hotspots [n_pant].act) {
 					hotspots [n_pant].act = 0;
 					switch (hotspots [n_pant].tipo) {
-#ifndef DEACTIVATE_OBJECTS
+	#ifndef DEACTIVATE_OBJECTS
 						case 1:
-#ifdef ONLY_ONE_OBJECT
+		#ifdef ONLY_ONE_OBJECT
 							if (p_objs == 0) {
 								p_objs ++;
-#ifdef MODE_128K
+			#ifdef MODE_128K
 								_AY_PL_SND (SFX_OBJECT);
-#else
+			#else
 								beep_fx (SFX_OBJECT);
-#endif
+			#endif
 							} else {
-#ifdef MODE_128K
+			#ifdef MODE_128K
 								_AY_PL_SND (SFX_WRONG);
-#else
+			#else
 								beep_fx (SFX_WRONG);
-#endif
+			#endif
 								draw_coloured_tile (VIEWPORT_X + (hotspot_x >> 3), VIEWPORT_Y + (hotspot_y >> 3), 17);
 								hotspots [n_pant].act = 1;
 							}
-#else
+		#else
 							p_objs ++;
-#ifdef OBJECT_COUNT
+			#ifdef OBJECT_COUNT
 							flags [OBJECT_COUNT] = player.objs;
-#endif
-#ifdef MODE_128K
+			#endif
+			#ifdef MODE_128K
 							_AY_PL_SND (SFX_OBJECT);
-#else
+			#else
 							beep_fx (SFX_OBJECT);
-#endif
-#ifdef GET_X_MORE
-#if defined (MODE_128K) && defined (COMPRESSED_LEVELS) && !defined (HANNA_LEVEL_MANAGER) && !defined (SIMPLE_LEVEL_MANAGER)
+			#endif
+			#ifdef GET_X_MORE
+				#if defined (MODE_128K) && defined (COMPRESSED_LEVELS) && !defined (HANNA_LEVEL_MANAGER) && !defined (SIMPLE_LEVEL_MANAGER)
 							if (level_data.max_objs > p_objs) {
-#else
+				#else
 							if (PLAYER_MAX_OBJECTS > p_objs) {
-#endif
+				#endif
 								print_str (10, 11, 79, spacer);
-#if defined (MODE_128K) && defined (COMPRESSED_LEVELS) && !defined (HANNA_LEVEL_MANAGER) && !defined (SIMPLE_LEVEL_MANAGER)
+				#if defined (MODE_128K) && defined (COMPRESSED_LEVELS) && !defined (HANNA_LEVEL_MANAGER) && !defined (SIMPLE_LEVEL_MANAGER)
 								gpjt = level_data.max_objs - p_objs;
-#else
+				#else
 								gpjt = PLAYER_MAX_OBJECTS - p_objs;
-#endif
+				#endif
 								getxmore [8] = '0' + gpjt / 10;
 								getxmore [9] = '0' + gpjt % 10;
 								print_str (10, 12, 79, getxmore);
@@ -168,75 +169,76 @@
 								active_sleep (100);
 								draw_scr_background ();
 							}
-#endif
+			#endif
 							break;
-#endif
-#endif
+		#endif
+	#endif
 
-#ifndef DEACTIVATE_KEYS
+	#ifndef DEACTIVATE_KEYS
 						case 2:
 							p_keys ++;
-#ifdef MODE_128K
+		#ifdef MODE_128K
 							_AY_PL_SND (SFX_KEY);
-#else
+		#else
 							beep_fx (SFX_KEY);
-#endif
+		#endif
 							break;
-#endif
-#ifndef DEACTIVATE_REFILLS
+	#endif
+
+	#ifndef DEACTIVATE_REFILLS
 						case 3:
 							p_life += PLAYER_REFILL;
-#ifndef DONT_LIMIT_LIFE
+		#ifndef DONT_LIMIT_LIFE
 							if (p_life > PLAYER_LIFE)
 								p_life = PLAYER_LIFE;
-#endif
-#ifdef MODE_128K
+		#endif
+		#ifdef MODE_128K
 							_AY_PL_SND (SFX_REFILL);
-#else
+		#else
 							beep_fx (SFX_REFILL);
-#endif
+		#endif
 							break;
-#ifdef MAX_AMMO
-#endif
+	#endif
+
+	#ifdef MAX_AMMO
 						case 4:
 							if (MAX_AMMO - p_ammo > AMMO_REFILL)
 								p_ammo += AMMO_REFILL;
 							else
 								p_ammo = MAX_AMMO;
-#ifdef MODE_128K
+		#ifdef MODE_128K
 							_AY_PL_SND (SFX_AMMO);
-#else
+		#else
 							beep_fx (SFX_AMMO);
-#endif
+		#endif
 							break;
-#endif
-#ifdef TIMER_ENABLE
-#ifdef TIMER_REFILL
+	#endif
+
+	#if defined (TIMER_ENABLE) && defined (TIMER_REFILL)
 						case 5:
 							if (99 - ctimer.t > TIMER_REFILL)
 								ctimer.t += TIMER_REFILL;
 							else
 								ctimer.t = 99;
-#ifdef MODE_128K
+		#ifdef MODE_128K
 							_AY_PL_SND (SFX_TIME);
-#else
+		#else
 							beep_fx (SFX_TIME);
-#endif
+		#endif
 							break;
-#endif
-#endif
+	#endif
 
-#if defined (PLAYER_HAS_JETPAC) && defined (JETPAC_DEPLETES) && defined (JETPAC_REFILLS)
+	#if defined (PLAYER_HAS_JETPAC) && defined (JETPAC_DEPLETES) && defined (JETPAC_REFILLS)
 						case 6:
 							p_fuel += JETPAC_FUEL_REFILL;
 							if (p_fuel > JETPAC_FUEL_MAX) p_fuel = JETPAC_FUEL_MAX;
-#ifdef MODE_128K
+		#ifdef MODE_128K
 							_AY_PL_SND (SFX_FUEL);
-#else
+		#else
 							beep_fx (SFX_FUEL);
-#endif
+		#endif
 							break;
-#endif
+	#endif
 					}
 				}
 				hotspot_y = 240;

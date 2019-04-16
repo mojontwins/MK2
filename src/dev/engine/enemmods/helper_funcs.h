@@ -60,9 +60,14 @@ void __FASTCALL__ move_cocos (void) {
 			if (p_state == EST_NORMAL) {
 				if (collide_pixel (ctx, cty, gpx, gpy)) {
 					coco_s [coco_it] = 0;
-						kill_player (SFX_PLAYER_DEATH_COCO);
+					kill_player (SFX_PLAYER_DEATH_COCO);
 				}
 			}
+			// Collide cocos
+#ifdef COCOS_COLLIDE
+			gpxx = ctx >> 4; gpyy = cty >> 4;
+			if (attr (gpxx, gpyy) > 7) coco_s [coco_it] = 0;
+#endif			
 		}
 	}
 }
