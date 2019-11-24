@@ -15,5 +15,5 @@ extern unsigned char arrow_sprites [0];
 	defb 0, 255
 	defb 0, 255
 ._arrow_sprites
-	BINARY "sparrow.bin"
+	BINARY "../bin/sparrow.bin"
 #endasm

@@ -115,16 +115,72 @@ if (hitter_frame < 3)
 
 // End of main codes.
 
-	sp_MoveSprAbs (sp_hitter, spritesClip,
-		hitter_n_f - hitter_c_f,
-		VIEWPORT_Y + (hitter_y >> 3), VIEWPORT_X + (hitter_x >> 3),
-		hitter_x & 7, hitter_y & 7);
-	hitter_c_f = hitter_n_f;
+	/*
+		sp_MoveSprAbs (sp_hitter, spritesClip,
+			hitter_n_f - hitter_c_f,
+			VIEWPORT_Y + (hitter_y >> 3), VIEWPORT_X + (hitter_x >> 3),
+			hitter_x & 7, hitter_y & 7);
+		hitter_c_f = hitter_n_f;
+	*/
+	#asm
+		; enter: IX = sprite structure address 
+		;        IY = clipping rectangle, set it to "ClipStruct" for full screen 
+		;        BC = animate bitdef displacement (0 for no animation) 
+		;         H = new row coord in chars 
+		;         L = new col coord in chars 
+		;         D = new horizontal rotation (0..7) ie horizontal pixel position 
+		;         E = new vertical rotation (0..7) ie vertical pixel position 
+
+		ld  ix, (_sp_hitter)
+		ld  iy, vpClipStruct
+		
+		ld  hl, (_hitter_n_f)
+		ld  de, (_hitter_c_f)
+		or  a
+		sbc hl, de
+		ld  b, h
+		ld  c, l
+
+		ld  a, _hitter_y
+		srl a 
+		srl a 
+		srl a 
+		add VIEWPORT_Y
+		ld  h, a
+
+		ld  a, _hitter_x
+		srl a 
+		srl a 
+		srl a 
+		add VIEWPORT_X
+		ld  l, a
+
+		ld  a, _hitter_x
+		and 7
+		ld  d, a
+
+		ld  a, _hitter_y
+		and 7
+		ld  e, a
+		
+		call SPMoveSprAbs
+
+		ld  hl, (_hitter_n_f)
+		ld  (_hitter_c_f), hl
+	#endasm
 
 	hitter_frame ++;
 	if (hitter_frame == HITTER_MAX_FRAME) {
 		hitter_on = 0;
-		sp_MoveSprAbs (sp_hitter, spritesClip, 0, -2, -2, 0, 0);
+		// sp_MoveSprAbs (sp_hitter, spritesClip, 0, -2, -2, 0, 0);
+		#asm
+			ld  ix, (_sp_hitter)
+			ld  iy, vpClipStruct
+			ld  bc, 0
+			ld  hl, 0xfefe
+			ld  de, 0
+			call SPMoveSprAbs
+		#endasm
 		p_hitting = 0;
 	}
 }

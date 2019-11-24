@@ -1,45 +1,67 @@
 MT Engine MK2
 =============
 
-MT Engine MK2 es un framework compuesto por un motor modular programado en C y un conjunto de herramientas para hacer juegos para ZX Spectrum. MK2 es el sucesor de la Churrera. Como nuestro anterior framework, MK2 necesita z88dk para compilarse y emplea la biblioteca gráfica splib2 de Alvin Albrecht (*).
+MT Engine MK2 is a framework composed by a modular engine coded in C and a powerful toolchain to make games for the ZX Spectrum. MK2 is the sucessor to Churrera (MK1). 
 
-**MK2 no seguirá evolucionando salvo para corregir los bugs que reporteis. Forks muy bienvenidos.**
+MK2 needs z88dk v1.10 to compile and uses a modified version of splib2 by Alvin Albrecht.
 
-Recursos
-========
+We "abandoned" MK2 in 2018, but continued support by some developers has resurrected the proyect, which will eventually get more enhancements and additions.
 
-* La última versión estable y pública -> disponible aquí.
-* Si estás familiarizado con la Churrera, te será fácil adaptarte. Asegúrate de leer whantsnew.txt para saber tódo lo que MK2 puede hacer. Existe un tutorial en El Mundo del Spectrum sobre la Churrera que te puede ser de ayuda, http://www.elmundodelspectrum.com/taller.php
+Installation
+============
 
-Novedades
+There's a couple of things you have to do to get this working.
+
+1. Download or clone this repository.
+2. Install the stripped-down, minimal version of z88dk10 in C:. Just decompress the file `env/z88dk10-stripped.zip` to `C:/`. You shouls get a `C:\z88dk10\` folder.
+3. Compile and install the modified **splib2** library. To do that, just run `lib/splib2/Makefile.bat`.
+
+How to Build
+============
+
+The engine / framework resides in `src`. The code, as is, features a placeholder game you are supposed to *replace* with your own. You can compile it as-is, of course, to test the environment. To do so:
+
+1. Open a command line console.
+2. Navigate to the `src/dev` folder
+3. Execute `setenv.bat` to set up some environment variables.
+4. Run `compile.bat`.
+
+If everything went OK, you'll get a tape image `mk2.tap` you can play in your favourite ZX Spectrum emulator. 
+
+Documentation
+=============
+
+There isn't a proper tutorial yet, but you can check the one we wrote for MK1 [here](http://www.elmundodelspectrum.com/taller.php) (Spanish) or [here]() (English, thanks Andy Dansby).
+
+Most of the features are documented in the ever growing but a bit confusing ['whats's new' document](https://github.com/mojontwins/MK2/blob/master/docs/whatsnew.md).
+
+There's also a bunch of interesting docs in [the `docs` folder](https://github.com/mojontwins/MK2/tree/master/docs).
+
+Credits
+=======
+
+* Engine & toolchain by na_th_an copyleft 2013-2015, 2019. Like it? [buy me a coffee](https://ko-fi.com/I2I0JUJ9)
+* Placeholder game by **Greenweb**.
+* **splib2** by Alvin Albrecth.
+* Sound FX and *Phaser 1* music player by Shiru.
+* **Appack decompresor** by dwedit, adapted by Utopian and optimized by Metalbrain.
+* **WYZ Player** by WYZ. 
+
+Important
 =========
 
-El diario de añadidos y novedades contiene casi toda la documentación que existe sobre MK2. [Consúltalo aquí](https://github.com/mojontwins/MK2/blob/master/docs/whatsnew.md).
+* The included `splib2` library is not the original. You can get the original `splib2` [here](http://www.mojontwins.com/churrera/mt-splib2.zip). There's a backup of the original Spritepack site with the docs [here](http://www.oocities.org/aralbrec/spritepack/programmer-intro.htm).
+* The z88dk 1.10 package in the `env` folder is not complete as it just includes the files needed to compile MK2 projects. You can get the full version [here](http://www.mojontwins.com/churrera/mt-z88dk10.zip).
 
-Créditos
-========
+License
+=======
 
-MK2 emplea el siguiente código de terceros:
+**MT Engine MK2 ZX** is copyleft The Mojon Twins and is distributed under a [LGPL license](https://github.com/mojontwins/MK2/blob/master/LICENSE).
 
-* splib2, biblioteca gráfica de Alvin Albrecht.
-* Efectos de sonido y Phaser1 engine music player por Shiru.
-* Decompresor appack por dwedit, adaptado por Utopian y optimizado por Metalbrain.
+**But** if you make a game with the engine we understand you'll want to make it into a tape and sell it. **In such case, just tell us!** Write to mojontwins@gmail.com - just as a matter of courtesy. If you don't we'll get sad and rather disappointed.
 
-(*) splib2 lleva tiempo sin mantenerse. Existe una copia de la antigua web oficial en http://www.oocities.org/aralbrec/spritepack/programmer-intro.htm . Debido a los muchos cambios que ha experimentado el compilador a lo largo del tiempo, resulta complicado compilarla tal cual con la versión actual de z88dk, por lo que puedes descargarte una versión precompilada en http://www.mojontwins.com/churrera/mt-splib2.zip . También puedes descargar el paquete completo para Windows de z88dk10 + splib2 en http://www.mojontwins.com/churrera/mt-z88dk10.zip . Los usuarios de Linux lo tienen todo preparadito en el paquete mantenido por son-link.
+The **game assets** included in the testers and examples (graphics, music, etc.) are [donationware](https://en.wikipedia.org/wiki/Donationware). 
 
-License & Requirements
-======================
+If you like this, you can [buy me a coffee](https://ko-fi.com/I2I0JUJ9).
 
-MK2 es copyleft The Mojon Twins y se distribuye bajo una licencia CC BY-NC-SA 3.0.
-
-Más info en https://github.com/mojontwins/MK2/blob/master/licencia.md
-
-Logo para artes
----------------
-
-![MK2 logo](https://raw.githubusercontent.com/mojontwins/MK2/master/mk2_logo.png)
-
-Logo para ZX Spectrum
----------------------
-
-![MK2 logo spectrum](https://raw.githubusercontent.com/mojontwins/MK2/master/mk2_logo_orig.png)
+Have fun.

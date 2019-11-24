@@ -32,8 +32,10 @@ void enemy_kill (unsigned char amount) {
 			en_an_count [gpit] = 8;
 			_AY_PL_SND (SFX_KILL_ENEMY);
 #else
-			sp_MoveSprAbs (sp_moviles [gpit], spritesClip, en_an_n_f [gpit] - en_an_c_f [gpit], VIEWPORT_Y + (gpen_cy >> 3), VIEWPORT_X + (gpen_cx >> 3), gpen_cx & 7, gpen_cy & 7);
-			en_an_c_f [gpit] = en_an_n_f [gpit];
+			//sp_MoveSprAbs (sp_moviles [gpit], spritesClip, en_an_n_f [gpit] - en_an_c_f [gpit], VIEWPORT_Y + (gpen_cy >> 3), VIEWPORT_X + (gpen_cx >> 3), gpen_cx & 7, gpen_cy & 7);
+			// en_an_c_f [gpit] = en_an_n_f [gpit];
+			enem_move_spr_abs ();
+
 			sp_UpdateNow ();
 			beep_fx (SFX_KILL_ENEMY);
 			en_an_n_f [gpit] = sprite_18_a;

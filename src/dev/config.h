@@ -9,7 +9,7 @@
 // ============================================================================
 
 // While developing...
-//#define DEBUG
+// #define DEBUG
 
 // 128K support
 //#define MODE_128K 					// 128K mode.
@@ -29,20 +29,20 @@
 
 // In this section we define map dimmensions, initial and authomatic ending conditions, etc.
 
-#define MAP_W					15		//
+#define MAP_W					10		//
 #define MAP_H					2		// Map dimmensions in screens
 //#define ENABLE_CUSTOM_CONNECTIONS 	// Custom connections array. MAP_W/MAP_H just define how many screens
-#define SCR_INI					7		//  Initial screen
-#define PLAYER_INI_X			7		//
-#define PLAYER_INI_Y			6		// Initial tile coordinates
+#define SCR_INI					10		//  Initial screen
+#define PLAYER_INI_X			1		//
+#define PLAYER_INI_Y			8		// Initial tile coordinates
 //#define SCR_END 				99		// Last screen. 99 = deactivated.
 //#define PLAYER_END_X			99		//
 //#define PLAYER_END_Y			99		// Player tile coordinates to finish game
 //#define PLAYER_MAX_OBJECTS	99		// Objects to get to finish game
-#define PLAYER_LIFE 			79		// Max and starting life gauge.
+#define PLAYER_LIFE 			10		// Max and starting life gauge.
 //#define DONT_LIMIT_LIFE				// If defined, no upper limit to life gauge.
 //#define PLAYER_REFILL			1		// Life recharge
-#define MAX_LEVELS				1		// # of compressed levels
+// #define MAX_LEVELS				1		// # of compressed levels
 //#define REFILL_ME 					// If defined, refill player on each level
 #define WIN_CONDITION			2		// 0 = objects collected, 1 = screen 'N', 2 = scripting, 3 = SIM
 //#define EXTRA_SPRITES 		2 		// For 128K games -> # of extra sprite faces to make room for.
@@ -91,7 +91,7 @@
 // PLAYER_NEW_GENITAL works best with BOUNDING_BOX_TINY_BOTTOM
 
 										// Comment all of them for normal 16x16 bounding box
-#define BOUNDING_BOX_8_BOTTOM			// 8x8 aligned to bottom center in 16x16
+//#define BOUNDING_BOX_8_BOTTOM			// 8x8 aligned to bottom center in 16x16
 //#define BOUNDING_BOX_8_CENTERED		// 8x8 aligned to center in 16x16
 //#define BOUNDING_BOX_TINY_BOTTOM		// 8x2 aligned to bottom center in 16x16
 #define SMALL_COLLISION 				// 8x8 centered collision instead of 12x12
@@ -111,7 +111,7 @@
 //#define ONLY_ONE_OBJECT				// If defined, only one object can be carried at a time.
 //#define OBJECT_COUNT			1		// Defines which FLAG will be used to store the object count.
 //#define DEACTIVATE_EVIL_TILE			// If defined, no killing tiles (behaviour 1) are detected.
-#define FULL_BOUNCE 					// If defined, evil tile bounces equal MAX_VX, otherwise v/2
+// #define FULL_BOUNCE 					// If defined, evil tile bounces equal MAX_VX, otherwise v/2
 //#define PLAYER_BOUNCES				// If defined, collisions make player bounce
 //#define SLOW_DRAIN					// Works with bounces. Drain is 4 times slower
 #define PLAYER_FLICKERS 				// If defined, collisions make player flicker instead.
@@ -120,10 +120,10 @@
 //#define EVERYTHING_IS_A_WALL			// If defined, any tile <> type 0 is a wall, otherwise just 8.
 //#define COUNT_SCR_ENEMS_ON_FLAG 1		// If defined, count # of enems on screen and store in flag #
 //#define SHOW_LEVEL_ON_SCREEN			// If defined, show level # whenever we enter a new screen
-#define CUSTOM_HIT						// If defined, different agents take different amounts of life (needs to be refined, don't use)
-#define CUSTOM_HIT_DEFAULT		10
+// #define CUSTOM_HIT						// If defined, different agents take different amounts of life (needs to be refined, don't use)
+// #define CUSTOM_HIT_DEFAULT		10
 #define IS_EVIL ==1 					// ==1 or &1, depending on what you need.
-#define ONLY_VERTICAL_EVIL_TILE			// Does as it suggests.
+// #define ONLY_VERTICAL_EVIL_TILE			// Does as it suggests.
 
 // Enemy engine
 // ------------
@@ -131,14 +131,14 @@
 // General directives
 
 #define ENABLE_PATROLLERS				// Yeah, you can now deactivate good ol' patrollers...
-#define PATROLLERS_HIT			9 		// If defined, patrollers take THIS life, otherwise 1
+// #define PATROLLERS_HIT			9 		// If defined, patrollers take THIS life, otherwise 1
 
 
 #define ENABLE_FANTIES					// If defined, add code for flying enemies.
-#define FANTIES_SIGHT_DISTANCE	128		// If defined, used in our type 6 enemies.
+#define FANTIES_SIGHT_DISTANCE	96		// If defined, used in our type 6 enemies.
 //#define FANTIES_KILL_ON_TOUCH			// If defined, enemy also dies when collision happens
-#define FANTIES_NUMB_ON_FLAG	31		// If defined, flag = 0 makes them not move.
-#define FANTIES_MAX_V 			256 	// Flying enemies max speed (also for custom type 6 if you want)
+// #define FANTIES_NUMB_ON_FLAG	31		// If defined, flag = 0 makes them not move.
+#define FANTIES_MAX_V 			128 	// Flying enemies max speed (also for custom type 6 if you want)
 #define FANTIES_A 				16		// Flying enemies acceleration.
 #define FANTIES_LIFE_GAUGE		1		// Amount of shots needed to kill flying enemies.
 #define FANTIES_HIT 			12 		// If defined, fanties take THIS life, otherwise 1
@@ -149,12 +149,12 @@
 //#define TYPE_7_FIXED_SPRITE	4		// If defined, type 7 enemies are always #
 
 //#define ENABLE_SIMPLE_PURSUERS		// Simpler type 7s [NOT YET]
-
-//#define MAX_COCOS 			3		// Max # of cocos.
-#define COCOS_COLLIDE					// Cocos will die with beh 8
-
-//#define ENABLE_SHOOTERS				// Activate this if your raise bit 4 in any enemies.
 /*
+#define MAX_COCOS 			1		// Max # of cocos.
+// #define COCOS_COLLIDE					// Cocos will die with beh 8
+
+#define ENABLE_SHOOTERS				// Activate this if your raise bit 4 in any enemies.
+
 #define SHOOTER_SHOOT_FREQ		63		// Shoot frequency (2^n-1)
 #define SHOOTER_SAFE_DISTANCE	64		// if closer won't shoot
 #define SHOOTER_FIRE_ONE 				// If defined, just fire one coco per enemy
@@ -162,13 +162,13 @@
 */
 
 //#define ENABLE_DROPS					// Enemy type 9 = drops
-//#define ENABLE_ARROWS					// Enemy type 10 = arrows
+#define ENABLE_ARROWS					// Enemy type 10 = arrows
 
 //#define USE_TWO_BUTTONS 				// Alternate keyboard scheme for two-buttons games
 //#define USE_HOTSPOTS_TYPE_3 			// Alternate logic for recharges.
-#define TILE_GET				13		// If defined, player can "get" tile #
-#define TILE_GET_FLAG 			1		// And this increments flag #
-#define TILE_GET_SCRIPT					// Run PLAYER_GETS_COIN when player gets tile TILE_GET
+// #define TILE_GET				13		// If defined, player can "get" tile #
+// #define TILE_GET_FLAG 			1		// And this increments flag #
+// #define TILE_GET_SCRIPT					// Run PLAYER_GETS_COIN when player gets tile TILE_GET
 //#define DIE_AND_RESPAWN				// If defined, dying = respawn on latest safe.
 //#define DISABLE_AUTO_SAFE_SPOT		// If defined, you have to define the save spot via scripting
 //#define REENTER_ON_DEATH				// Reenter screen when killed, for 1-screen arcades.
@@ -272,9 +272,9 @@
 // Kill slowly (Ramiro)
 // --------------------
 //#define ENABLE_KILL_SLOWLY			// Beh 3 kills slowly
-#define KILL_SLOWLY_ON_FLAG		30 		// If defined, flag controls behaviour. If 0,beh 1.
-#define KILL_SLOWLY_GAUGE		32 		// # of ticks before kill
-#define KILL_SLOWLY_FRAMES		8 		// # of frames per tick
+// #define KILL_SLOWLY_ON_FLAG		30 		// If defined, flag controls behaviour. If 0,beh 1.
+// #define KILL_SLOWLY_GAUGE		32 		// # of ticks before kill
+// #define KILL_SLOWLY_FRAMES		8 		// # of frames per tick
 
 // Scripting
 // ---------
@@ -285,7 +285,7 @@
 #define SCRIPTING_DOWN				// Use DOWN as the action key.
 //#define SCRIPTING_KEY_M			// Use M as the action key instead.
 //#define SCRIPTING_KEY_FIRE		// User FIRE as the action key instead.
-#define ENABLE_EXTERN_CODE			// Enables custom code to be run from the script using EXTERN n
+// #define ENABLE_EXTERN_CODE			// Enables custom code to be run from the script using EXTERN n
 //#define EXTERN_E					// Uncomment this as well if you use EXTERN_E in your script
 #define ENABLE_FIRE_ZONE			// Allows to define a zone which auto-triggers "FIRE"
 
@@ -421,8 +421,8 @@
 // This sections defines how stuff is rendered, where to show counters, etcetera
 
 #define VIEWPORT_X				1		//
-#define VIEWPORT_Y				2		// Viewport character coordinates
-#define LIFE_X					3 		//
+#define VIEWPORT_Y				1		// Viewport character coordinates
+#define LIFE_X					1 		//
 #define LIFE_Y					23		// Life gauge counter character coordinates
 #define OBJECTS_X				29		//
 #define OBJECTS_Y				23		// Objects counter character coordinates
@@ -438,7 +438,7 @@
 #define TIMER_X 				99		//
 #define TIMER_Y 				99		// Timer counter coordinates
 //#define PLAYER_SHOW_TIMER 			// If defined, show timer counter
-#define FLAG_X					12		//
+#define FLAG_X					4		//
 #define FLAG_Y					23		// Custom flag character coordinates
 #define PLAYER_SHOW_FLAG		1		// If defined, show flag #
 #define FUEL_X					99		//
@@ -471,7 +471,7 @@
 #define NO_ALT_TILE 					// No alternate automatic tile 19 for tile 0.
 //#define TWO_SETS						// If defined, use two 16 sets in one (just ask)
 //#define TWO_SETS_SEL (n_pant>8?32:0)	// This expresion must equal 0 for set 1 to be used, or 32 for set 2 to be used (just ask)
-#define TWO_SETS_MAPPED					// Two sets, but which set to use is mapped after map data (1 byte per screen)
+// #define TWO_SETS_MAPPED					// Two sets, but which set to use is mapped after map data (1 byte per screen)
 //#define ENABLE_LEVEL_NAMES			// Give a name for each level/screen in engine/levelnames.h
 //#define ENABLE_EXTRA_PRINTS			// Configure extra tile prints for some screens in engine/extraprints.h
 
@@ -548,9 +548,9 @@
 
 #ifndef COMPRESSED_LEVELS
 unsigned char behs [] = {
-	0, 3, 3, 3, 3, 3, 8, 8, 8, 8, 4, 3, 3, 0, 3, 4,
-	8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0,
-	0, 0, 8, 8, 1, 0, 0, 8, 8, 8, 4, 0, 0, 0, 0, 4
+	0, 8, 0, 0, 0, 0, 0, 4, 8, 0, 0, 8, 0, 0, 0, 0,
+	0,24, 8, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 #endif
 

@@ -86,10 +86,10 @@ extern unsigned int asm_int [1];
 extern unsigned int asm_int_2 [1];
 
 #asm
-._asm_int
-	defw 0
-._asm_int_2
-	defw 0
+	._asm_int
+		defw 0
+	._asm_int_2
+		defw 0
 #endasm
 
 // Gigaglobals
@@ -109,25 +109,26 @@ void *u_free = sp_FreeBlock;
 struct sp_SS *sp_player;
 struct sp_SS *sp_moviles [3];
 #ifdef PLAYER_CAN_FIRE
-struct sp_SS *sp_bullets [MAX_BULLETS];
+	struct sp_SS *sp_bullets [MAX_BULLETS];
 #endif
 #if defined (PLAYER_CAN_PUNCH) || defined (PLAYER_HAZ_SWORD) || defined (PLAYER_HAZ_WHIP)
-struct sp_SS *sp_hitter;
+	struct sp_SS *sp_hitter;
 #endif
 #ifdef ENABLE_SHOOTERS
-struct sp_SS *sp_cocos [MAX_COCOS];
+	struct sp_SS *sp_cocos [MAX_COCOS];
 #endif
 #ifdef ENABLE_FLOATING_OBJECTS
-#ifdef ENABLE_FO_CARRIABLE_BOXES
-struct sp_SS *sp_carriable;
-#endif
+	#ifdef ENABLE_FO_CARRIABLE_BOXES
+		struct sp_SS *sp_carriable;
+	#endif
 #endif
 #if defined (PLAYER_GENITAL) && defined (PLAYER_HAS_JUMP)
-struct sp_SS *sp_shadow;
+	struct sp_SS *sp_shadow;
 #endif
 
-struct sp_Rect spritesClipValues;
-struct sp_Rect *spritesClip;
+#asm
+	.vpClipStruct defb VIEWPORT_Y, VIEWPORT_Y + 20, VIEWPORT_X, VIEWPORT_X + 30
+#endasm	
 
 unsigned char enoffs;
 
@@ -138,22 +139,22 @@ unsigned char half_life = 0;
 // Player
 int p_x, p_y;
 #if defined (PHANTOMAS_ENGINE)
-char p_vx, p_vy, ptgmx, ptgmy;
+	char p_vx, p_vy, ptgmx, ptgmy;
 #elif defined (HANNA_ENGINE)
-char p_v;
+	char p_v;
 #else
-int p_vx, p_vy, ptgmx, ptgmy;
+	int p_vx, p_vy, ptgmx, ptgmy;
 #endif
 #if defined (PLAYER_GENITAL) && defined (PLAYER_HAS_JUMP)
-int p_z, p_vz;
-unsigned char p_jmp_facing, gpz;
+	int p_z, p_vz;
+	unsigned char p_jmp_facing, gpz;
 #endif
 char p_g;
 #if defined (PLAYER_NEW_GENITAL) && defined (ENABLE_BEH_64) 
-char p_ax, p_rx;
+	char p_ax, p_rx;
 #endif
 #ifdef PLAYER_GENITAL
-char p_thrust;
+	char p_thrust;
 #endif
 unsigned char p_jmp_ct;
 unsigned char *p_c_f, *p_n_f;
@@ -164,40 +165,40 @@ unsigned char p_state_ct;
 unsigned char p_gotten;
 unsigned char p_life, p_objs, p_keys;
 #ifndef BODY_COUNT_ON
-unsigned char p_killed;
+	unsigned char p_killed;
 #endif
 unsigned char p_disparando;
 #if defined (PLAYER_CAN_PUNCH) || defined (PLAYER_HAZ_SWORD) || defined (PLAYER_HAZ_WHIP)
-unsigned char p_hitting;
+	unsigned char p_hitting;
 #endif
 #ifdef PLAYER_HAZ_SWORD
-unsigned char p_up; 
+	unsigned char p_up; 
 #endif
 unsigned char p_facing_v, p_facing_h;
 #ifdef DIE_AND_RESPAWN
-unsigned char p_killme, p_safe_pant, p_safe_x, p_safe_y;
+	unsigned char p_killme, p_safe_pant, p_safe_x, p_safe_y;
 #endif
 #ifdef MAX_AMMO
-unsigned char p_ammo;
+	unsigned char p_ammo;
 #endif
 #ifdef ENABLE_FO_CARRIABLE_BOXES
-unsigned char p_hasbox;
+	unsigned char p_hasbox;
 #endif
 #ifdef JETPAC_DEPLETES
-unsigned char p_fuel;
+	unsigned char p_fuel;
 #endif
 #ifdef ENABLE_HOLES
-unsigned char p_ct_hole;
+	unsigned char p_ct_hole;
 #endif
 #ifdef ENABLE_KILL_SLOWLY
-unsigned char p_ks_gauge;
-unsigned char p_ks_fc;
+	unsigned char p_ks_gauge;
+	unsigned char p_ks_fc;
 #endif
 
 // Make some player values variable. Preliminary, just the maximum jump speed...
 
 #ifdef PLAYER_VARIABLE_JUMP
-int PLAYER_JMP_VY_MAX;
+	int PLAYER_JMP_VY_MAX;
 #endif
 
 // Enems on screen
@@ -209,53 +210,53 @@ unsigned char *en_an_c_f [3], *en_an_n_f [3];
 unsigned char en_an_state [3];
 
 #ifdef ENEMY_BACKUP
-unsigned char enemy_backup [3 * MAP_W * MAP_H];
+	unsigned char enemy_backup [3 * MAP_W * MAP_H];
 #endif
 
 #ifdef PLAYER_CAN_FIRE
-unsigned char en_an_morido [3];
+	unsigned char en_an_morido [3];
 #endif
 
 #if defined (RANDOM_RESPAWN) || defined (ENABLE_CUSTOM_FANTIES)
-int en_an_x [3];
-int en_an_y [3];
-int en_an_vx [3];
-int en_an_vy [3];
-#ifdef RANDOM_RESPAWN
-unsigned char en_an_fanty_activo [3];
-#endif
+	int en_an_x [3];
+	int en_an_y [3];
+	int en_an_vx [3];
+	int en_an_vy [3];
+	#ifdef RANDOM_RESPAWN
+		unsigned char en_an_fanty_activo [3];
+	#endif
 #endif
 
 #ifdef ENABLE_PURSUERS
-unsigned char en_an_alive [3];
-unsigned char en_an_dead_row [3];
-unsigned char en_an_rawv [3];
+	unsigned char en_an_alive [3];
+	unsigned char en_an_dead_row [3];
+	unsigned char en_an_rawv [3];
 #endif
 
 #ifdef ENABLE_HANNA_MONSTERS_11
-unsigned char en_an_dir [3];
+	unsigned char en_an_dir [3];
 #endif
 
 // Bullets
 
 #ifdef PLAYER_CAN_FIRE
-unsigned char bullets_x [MAX_BULLETS];
-unsigned char bullets_y [MAX_BULLETS];
-unsigned char bullets_mx [MAX_BULLETS];
-unsigned char bullets_my [MAX_BULLETS];
-unsigned char bullets_estado [MAX_BULLETS];
-#ifdef LIMITED_BULLETS
-unsigned char bullets_life [MAX_BULLETS];
-#endif	
+	unsigned char bullets_x [MAX_BULLETS];
+	unsigned char bullets_y [MAX_BULLETS];
+	unsigned char bullets_mx [MAX_BULLETS];
+	unsigned char bullets_my [MAX_BULLETS];
+	unsigned char bullets_estado [MAX_BULLETS];
+	#ifdef LIMITED_BULLETS
+		unsigned char bullets_life [MAX_BULLETS];
+	#endif	
 #endif
 
 #if defined (PLAYER_CAN_PUNCH) || defined (PLAYER_HAZ_SWORD) || defined (PLAYER_HAZ_WHIP)
-unsigned char hitter_on;
-unsigned char hitter_type;
-unsigned char hitter_frame;
-unsigned char hitter_x, hitter_y;
-unsigned char *hitter_c_f, *hitter_n_f;
-unsigned char hitter_hit;
+	unsigned char hitter_on;
+	unsigned char hitter_type;
+	unsigned char hitter_frame;
+	unsigned char hitter_x, hitter_y;
+	unsigned char *hitter_c_f, *hitter_n_f;
+	unsigned char hitter_hit;
 #endif
 
 // Current screen buffers
@@ -276,7 +277,7 @@ unsigned char no_draw;
 
 // Flags para scripting
 #if defined (ACTIVATE_SCRIPTING) || defined (TILE_GET) || defined (ENABLE_SIM)
-unsigned char flags[MAX_FLAGS];
+	unsigned char flags[MAX_FLAGS];
 #endif
 
 // Globalized
@@ -288,66 +289,66 @@ unsigned char maincounter;
 
 // Breakable walls/etc
 #ifdef BREAKABLE_WALLS
-unsigned char brk_buff [150];
-#ifdef BREAKABLE_ANIM
-// Store this in the free memory pool (see ^)
-unsigned char *breaking_x = FREEPOOL + 150;
-unsigned char *breaking_y = FREEPOOL + 150 + MAX_BREAKABLE;
-unsigned char *breaking_f = FREEPOOL + 150 + MAX_BREAKABLE + MAX_BREAKABLE;
+	unsigned char brk_buff [150];
+	#ifdef BREAKABLE_ANIM
+		// Store this in the free memory pool (see ^)
+		unsigned char *breaking_x = FREEPOOL + 150;
+		unsigned char *breaking_y = FREEPOOL + 150 + MAX_BREAKABLE;
+		unsigned char *breaking_f = FREEPOOL + 150 + MAX_BREAKABLE + MAX_BREAKABLE;
 
-unsigned char breaking_idx = 0;
-unsigned char do_process_breakable = 0;
-#endif
+		unsigned char breaking_idx = 0;
+		unsigned char do_process_breakable = 0;
+	#endif
 #endif
 
 #ifdef BREAKABLE_WALLS_SIMPLE
-#ifdef BREAKABLE_ANIM
-unsigned char *breaking_x = FREEPOOL + 150;
-unsigned char *breaking_y = FREEPOOL + 150 + MAX_BREAKABLE;
-unsigned char *breaking_f = FREEPOOL + 150 + MAX_BREAKABLE + MAX_BREAKABLE;
-//
+	#ifdef BREAKABLE_ANIM
+		unsigned char *breaking_x = FREEPOOL + 150;
+		unsigned char *breaking_y = FREEPOOL + 150 + MAX_BREAKABLE;
+		unsigned char *breaking_f = FREEPOOL + 150 + MAX_BREAKABLE + MAX_BREAKABLE;
+		//
 
-unsigned char breaking_idx = 0;
-unsigned char do_process_breakable = 0;
-#endif
+		unsigned char breaking_idx = 0;
+		unsigned char do_process_breakable = 0;
+	#endif
 #endif
 
 // Fire zone
 #ifdef ENABLE_FIRE_ZONE
-unsigned char fzx1, fzy1, fzx2, fzy2, f_zone_ac;
+	unsigned char fzx1, fzy1, fzx2, fzy2, f_zone_ac;
 #endif
 
 // Timer
 #ifdef TIMER_ENABLE
-typedef struct {
-	unsigned char on;
-	unsigned char t;
-	unsigned char frames;
-	unsigned char count;
-	unsigned char zero;
-} CTIMER;
-CTIMER ctimer;
+	typedef struct {
+		unsigned char on;
+		unsigned char t;
+		unsigned char frames;
+		unsigned char count;
+		unsigned char zero;
+	} CTIMER;
+	CTIMER ctimer;
 #endif
 
 #if defined (ACTIVATE_SCRIPTING) && defined (ENABLE_PUSHED_SCRIPTING)
-unsigned char just_pushed;
+	unsigned char just_pushed;
 #endif
 
 #ifdef USE_TWO_BUTTONS
-int key_jump, key_fire;
+	int key_jump, key_fire;
 #endif
 
 #ifdef SCRIPTING_KEY_M
-int key_m;
+	int key_m;
 #endif
 
 #ifdef PAUSE_ABORT
-int key_h, key_y;
+	int key_h, key_y;
 #endif
 
 #if defined (ENABLE_SIM)
-int key_z;
-unsigned char key_z_pressed = 0;
+	int key_z;
+	unsigned char key_z_pressed = 0;
 #endif
 
 #if defined (PLAYER_CHECK_MAP_BOUNDARIES) || defined (PLAYER_CYCLIC_MAP)
@@ -357,23 +358,23 @@ unsigned char key_z_pressed = 0;
 unsigned char do_gravity = 1, p_engine;
 
 #ifdef ENABLE_SIM
-unsigned char items [SIM_DISPLAY_MAXITEMS];
-void display_items (void);
+	unsigned char items [SIM_DISPLAY_MAXITEMS];
+	void display_items (void);
 #endif
 
 unsigned char enoffsmasi;
 
 #ifdef SCRIPTING_KEY_FIRE
-unsigned char invalidate_fire = 0;
+	unsigned char invalidate_fire = 0;
 #endif
 
 #ifdef MAP_ATTRIBUTES
-unsigned char cur_map_attr = 99;
+	unsigned char cur_map_attr = 99;
 #endif
 
 // Engine globals (for speed) & size!
 
-unsigned char gpx, gpy, gpd, gpc, gpt, gps;
+unsigned char gpx, gpy, gpd, gpc, gpt, gps, rdx, rdy;
 unsigned char gpxx, gpyy, gpcx, gpcy;
 unsigned char possee, hit_v, hit_h, hit, wall_h, wall_v;
 unsigned char gpen_x, gpen_y, gpen_cx, gpen_cy, gpen_xx, gpen_yy, gpaux;
@@ -384,24 +385,24 @@ unsigned char *map_pointer;
 // Needed prototypes
 
 #ifdef ACTIVATE_SCRIPTING
-void __FASTCALL__ draw_scr_background (void);
-void __FASTCALL__ draw_scr (void);
+	void __FASTCALL__ draw_scr_background (void);
+	void __FASTCALL__ draw_scr (void);
 #endif
 void active_sleep (int espera);
 void run_fire_script (void);
 
 #ifdef MODE_128K
-void blackout_area (void);
-void get_resource (unsigned char res, unsigned int dest);
+	void blackout_area (void);
+	void get_resource (unsigned char res, unsigned int dest);
 
-void __FASTCALL__ _AY_PL_SND (unsigned char fx_number);
-void __FASTCALL__ _AY_PL_MUS (unsigned char song_number);
+	void __FASTCALL__ _AY_PL_SND (unsigned char fx_number);
+	void __FASTCALL__ _AY_PL_MUS (unsigned char song_number);
 #endif
 
 #ifdef ENABLE_FLOATING_OBJECTS
-unsigned char FO_add (unsigned char x, unsigned char y, unsigned char t);
-void FO_paint (unsigned char idx);
-void FO_paint_all (void);
+	unsigned char FO_add (unsigned char x, unsigned char y, unsigned char t);
+	void FO_paint (unsigned char idx);
+	void FO_paint_all (void);
 #endif
 
 void cortina (void);

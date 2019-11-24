@@ -230,7 +230,47 @@ void FO_do (void) {
 
 #ifdef ENABLE_FO_CARRIABLE_BOXES
 		// Update sprite?
-		if (p_hasbox != 99) sp_MoveSprAbs (sp_carriable, spritesClip, 0, VIEWPORT_Y + (gpy >> 3) - 1, VIEWPORT_X + (gpx >> 3), gpx & 7, gpy & 7);
+		if (p_hasbox != 99) {
+			//sp_MoveSprAbs (sp_carriable, spritesClip, 0, VIEWPORT_Y + (gpy >> 3) - 1, VIEWPORT_X + (gpx >> 3), gpx & 7, gpy & 7);
+			#asm
+				; enter: IX = sprite structure address 
+				;        IY = clipping rectangle, set it to "ClipStruct" for full screen 
+				;        BC = animate bitdef displacement (0 for no animation) 
+				;         H = new row coord in chars 
+				;         L = new col coord in chars 
+				;         D = new horizontal rotation (0..7) ie horizontal pixel position 
+				;         E = new vertical rotation (0..7) ie vertical pixel position
+
+				ld  ix, (_sp_carriable)
+				ld  iy, vpClipStruct
+				ld  bc, 0
+
+				ld  a, _gpy 
+				srl a
+				srl a
+				srl a
+				add VIEWPORT_Y
+				dec a 
+				ld  h, a
+
+				ld  a, _gpx
+				srl a
+				srl a
+				srl a 
+				add VIEWPORT_X
+				ld  l, a
+
+				ld  a, _gpx
+				and 7
+				ld  d, a
+
+				ld  a, _gpy
+				and 7
+				ld  e, a
+
+				call SPMoveSprAbs
+			#endasm
+		}
 #endif
 
 #endif
