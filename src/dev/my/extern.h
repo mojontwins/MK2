@@ -15,7 +15,27 @@ void read_print_text_line (void) {
 	while (1) {
 		exti = *extaddress ++;
 		if (exti == 0 || exti == '%') return;
-		sp_PrintAtInv (exty, extx ++, extc, exti - 32);
+		// sp_PrintAtInv (exty, extx ++, extc, exti - 32);
+		#asm
+				; enter:  A = row position (0..23)
+				;         C = col position (0..31/63)
+				;         D = pallette #
+				;         E = graphic #
+				ld  a, (_exti)
+				sub 32
+				ld  e, a
+
+				ld  a, (_extx)
+				ld  c, a
+				inc a
+				ld  (_extx), a
+
+				ld  a, (_exty)
+
+				ld  d, (_extc)
+
+				call SPPrintAtInv
+		#endasm
 	}
 }
 // } END_OF_CUSTOM
@@ -105,7 +125,23 @@ void do_extern_action (unsigned char n) {
 		// it receives an extra parameter with a line offset
 		// first byte for lines < offset is a precalculated
 		// x coordinate the line of text to appear centered.
-		for (exti = 1; exti < 31; exti ++) sp_PrintAtInv (22, exti, 23, 0);
+		for (exti = 1; exti < 31; exti ++) {
+			// sp_PrintAtInv (22, exti, 23, 0);
+			#asm
+				; enter:  A = row position (0..23)
+				;         C = col position (0..31/63)
+				;         D = pallette #
+				;         E = graphic #
+				ld  a, (_exti)
+				ld  c, a
+
+				ld  a, 22
+				ld  d, 23
+				ld  e, 0
+
+				call SPPrintAtInv			
+			#endasm
+		}
 		extaddress = textbuff;
 		extx = (*extaddress) - 64;
 		exty = 22; extc = 23;
@@ -125,17 +161,46 @@ void do_extern_action (unsigned char n) {
 		exty = 11 - (exty2 >> 1);
 
 		// Title
-		sp_PrintAtInv (exty, 3, 2, 2);
+		//sp_PrintAtInv (exty, 3, 2, 2);
+		#asm
+				ld  a, (_exty)
+				ld  c, 3
+				ld  de, 0x0202
+				call SPPrintAtInv
+		#endasm
+
 		extx = 4; extc = 23;
 		extaddress ++; read_print_text_line ();
-		sp_PrintAtInv (exty, extx ++, 2, 3);
-		print_str (3, exty + 1, 71, "&                        %");
-		for (exti = extx; exti < 28; exti ++)
-			sp_PrintAtInv (exty + 1, exti, 71, 4);
+		//sp_PrintAtInv (exty, extx ++, 2, 3);
+		#asm
+				ld  a, (_extx)
+				ld  c, a
+				inc a
+				ld  (_extx), a
+				ld  a, (_exty)			
+				ld  de, 0x0203
+				call SPPrintAtInv
+		#endasm
+
+		_x = 3; _y = exty + 1; _t = 71; gp_gen = "&                        %"; print_str ();
+		for (exti = extx; exti < 28; exti ++) {
+			//sp_PrintAtInv (exty + 1, exti, 71, 4);
+			#asm
+				ld  a, (_exti)
+				ld  c, a
+				ld  a, (_exty)
+				inc a
+				ld  d, 71
+				ld  e, 4
+				call SPPrintAtInv
+			#endasm
+		}
 
 		// Frame
-		for (exti = exty + 2; exti < exty + exty2; exti ++) print_str (3, exti, 71, "&                        '");
-		print_str (3, exty + exty2, 71, "())))))))))))))))))))))))*");
+		for (exti = exty + 2; exti < exty + exty2; exti ++) {
+			_x = 3; _y = exti; _t = 71; gp_gen = "&                        '"; print_str ();
+		}
+		_x = 3; _y = exty + exty2; _t = 71; gp_gen = "())))))))))))))))))))))))*"; print_str ();
 
 		sp_UpdateNow ();
 		active_sleep (10);

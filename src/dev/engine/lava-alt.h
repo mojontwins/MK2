@@ -70,8 +70,43 @@ void lava_do (void) {
 				lava_t = (*lava_ptr << 2) + 64 + lava_half;
 				lava_ptr ++;
 				gen_pt = tileset + 2048 + lava_t;
+				/*
 				sp_PrintAtInv (lava_y, lava_it, *gen_pt ++, lava_t ++);
 				sp_PrintAtInv (lava_y, lava_it + 1, *gen_pt ++, lava_t ++);
+				*/
+				#asm
+					ld  hl, (_gen_pt)
+					ld  a, (hl)
+					inc hl
+					ld  (_gen_pt), a
+					ld  d, a
+
+					ld  a, (_lava_t)
+					ld  e, a
+					inc a
+					ld  (_lava_t), a
+					ld  a, (_lava_it)
+					ld  c, a
+					ld  a, (_lava_y)
+
+					call SPPrintAtInv
+
+					ld  hl, (_gen_pt)
+					ld  a, (hl)
+					inc (hl)
+					ld  d, a
+
+					ld  a, (_lava_t)
+					ld  e, a
+					inc a
+					ld  (_lava_t), a
+					ld  a, (_lava_it)
+					inc a
+					ld  c, a
+					ld  a, (_lava_y)
+
+					call SPPrintAtInv
+				#endasm
 			}
 			
 			lava_y ++;

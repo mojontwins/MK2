@@ -95,11 +95,11 @@ rem ###########################################################################
 rem The game script is compiled by msc3.exe. For 128K games use "rampage" at
 rem the end so the script compiler generates code to stuff everything in
 rem extra pages; the second parameter is the # of screens in your game.
-rem i.e. "msc3.exe ninjajar.spt 21 rampage"
+rem i.e. "msc3_mk2_1.exe ninjajar.spt 21 rampage"
 
 echo ### MAKING SCRIPT ###
 cd ..\script
-..\utils\msc3.exe script.spt 20
+..\utils\msc3_mk2_1.exe script.spt 20
 
 rem If scripts and texts are going to share the same RAM page, use this line
 rem (for 128K games)

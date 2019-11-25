@@ -71,9 +71,31 @@
 		#ifdef SHOW_TOTAL
 			// Show total of enemies next to the killed amount.
 
-			sp_PrintAtInv (KILLED_Y, 2 + KILLED_X, 71, 15);
-			sp_PrintAtInv (KILLED_Y, 3 + KILLED_X, 71, 16 + BADDIES_COUNT / 10);
-			sp_PrintAtInv (KILLED_Y, 4 + KILLED_X, 71, 16 + BADDIES_COUNT % 10);
+			//sp_PrintAtInv (KILLED_Y, 2 + KILLED_X, 71, 15);
+			//sp_PrintAtInv (KILLED_Y, 3 + KILLED_X, 71, 16 + BADDIES_COUNT / 10);
+			//sp_PrintAtInv (KILLED_Y, 4 + KILLED_X, 71, 16 + BADDIES_COUNT % 10);
+			rda = 16 + (BADDIES_COUNT / 10); rdb = 16 + (BADDIES_COUNT % 10);
+			#asm
+				ld  a, KILLED_Y
+				ld  c, KILLED_X + 2
+				ld  d, 71
+				ld  e, 15
+				call SPPrintAtInv
+
+				ld  a, (_rda)
+				ld  e, a
+				ld  a, KILLED_Y
+				ld  c, KILLED_X + 3
+				ld  d, 71				
+				call SPPrintAtInv
+				
+				ld  a, (_rdb)
+				ld  e, a
+				ld  a, KILLED_Y
+				ld  c, KILLED_X + 4
+				ld  d, 71				
+				call SPPrintAtInv
+			#endasm
 		#endif
 		#endif
 

@@ -1,11 +1,11 @@
 			if (!silent_level) {
 				blackout_area ();
-				print_str (12, 12, 71, "LEVEL");
-				print_number2 (18, 12, level + 1);
+				_x = 12; _y = 12; _t = 71; gp_gen = "LEVEL"; print_str ();
+				_x = 18; _y = 12; _t = level + 1; print_number2 ();
 /*
 				if (level > 0) {
 					gen_password ();
-					print_str (12, 14, 71, password_text);
+					_x = 12; _y = 14; _t = 71; gp_gen = password_text; print_str ();
 				}
 */
 				sp_UpdateNow ();

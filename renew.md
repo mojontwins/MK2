@@ -18,4 +18,7 @@ Recordar optimizar las ristras de decoraciones no llamando a invalidar y hacién
 
 31868 bytes - antes de pasar a asm, solo deshaciendo parámetros.
 
-TODO: Ver las llamadas a `draw_coloured_tile` que podrían abreviarse con `draw_coloured_tile_gamearea`.
+TODO: Ver las llamadas a `draw_coloured_tile` que podrían abreviarse con `draw_coloured_tile_gamearea`. [ ]
+
+31649 bytes
+

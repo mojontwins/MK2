@@ -254,14 +254,14 @@ void main (void) {
 							//_AY_PL_MUS (8);
 						#endif
 						//game_over ();
-						print_message (" GAME OVER! ");
+						gp_gen = " GAME OVER! "; print_message ();
 					#endif
 					mlplaying = 0;
 					active_sleep (250);
 					break;
 				case 1:
 					//_AY_PL_MUS (7);
-					print_message (" ZONE CLEAR ");
+					gp_gen = " ZONE CLEAR "; print_message ();
 					level ++;
 					active_sleep (250);
 					//do_extern_action (0);

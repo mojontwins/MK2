@@ -36,10 +36,9 @@ void do_tilanims (void) {
 		tilanims [tait].ft = tilanims [tait].ft ^ 128;
 		
 		// Draw tile
-		_x = VIEWPORT_X + ((tilanims [tait].xy >> 4) << 1);
-		_y = VIEWPORT_Y + ((tilanims [tait].xy & 15) << 1);
+		_x = tilanims [tait].xy >> 4;
+		_y = tilanims [tait].xy & 15;
 		_t = (tilanims [tait].ft & 127) + (tilanims [tait].ft >> 7);
-		draw_coloured_tile ();
-		invalidate_tile ();
+		draw_invalidate_coloured_tile_gamearea ();		
 	}
 }

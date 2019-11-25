@@ -152,8 +152,8 @@ void  draw_scr (void) {
 	} else {
 #ifdef SHOW_LEVEL_ON_SCREEN
 		blackout_area ();
-		print_str (12, 12, 71, "LEVEL");
-		print_number2 (18, 12, n_pant + 1);
+		_x = 12; _y = 12; _t = 71; gp_gen = "LEVEL"; print_str ();
+		_x = 18; _y = 12; _t = n_pant + 1; print_number2 ();
 		sp_UpdateNow ();
 		active_sleep (500);
 #endif

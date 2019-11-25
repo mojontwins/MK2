@@ -29,9 +29,8 @@ void game_ending (void) {
 }
 
 void game_over (void) {
-	print_number2 (LIFE_X, LIFE_Y, p_life);
-	
-	print_message (" GAME OVER! ");
+	_x = LIFE_X; _y = LIFE_Y; _t = p_life; print_number2 ();	
+	gp_gen = " GAME OVER! "; print_message ();
 	
 #ifdef MODE_128K
 #else
@@ -45,7 +44,7 @@ void game_over (void) {
 
 #if defined (TIMER_ENABLE) && defined (SHOW_TIMER_OVER)
 void time_over (void) {
-	print_message ("  TIME UP!  ");
+	gp_gen = "  TIME UP!  "; print_message ();
 		
 #ifdef MODE_128K
 #else
@@ -61,7 +60,7 @@ void time_over (void) {
 #ifdef PAUSE_ABORT
 /*
 void pause_screen (void) {
-	print_message ("   PAUSED   ");
+	gp_gen = "   PAUSED   "; print_message ();
 }
 */
 #endif

@@ -46,5 +46,31 @@ CRIPTA DE JUANILLO EL COLMILLO
 void print_level_name (void) {
 	gen_pt = levelnames + n_pant * LEVELNAMES_SIZE;
 	gpit = LEVELNAMES_X; gpjt = LEVELNAMES_SIZE;
-	while (gpjt --) sp_PrintAtInv (LEVELNAMES_Y, gpit ++, LEVELNAMES_C, (*gen_pt ++) - 32);
+	while (gpjt --) {
+		// sp_PrintAtInv (LEVELNAMES_Y, gpit ++, LEVELNAMES_C, (*gen_pt ++) - 32);
+		#asm
+				; enter:  A = row position (0..23)
+				;         C = col position (0..31/63)
+				;         D = pallette #
+				;         E = graphic #
+
+				ld  hl, (_gen_pt)
+				ld  a, (hl)
+				sub 32
+				ld  e, a
+				inc hl
+        ld  (_gen_pt), hl
+
+				ld  a, (_gpit)
+				ld  c, a
+				inc a
+				ld  (_gpit), a
+
+				ld  a, LEVELNAMES_Y
+
+				ld  d, LEVELNAMES_C
+
+				call SPPrintAtInv
+		#endasm
+	}
 }

@@ -35,13 +35,13 @@ void update_hud (void) {
 #endif
 
 	if (p_life != life_old) {
-		print_number2 (LIFE_X, LIFE_Y, p_life);
+		_x = LIFE_X; _y = LIFE_Y; _t = p_life; print_number2 ();
 		life_old = p_life;
 	}
 
 #ifndef DEACTIVATE_KEYS
 	if (p_keys != keys_old) {
-		print_number2 (KEYS_X, KEYS_Y, p_keys);
+		_x = KEYS_X; _y = KEYS_Y; _t = p_keys; print_number2 ();
 		keys_old = p_keys;
 	}
 #endif
@@ -50,12 +50,12 @@ void update_hud (void) {
 #ifdef PLAYER_SHOW_KILLS
 #ifdef BODY_COUNT_ON
 	if (flags [BODY_COUNT_ON] != killed_old) {
-		print_number2 (KILLED_X, KILLED_Y, flags [BODY_COUNT_ON]);
+		_x = KILLED_X; _y = KILLED_Y; _t = flags [BODY_COUNT_ON]; print_number2 ();
 		killed_old = flags [BODY_COUNT_ON];
 	}
 #else
 	if (p_killed != killed_old) {
-		print_number2 (KILLED_X, KILLED_Y, p_killed);
+		_x = KILLED_X; _y = KILLED_Y; _t = p_killed; print_number2 ();
 		killed_old = p_killed;
 	}
 #endif
@@ -64,35 +64,35 @@ void update_hud (void) {
 
 #ifdef MAX_AMMO
 	if (p_ammo != ammo_old) {
-		print_number2 (AMMO_X, AMMO_Y, p_ammo);
+		_x = AMMO_X; _y = AMMO_Y; _t = p_ammo; print_number2 ();
 		ammo_old = p_ammo;
 	}
 #endif
 
 #if defined (TIMER_ENABLE) && defined (PLAYER_SHOW_TIMER)
 	if (ctimer.t != timer_old) {
-		print_number2 (TIMER_X, TIMER_Y, ctimer.t);
+		_x = TIMER_X; _y = TIMER_Y; _t = ctimer.t; print_number2 ();
 		timer_old = ctimer.t;
 	}
 #endif
 
 #ifdef PLAYER_SHOW_FLAG
 	if (flags [PLAYER_SHOW_FLAG] != flag_old) {
-		print_number2 (FLAG_X, FLAG_Y, flags [PLAYER_SHOW_FLAG]);
+		_x = FLAG_X; _y = FLAG_Y; _t = flags [PLAYER_SHOW_FLAG]; print_number2 ();
 		flag_old = flags [PLAYER_SHOW_FLAG];
 	}
 #endif
 
 #if defined (PLAYER_HAS_JETPAC) && defined (JETPAC_DEPLETES) && defined (PLAYER_SHOW_FUEL)
 	if (p_fuel != fuel_old) {
-		print_number2 (FUEL_X, FUEL_Y, p_fuel);
+		_x = FUEL_X; _y = FUEL_Y; _t = p_fuel; print_number2 ();
 		fuel_old = p_fuel;
 	}
 #endif
 
 #if defined (ENABLE_KILL_SLOWLY) && defined (PLAYER_SHOW_KILL_SLOWLY_GAUGE)
 	if (p_ks_gauge != ks_gauge_old) {
-		print_number2 (KILL_SLOWLY_GAUGE_X, KILL_SLOWLY_GAUGE_Y, p_ks_gauge);
+		_x = KILL_SLOWLY_GAUGE_X; _y = KILL_SLOWLY_GAUGE_Y; _t = p_ks_gauge; print_number2 ();
 		ks_gauge_old = p_ks_gauge;
 	}
 #endif	

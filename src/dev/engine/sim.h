@@ -79,11 +79,37 @@ void display_items (void) {
 			invalidate_tile ();
 		}
 		if (sim_it != flags [FLAG_SLOT_SELECTED]) {
-			sp_PrintAtInv (SIM_DISPLAY_Y + 2, sim_p, 0, 0);
-			sp_PrintAtInv (SIM_DISPLAY_Y + 2, sim_p + 1, 0, 0);
+			// sp_PrintAtInv (SIM_DISPLAY_Y + 2, sim_p, 0, 0);
+			// sp_PrintAtInv (SIM_DISPLAY_Y + 2, sim_p + 1, 0, 0);
+			#asm
+				ld  c, SIM_DISPLAY_Y + 2
+				ld  a, (_sim_p)
+				ld  de, 0
+				call SPPrintAtInv
+				ld  c, SIM_DISPLAY_Y + 2
+				ld  a, (_sim_p)
+				inc a
+				ld  de, 0
+				call SPPrintAtInv
+			#endasm
 		} else { 
-			sp_PrintAtInv (SIM_DISPLAY_Y + 2, sim_p, SIM_DISPLAY_SEL_C, SIM_DISPLAY_SEL_CHAR1);
-			sp_PrintAtInv (SIM_DISPLAY_Y + 2, sim_p + 1, SIM_DISPLAY_SEL_C, SIM_DISPLAY_SEL_CHAR2);
+			// sp_PrintAtInv (SIM_DISPLAY_Y + 2, sim_p, SIM_DISPLAY_SEL_C, SIM_DISPLAY_SEL_CHAR1);
+			// sp_PrintAtInv (SIM_DISPLAY_Y + 2, sim_p + 1, SIM_DISPLAY_SEL_C, SIM_DISPLAY_SEL_CHAR2);
+			#asm				
+				ld  a, (_sim_p)
+				ld  c, a
+				ld  a, SIM_DISPLAY_Y + 2
+				ld  d, SIM_DISPLAY_SEL_C
+				ld  e, SIM_DISPLAY_SEL_CHAR1
+				call SPPrintAtInv				
+				ld  a, (_sim_p)
+				inc a
+				ld  c, a
+				ld  a, SIM_DISPLAY_Y + 2
+				ld  d, SIM_DISPLAY_SEL_C
+				ld  e, SIM_DISPLAY_SEL_CHAR2
+				call SPPrintAtInv
+			#endasm
 		}
 		sim_p += SIM_DISPLAY_ITEM_STEP;
 	}
@@ -102,11 +128,37 @@ void display_items (void) {
 			invalidate_tile ();
 		}
 		if (sim_it != flags [FLAG_SLOT_SELECTED]) {
-			sp_printatinv (sim_p + 2, SIM_DISPLAY_X, 0, 0);
-			sp_printatinv (sim_p + 2, SIM_DISPLAY_X + 1, 0, 0);
+			//sp_printatinv (sim_p + 2, SIM_DISPLAY_X, 0, 0);
+			//sp_printatinv (sim_p + 2, SIM_DISPLAY_X + 1, 0, 0);
+			#asm
+				ld  a, (_sim_p)
+				add 2
+				ld  c, SIM_DISPLAY_X
+				ld  de, 0
+				call SPPrintAtInv
+				ld  a, (_sim_p)
+				add 2
+				ld  c, SIM_DISPLAY_X+1
+				ld  de, 0
+				call SPPrintAtInv
+			#endasm
 		} else {
-			sp_printatinv (sim_p + 2, SIM_DISPLAY_X, SIM_DISPLAY_SEL_C, SIM_DISPLAY_SEL_CHAR1);
-			sp_printatinv (sim_p + 2, SIM_DISPLAY_X + 1, SIM_DISPLAY_SEL_C, SIM_DISPLAY_SEL_CHAR2);
+			//sp_printatinv (sim_p + 2, SIM_DISPLAY_X, SIM_DISPLAY_SEL_C, SIM_DISPLAY_SEL_CHAR1);
+			//sp_printatinv (sim_p + 2, SIM_DISPLAY_X + 1, SIM_DISPLAY_SEL_C, SIM_DISPLAY_SEL_CHAR2);
+			#asm
+				ld  a, (_sim_p)
+				add 2
+				ld  c, SIM_DISPLAY_X
+				ld  d, SIM_DISPLAY_SEL_C
+				ld  e, SIM_DISPLAY_SEL_CHAR1
+				call SPPrintAtInv
+				ld  a, (_sim_p)
+				add 2
+				ld  c, SIM_DISPLAY_X+1
+				ld  d, SIM_DISPLAY_SEL_C
+				ld  e, SIM_DISPLAY_SEL_CHAR2
+				call SPPrintAtInv
+			#endasm
 		}
 		sim_p +=  SIM_DISPLAY_ITEM_STEP;
 	}

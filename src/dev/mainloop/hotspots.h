@@ -5,12 +5,11 @@
 
 			// Hotspot interaction.
 			if (collide (gpx, gpy, hotspot_x, hotspot_y)) {
-				// Deactivate hotspot
-				_x = VIEWPORT_X + (hotspot_x >> 3);
-				_y = VIEWPORT_Y + (hotspot_y >> 3);
+				// Deactivate hotspot				
+				_x = hotspot_x >> 4;
+				_y = hotspot_y >> 4;
 				_t = orig_tile;
-				draw_coloured_tile ();
-				invalidate_tile ();
+				draw_invalidate_coloured_tile_gamearea ();
 				gpit = 0;
 #ifndef USE_HOTSPOTS_TYPE_3
 				// Was it an object, key or life boost?
@@ -44,11 +43,10 @@
 			#else
 								beep_fx (SFX_WRONG);
 			#endif
-								_x = VIEWPORT_X + (hotspot_x >> 3); 
-								_y = VIEWPORT_Y + (hotspot_y >> 3); 
+								_x = hotspot_x >> 4;
+								_y = hotspot_y >> 4;
 								_t = 17;
-								draw_coloured_tile ();
-								invalidate_tile ();
+								draw_invalidate_coloured_tile_gamearea ();
 								gpit = 1;
 							}
 		#else
@@ -143,11 +141,10 @@
 			#else
 								beep_fx (SFX_WRONG);
 			#endif
-								_x = VIEWPORT_X + (hotspot_x >> 3);
-								_y = VIEWPORT_Y + (hotspot_y >> 3);
+								_x = hotspot_x >> 4;
+								_y = hotspot_y >> 4;
 								_t = 17;
-								draw_coloured_tile ();
-								invalidate_tile ();
+								draw_invalidate_coloured_tile_gamearea ();
 								hotspots [n_pant].act = 1;
 							}
 		#else
@@ -166,7 +163,7 @@
 				#else
 							if (PLAYER_MAX_OBJECTS > p_objs) {
 				#endif
-								print_str (10, 11, 79, spacer);
+								_x = 10; _y = 11; _t = 79; gp_gen = spacer; print_str ();
 				#if defined (MODE_128K) && defined (COMPRESSED_LEVELS) && !defined (HANNA_LEVEL_MANAGER) && !defined (SIMPLE_LEVEL_MANAGER)
 								gpjt = level_data.max_objs - p_objs;
 				#else
@@ -174,12 +171,13 @@
 				#endif
 								getxmore [8] = '0' + gpjt / 10;
 								getxmore [9] = '0' + gpjt % 10;
-								print_str (10, 12, 79, getxmore);
-								print_str (10, 13, 79, spacer);
+								_x = 10; _y = 12; _t = 79; gp_gen = getxmore; print_str ();
+								_x = 10; _y = 13; _t = 79; gp_gen = spacer; print_str ();
 								sp_UpdateNow ();
 								sp_WaitForNoKey ();
 								active_sleep (100);
 								draw_scr_background ();
+								invalidate_viewport ();
 							}
 			#endif
 							break;

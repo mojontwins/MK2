@@ -368,7 +368,7 @@ unsigned char enoffsmasi;
 
 // Engine globals (for speed) & size!
 
-unsigned char gpx, gpy, gpd, gpc, gpt, gps, rdx, rdy;
+unsigned char gpx, gpy, gpd, gpc, gpt, gps, rdx, rdy, rda, rdb;
 unsigned char gpxx, gpyy, gpcx, gpcy;
 unsigned char possee, hit_v, hit_h, hit, wall_h, wall_v;
 unsigned char gpen_x, gpen_y, gpen_cx, gpen_cy, gpen_xx, gpen_yy, gpaux;
@@ -376,8 +376,20 @@ unsigned char tocado, active, killable, animate;
 unsigned char gpit, gpjt;
 unsigned char *map_pointer;
 
+#if defined USE_AUTO_TILE_SHADOWS || defined USE_AUTO_SHADOWS
+	unsigned char c1, c2, c3, c4;
+	unsigned char t1, t2, t3, t4;
+	unsigned char nocast, _ta;
+#endif
+#ifdef USE_AUTO_TILE_SHADOWS
+	unsigned char *gen_pt_alt;
+	unsigned char t_alt;
+	unsigned char xx, yy;
+#endif
+
 // Undo parameters
 unsigned char _x, _y, _t, _n;
+unsigned char *gp_gen;
 
 // Needed prototypes
 

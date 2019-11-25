@@ -313,7 +313,8 @@ void run_entering_script (void) {
 	if (level_data->activate_scripting) {
 #endif
 #ifdef LINE_OF_TEXT
-		print_str (LINE_OF_TEXT_X, LINE_OF_TEXT, LINE_OF_TEXT_ATTR, "                              ");
+		_x = LINE_OF_TEXT_X; _y = LINE_OF_TEXT; _t = LINE_OF_TEXT_ATTR; gp_gen = "                              ";
+		print_str ();
 #endif
 		// Ejecutamos los scripts de entrar en pantalla:
 		run_script (2 * MAP_W * MAP_H + 1);
@@ -362,18 +363,6 @@ void active_sleep (int espera) {
 void run_fire_script (void) {
 	run_script (2 * MAP_W * MAP_H + 2);
 	run_script (n_pant + n_pant + 1);
-	// I use this for debug when further developing the engine, it comes handy:
-/*
-	for (gpit = 0; gpit < 16; gpit ++) {
-		sp_PrintAtInv (0, gpit + gpit, 71, 16 + flags [gpit]);
-	}
-*/
-/*
-	for (gpit = 0; gpit < 16; gpit ++) {
-		//sp_PrintAtInv (23, gpit + gpit, 71, 16 + baddies [enoffs + gpit].t);
-		print_number2(gpit+gpit,23,flags [gpit]);
-	}
-*/
 }
 #endif
 
