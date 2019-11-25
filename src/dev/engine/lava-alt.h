@@ -41,7 +41,9 @@ void lava_do (void) {
 			
 			if (lava_y < 20) {
 				for (lava_it = 0; lava_it < 30; lava_it += 2) {
-					draw_coloured_tile (VIEWPORT_X + lava_it, VIEWPORT_Y + lava_y, 32);
+					_x = VIEWPORT_X + lava_it; _y = VIEWPORT_Y + lava_y; _t = 32; 
+					draw_coloured_tile ();
+					invalidate_tile ();
 				}
 			}
 			

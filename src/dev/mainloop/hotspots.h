@@ -6,7 +6,11 @@
 			// Hotspot interaction.
 			if (collide (gpx, gpy, hotspot_x, hotspot_y)) {
 				// Deactivate hotspot
-				draw_coloured_tile (VIEWPORT_X + (hotspot_x >> 3), VIEWPORT_Y + (hotspot_y >> 3), orig_tile);
+				_x = VIEWPORT_X + (hotspot_x >> 3);
+				_y = VIEWPORT_Y + (hotspot_y >> 3);
+				_t = orig_tile;
+				draw_coloured_tile ();
+				invalidate_tile ();
 				gpit = 0;
 #ifndef USE_HOTSPOTS_TYPE_3
 				// Was it an object, key or life boost?
@@ -40,7 +44,11 @@
 			#else
 								beep_fx (SFX_WRONG);
 			#endif
-								draw_coloured_tile (VIEWPORT_X + (hotspot_x >> 3), VIEWPORT_Y + (hotspot_y >> 3), 17);
+								_x = VIEWPORT_X + (hotspot_x >> 3); 
+								_y = VIEWPORT_Y + (hotspot_y >> 3); 
+								_t = 17;
+								draw_coloured_tile ();
+								invalidate_tile ();
 								gpit = 1;
 							}
 		#else
@@ -135,7 +143,11 @@
 			#else
 								beep_fx (SFX_WRONG);
 			#endif
-								draw_coloured_tile (VIEWPORT_X + (hotspot_x >> 3), VIEWPORT_Y + (hotspot_y >> 3), 17);
+								_x = VIEWPORT_X + (hotspot_x >> 3);
+								_y = VIEWPORT_Y + (hotspot_y >> 3);
+								_t = 17;
+								draw_coloured_tile ();
+								invalidate_tile ();
 								hotspots [n_pant].act = 1;
 							}
 		#else

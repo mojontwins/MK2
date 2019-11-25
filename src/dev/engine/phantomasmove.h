@@ -359,7 +359,8 @@ keepontruckin:
 		gpaux = ptx2 + (pty2 << 4) - pty2;
 		map_buff [gpaux] = 0;
 		map_attr [gpaux] = 0;
-		draw_coloured_tile_gamearea (ptx2, pty2, 0);
+		_x = ptx2; _y = pty2; _t = 0
+		draw_invalidate_coloured_tile_gamearea ();
 		flags [TILE_GET_FLAG] ++;
 #ifdef MODE_128K
 			_AY_PL_SND (SFX_TILE_GET);

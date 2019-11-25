@@ -25,8 +25,8 @@ void process_tile (unsigned char x0, unsigned char y0, signed char x1, signed ch
 			flags [MOVED_X_FLAG] = x1;
 			flags [MOVED_Y_FLAG] = y1;
 #endif
-			update_tile (x1, y1, 10, 14);
-			update_tile (x0, y0, 0, 0);
+			_x = x1; _y = y1; _n = 10; _t = 14; update_tile ();
+			_x = x0; _y = y0; _n = 0;  _t = 0;  update_tile ();
 			// Sonido
 #ifdef MODE_128K
 			_AY_PL_SND (SFX_PUSH_BOX);
@@ -50,7 +50,7 @@ void process_tile (unsigned char x0, unsigned char y0, signed char x1, signed ch
 #endif
 #ifndef DEACTIVATE_KEYS
 	if (qtile (x0, y0) == 15 && p_keys) {
-		update_tile (x0, y0, 0, 0);
+		_x = x0; _y = y0; _n = 0; _t = 0; update_tile ();
 #ifdef COMPRESSED_LEVELS
 #ifdef MODE_128K
 		for (gpit = 0; gpit < MAX_bolts; gpit ++) {

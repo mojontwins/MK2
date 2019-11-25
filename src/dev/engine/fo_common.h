@@ -125,9 +125,11 @@ void FO_paint (unsigned char idx) {
 	#endif
 
 	#ifdef SHOW_EMPTY_CONTAINER
-		draw_coloured_tile_gamearea (f_o_x [idx], f_o_y [idx], fo_au ? fo_au : ITEM_EMPTY);
+		_x = f_o_x [idx]; _y = f_o_y [idx]; _t = fo_au ? fo_au : ITEM_EMPTY;
+		draw_invalidate_coloured_tile_gamearea ();
 	#else
-		draw_coloured_tile_gamearea (f_o_x [idx], f_o_y [idx], fo_au);
+		_x = f_o_x [idx]; _y = f_o_y [idx]; _t = fo_au;
+		draw_invalidate_coloured_tile_gamearea ();
 	#endif
 	
 	// Bit 7 marks this block as "floating". That way the player movement routine can identify it
@@ -137,7 +139,8 @@ void FO_paint (unsigned char idx) {
 
 void FO_unpaint (unsigned char idx) {
 	fo_au = BUFFER_IDX (f_o_x [idx], f_o_y [idx]);
-	draw_coloured_tile_gamearea (f_o_x [idx], f_o_y [idx], map_buff [fo_au]);
+	_x = f_o_x [idx]; _y = f_o_y [idx]; _t = map_buff [fo_au];
+	draw_invalidate_coloured_tile_gamearea ();
 	map_attr [fo_au] = behs [map_buff [fo_au]];
 }
 

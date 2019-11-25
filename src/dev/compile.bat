@@ -155,7 +155,7 @@ rem ###########################################################################
 :compilestage
 
 echo ### COMPILING ###
-zcc +zx -vn %game%.c -o work\%game%.bin -lsplib2_mk2 -zorg=24200
+zcc +zx -vn -m %game%.c -o work\%game%.bin -lsplib2_mk2 -zorg=24200
 REM zcc +zx -vn %game%e.c -o work\%game%e.bin -lsplib2_mk2 -zorg=24200
 
 echo ### MAKING TAPS ###

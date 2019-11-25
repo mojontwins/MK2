@@ -22,15 +22,18 @@ void read_print_text_line (void) {
 
 void do_extern_action (unsigned char n) {
 // CUSTOM {		
-	asm_int [0] = (n - 1) << 1;
+	asm_int = (n - 1) << 1;
 	#asm
 		; First we get where to look for the packed string
 	
+		/*
 		ld a, (_asm_int)
 		ld e, a
 		ld a, (_asm_int + 1)
 		ld d, a
-		
+		*/
+		ld  de, (_asm_int)
+
 		ld hl, _textos_load
 		add hl, de
 		ld c, (hl)
@@ -161,7 +164,7 @@ void do_extern_action (unsigned char n) {
 		// REDRAW; SHOW
 		sc_x = sc_y = 0;
 		for (sc_c = 0; sc_c < 150; sc_c ++) {
-			update_tile (sc_x, sc_y, map_attr [sc_c], map_buff [sc_c]);
+			_x = sc_x; _y = sc_y; _n = map_attr [sc_c]; _t = map_buff [sc_c]; update_tile ();
 			sc_x ++; if (sc_x == 15) { sc_x = 0; sc_y ++; }
 		}
 		sp_UpdateNow ();

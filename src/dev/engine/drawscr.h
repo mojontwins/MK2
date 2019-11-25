@@ -5,13 +5,15 @@
 // Screen drawing functions
 
 #ifdef ENABLE_SHOOTERS
-void __FASTCALL__ init_cocos (void);
+void init_cocos (void);
 #endif
 
 #if defined (TWO_SETS) || defined (TWO_SETS_MAPPED)
 unsigned char t_offs;
 #endif
-void __FASTCALL__ draw_scr_background (void) {
+void draw_scr_background (void) {
+	is_rendering = 1;
+
 #ifdef COMPRESSED_LEVELS
 	seed1 [0] = n_pant; seed2 [0] = level;
 	srand ();
@@ -72,7 +74,8 @@ void __FASTCALL__ draw_scr_background (void) {
 // } END OF CUSTOM 
 
 		map_buff [gpit] = gpd;
-		draw_coloured_tile_gamearea (gpx, gpy, gpd);
+		_x = gpx; _y = gpy; _t = gpd;
+		draw_coloured_tile_gamearea ();
 #ifdef ENABLE_TILANIMS
 		// Detect tilanims
 		if (gpd >= ENABLE_TILANIMS) {
@@ -99,7 +102,9 @@ void __FASTCALL__ draw_scr_background (void) {
 		hotspot_x = gpx << 4;
 		hotspot_y = gpy << 4;
 		orig_tile = map_buff [15 * gpy + gpx];
-		draw_coloured_tile_gamearea (gpx, gpy, 16 + (hotspots [n_pant].act ? hotspots [n_pant].tipo : 0));
+		_x = gpx; _y = gpy;
+		_t = 16 + (hotspots [n_pant].act ? hotspots [n_pant].tipo : 0);
+		draw_coloured_tile_gamearea ();
 	}
 #else
 	// Modificación para que los hotspots de tipo 3 sean recargas directas:
@@ -107,7 +112,9 @@ void __FASTCALL__ draw_scr_background (void) {
         hotspot_x = gpx << 4;
         hotspot_y = gpy << 4;
         orig_tile = map_buff [15 * gpy + gpx];
-        draw_coloured_tile_gamearea (gpx, gpy, 16 + (hotspots [n_pant].tipo != 3 ? hotspots [n_pant].tipo : 0));
+        _x = gpx; _y = gpy;
+        _t = 16 + (hotspots [n_pant].tipo != 3 ? hotspots [n_pant].tipo : 0);
+        draw_coloured_tile_gamearea ();
     }
 #endif
 #endif
@@ -119,9 +126,10 @@ void __FASTCALL__ draw_scr_background (void) {
 	for (gpit = 0; gpit < MAX_bolts; gpit ++) {
 #endif
 		if (bolts [gpit].np == n_pant && !bolts [gpit].st) {
-			gpx = bolts [gpit].x;
-			gpy = bolts [gpit].y;
-			draw_coloured_tile_gamearea (gpx, gpy, 0);
+			_x = bolts [gpit].x;
+			_y = bolts [gpit].y;
+			_t = 0;
+			draw_coloured_tile_gamearea ();
 			gpd = 15 * gpy + gpx;
 			map_attr [gpd] = 0;
 			map_buff [gpd] = 0;
@@ -130,7 +138,7 @@ void __FASTCALL__ draw_scr_background (void) {
 #endif
 }
 
-void __FASTCALL__ draw_scr (void) {
+void  draw_scr (void) {
 
 #ifdef MAP_ATTRIBUTES
 	if (cur_map_attr != map_attrs [n_pant]) {
@@ -222,4 +230,7 @@ void __FASTCALL__ draw_scr (void) {
 	// Shows screen name
 	// do_extern_action (1 + n_pant);
 // }
+	invalidate_viewport ();
+
+	is_rendering = 0;
 }

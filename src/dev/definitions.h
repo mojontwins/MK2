@@ -82,15 +82,8 @@
 
 // General externs
 
-extern unsigned int asm_int [1];
-extern unsigned int asm_int_2 [1];
-
-#asm
-	._asm_int
-		defw 0
-	._asm_int_2
-		defw 0
-#endasm
+unsigned int asm_int;
+unsigned int asm_int_2;
 
 // Gigaglobals
 
@@ -284,6 +277,7 @@ unsigned char no_draw;
 unsigned char n_pant, o_pant;
 unsigned char level = 0;
 unsigned char silent_level;
+unsigned char is_rendering;
 
 unsigned char maincounter;
 
@@ -382,6 +376,9 @@ unsigned char tocado, active, killable, animate;
 unsigned char gpit, gpjt;
 unsigned char *map_pointer;
 
+// Undo parameters
+unsigned char _x, _y, _t, _n;
+
 // Needed prototypes
 
 #ifdef ACTIVATE_SCRIPTING
@@ -408,7 +405,8 @@ void run_fire_script (void);
 void cortina (void);
 unsigned char rand (void);
 void hide_sprites (unsigned char which_ones);
-void draw_coloured_tile (unsigned char x, unsigned char y, unsigned char t);
+void draw_coloured_tile (void);
+void draw_coloured_tile_gamearea (void);
 unsigned char collide (unsigned char x1, unsigned char y1, unsigned char x2, unsigned char y2);
 unsigned char collide_pixel (unsigned char x, unsigned char y, unsigned char x1, unsigned char y1);
 

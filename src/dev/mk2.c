@@ -4,11 +4,16 @@
 // mtemk2.c
 // Main file
 
+#define FIXBITS 6
 #include <spritepack.h>
 
 // We are using some stuff from splib2 directly.
 #asm
 		LIB SPMoveSprAbs
+		LIB SPPrintAtInv
+		LIB SPTileArray
+		LIB SPInvalidate
+		LIB SPCompDListAddr
 #endasm
 
 // FOR 128K GAMES:

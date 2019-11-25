@@ -36,7 +36,9 @@ void bomb_set (void) {
 	bomb_py = bomb_y << 4;
 	bomb_ctr = 32;
 	bomb_state = 1;
-	draw_coloured_tile_gamearea (bomb_x, bomb_y, PLAYER_BOMBS_TILE);
+	_x = bomb_x; _y = bomb_y; _t = PLAYER_BOMBS_TILE;
+	draw_coloured_tile_gamearea ();
+	invalidate_tile  ();
 }
 
 void bomb_racime (unsigned char cmd) {
@@ -44,14 +46,18 @@ void bomb_racime (unsigned char cmd) {
 	gpit = 3; while (gpit --) {
 		gpxx = bomb_x - 1;
 		gpjt = 3; while (gpjt --) {
+			_x = gpxx; _y = gpyy; 
 			switch (cmd) {
 				case CMD_EXPLODE:
-					draw_coloured_tile_gamearea (gpxx, gpyy, BOMBS_EXPLOSION_TILE);
+					_t = BOMBS_EXPLOSION_TILE;
+					draw_coloured_tile_gamearea (); 
 					break;
 				case CMD_FINISH:
-					draw_coloured_tile_gamearea (gpxx, gpyy, map_buff [gpxx + (gpyy << 4) - gpyy]);
+					_t = map_buff [gpxx + (gpyy << 4) - gpyy];
+					draw_coloured_tile_gamearea ();
 					break_wall (gpxx, gpyy);
 			}
+			invalidate_tile ();
 			gpxx ++;
 		}
 		gpyy ++;

@@ -12,7 +12,7 @@ void wall_broken (unsigned char x, unsigned char y) {
 	if (map_buff [gpaux] == BREAKABLE_TILE_GET &&
 		(rand () & BREAKABLE_TILE_FREQ) == 0) gpd = TILE_GET;
 #endif
-	update_tile (x, y, 0, gpd);
+	_x = x; _y = y; _n = 0; _t = gpd; update_tile ();
 
 	// Persistent maps:
 #ifdef PERSISTENT_BREAKABLE
@@ -55,7 +55,8 @@ void add_to_breakable (unsigned char x, unsigned char y) {
 	breaking_f [breaking_idx] = MAX_BREAKABLE_FRAMES;
 	breaking_x [breaking_idx] = x;
 	breaking_y [breaking_idx] = y;
-	draw_coloured_tile_gamearea (x, y, BREAKABLE_TILE);
+	_x = x; _y = y; _t = BREAKABLE_TILE;
+	draw_invalidate_coloured_tile_gamearea ();
 	breaking_idx ++; if (breaking_idx == MAX_BREAKABLE) breaking_idx = 0;
 	do_process_breakable = 1;
 }

@@ -70,9 +70,13 @@ void display_items (void) {
 	sim_p = SIM_DISPLAY_X;
 	for (sim_it = 0; sim_it < SIM_DISPLAY_MAXITEMS; sim_it ++) {
 		if (items [sim_it]) {
-			draw_coloured_tile (sim_p, SIM_DISPLAY_Y, items [sim_it]);
+			_x = sim_p; _y = SIM_DISPLAY_Y; _t = items [sim_it]; 
+			draw_coloured_tile ();
+			invalidate_tile ();
 		} else {
-			draw_coloured_tile (sim_p, SIM_DISPLAY_Y, SIM_DISPLAY_ITEM_EMPTY);
+			_x = sim_p; _y = SIM_DISPLAY_Y; _t = SIM_DISPLAY_ITEM_EMPTY; 
+			draw_coloured_tile ();
+			invalidate_tile ();
 		}
 		if (sim_it != flags [FLAG_SLOT_SELECTED]) {
 			sp_PrintAtInv (SIM_DISPLAY_Y + 2, sim_p, 0, 0);
@@ -89,9 +93,13 @@ void display_items (void) {
 	sim_p = SIM_DISPLAY_Y;
 	for (sim_it = 0; sim_it < SIM_DISPLAY_MAXITEMS; sim_it ++) {
 		if (items [sim_it]) {
-			draw_coloured_tile (SIM_DISPLAY_X, sim_p, items [sim_it]);
+			_x = SIM_DISPLAY_X; _y = sim_p; _t = items [sim_it]; 
+			draw_coloured_tile ();
+			invalidate_tile ();
 		} else {
-			draw_coloured_tile (SIM_DISPLAY_X, sim_p, SIM_DISPLAY_ITEM_EMPTY);
+			_x = SIM_DISPLAY_X; _y = sim_p; _t = SIM_DISPLAY_ITEM_EMPTY; 
+			draw_coloured_tile ();
+			invalidate_tile ();
 		}
 		if (sim_it != flags [FLAG_SLOT_SELECTED]) {
 			sp_printatinv (sim_p + 2, SIM_DISPLAY_X, 0, 0);

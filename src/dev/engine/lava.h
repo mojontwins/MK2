@@ -21,7 +21,9 @@ void lava_reenter (void) {
 		gpd = VIEWPORT_Y + (lava_y % 20);
 		for (gpjt = 18 + VIEWPORT_Y; gpjt >= gpd; gpjt --) {
 			for (gpit = VIEWPORT_X + LAVA_X1; gpit < VIEWPORT_X + LAVA_X2; gpit += 2) {
-				draw_coloured_tile (gpit, gpjt, LAVA_T);
+				_x = gpit; _y = gpjt; _t = LAVA_T; 
+				draw_coloured_tile ();
+				invalidate_tile ();
 			}	
 		}
 	}
@@ -37,7 +39,9 @@ unsigned char do_lava (void) {
 			_AY_PL_SND (9);
 			if (gpd < 19) {
 				for (gpit = VIEWPORT_X + LAVA_X1; gpit < VIEWPORT_X + LAVA_X2; gpit += 2) {
-					draw_coloured_tile (gpit, VIEWPORT_Y + gpd, LAVA_T);
+					_x = gpit; _y = VIEWPORT_Y + gpd; _t = LAVA_T; 
+					draw_coloured_tile ();
+					invalidate_tile ();
 				}
 			}
 		}

@@ -254,7 +254,7 @@
 
 void beep_fx (unsigned char n) {
 	// Cargar en A el valor de n
-	asm_int [0] = n;
+	asm_int = n;
 	#asm
 		push ix
 		push iy

@@ -223,7 +223,8 @@ pushed_any = 0;
 		gpaux = gpxx + (gpyy << 4) - gpyy;
 		map_buff [gpaux] = 0;
 		map_attr [gpaux] = 0;
-		draw_coloured_tile_gamearea (gpxx, gpyy, 0);
+		_x = gpxx; _y = gpyy; _t = 0;
+		draw_invalidate_coloured_tile_gamearea ();
 		flags [TILE_GET_FLAG] ++;
 #ifdef MODE_128K
 		_AY_PL_SND (SFX_TILE_GET);

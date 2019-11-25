@@ -35,7 +35,7 @@ void extra_prints (void) {
 		ep_pt = prints [n_pant];
 		while ((gpit = *ep_pt ++) != 0xff) {
 			gpc = *ep_pt ++;
-			update_tile (gpit >> 4, gpit & 15, behs [gpc], gpc);
+			_x = gpit >> 4; _y = gpit & 15; _n = behs [gpc]; _t = gpc; update_tile ();
 		}
 	}
 }
