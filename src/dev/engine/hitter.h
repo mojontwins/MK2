@@ -141,25 +141,25 @@ if (hitter_frame < 3)
 		ld  b, h
 		ld  c, l
 
-		ld  a, _hitter_y
+		ld  a, (_hitter_y)
 		srl a 
 		srl a 
 		srl a 
 		add VIEWPORT_Y
 		ld  h, a
 
-		ld  a, _hitter_x
+		ld  a, (_hitter_x)
 		srl a 
 		srl a 
 		srl a 
 		add VIEWPORT_X
 		ld  l, a
 
-		ld  a, _hitter_x
+		ld  a, (_hitter_x)
 		and 7
 		ld  d, a
 
-		ld  a, _hitter_y
+		ld  a, (_hitter_y)
 		and 7
 		ld  e, a
 		

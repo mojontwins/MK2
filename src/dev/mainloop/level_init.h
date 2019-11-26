@@ -43,7 +43,7 @@
 		n_pant = SCR_INI;
 	#endif
 
-	init_player ();
+	player_init ();
 	maincounter = 0;
 
 	#ifdef ACTIVATE_SCRIPTING

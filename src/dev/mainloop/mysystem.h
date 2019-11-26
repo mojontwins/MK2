@@ -32,12 +32,3 @@
 		gen_pt += 8;
 		gpit ++;
 	} while (gpit);
-
-	// Clipping rectangle
-	/*
-	spritesClipValues.row_coord = VIEWPORT_Y;
-	spritesClipValues.col_coord = VIEWPORT_X;
-	spritesClipValues.height = 20;
-	spritesClipValues.width = 30;
-	spritesClip = &spritesClipValues;
-	*/

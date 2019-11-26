@@ -116,7 +116,7 @@ void main (void) {
 			half_life = !half_life;
 
 			// Move player
-			move ();
+			player_move ();
 
 			// Move hitter
 			#if defined (PLAYER_CAN_PUNCH) || defined (PLAYER_HAZ_SWORD) || defined (PLAYER_HAZ_WHIP)
@@ -154,7 +154,7 @@ void main (void) {
 			#endif
 
 			#ifdef ENABLE_TILANIMS
-				do_tilanims ();
+				tilanims_do ();
 			#endif
 
 			// Update sprites

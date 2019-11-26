@@ -1,11 +1,13 @@
 #if defined (PLAYER_GENITAL) && defined (PLAYER_HAS_JUMP)
 	// Very perliminar 2.5D
-	pty1 = (gpy + 15) >> 4;
-	ptx1 = (gpx + 8) >> 4;
-	possee = (p_z == 0) && (attr (ptx1, pty1) != 3);
+	cy1 = (gpy + 15) >> 4;
+	cx1 = (gpx + 8) >> 4;
+	possee = (p_z == 0) && (attr () != 3);
 #else	
-	pty3 = (gpy + 16) >> 4;
-	possee = ((attr (ptx1, pty3) & 12) || (attr (ptx2, pty3) & 12)) && (gpy & 15) < 8;
+	cy1 = cy2 = (gpy + 16) >> 4;
+	cx1 = ptx1; cx2 = ptx2;
+	cm_two_points ();
+	possee = ((at1 & 12) || (at2 & 12)) && (gpy & 15) < 8;
 
 	#if defined (DIE_AND_RESPAWN) && !defined DISABLE_AUTO_SAFE_SPOT
 
@@ -17,7 +19,7 @@
 				if (possee) {
 		#ifdef ENABLE_FLOATING_OBJECTS
 					// This prevents floating objects from being considered "safe spots"
-					if (0 == ((attr (ptx1, pty3) & 128) || (attr (ptx2, pty3) & 128))) {
+					if (0 == ((at1 & 128) || (at2 & 128))) {
 		#else
 					{
 		#endif

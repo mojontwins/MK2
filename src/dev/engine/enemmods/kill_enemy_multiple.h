@@ -16,7 +16,7 @@ void enemy_kill (unsigned char amount) {
 	}
 #endif
 
-#if ENEMIES_LIFE_GAUGE > 1 || FANTIES_LIFE_GAUGE > 1
+#if ENEMS_LIFE_GAUGE > 1 || FANTIES_LIFE_GAUGE > 1
 	// Lose life
 		if (killable) baddies [enoffsmasi].life -= amount;
 	
@@ -68,7 +68,7 @@ void enemy_kill (unsigned char amount) {
 #endif
 #endif
 
-#if ENEMIES_LIFE_GAUGE > 1 || FANTIES_LIFE_GAUGE > 1
+#if ENEMS_LIFE_GAUGE > 1 || FANTIES_LIFE_GAUGE > 1
 		} else {
 			baddies [enoffsmasi].mx = -baddies [enoffsmasi].mx;
 			baddies [enoffsmasi].my = -baddies [enoffsmasi].my;

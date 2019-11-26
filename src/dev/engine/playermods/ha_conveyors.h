@@ -2,9 +2,10 @@
 
 #else
 	if (possee) {
-		gpy = p_y >> 6;
-		pt1 = attr (ptx1, pty3);
-		pt2 = attr (ptx2, pty3);
+		cy1 = cy2 = (gpy + 16) >> 4;
+		cx1 = ptx1; cx2 = ptx2;
+		cm_two_points ();
+		
 		if (pt1 & 32) {
 			p_gotten = 1; ptgmy = 0;
 			ptgmx = (pt1 & 1) ? 64 : -64;

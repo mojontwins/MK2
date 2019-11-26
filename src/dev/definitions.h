@@ -80,6 +80,9 @@
 #define SFX_ENDING_LAME_WIN 6
 #define SFX_ENDING_LAME_LOSE 10
 
+#define MAX_TILANIMS 	16
+#define TILANIMS_PRIME  3 			// Prime to MAX_TILANIMS, ideally /4-1
+
 // General externs
 
 unsigned int asm_int;
@@ -187,6 +190,10 @@ unsigned char p_facing_v, p_facing_h;
 	unsigned char p_ks_gauge;
 	unsigned char p_ks_fc;
 #endif
+
+// Collisions
+unsigned char cx1, cx2, cy1, cy2, at1, at2;
+unsigned char ptx1, pty1, ptx2, pty2;
 
 // Make some player values variable. Preliminary, just the maximum jump speed...
 
@@ -391,36 +398,10 @@ unsigned char *map_pointer;
 unsigned char _x, _y, _t, _n;
 unsigned char *gp_gen;
 
-// Needed prototypes
-
-#ifdef ACTIVATE_SCRIPTING
-	void __FASTCALL__ draw_scr_background (void);
-	void __FASTCALL__ draw_scr (void);
+#ifdef ENABLE_TILANIMS
+	unsigned char tait;
+	unsigned char max_tilanims;
+	unsigned char tacount;
+	unsigned char tilanims_xy [MAX_TILANIMS];
+	unsigned char tilanims_ft [MAX_TILANIMS];
 #endif
-void active_sleep (int espera);
-void run_fire_script (void);
-
-#ifdef MODE_128K
-	void blackout_area (void);
-	void get_resource (unsigned char res, unsigned int dest);
-
-	void __FASTCALL__ _AY_PL_SND (unsigned char fx_number);
-	void __FASTCALL__ _AY_PL_MUS (unsigned char song_number);
-#endif
-
-#ifdef ENABLE_FLOATING_OBJECTS
-	unsigned char FO_add (unsigned char x, unsigned char y, unsigned char t);
-	void FO_paint (unsigned char idx);
-	void FO_paint_all (void);
-#endif
-
-void cortina (void);
-unsigned char rand (void);
-void hide_sprites (unsigned char which_ones);
-void draw_coloured_tile (void);
-void draw_coloured_tile_gamearea (void);
-unsigned char collide (unsigned char x1, unsigned char y1, unsigned char x2, unsigned char y2);
-unsigned char collide_pixel (unsigned char x, unsigned char y, unsigned char x1, unsigned char y1);
-
-// CUSTOM FOR K2T
-void update_hud ();

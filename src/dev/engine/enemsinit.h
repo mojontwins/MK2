@@ -40,7 +40,7 @@
 #ifdef COMPRESSED_LEVELS
 			baddies [enoffsmasi].life = level_data.enems_life;
 #else
-			baddies [enoffsmasi].life = ENEMIES_LIFE_GAUGE;
+			baddies [enoffsmasi].life = ENEMS_LIFE_GAUGE;
 #endif
 #endif
 		}

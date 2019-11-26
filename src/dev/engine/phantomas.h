@@ -4,6 +4,96 @@
 // phantomasmove.h
 // Player movement for Phantomas/Abu Simbel games
 
+void player_init (void) {
+	// Inicializa player con los valores iniciales
+	// (de ahí lo de inicializar).
+
+	#ifndef COMPRESSED_LEVELS
+		p_x = PLAYER_INI_X << 4;
+		p_y = PLAYER_INI_Y << 4;;
+	#endif
+
+	p_vy = 0;
+	p_vx = 0;
+
+	#ifdef PLAYER_HAS_JUMP
+		p_jmp_ct = 1;
+		p_jmp_on = 0;
+	#endif
+
+	p_frame = 0;
+	p_subframe = 0;
+
+	#ifndef EXTENDED_LEVELS
+		p_facing = 4;
+	#endif
+	
+	p_facing_v = p_facing_h = 0xff;
+	p_state = EST_NORMAL;
+	p_state_ct = 0;
+
+	#if !defined (COMPRESSED_LEVELS) || defined (REFILL_ME)
+		p_life = PLAYER_LIFE;
+	#endif
+
+	p_objs = 0;
+	p_keys = 0;
+
+	#ifdef BODY_COUNT_ON
+		flags [BODY_COUNT_ON] = 0;
+	#else	
+		p_killed = 0;
+	#endif	
+
+	p_disparando = 0;
+
+	#ifdef MAX_AMMO
+		#ifdef INITIAL_AMMO
+			p_ammo = INITIAL_AMMO;
+		#else
+			p_ammo = MAX_AMMO;
+		#endif
+	#endif
+
+	#if defined (PLAYER_CAN_PUNCH) || defined (PLAYER_HAZ_SWORD)
+		p_hitting = 0;
+		hitter_on = 0;
+	#endif
+
+	#ifdef TIMER_ENABLE
+		ctimer.count = 0;
+		ctimer.zero = 0;
+		#ifdef TIMER_LAPSE
+			ctimer.frames = TIMER_LAPSE;
+		#endif
+		#ifdef TIMER_INITIAL
+			ctimer.t = TIMER_INITIAL;
+		#endif
+		#ifdef TIMER_START
+			ctimer.on = 1;
+		#else
+			ctimer.on = 0;
+		#endif
+	#endif
+
+	#ifdef DIE_AND_RESPAWN
+		p_killme = 0;
+		p_safe_pant = n_pant;
+		p_safe_x = p_x >> 10;
+		p_safe_y = p_y >> 10;
+	#endif
+
+	#if defined (BREAKABLE_WALLS) || defined (BREAKABLE_WALLS_SIMPLE)
+		#ifdef BREAKABLE_ANIM
+			breaking_idx = 0;	
+		#endif	
+	#endif
+
+	#ifdef ENABLE_KILL_SLOWLY
+		p_ks_gauge = p_ks_fc = 0;
+	#endif
+}
+
 unsigned char canmove = 1;
 unsigned char falling = 0;
 unsigned char check_to_v, check_to_h;
@@ -39,7 +129,7 @@ unsigned char d_pressed;
 #define BUTTON_FIRE	((gpit & sp_FIRE) == 0)
 
 #if ADVANCE_FRAME_COUNTER != 1
-void __FASTCALL__ advance_frame (void) {
+void advance_frame (void) {
 	p_subframe ++; 
 	if (p_subframe == ADVANCE_FRAME_COUNTER) {
 		p_subframe = 0;
@@ -52,7 +142,7 @@ void __FASTCALL__ advance_frame (void) {
 unsigned char p_jump_max_steps;
 #endif
 
-unsigned char move () {
+unsigned char player_move () {
 	gpit = (joyfunc) (&keys);
 	wall_h = 0;
 	check_to_v = check_to_h = 0;
@@ -64,7 +154,8 @@ unsigned char move () {
 		
 		// Make fall?
 		ptx1 = LIMIT_LEFT; ptx2 = LIMIT_RIGHT;
-		if ((attr (ptx1, pty2) & 12) || (attr (ptx2, pty2) & 12)) {
+		cx1 = ptx1; cx2 = ptx2; cy1 = cy2 = pty2; cm_two_points ();
+		if ((at1 & 12) || (at2 & 12)) {
 			p_y = ADJUST_BOTTOM;
 			falling = 0;
 #ifdef DIE_AND_RESPAWN
@@ -277,14 +368,14 @@ unsigned char move () {
 
 		// Conveyors
 #ifdef ENABLE_CONVEYORS	
-		pty3 = 1 + (p_y + 16);
-		ptx1 = p_x >> 4; ptx2 = (p_x + 15) >> 4;
-		pt1 = attr (ptx1, pty3);
-		pt2 = attr (ptx2, pty3);
-		if (pt1 & 32) {
+		cy1 = cy2 = 1 + (p_y + 16);
+		cx1 = p_x >> 4; cx2 = (p_x + 15) >> 4;
+		cm_two_points ();
+		
+		if (at1 & 32) {
 			mx += (pt1 & 1) ? 1 : -1;
 		}
-		if (pt1 & 32) {
+		if (at1 & 32) {
 			mx += (pt1 & 1) ? 1 : -1;
 		}
 #endif
@@ -293,36 +384,45 @@ unsigned char move () {
 	p_y += my;
 	ptx1 = LIMIT_LEFT; ptx2 = LIMIT_RIGHT;
 	
+	cx1 = ptx1; cx2 = ptx2;
 	if (check_to_v == WTOP) {
-		pty1 = LIMIT_TOP;
-		if ((attr (ptx1, pty1) & 8) || (attr (ptx2, pty1) & 8)) {
+		cy1 = cy2 = LIMIT_TOP;
+		cm_two_points ();
+		if ((at1 & 8) || (at2 & 8)) {
 			p_y = ADJUST_TOP;
 		}
 	} else if (check_to_v == WBOTTOM) {
-		pty2 = LIMIT_BOTTOM;
-		if ((attr (ptx1, pty2) & 12) || (attr (ptx2, pty2) & 12)) {
+		cy1 = cy2 = LIMIT_BOTTOM;
+		cm_two_points ();
+		if ((at1 & 12) || (at2 & 12)) {
 			p_y = ADJUST_BOTTOM;
 			p_jmp_on = 0;
 		}
 	}
 	
-	p_x += mx;
-	pty1 = LIMIT_TOP; pty2 = LIMIT_BOTTOM; ptm = (p_y + 8) >> 4;
-	if (check_to_h == WLEFT) {
-		ptx1 = LIMIT_LEFT;
-#if defined (PLAYER_PUSH_BOXES) || !defined (DEACTIVATE_KEYS)
-		if (attr (ptx1, ptm) == 10) process_tile (ptx1, ptm, ptx1 - 1, ptm);
-#endif
-		if ((attr (ptx1, pty1) & 8) || (attr (ptx1, pty2) & 8)) {
+	p_x += mx;	
+	if (check_to_h == WLEFT) {		
+		#if defined (PLAYER_PUSH_BOXES) || !defined (DEACTIVATE_KEYS)
+			cx1 = LIMIT_LEFT; cy1 = (p_y + 8) >> 4;
+			if (attr () == 10) process_tile (cx1, cy1, cx1 - 1, cy1);
+		#endif
+
+		cx1 = cx2 = LIMIT_LEFT; cy1 = LIMIT_TOP; cy2 = LIMIT_BOTTOM;
+		cm_two_points ();
+		if ((at1 & 8) || (at2 & 8)) {
 			p_x = ADJUST_LEFT;
 			wall_h = WLEFT;
 		}
 	} else if (check_to_h == WRIGHT) {
-		ptx2 = LIMIT_RIGHT;
-#if defined (PLAYER_PUSH_BOXES) || !defined (DEACTIVATE_KEYS)
-		if (attr (ptx2, ptm) == 10) process_tile (ptx2, ptm, ptx2 + 1, ptm);
-#endif
-		if ((attr (ptx2, pty1) & 8) || (attr (ptx2, pty2) & 8)) {
+		
+		#if defined (PLAYER_PUSH_BOXES) || !defined (DEACTIVATE_KEYS)
+			cx1 = LIMIT_LEFT; cy1 = (p_y + 8) >> 4;
+			if (attr () == 10) process_tile (cx1, cy1, cx1 + 1, cy1);
+		#endif
+
+		cx1 = cx2 = LIMIT_RIGHT; cy1 = LIMIT_TOP; cy2 = LIMIT_BOTTOM;
+		cm_two_points ();
+		if ((at1 & 8) || (at2 & 8)) {
 			p_x = ADJUST_RIGHT;
 			wall_h = WRIGHT;
 		}
@@ -343,19 +443,19 @@ keepontruckin:
 	// Done with the fire button...
 #include "engine/playermods/fire_button.h"	
 	
-	ptx2 = (p_x + 8) >> 4;
-	pty2 = (p_y + 8) >> 4;
+	cx1 = (p_x + 8) >> 4;
+	cy1 = (p_y + 8) >> 4;
 
 #ifndef DEACTIVATE_EVIL_TILE	
 	// Killing tile
-	if (attr (ptx2, pty2) & 1) {
+	if (attr () & 1) {
 		kill_player (SFX_PLAYER_DEATH_SPIKE);
 	}
 #endif
 
 	// Tile get
 #ifdef TILE_GET
-	if (qtile (ptx2, pty2) == TILE_GET) {
+	if (qtile () == TILE_GET) {
 		gpaux = ptx2 + (pty2 << 4) - pty2;
 		map_buff [gpaux] = 0;
 		map_attr [gpaux] = 0;

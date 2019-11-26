@@ -23,9 +23,9 @@
 					en_an_n_f [gpit] = drop_sprites;
 					baddies [enoffsmasi].y += baddies [enoffsmasi].my;
 					if ((baddies [enoffsmasi].y & 15) == 0) {
-						gpen_xx = baddies [enoffsmasi].x >> 4;
-						gpen_yy = baddies [enoffsmasi].y >> 4;
-						if (attr (gpen_xx, gpen_yy + 1) & 12) {
+						cx1 = baddies [enoffsmasi].x >> 4;
+						cy1 = (baddies [enoffsmasi].y + 15) >> 4;
+						if (attr () & 12) {
 							baddies [enoffsmasi].mx = 1;
 							baddies [enoffsmasi].x2 = 0;
 							_AY_PL_SND (16);

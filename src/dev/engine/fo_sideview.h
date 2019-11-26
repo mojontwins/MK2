@@ -19,8 +19,9 @@ void FO_do (void) {
 		// Make fall
 		fo_it = maincounter & (MAX_FLOATING_OBJECTS - 1);
 		
+		cx1 = f_o_x [fo_it]; cy1 = f_o_y [fo_it] + 1;
 		if (
-			f_o_t [fo_it] && attr (f_o_x [fo_it], f_o_y [fo_it] + 1) < 4
+			f_o_t [fo_it] && attr () < 4
 #ifdef ENABLE_FO_FIREZONES
 			&& f_o_t [fo_it] != FT_FIREZONES
 #endif
@@ -90,7 +91,8 @@ void FO_do (void) {
 			// Kill enemy? -> Moved to enems.h!!
 
 			// Check if we should kill the box...
-			if (f_o_xp > 239 || (attr ((f_o_xp + 8) >> 4, (f_o_yp + 8) >> 4) & 8)) {
+			cx1 = (f_o_xp + 8) >> 4; cy1 = (f_o_yp + 8) >> 4;
+			if (f_o_xp > 239 || (attr () & 8)) {
 				fo_fly = 0;
 #ifdef MODE_128K
 				_AY_PL_SND (SFX_FO_DESTROY);
@@ -118,9 +120,9 @@ void FO_do (void) {
 #ifdef ENABLE_FO_CARRIABLE_BOXES
 				if (99 != p_hasbox) {
 					// Drop box?
-					if ((attr (fo_x, fo_y - 2) & 8) == 0) {
+					cx1 = fo_x; cy1 = fo_y - 2; if ((attr () & 8) == 0) {
 						// revisa esto...
-						if (attr (fo_x, fo_y - 1) & 8) {
+						cx1 = fo_x; cy1 = fo_y - 1; if (attr () & 8) {
 							if (p_facing) fo_x --; else fo_x ++;
 						}
 						f_o_y [p_hasbox] = fo_y - 1;

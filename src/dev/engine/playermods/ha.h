@@ -14,7 +14,9 @@
 
 	// Safe
 	if (p_x < 0) p_x = 0;
-	if (p_x > 14336) p_x = 14336;
+	if (p_x > (224 << FIXBITS)) p_x = (224 << FIXBITS);
+
+	gpx = p_x >> FIXBITS;
 
 	// Handle collision
 #ifdef PLAYER_NEW_GENITAL

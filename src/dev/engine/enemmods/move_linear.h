@@ -5,8 +5,7 @@
 				baddies [enoffsmasi].y += baddies [enoffsmasi].my;
 				gpen_cx = baddies [enoffsmasi].x;
 				gpen_cy = baddies [enoffsmasi].y;
-				gpen_xx = gpen_cx >> 4;
-				gpen_yy = gpen_cy >> 4;
+				
 #ifdef WALLS_STOP_ENEMIES
 				if (gpen_cx == baddies [enoffsmasi].x1 || gpen_cx == baddies [enoffsmasi].x2 || mons_col_sc_x ())
 					baddies [enoffsmasi].mx = -baddies [enoffsmasi].mx;

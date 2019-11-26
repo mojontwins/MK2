@@ -1,8 +1,10 @@
 // MT Engine MK2 v0.88
 // Copyleft 2014 the Mojon Twins
 
-// mtemk2.c
+// mk2.c
 // Main file
+
+// Your main binary may run from 24000 to 61439 (37440 bytes max.)
 
 #define FIXBITS 6
 #include <spritepack.h>
@@ -27,7 +29,8 @@
 // Define where to store and how many sprite descriptors are needed.
 // This game = 4*10 = 40 blocks
 #define NUMBLOCKS			40
-#define AD_FREE				61440 - NUMBLOCKS * 15
+unsigned char AD_FREE [NUMBLOCKS * 15];
+
 // Note the 15: blocks are 14 bytes, but there's an overhead of 1 byte per block
 
 // For each sprite you need 1+R*C blocks, where R = rows, C = columns.
@@ -54,6 +57,7 @@
 // Cosas del juego:
 
 #include "definitions.h"
+#include "autodefs.h"
 
 #ifdef ACTIVATE_SCRIPTING
 	#include "my/msc-config.h"

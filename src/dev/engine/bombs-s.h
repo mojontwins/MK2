@@ -55,7 +55,9 @@ void bomb_racime (unsigned char cmd) {
 				case CMD_FINISH:
 					_t = map_buff [gpxx + (gpyy << 4) - gpyy];
 					draw_coloured_tile_gamearea ();
-					break_wall (gpxx, gpyy);
+					#ifdef BREAKABLE_WALLS
+						break_wall (gpxx, gpyy);
+					#endif
 			}
 			invalidate_tile ();
 			gpxx ++;
@@ -83,7 +85,9 @@ void bomb_run (void) {
 				// Restore backdrop.
 				// Trigger breakables.
 				bomb_racime (CMD_FINISH);	
-				FO_paint_all ();			
+				#ifdef ENABLE_FLOATING_OBJECTS
+					FO_paint_all ();
+				#endif
 			} else {
 				// Collisions ?
 				// W/player-> here

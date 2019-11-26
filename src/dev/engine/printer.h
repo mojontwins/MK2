@@ -22,17 +22,6 @@ unsigned char *spacer = "            ";
 	}
 #endif
 
-unsigned char attr (char x, char y) {
-	// x + 15 * y = x + (16 - 1) * y = x + 16 * y - y = x + (y << 4) - y.
-	if (x < 0 || y < 0 || x > 14 || y > 9) return 0;
-	return map_attr [x + (y << 4) - y];
-}
-
-unsigned char qtile (unsigned char x, unsigned char y) {
-	// x + 15 * y = x + (16 - 1) * y = x + 16 * y - y = x + (y << 4) - y.
-	return map_buff [x + (y << 4) - y];
-}
-
 void draw_coloured_tile (void) {
 	#if defined (USE_AUTO_TILE_SHADOWS) || defined (USE_AUTO_SHADOWS)		
 		#asm
@@ -49,7 +38,7 @@ void draw_coloured_tile (void) {
 		#endasm
 
 		// Nocast for tiles which never get shadowed
-		nocast = !((attr (xx, yy) & 8) || (_t >= 16 && _t != 19));
+		cx1 = xx; cy1 = yy; nocast = !((attr () & 8) || (_t >= 16 && _t != 19));
 
 		// Precalc
 		#asm
@@ -68,9 +57,9 @@ void draw_coloured_tile (void) {
 
 		// Fill up c1, c2, c3, c4 then use them
 		#ifdef USE_AUTO_SHADOWS			
-			rda = *gen_pt; c1 = (nocast && (attr (xx - 1, yy - 1) & 8)) ? (rda & 7) - 1 : rda; t1 = _ta; ++ gen_pt; ++ _ta;
-			rda = *gen_pt; c2 = (nocast && (attr (xx    , yy - 1) & 8)) ? (rda & 7) - 1 : rda; t2 = _ta; ++ gen_pt; ++ _ta;
-			rda = *gen_pt; c3 = (nocast && (attr (xx - 1, yy    ) & 8)) ? (rda & 7) - 1 : rda; t3 = _ta; ++ gen_pt; ++ _ta;			
+			cx1 = xx - 1; cy1 = yy - 1; rda = *gen_pt; c1 = (nocast && (attr () & 8)) ? (rda & 7) - 1 : rda; t1 = _ta; ++ gen_pt; ++ _ta;
+			cx1 = xx    ; cy1 = yy - 1; rda = *gen_pt; c2 = (nocast && (attr () & 8)) ? (rda & 7) - 1 : rda; t2 = _ta; ++ gen_pt; ++ _ta;
+			cx1 = xx - 1; cy1 = yy    ; rda = *gen_pt; c3 = (nocast && (attr () & 8)) ? (rda & 7) - 1 : rda; t3 = _ta; ++ gen_pt; ++ _ta;			
 		#endif
 		#ifdef USE_AUTO_TILE_SHADOWS
 			// Precalc
@@ -91,15 +80,15 @@ void draw_coloured_tile (void) {
 				t_alt = 128 + _ta;
 			}
 
-			if (nocast && (attr (xx - 1, yy - 1) & 8)) { c1 = *gen_pt_alt; t1 = t_alt; }
+			cx1 = xx - 1; cy1 = yy - 1; if (nocast && (attr () & 8)) { c1 = *gen_pt_alt; t1 = t_alt; }
 				else { c1 = *gen_pt; t1 = _ta; }
 			++ gen_pt; ++ gen_pt_alt; ++ _ta; ++ t_alt;
 
-			if (nocast && (attr (xx    , yy - 1) & 8)) { c1 = *gen_pt_alt; t1 = t_alt; }
+			cx1 = xx    ; cy1 = yy - 1; if (nocast && (attr () & 8)) { c1 = *gen_pt_alt; t1 = t_alt; }
 				else { c2 = *gen_pt; t2 = _ta; }
 			++ gen_pt; ++ gen_pt_alt; ++ _ta; ++ t_alt;
 
-			if (nocast && (attr (xx - 1, yy    ) & 8)) { c1 = *gen_pt_alt; t1 = t_alt; }
+			cx1 = xx - 1; cy1 = yy    ; if (nocast && (attr () & 8)) { c1 = *gen_pt_alt; t1 = t_alt; }
 				else { c3 = *gen_pt; t3 = _ta; }
 			++ gen_pt; ++ gen_pt_alt; ++ _ta; ++ t_alt;			
 		#endif
@@ -298,6 +287,9 @@ void draw_invalidate_coloured_tile_gamearea (void) {
 }
 
 void draw_coloured_tile_gamearea (void) {
+	#ifdef ENABLE_TILANIMS
+		if (IS_TILANIM (_t)) tilanims_add (); 
+	#endif	
 	_x = VIEWPORT_X + (_x << 1); _y = VIEWPORT_Y + (_y << 1); draw_coloured_tile ();
 }
 

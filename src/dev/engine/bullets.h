@@ -165,12 +165,12 @@ void mueve_bullets (void) {
 				}
 			}
 #endif
-			gpxx = (bullets_x [gpit] + 3) >> 4;
-			gpyy = (bullets_y [gpit] + 3) >> 4;
+			cx1 = (bullets_x [gpit] + 3) >> 4;
+			cy1 = (bullets_y [gpit] + 3) >> 4;
 #if (defined (BREAKABLE_WALLS) || defined (BREAKABLE_WALLS_SIMPLE)) && defined (BULLETS_BREAK_WALLS)
-			break_wall (gpxx, gpyy);
+			break_wall (cx1, cy1);
 #endif
-			if (attr (gpxx, gpyy) > 7) bullets_estado [gpit] = 0;
+			if (attr () > 7) bullets_estado [gpit] = 0;
 			
 #ifdef LIMITED_BULLETS
 			if (bullets_life [gpit] > 0) {

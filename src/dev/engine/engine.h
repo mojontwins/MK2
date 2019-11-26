@@ -111,9 +111,6 @@ void enem_move_spr_abs (void) {
 #include "engine/clevels.h"
 #endif
 
-// Init player
-#include "engine/initplayer.h"
-
 // Collision
 #include "engine/collision.h"
 
@@ -202,55 +199,55 @@ unsigned int abs (int n) {
 }
 
 void kill_player (unsigned char sound) {
-#ifdef CUSTOM_HIT
-	if (gpt == 0xff) {
-		//p_life -= CUSTOM_HIT_DEFAULT;
-		gpd = CUSTOM_HIT_DEFAULT;
-	}
-#ifdef FANTIES_HIT
-	else if (gpt == 2) {
-		//p_life -= FANTIES_HIT;
-		gpd = FANTIES_HIT;
-	}
-#endif
-#ifdef PATROLLERS_HIT
-	else if (gpt == 1) {
-		gpd = PATROLLERS_HIT;
-		//p_life -= PATROLLERS_HIT;
-	}
-#endif
-	else //p_life -= CUSTOM_HIT_DEFAULT;
-		gpd = CUSTOM_HIT_DEFAULT;
+	#ifdef CUSTOM_HIT
+		if (gpt == 0xff) {
+			//p_life -= CUSTOM_HIT_DEFAULT;
+			gpd = CUSTOM_HIT_DEFAULT;
+		}
+	#ifdef FANTIES_HIT
+		else if (gpt == 2) {
+			//p_life -= FANTIES_HIT;
+			gpd = FANTIES_HIT;
+		}
+	#endif
+	#ifdef PATROLLERS_HIT
+		else if (gpt == 1) {
+			gpd = PATROLLERS_HIT;
+			//p_life -= PATROLLERS_HIT;
+		}
+	#endif
+		else //p_life -= CUSTOM_HIT_DEFAULT;
+			gpd = CUSTOM_HIT_DEFAULT;
 
-	if (p_life > CUSTOM_HIT_DEFAULT) p_life -= CUSTOM_HIT_DEFAULT; else p_life = 0;
-#else
-	p_life --;
-#endif
+		if (p_life > CUSTOM_HIT_DEFAULT) p_life -= CUSTOM_HIT_DEFAULT; else p_life = 0;
+	#else
+		p_life --;
+	#endif
 
-#ifdef MODE_128K
-	//_AY_ST_ALL ();
-	_AY_PL_SND (sound);
-#else
-	beep_fx (sound);
-#endif
+	#ifdef MODE_128K
+		//_AY_ST_ALL ();
+		_AY_PL_SND (sound);
+	#else
+		beep_fx (sound);
+	#endif
 
-#ifdef DIE_AND_RESPAWN
-#ifdef ENABLE_HOLES
-	if (p_ct_hole >= 2)
-#endif
-	{
-		p_killme = 1;
-		half_life = 0;
-	}
-#endif
-#ifdef PLAYER_FLICKERS
-	p_state = EST_PARP;
-	p_state_ct = 50;
-#endif
-#ifdef REENTER_ON_DEATH
-	o_pant = 99;
-	hide_sprites (0);
-#endif
+	#ifdef DIE_AND_RESPAWN
+	#ifdef ENABLE_HOLES
+		if (p_ct_hole >= 2)
+	#endif
+		{
+			p_killme = 1;
+			half_life = 0;
+		}
+	#endif
+	#ifdef PLAYER_FLICKERS
+		p_state = EST_PARP;
+		p_state_ct = 50;
+	#endif
+	#ifdef REENTER_ON_DEATH
+		o_pant = 99;
+		hide_sprites (0);
+	#endif
 }
 
 // Floating objects
@@ -302,37 +299,36 @@ void kill_player (unsigned char sound) {
 
 // Main player movement
 #if defined (PHANTOMAS_ENGINE)
-#include "engine/phantomasmove.h"
+#include "engine/phantomas.h"
 #else
-#include "engine/playermove.h"
+#include "engine/player.h"
 #endif
 
 #ifdef ACTIVATE_SCRIPTING
-void run_entering_script (void) {
-#ifdef EXTENDED_LEVELS
-	if (level_data->activate_scripting) {
-#endif
-#ifdef LINE_OF_TEXT
-		_x = LINE_OF_TEXT_X; _y = LINE_OF_TEXT; _t = LINE_OF_TEXT_ATTR; gp_gen = "                              ";
-		print_str ();
-#endif
-		// Ejecutamos los scripts de entrar en pantalla:
-		run_script (2 * MAP_W * MAP_H + 1);
-		run_script (n_pant + n_pant);
-#ifdef EXTENDED_LEVELS
+	void run_entering_script (void) {
+		#ifdef EXTENDED_LEVELS
+			if (level_data->activate_scripting) 
+		#endif
+		{
+			#ifdef LINE_OF_TEXT
+				_x = LINE_OF_TEXT_X; _y = LINE_OF_TEXT; _t = LINE_OF_TEXT_ATTR; gp_gen = "                              ";
+				print_str ();
+			#endif
+			// Ejecutamos los scripts de entrar en pantalla:
+			run_script (2 * MAP_W * MAP_H + 1);
+			run_script (n_pant + n_pant);
+		}
 	}
-#endif
-}
 #endif
 
 // Extra prints (screen drawing helpers)
 #ifdef ENABLE_EXTRA_PRINTS
-#include "engine/extraprints.h"
+	#include "engine/extraprints.h"
 #endif
 
 // Level names (screen drawing helpers)
 #ifdef ENABLE_LEVEL_NAMES
-#include "engine/levelnames.h"
+	#include "engine/levelnames.h"
 #endif
 
 // Screen drawing
@@ -343,41 +339,41 @@ void run_entering_script (void) {
 
 void active_sleep (int espera) {
 	do {
-#ifndef MODE_128K
-		gpjt = 250; do { gpit = 1; } while (--gpjt);
-#else
-		#asm
-			halt
-		#endasm
-#endif
-#ifdef DIE_AND_RESPAWN
-		if (p_killme == 0 && button_pressed ()) break;
-#else
-		if (button_pressed ()) break;
-#endif
+		#ifndef MODE_128K
+			gpjt = 250; do { gpit = 1; } while (--gpjt);
+		#else
+			#asm
+				halt
+			#endasm
+		#endif
+		#ifdef DIE_AND_RESPAWN
+			if (p_killme == 0 && button_pressed ()) break;
+		#else
+			if (button_pressed ()) break;
+		#endif
 	} while (--espera);
 	sp_Border (0);
 }
 
 #ifdef ACTIVATE_SCRIPTING
-void run_fire_script (void) {
-	run_script (2 * MAP_W * MAP_H + 2);
-	run_script (n_pant + n_pant + 1);
-}
+	void run_fire_script (void) {
+		run_script (2 * MAP_W * MAP_H + 2);
+		run_script (n_pant + n_pant + 1);
+	}
 #endif
 
 #ifndef PHANTOMAS_ENGINE
-// UP DOWN LEFT RIGHT FIRE JUMP <- with fire/hitter/throwable
-// UP DOWN LEFT RIGHT JUMP xxxx <- with just jump, so configure ahead:
-unsigned int keyscancodes [] = {
-#ifdef USE_TWO_BUTTONS
-	0x02fb, 0x02fd, 0x01fd, 0x04fd, 0x047f, 0x087f,		// WSADMN
-	0x01fb, 0x01fd, 0x02df, 0x01df, 0x047f, 0x087f, 	// QAOPMN
-#else
-	0x02fb, 0x02fd, 0x01fd, 0x04fd, 0x017f, 0,			// WSADs-
-	0x01fb, 0x01fd, 0x02df, 0x01df, 0x017f, 0, 			// QAOPs-
-#endif
-};
+	// UP DOWN LEFT RIGHT FIRE JUMP <- with fire/hitter/throwable
+	// UP DOWN LEFT RIGHT JUMP xxxx <- with just jump, so configure ahead:
+	unsigned int keyscancodes [] = {
+	#ifdef USE_TWO_BUTTONS
+		0x02fb, 0x02fd, 0x01fd, 0x04fd, 0x047f, 0x087f,		// WSADMN
+		0x01fb, 0x01fd, 0x02df, 0x01df, 0x047f, 0x087f, 	// QAOPMN
+	#else
+		0x02fb, 0x02fd, 0x01fd, 0x04fd, 0x017f, 0,			// WSADs-
+		0x01fb, 0x01fd, 0x02df, 0x01df, 0x017f, 0, 			// QAOPs-
+	#endif
+	};
 #endif
 
 void select_joyfunc (void) {

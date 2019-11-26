@@ -47,7 +47,7 @@ void process_breakable () {
 #endif
 
 void break_wall (unsigned char x, unsigned char y) {
-	if (attr (x, y) & 16) {
+	cx1 = x; cy1 = y; if (attr () & 16) {
 		gpaux = (y << 4) - y + x;
 		map_attr [gpaux] &= 0xEF; // 11101111, remove "breakable" bit.
 #ifdef BREAKABLE_ANIM

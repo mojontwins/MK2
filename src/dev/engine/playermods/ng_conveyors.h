@@ -1,9 +1,9 @@
 // New Genital Conveyors
 	if (possee) {
-		if (pt1 & 32) {
+		if (at1 & 32) {
 			p_gotten = 1;
 			// Read behaviour bits
-			switch ((pt1 >> 1) & 3) {
+			switch ((at1 >> 1) & 3) {
 				case 0:	// Up
 					ptgmy = -PLAYER_VX_MAX;
 					break;

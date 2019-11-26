@@ -10,7 +10,7 @@
 							if (en_an_rawv [gpit] > 4) en_an_rawv [gpit] = 2;
 							en_an_dead_row [gpit] = 11 + (rand () & 7);
 #if defined (PLAYER_KILLS_ENEMIES) || defined (PLAYER_CAN_FIRE)
-							baddies [enoffsmasi].life = ENEMIES_LIFE_GAUGE;
+							baddies [enoffsmasi].life = ENEMS_LIFE_GAUGE;
 #endif
 						} else {
 							en_an_dead_row [gpit] --;

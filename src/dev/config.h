@@ -203,11 +203,11 @@
 
 // Shooting / killing behaviour
 // ----------------------------
-/*
-#define PLAYER_CAN_FIRE 				// If defined, shooting engine is enabled.
+
+//#define PLAYER_CAN_FIRE 				// If defined, shooting engine is enabled.
 //#define CAN_FIRE_UP					// If defined, player can fire upwards and diagonal.
-//#define PLAYER_CAN_FIRE_FLAG	1		// If defined, player can only fire when flag # is 1
-#define PLAYER_CAN_FIRE_INV		45		// If defined, player con only fire if item # is selected!
+//#define PLAYER_CAN_FIRE_FLAG	1		// If defined, player can only fire when flag # is 1 Needs flags
+//#define PLAYER_CAN_FIRE_INV		45	// If defined, player con only fire if item # is selected! Needs flags
 #define PLAYER_BULLET_SPEED 	8		// Pixels/frame.
 #define MAX_BULLETS 			1		// Max number of bullets on screen. Be careful!.
 #define PLAYER_BULLET_Y_OFFSET	6		// vertical offset from the player's top.
@@ -215,7 +215,7 @@
 #define PLAYER_BULLETS_STRENGTH 1		// Amount of life bullets take from baddies.
 //#define BULLETS_BREAK_WALLS			// If defined, bullets break breakable walls.
 #define BULLETS_DONT_COLLIDE_PLATFORMS	// Bullets and platforms don't collide
-*/
+
 /*
 #define LIMITED_BULLETS 				// If defined, bullets die after N frames
 #define LB_FRAMES				4		// If defined, defines the # of frames bullets live (fixed)
@@ -230,18 +230,20 @@
 //#define PLAYER_HAZ_WHIP				// Player haz whip. (Nicanor (side) / Key to time (top-down))
 
 //#define PLAYER_HITTER_INV		46		// If defined, player can use hitter only if item # is selected!
-//#define PLAYER_HITTER_STRENGTH	0	// Hitter strength. 0 = just makes monsters turn around.
+#define PLAYER_HITTER_STRENGTH	0		// Hitter strength. 0 = just makes monsters turn around.
 //#define HITTER_BREAKS_WALLS			// If defined, hitter breaks breakable walls.
+
 /*
 #define PLAYER_SIMPLE_BOMBS				// If defined, bombs-s.h module is enabled (Nicanor)
 #define PLAYER_BOMBS_STRENGTH	1		// Amount of life bombs take from baddies.
 #define BOMBS_EXPLOSION_TILE	42		// Tile # for explosion.
 #define BOMBS_BREAK_WALLS				// If defined, bombs break breakable walls.
 #define PLAYER_BOMBS_TILE		44		// ... You know the drill...
-#define PLAYER_BOMBS_INV		44		// If defined, player can use bombs only if item # is selected!
+//#define PLAYER_BOMBS_INV		44		// If defined, player can use bombs only if item # is selected!
 										// NOTE! As of 0.89, this is the only option implemented! 
 */
-//#define ENEMIES_LIFE_GAUGE	1		// Amount of shots/hits needed to kill enemies.
+
+#define ENEMS_LIFE_GAUGE	1			// Amount of shots/hits needed to kill enemies.
 //#define RESPAWN_ON_ENTER				// Enemies respawn when entering screen
 //#define RESPAWN_ON_REENTER			// Respawn even on a REENTER in the script (by default REENTER doesn't respawn enemies!)
 //#define FIRE_MIN_KILLABLE 	3		// If defined, only enemies >= N can be killed.
@@ -464,8 +466,8 @@
 //#define NO_MASKS						// Sprites are rendered using OR instead of masks.
 //#define PLAYER_ALTERNATE_ANIMATION	// If defined, animation is 1,2,3,1,2,3...
 //#define MASKED_BULLETS				// If needed
-//#define ENABLE_TILANIMS			32	// If defined, animated tiles are enabled.
-										// the value especifies first animated tile pair.
+#define ENABLE_TILANIMS					// If defined, animated tiles are enabled and will alternate between t and t+1
+#define IS_TILANIM(t) 		((t)==20)	// Condition to detect if a tile is animated										
 //#define PAUSE_ABORT					// Add h=PAUSE, y=ABORT
 //#define GET_X_MORE					// Shows "get X more" when getting an object
 #define NO_ALT_TILE 					// No alternate automatic tile 19 for tile 0.

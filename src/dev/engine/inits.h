@@ -31,7 +31,7 @@ void init_baddies (void) {
 	while (gpit < MAP_W * MAP_H * 3) {
 		baddies [gpit].t = baddies [gpit].t & 0x7f;
 #ifdef PLAYER_CAN_FIRE
-		baddies [gpit].life = ENEMIES_LIFE_GAUGE;
+		baddies [gpit].life = ENEMS_LIFE_GAUGE;
 #endif
 		gpit ++;
 	}

@@ -34,7 +34,9 @@
 
 	// Safe
 	if (p_y < 0) p_y = 0;
-	if (p_y > 9216) p_y = 9216;
+	if (p_y > (144<<FIXBITS)) p_y = (144<<FIXBITS);
+
+	gpy = p_y >> FIXBITS;
 
 	// Handle collision
 #ifdef PLAYER_NEW_GENITAL

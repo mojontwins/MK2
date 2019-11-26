@@ -22,3 +22,15 @@ TODO: Ver las llamadas a `draw_coloured_tile` que podrían abreviarse con `draw_
 
 31649 bytes
 
+~~
+
+He metido la estructura para la memoria dinámica como un array fijo que engorda el binario pero hace que todo esté mucho más controlado y delimitado (el binario es más gordo, pero el limite superior es ahora una constante: 61440).
+
+32458 bytes
+
+Things to test:
+
+[X] Sprites extra: disparos, cocos, hitter, explosión.
+[X] Enemigos que se mueren.
+
+32264 bytes
