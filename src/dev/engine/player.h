@@ -467,11 +467,8 @@ unsigned char player_move (void) {
 	
 	#ifdef TILE_GET
 		if (qtile () == TILE_GET) {
-			gpaux = gpxx + (gpyy << 4) - gpyy;
-			map_buff [gpaux] = 0;
-			map_attr [gpaux] = 0;
-			_x = gpxx; _y = gpyy; _t = 0;
-			draw_invalidate_coloured_tile_gamearea ();
+			_x = gpxx; _y = gpyy; _t = TILE_GET_REPLACE; _n = behs [TILE_GET_REPLACE];
+			update_tile ();
 			flags [TILE_GET_FLAG] ++;
 			#ifdef MODE_128K
 				_AY_PL_SND (SFX_TILE_GET);

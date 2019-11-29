@@ -456,11 +456,8 @@ keepontruckin:
 	// Tile get
 #ifdef TILE_GET
 	if (qtile () == TILE_GET) {
-		gpaux = ptx2 + (pty2 << 4) - pty2;
-		map_buff [gpaux] = 0;
-		map_attr [gpaux] = 0;
-		_x = ptx2; _y = pty2; _t = 0
-		draw_invalidate_coloured_tile_gamearea ();
+		_x = gpxx; _y = gpyy; _t = TILE_GET_REPLACE; _n = behs [TILE_GET_REPLACE];
+		update_tile ();
 		flags [TILE_GET_FLAG] ++;
 #ifdef MODE_128K
 			_AY_PL_SND (SFX_TILE_GET);

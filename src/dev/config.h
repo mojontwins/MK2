@@ -166,9 +166,10 @@
 
 //#define USE_TWO_BUTTONS 				// Alternate keyboard scheme for two-buttons games
 //#define USE_HOTSPOTS_TYPE_3 			// Alternate logic for recharges.
-// #define TILE_GET				13		// If defined, player can "get" tile #
-// #define TILE_GET_FLAG 			1		// And this increments flag #
-// #define TILE_GET_SCRIPT					// Run PLAYER_GETS_COIN when player gets tile TILE_GET
+//#define TILE_GET				13		// If defined, player can "get" tile #
+//#define TILE_GET_REPLACE  	0 		// Replace tile got with tile #
+//#define TILE_GET_FLAG 		1		// And this increments flag #
+//#define TILE_GET_SCRIPT				// Run PLAYER_GETS_COIN when player gets tile TILE_GET
 //#define DIE_AND_RESPAWN				// If defined, dying = respawn on latest safe.
 //#define DISABLE_AUTO_SAFE_SPOT		// If defined, you have to define the save spot via scripting
 //#define REENTER_ON_DEATH				// Reenter screen when killed, for 1-screen arcades.
