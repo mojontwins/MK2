@@ -1,10 +1,11 @@
-' ponedor v0.1
-' Copyleft 2016 by the Mojon Twins
+' ponedor v0.2
+' Copyleft 2016, 2019 by the Mojon Twins
 ' Simple GUI program to place enemies and hotspots
 ' I need to get rid of the crashy, allegro-needing old one.
 
-' fbc.exe ponedor.bas cmdlineparser.bas mtparser.bas gui.bas bmp.bas
+' v0.2 - adds support for 2-byte-per hotspot 'legacy' .ene 
 
+' fbc.exe ponedor.bas cmdlineparser.bas mtparser.bas gui.bas bmp.bas
 ' Needs libpng.a, fbpng.bi, cmdlineparser.*, mtparser.*, gui.*, bmp.* to compile.
 ' Needs zlib1.dll to run.
 
@@ -29,19 +30,22 @@
 #define SC_DOWN 	&H50
 #define SC_S        &H1F
 #define SC_G 		&H22
+#define SC_L 		&H26
 #define SC_ENTER 	&H1C
 #define SC_TAB		&H0F
 #define SC_MINUS    &H0C
 #define SC_PLUS 	&H4E
 
-#define CS_LEFT 	&H01
-#define CS_RIGHT 	&H02
-#define CS_UP 		&H04
-#define CS_DOWN 	&H08
-#define CS_SAVE 	&H10
-#define CS_GRID 	&H20
-#define CS_PLUS		&H40
-#define CS_MINUS 	&H80
+#define CS_LEFT 	&H0001
+#define CS_RIGHT 	&H0002
+#define CS_UP 		&H0004
+#define CS_DOWN 	&H0008
+#define CS_SAVE 	&H0010
+#define CS_GRID 	&H0020
+#define CS_PLUS		&H0040
+#define CS_MINUS 	&H0080
+
+#define CS_LMT 		&H0100
 
 #define STATE_INITIAL 0
 #define STATE_LAYINGOUTENEMY 1
@@ -106,6 +110,7 @@ Dim Shared As Integer stretchX2
 
 Dim Shared As Integer ratio
 Dim Shared As Integer offsetr
+Dim Shared As Integer legacyMode
 
 Dim Shared As uByte thinNumbers (135) = { _
 	0, 14, 10, 10, 10, 10, 14, 0, _
@@ -188,7 +193,7 @@ Sub writeSizedString (s As String, n As Integer, fH As Integer)
 End Sub
 
 Sub parseHeaders
-	Dim As Integer fIn
+	Dim As Integer fIn, expectedLength
 	Dim As uByte d 
 
 	If Not (myFileExists (enemsFn)) Then Puts ("ERROR: " & enemsFn & " does not exist. Can't continue."): System
@@ -205,6 +210,14 @@ Sub parseHeaders
 	Get #fIn, , d: mapDescriptor.scrW = d
 	Get #fIn, , d: mapDescriptor.scrH = d
 	Get #fIn, , d: mapDescriptor.nenems = d
+
+	' Autodetect legacy mode.
+	' .ene files should be exactly of this length
+	' 261 + mapW * mapH * nenems * 8 + 3 * mapW * mapH
+	' it the length is less, the file is in the old 2 bytes per hotspot format
+	expectedLength = 261 + 8 * mapDescriptor.mapW * mapDescriptor.mapH * mapDescriptor.nenems + _
+					3 * mapDescriptor.mapW * mapDescriptor.mapH
+	legacyMode = (Lof (fIn) < expectedLength)
 
 	Close #fIn
 End Sub
@@ -256,8 +269,12 @@ Sub saveProject
 				hotspots (xP,yP).x = 0
 				hotspots (xP,yP).y = 0 
 			End if
-			d = hotspots (xP, yP).x: Put #fOut, , d
-			d = hotspots (xP, yP).y: Put #fOut, , d
+			If legacyMode Then
+				d = hotspots (xP, yP).x * 16 + hotspots (xP, yP).y: Put #fOut, , d
+			Else
+				d = hotspots (xP, yP).x: Put #fOut, , d
+				d = hotspots (xP, yP).y: Put #fOut, , d
+			End If
 			d = hotspots (xP, yP).t: Put #fOut, , d
 	Next xP, yP
 
@@ -456,7 +473,7 @@ End Sub
 
 Sub loadProjectAssets
 	Dim As Integer fIn
-	Dim As uByte d 
+	Dim As uByte d, x, y
 	Dim As Integer xP, yP, i
 	Dim As String dummy
 
@@ -488,14 +505,25 @@ Sub loadProjectAssets
 	Next i, xP, yP
 
 	' Read hotspots
+	
 	For yP = 0 To mapDescriptor.mapH - 1
 		For xP = 0 To mapDescriptor.mapW - 1
-			Get #fIn, , d
-			If d > mapDescriptor.scrW Then d = 0
-			hotspots (xP, yP).x = d
-			Get #fIn, , d
-			If d > mapDescriptor.scrH Then d = 0
-			hotspots (xP, yP).y = d
+			If legacyMode Then
+				Get #fIn, , d
+				y = d And 15: x = d \ 16				
+				If x >= mapDescriptor.scrW Then x = 0
+				hotspots (xP, yP).x = x
+				If y >= mapDescriptor.scrH Then y = 0
+				hotspots (xP, yP).y = y
+			Else
+				Get #fIn, , d
+				If d >= mapDescriptor.scrW Then d = 0
+				hotspots (xP, yP).x = d
+				Get #fIn, , d
+				If d >= mapDescriptor.scrH Then d = 0
+				hotspots (xP, yP).y = d
+			End If
+
 			Get #fIn, , d: hotspots (xP, yP).t = d
 
 			' Safe
@@ -629,7 +657,7 @@ Sub waitNoMouse
 End Sub
 
 Sub removeMainButtons
-	Line (options.borderLeft, options.winH - 22)-(options.borderLeft + 52 + 52 + 52, options.winH), RGB (127,127,127), BF
+	Line (options.borderLeft, options.winH - 22)-(options.borderLeft + 52 + 52 + 52 + 52 + 8, options.winH), RGB (127,127,127), BF
 End Sub
 
 Function confirmarSalida As Integer
@@ -930,8 +958,8 @@ Function enemsEditDialog (xP As Integer, yP As Integer, _
 	Return res
 End Function
 
-Function readCursors As uByte
-	Dim As uByte res 
+Function readCursors As uInteger
+	Dim As uInteger res 
 	res = 0
 	If MultiKey (SC_LEFT) Then 	res = res Or CS_LEFT
 	If MultiKey (SC_RIGHT) Then res = res Or CS_RIGHT
@@ -941,6 +969,8 @@ Function readCursors As uByte
 	If MultiKey (SC_G) Then 	res = res Or CS_GRID
 	If MultiKey (SC_MINUS) Then res = res Or CS_MINUS
 	If MultiKey (SC_PLUS) Then 	res = res Or CS_PLUS
+
+	If MultiKey (SC_L) Then     res = res Or CS_LMT
 
 	Return res
 End Function
@@ -1060,6 +1090,19 @@ Sub processRightClick (xP As Integer, yP As Integer, xC As Integer, yC As Intege
 	End If
 End Sub
 
+Sub printHotspotsMode ()
+	' Prints whether we are in legacy mode or not
+	Dim As String lm
+
+	If legacyMode Then lm = "2b" Else lm = "3b"
+
+	SetText options.borderLeft+18*8, 0, _
+			24, 16, _
+			lm, _
+			0, RGB (0, 127, 127)
+	Sve
+End Sub
+
 ' Controls
 Dim As Button buttonSave
 Dim As Button buttonExit
@@ -1068,7 +1111,7 @@ Dim As Button buttonReload
 
 ' Variables
 Dim As Integer xP, yP, xPO, yPO, xC, yC, xCO, yCO, mx, my, mbtn
-Dim As uByte keys, keysTF
+Dim As uInteger keys, keysTF
 
 '' Main
 If Not parseInput () Then
@@ -1100,6 +1143,7 @@ buttonReload = Button_New (options.borderLeft + 52 + 52 + 52, options.winH - 22,
 editingState = 0
 xP = 0: yP = 0: xPO = &HFF: yPO = &HFF
 xCO = &HFF: yCO = &HFF
+printHotspotsMode
 
 '' And the loop
 Do 
@@ -1152,7 +1196,7 @@ Do
 	Else 
 		SetText options.winW - options.borderRight - 60, 0, 8*8, 16, "       ", 0, RGB (127, 127, 127)
 		xCO = &HFF: yCO = &HFF
-	End If
+	End If	
 
 	'' Adjust
 	If (keysTF And CS_PLUS) Then
@@ -1169,6 +1213,12 @@ Do
 	If (keysTF And CS_RIGHT)	And xP < mapDescriptor.mapW - 1 Then	xP = xP + 1
 	If (keysTF And CS_UP) 		And yP > 0 Then							yP = yP - 1
 	If (keysTF And CS_DOWN) 	And yP < mapDescriptor.mapH - 1 Then 	yP = yP + 1
+
+	'' Toggle legacy mode
+	If (keysTF And CS_LMT) Then
+		legacyMode = Not legacyMode
+		printHotspotsMode
+	End If
 
 	'' Grid
 	If (keysTF And CS_GRID) Or Button_Event (buttonGrid) Then

@@ -1082,13 +1082,15 @@ If maxItem > 0 then
 		print #f3, "    for (its_it = 0; its_it < MSC_MAXITEMS; its_it ++) {"
 		if itemEmpty <> -1 then
 			print #f3, "        if (items [its_it]) {"
-			print #f3, "            draw_coloured_tile (" & itemSetX & ", its_p, items [its_it]);"
+			print #f3, "            _x = " & itemSetX & "; _y = its_p; _t = items [its_it]; "
 			print #f3, "        } else {"
-			print #f3, "            draw_coloured_tile (" & itemSetX & ", its_p, " & itemEmpty & ");"
+			print #f3, "            _x = " & itemSetX & "; _y = its_p; _t = " & itemEmpty & ";"
 			print #f3, "        }"
+			print #f3, "        "
 		else
-			print #f3, "        draw_coloured_tile (" & itemSetX & ", its_p, items [its_it]);"
+			print #f3, "        _x = " & itemSetX & "; _y = its_p; _t = items [its_it];"
 		end if
+		print #f3, "        draw_coloured_tile ();"
 		print #f3, "        draw_cursor (its_it, flags [FLAG_SLOT_SELECTED], " & itemSetX & ", its_p + 2);"
 		print #f3, "        its_p += " & itemSetStep & ";"
 		print #f3, "    }"
@@ -1620,8 +1622,8 @@ if actionsUsed (&H32) Then
 	print #f3, "                    case 0x32:"
 	print #f3, "                        // FLICKER"
 	print #f3, "                        // Opcode: 32"
-	print #f3, "                        p_estado |= EST_PARP;"
-	print #f3, "                        p_ct_estado = 32;"
+	print #f3, "                        p_state |= EST_PARP;"
+	print #f3, "                        p_state_ct = 32;"
 	print #f3, "                        break;"
 End If
 
@@ -1629,8 +1631,8 @@ if actionsUsed (&H33) Then
 	print #f3, "                    case 0x33:"
 	print #f3, "                        // DIZZY"
 	print #f3, "                        // Opcode: 33"
-	print #f3, "                        p_estado |= EST_DIZZY;"
-	print #f3, "                        p_ct_estado = 32;"
+	print #f3, "                        p_state |= EST_DIZZY;"
+	print #f3, "                        p_state_ct = 32;"
 	print #f3, "                        break;"
 End If
 
@@ -1655,7 +1657,9 @@ if actionsUsed (&H50) then
 	print #f3, "                        // PRINT_TILE_AT (sc_x, sc_y) = sc_n"
 	print #f3, "                        // Opcode: 50 sc_x sc_y sc_n"
 	print #f3, "                        readxy ();"
-	print #f3, "                        draw_coloured_tile (sc_x, sc_y, read_vbyte ());"
+	print #f3, "                        _x = sc_x; _y = sc_y; _t = read_vbyte (); "
+	print #f3, "                        draw_coloured_tile ();"
+	print #f3, "                        invalidate_tile ();"
 	print #f3, "                        break;"
 end if
 

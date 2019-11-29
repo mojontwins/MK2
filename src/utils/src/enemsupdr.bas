@@ -16,6 +16,7 @@ sub usage
 	print "4    01000011 (67)"
 	print "6    00010010 (18)"
 	print "7    00011000 (24)"
+	print	
 end sub
 
 Dim As Integer fi, fo, i, map_w, map_h, nenems
