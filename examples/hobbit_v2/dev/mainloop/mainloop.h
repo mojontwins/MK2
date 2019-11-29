@@ -177,7 +177,7 @@ void main (void) {
 
 			#ifdef PLAYER_FLICKERS
 				// Flickering
-				if (p_state & EST_PARP) {
+				if (p_state) {
 					p_state_ct --;
 					if (p_state_ct == 0)
 						p_state = EST_NORMAL;

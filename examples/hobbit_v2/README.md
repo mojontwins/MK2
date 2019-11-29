@@ -210,7 +210,11 @@ As mentioned, this game used a custom linear engine which used simple pixel incr
 
 ### Double check in case you missed something
 
-MK2 has lots of directives. Always take time to double check if you didn't leave something in or out.
+MK2 has lots of directives. Always take time to double check if you didn't leave something in or out. For example, the game will play better if we define a smaller bounding box:
+
+```c
+	#define BOUNDING_BOX_8_CENTERED			// 8x8 aligned to center in 16x16
+```
 
 ## Review the script
 

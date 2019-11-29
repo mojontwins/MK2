@@ -47,6 +47,35 @@
 #define WIN_CONDITION			2		// 0 = objects collected, 1 = screen 'N', 2 = scripting, 3 = SIM
 //#define EXTRA_SPRITES 		2 		// For 128K games -> # of extra sprite faces to make room for.
 
+#ifndef PHANTOMAS_ENGINE
+	// To define different keys, the first two hex digits are the COLUMN, the next the ROW
+	/*
+		    01 02 04 08 10
+		f7   1  2  3  4  5
+		fb   Q  W  E  R  T
+		fd   A  S  D  F  G
+		fe  CS  Z  X  C  V
+
+		ef   0  9  8  7  6
+		df   P  O  I  U  Y
+		bf  EN  L  K  J  H
+		7f  SP SS  M  N  B
+
+	*/
+
+	// UP DOWN LEFT RIGHT FIRE JUMP <- with fire/hitter/throwable
+	// UP DOWN LEFT RIGHT JUMP xxxx <- with just jump, so configure ahead:
+	unsigned int keyscancodes [] = {
+	#ifdef USE_TWO_BUTTONS
+		0x02fb, 0x02fd, 0x01fd, 0x04fd, 0x047f, 0x087f,		// WSADMN
+		0x01fb, 0x01fd, 0x02df, 0x01df, 0x047f, 0x087f, 	// QAOPMN
+	#else
+		0x02fb, 0x02fd, 0x01fd, 0x04fd, 0x017f, 0,			// WSADs-
+		0x01fb, 0x01fd, 0x02df, 0x01df, 0x017f, 0, 			// QAOPs-
+	#endif
+	};
+#endif
+
 // ============================================================================
 // II. Engine type
 // ============================================================================
@@ -92,7 +121,7 @@
 
 										// Comment all of them for normal 16x16 bounding box
 //#define BOUNDING_BOX_8_BOTTOM			// 8x8 aligned to bottom center in 16x16
-//#define BOUNDING_BOX_8_CENTERED		// 8x8 aligned to center in 16x16
+#define BOUNDING_BOX_8_CENTERED			// 8x8 aligned to center in 16x16
 //#define BOUNDING_BOX_TINY_BOTTOM		// 8x2 aligned to bottom center in 16x16
 #define SMALL_COLLISION 				// 8x8 centered collision instead of 12x12
 
@@ -453,7 +482,7 @@
 //#define PLAYER_SHOW_KILL_SLOWLY_GAUGE	// Follow the leader.
 
 // Text
-#define LINE_OF_TEXT			22		// If defined, scripts can show text @ Y = #
+#define LINE_OF_TEXT			21		// If defined, scripts can show text @ Y = #
 #define LINE_OF_TEXT_X			2		// X coordinate.
 #define LINE_OF_TEXT_ATTR 		71		// Attribute
 #define LINE_OF_TEXT_SUBSTR		4 		// Line of text is max. 32-# characters
@@ -504,7 +533,7 @@
 
 // IV.2. Horizontal (side view) or general (top view) movement.
 
-#define PLAYER_VX_MAX			120 	// Max velocity (192/64 = 3 pixels/frame)
+#define PLAYER_VX_MAX			192 	// Max velocity (192/64 = 3 pixels/frame)
 #define PLAYER_AX				64		// Acceleration (24/64 = 0,375 pixels/frame^2)
 #define PLAYER_RX				48		// Friction (32/64 = 0,5 pixels/frame^2)
 

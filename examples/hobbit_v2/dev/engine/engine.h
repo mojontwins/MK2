@@ -395,20 +395,6 @@ void active_sleep (int espera) {
 	}
 #endif
 
-#ifndef PHANTOMAS_ENGINE
-	// UP DOWN LEFT RIGHT FIRE JUMP <- with fire/hitter/throwable
-	// UP DOWN LEFT RIGHT JUMP xxxx <- with just jump, so configure ahead:
-	unsigned int keyscancodes [] = {
-	#ifdef USE_TWO_BUTTONS
-		0x02fb, 0x02fd, 0x01fd, 0x04fd, 0x047f, 0x087f,		// WSADMN
-		0x01fb, 0x01fd, 0x02df, 0x01df, 0x047f, 0x087f, 	// QAOPMN
-	#else
-		0x02fb, 0x02fd, 0x01fd, 0x04fd, 0x017f, 0,			// WSADs-
-		0x01fb, 0x01fd, 0x02df, 0x01df, 0x017f, 0, 			// QAOPs-
-	#endif
-	};
-#endif
-
 void select_joyfunc (void) {
 #ifdef PHANTOMAS_ENGINE
 	joyfunc = sp_JoyKeyboard;
