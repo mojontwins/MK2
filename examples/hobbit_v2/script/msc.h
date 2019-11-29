@@ -195,13 +195,13 @@ void run_script (unsigned char whichs) {
                         // FLICKER
                         // Opcode: 32
                         p_state |= EST_PARP;
-                        p_state_ct = 32;
+                        p_state_ct = 50;
                         break;
                     case 0x33:
                         // DIZZY
                         // Opcode: 33
                         p_state |= EST_DIZZY;
-                        p_state_ct = 32;
+                        p_state_ct = 50;
                         break;
                     case 0x50:
                         // PRINT_TILE_AT (sc_x, sc_y) = sc_n

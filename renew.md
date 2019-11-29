@@ -34,3 +34,10 @@ Things to test:
 [X] Enemigos que se mueren.
 
 32264 bytes
+
+~~
+
+Built The Hobbit (Vaka's Cut) to test more stuff.
+
+1.- Collisions are not as nice (downwards or so it seems).
+2.- Dizzy state is not dizzy at all.

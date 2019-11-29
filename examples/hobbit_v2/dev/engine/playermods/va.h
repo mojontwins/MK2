@@ -21,7 +21,7 @@
 // Move
 
 #ifdef PLAYER_DIZZY
-	if (p_state & EST_DIZZY) { if (p_vx) p_vx += ((rand () & 63) - 31); }
+	if (p_state & EST_DIZZY) { if (p_vy) p_vy += ((rand () & 63) - 31); }
 #endif
 
 p_y += p_vy;

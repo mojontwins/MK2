@@ -1623,7 +1623,7 @@ if actionsUsed (&H32) Then
 	print #f3, "                        // FLICKER"
 	print #f3, "                        // Opcode: 32"
 	print #f3, "                        p_state |= EST_PARP;"
-	print #f3, "                        p_state_ct = 32;"
+	print #f3, "                        p_state_ct = 50;"
 	print #f3, "                        break;"
 End If
 
@@ -1632,7 +1632,7 @@ if actionsUsed (&H33) Then
 	print #f3, "                        // DIZZY"
 	print #f3, "                        // Opcode: 33"
 	print #f3, "                        p_state |= EST_DIZZY;"
-	print #f3, "                        p_state_ct = 32;"
+	print #f3, "                        p_state_ct = 50;"
 	print #f3, "                        break;"
 End If
 
