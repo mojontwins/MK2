@@ -58,6 +58,8 @@ License
 
 **MT Engine MK2 ZX** is copyleft The Mojon Twins and is distributed under a [LGPL license](https://github.com/mojontwins/MK2/blob/master/LICENSE).
 
+You are *required* to add the Mojon Twins logo to the cover art and/or the loading screen of your games.
+
 **But** if you make a game with the engine we understand you'll want to make it into a tape and sell it. **In such case, just tell us!** Write to mojontwins@gmail.com - just as a matter of courtesy. If you don't we'll get sad and rather disappointed.
 
 The **game assets** included in the testers and examples (graphics, music, etc.) are [donationware](https://en.wikipedia.org/wiki/Donationware). 
@@ -65,3 +67,14 @@ The **game assets** included in the testers and examples (graphics, music, etc.)
 If you like this, you can [buy me a coffee](https://ko-fi.com/I2I0JUJ9).
 
 Have fun.
+
+
+Logo for game arts
+------------------
+
+![MK2 logo](https://raw.githubusercontent.com/mojontwins/MK2/master/mk2_logo.png)
+
+Logo for ZX Spectrum
+--------------------
+
+![MK2 logo spectrum](https://raw.githubusercontent.com/mojontwins/MK2/master/mk2_logo_orig.png)
