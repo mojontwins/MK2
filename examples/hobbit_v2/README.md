@@ -5,10 +5,10 @@ This game is rather old and rather incompatible with both the released MK1 and M
 
 ## Copy the base project
 
-I just copied the base project to a new folder and changed the name of the game:
+I just copied the base project to a new folder and changed the name of the game. Edit `compile.bat`
 
-1. Rename `mk2.c` to `hobbit_v2.c`.
-2. Edit `compile.bat` and set `SET game=hobbit_v2` at the top. Also change the name of the loader in the tap file towards the end, at line 162:
+1. Set `SET game=hobbit_v2` at the top. 
+2. Also change the name of the loader in the tap file towards the end, at line 162:
 
 ```
 	..\utils\bas2tap -a10 -sHOBBIT_V2 loader\loader.bas work\loader.tap
@@ -31,17 +31,16 @@ Replacing the map is a matter of replacing `mapa.fmp` and then exporting `mapa.m
 
 ## Prepare main assets: enems
 
-This is a bit trickier. The .ene file in this game uses the old '2 bytes per hotspot' format, while MK2's converters expect three. Also, this game uses the old enemy type format.
+This is a bit trickier. The .ene file in this game uses the old '2 bytes per hotspot' format, which will work fine with the mk2 converters, but this game uses the old enemy type format.
 
 1. I've copied `mapa.map` and `work.png` to `enems`, then I've modified the original `hobbit.ene` header with an hex editor.
-2. The 2 vs 3 bytes per hotspot is promptly solved using **ponedor**. When you open de original `hobbit.ene` file you'll notice a `2b` sign on top. Just press L so it changes to `3b`, then save and exit.
-3. The enemy type format is solved by the converter `enemsupdr.exe`:
+2. The enemy type format is solved by the converter `enemsupdr.exe`:
 
 ```
 	$ enemsupdr.exe hobbit.ene enems.ene
 ```
 
-4. Opening the resulting `enems.ene` with **ponedor** shows the results.
+3. Opening the resulting `enems.ene` with **ponedor** shows the results. Also notice the `2b` which means that hotspots use 2 bytes (legacy format) which is what the converters expect.
 
 ## Prepare main assets: music
 
@@ -246,5 +245,13 @@ Number of screens:
 
 ## Build
 
-Let's build and test...
+To build (asuming the compiler, etc. are in place):
+
+```
+	$ setenv.bat
+	$ compile.bat
+```
+
+You should get `hobbit_v2.tap`.
+
 

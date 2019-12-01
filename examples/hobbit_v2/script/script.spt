@@ -6,7 +6,7 @@
 
 # flags:
 # 1 = talked to gandalf
-# 2 = show dwarves
+# 2 = can get dwarves
 # 3 = dwarves gotten
 # 5 = open door
 # 6 = tiene anillo
@@ -85,7 +85,7 @@ ENTERING SCREEN 0
 END
 
 PRESS_FIRE AT SCREEN 0	
-	IF FLAG 1 <> 1
+	IF FLAG 1 != 1
 	IF PLAYER_TOUCHES 2, 2
 	THEN
 		TEXT ___GATHER_THE_13_DWARVES!___
@@ -123,8 +123,8 @@ ENTERING SCREEN 1
 END
 
 PRESS_FIRE AT SCREEN 1
-	IF PLAYER_IN_Y 16, 33
-	IF PLAYER_IN_X 145, 192
+	IF PLAYER_IN_Y_TILES 1, 1
+	IF PLAYER_IN_X_TILES 10, 11
 	THEN
 		TEXT ____VENDO_MOTO_SEMINUEVA____
 		SHOW
@@ -138,12 +138,12 @@ ENTERING SCREEN 4
 	IF FLAG 6 = 0
 	THEN
 		SET TILE (5, 4) = 18
-		TEXT __WHOAH__
+		TEXT _WHOAH!_THAT_RING_IS_SHINY!_
 	END
 END
 
 PRESS_FIRE AT SCREEN 4
-	IF FLAG 6 <> 1
+	IF FLAG 6 != 1
 	IF PLAYER_TOUCHES 5, 4
 	THEN
 		SET TILE (5, 4) = 0

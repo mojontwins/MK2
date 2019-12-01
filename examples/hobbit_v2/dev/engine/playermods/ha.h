@@ -8,10 +8,6 @@
 
 // Move
 
-#ifdef PLAYER_DIZZY
-	if (p_state & EST_DIZZY) { if (p_vx) p_vx += ((rand () & 63) - 31);	}
-#endif
-
 p_x = p_x + p_vx;
 #if !defined (DISABLE_PLATFORMS) || defined (ENABLE_CONVEYORS)
 	if (p_gotten) p_x += ptgmx;

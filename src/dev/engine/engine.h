@@ -311,8 +311,41 @@ void kill_player (unsigned char sound) {
 		#endif
 		{
 			#ifdef LINE_OF_TEXT
-				_x = LINE_OF_TEXT_X; _y = LINE_OF_TEXT; _t = LINE_OF_TEXT_ATTR; gp_gen = "                              ";
-				print_str ();
+				#ifdef LINE_OF_TEXT_SUBSTR
+					#asm
+							ld  a, 32 - LINE_OF_TEXT_SUBSTR
+							ld  (_gpit), a
+							ld  a, LINE_OF_TEXT_X
+							ld  (__x), a
+						._line_of_text_loop
+							ld  hl, _gpit
+							dec (hl)
+
+							; enter:  A = row position (0..23)
+							;         C = col position (0..31/63)
+							;         D = pallette #
+							;         E = graphic #
+
+							ld hl, __x
+							ld  a, (hl)
+							ld  c, a
+							inc (hl)
+
+							ld  a, LINE_OF_TEXT
+
+							ld  d, LINE_OF_TEXT_ATTR
+							ld  e, 0
+
+							call SPPrintAtInv
+
+							ld  a, (_gpit)
+							or  a
+							jr  z, _line_of_text_loop
+					#endasm
+				#else
+					_x = LINE_OF_TEXT_X; _y = LINE_OF_TEXT; _t = LINE_OF_TEXT_ATTR; gp_gen = "                              ";
+					print_str ();
+				#endif
 			#endif
 			// Ejecutamos los scripts de entrar en pantalla:
 			run_script (2 * MAP_W * MAP_H + 1);
@@ -357,23 +390,9 @@ void active_sleep (int espera) {
 
 #ifdef ACTIVATE_SCRIPTING
 	void run_fire_script (void) {
-		run_script (2 * MAP_W * MAP_H + 2);
-		run_script (n_pant + n_pant + 1);
+		run_script (2 * MAP_W * MAP_H + 2);	// Press fire at any
+		run_script (n_pant + n_pant + 1);	// Press fire at n_pant
 	}
-#endif
-
-#ifndef PHANTOMAS_ENGINE
-	// UP DOWN LEFT RIGHT FIRE JUMP <- with fire/hitter/throwable
-	// UP DOWN LEFT RIGHT JUMP xxxx <- with just jump, so configure ahead:
-	unsigned int keyscancodes [] = {
-	#ifdef USE_TWO_BUTTONS
-		0x02fb, 0x02fd, 0x01fd, 0x04fd, 0x047f, 0x087f,		// WSADMN
-		0x01fb, 0x01fd, 0x02df, 0x01df, 0x047f, 0x087f, 	// QAOPMN
-	#else
-		0x02fb, 0x02fd, 0x01fd, 0x04fd, 0x017f, 0,			// WSADs-
-		0x01fb, 0x01fd, 0x02df, 0x01df, 0x017f, 0, 			// QAOPs-
-	#endif
-	};
 #endif
 
 void select_joyfunc (void) {
@@ -430,10 +449,6 @@ void select_joyfunc (void) {
 	#ifdef MODE_128K
 		_AY_PL_SND (0);
 		sp_WaitForNoKey ();
-	#else
-		#asm
-			di
-		#endasm
 	#endif
 #endif
 }

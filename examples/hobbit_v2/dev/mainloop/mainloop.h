@@ -39,12 +39,14 @@ void main (void) {
 	// Sprite creation
 	#include "mainloop/sprdefs.h"
 
-	#ifdef MODE_128K
-			#asm
-				ei
-			#endasm
+	#if defined MODE_128K || defined MIN_FAPS_PER_FRAME
+		#asm
+			ei
+		#endasm
+	#endif
 
-			// Music player initialization
+	#ifdef MODE_128K
+		// Music player initialization
 		#ifndef NO_SOUND
 			#ifdef USE_ARKOS
 				_AY_ST_ALL ();
@@ -159,6 +161,15 @@ void main (void) {
 
 			// Update sprites
 			#include "mainloop/update_sprites.h"
+
+			// Limit frame rate
+			#ifdef MIN_FAPS_PER_FRAME
+				while (isrc < MIN_FAPS_PER_FRAME) {
+					#asm
+						halt
+					#endasm
+				} isrc = 0;
+			#endif
 
 			// Update to screen
 			sp_UpdateNow();

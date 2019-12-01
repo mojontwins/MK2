@@ -65,6 +65,7 @@ void player_init (void) {
 
 	p_facing_v = p_facing_h = 0xff;
 	p_state = EST_NORMAL;
+
 	p_state_ct = 0;
 
 	#if !defined (COMPRESSED_LEVELS) || defined (REFILL_ME)

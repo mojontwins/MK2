@@ -12,7 +12,10 @@
 #endasm
 
 void ISR(void) {	
-	// Do nothing
+	// Do nothing but...
+	#ifdef MIN_FAPS_PER_FRAME
+		++ isrc;
+	#endif
 }
 
 void __FASTCALL__ nosound_play_sound (unsigned char fx_number) {

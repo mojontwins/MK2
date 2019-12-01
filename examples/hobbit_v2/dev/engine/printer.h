@@ -236,7 +236,6 @@ void draw_coloured_tile (void) {
 	#endif
 }
 
-
 void invalidate_tile (void) {
 	#asm
 			; Invalidate Rectangle
@@ -256,9 +255,9 @@ void invalidate_tile (void) {
 			ld  a, (__x)
 			ld  c, a
 			ld  a, (__y)
-			ld  iy, vpClipStruct
-			call SPInvalidate
-			
+			ld  b, a
+			ld  iy, fsClipStruct
+			call SPInvalidate			
 	#endasm
 }
 

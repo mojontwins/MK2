@@ -8,6 +8,7 @@
 
 #define FIXBITS 6
 #include <spritepack.h>
+//#define DEBUG
 
 // We are using some stuff from splib2 directly.
 #asm
@@ -20,11 +21,12 @@
 
 // FOR 128K GAMES:
 //#pragma output STACKPTR=24199
-//#define FREEPOOL 61697
 
 // FOR 48K GAMES:
 #pragma output STACKPTR=61952
-#define FREEPOOL 61440
+
+// Free space in the splib2 area we can use
+#define FREEPOOL 61697
 
 // Define where to store and how many sprite descriptors are needed.
 // This game = 4*10 = 40 blocks
@@ -109,17 +111,20 @@ unsigned char AD_FREE [NUMBLOCKS * 15];
 #endif
 
 #ifdef MODE_128K
-#ifdef NO_SOUND
-	#include "sound/nosoundplayer.h"
-#else
-#ifdef USE_ARKOS
-	#include "sound/arkosplayer.h"
-#else
-	#include "sound/wyzplayer.h"
-#endif	
-#endif
+	#ifdef NO_SOUND
+		#include "sound/nosoundplayer.h"
+	#else
+		#ifdef USE_ARKOS
+			#include "sound/arkosplayer.h"
+		#else
+			#include "sound/wyzplayer.h"
+		#endif	
+	#endif
 #else
 	#include "sound/beeper.h"
+	#ifdef MIN_FAPS_PER_FRAME
+		#include "engine/isrc.h"
+	#endif
 #endif
 
 #include "engine/printer.h"

@@ -125,6 +125,7 @@ struct sp_SS *sp_moviles [3];
 
 #asm
 	.vpClipStruct defb VIEWPORT_Y, VIEWPORT_Y + 20, VIEWPORT_X, VIEWPORT_X + 30
+	.fsClipStruct defb 0, 24, 0, 32
 #endasm	
 
 unsigned char enoffs;
@@ -405,4 +406,8 @@ unsigned char *gp_gen;
 	unsigned char tacount;
 	unsigned char tilanims_xy [MAX_TILANIMS];
 	unsigned char tilanims_ft [MAX_TILANIMS];
+#endif
+
+#ifdef MIN_FAPS_PER_FRAME
+	unsigned char isrc;
 #endif

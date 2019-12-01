@@ -24,8 +24,11 @@
 //#define COMPRESSED_LEVELS 			// use levels.h/levels128.h instead of mapa.h and enems.h (!)
 //#define EXTENDED_LEVELS				// Experimental!
 //#define LEVEL_SEQUENCE				// Experimental!
-#define SCRIPTED_GAME_ENDING			// Game ending is triggered from the script
+//#define SCRIPTED_GAME_ENDING			// Game ending is triggered from the script (multi level)
 //#define SIMPLE_LEVEL_MANAGER			// Custom level manager "simple" <- UNFINISHED. DON'T USE!
+
+#define MIN_FAPS_PER_FRAME 		2		// Experimental. Adds an ISR even in 48K mode.
+										// Limits the max. speed to 50/N fps.
 
 // In this section we define map dimmensions, initial and authomatic ending conditions, etc.
 
@@ -120,8 +123,8 @@
 // PLAYER_NEW_GENITAL works best with BOUNDING_BOX_TINY_BOTTOM
 
 										// Comment all of them for normal 16x16 bounding box
-//#define BOUNDING_BOX_8_BOTTOM			// 8x8 aligned to bottom center in 16x16
-#define BOUNDING_BOX_8_CENTERED			// 8x8 aligned to center in 16x16
+#define BOUNDING_BOX_8_BOTTOM			// 8x8 aligned to bottom center in 16x16
+//#define BOUNDING_BOX_8_CENTERED		// 8x8 aligned to center in 16x16
 //#define BOUNDING_BOX_TINY_BOTTOM		// 8x2 aligned to bottom center in 16x16
 #define SMALL_COLLISION 				// 8x8 centered collision instead of 12x12
 
@@ -139,11 +142,13 @@
 #define DEACTIVATE_REFILLS
 //#define ONLY_ONE_OBJECT				// If defined, only one object can be carried at a time.
 #define OBJECT_COUNT			3		// Defines which FLAG will be used to store the object count.
+#define OBJECTS_COLLECTABLE_IF	2 		// If defined, Objs. can be collected if FLAG # == 1
 #define DEACTIVATE_EVIL_TILE			// If defined, no killing tiles (behaviour 1) are detected.
 //#define FULL_BOUNCE 					// If defined, evil tile bounces equal MAX_VX, otherwise v/2
 //#define PLAYER_BOUNCES				// If defined, collisions make player bounce
 //#define SLOW_DRAIN					// Works with bounces. Drain is 4 times slower
 #define PLAYER_DIZZY 					// Enable dizzy state for player
+#define PLAYER_DIZZ_EXPR 				(((rand () & 15) - 7) << 3)
 #define PLAYER_FLICKERS 				// If defined, collisions make player flicker instead.
 //#define MAP_BOTTOM_KILLS				// If defined, exiting the map bottomwise kills.
 //#define WALLS_STOP_ENEMIES			// If defined, enemies react to the scenary (new: if bit 5 on!)

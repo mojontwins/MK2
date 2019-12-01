@@ -57,7 +57,6 @@
 		#endif
 		{
 			// Entering game script
-
 			run_script (MAP_W * MAP_H * 2);
 		}
 	#endif

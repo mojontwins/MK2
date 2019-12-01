@@ -39,7 +39,9 @@
              LD   (NOTE_PTR),HL                  ; Set the note offset (within this pattern) to 0
 
 .player
-             ;DI
+#ifdef MIN_FAPS_PER_FRAME
+             DI
+#endif
              PUSH IY
              ;LD   A,BORDER_COL
              xor a
@@ -199,7 +201,9 @@
              LD   HL,$2758
              EXX
              POP  IY
-             ;EI
+#ifdef MIN_FAPS_PER_FRAME
+             EI
+#endif
              RET
 
 .render

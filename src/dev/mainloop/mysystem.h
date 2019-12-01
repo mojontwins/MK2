@@ -1,4 +1,4 @@
-#ifdef MODE_128K
+#if defined MODE_128K || defined MIN_FAPS_PER_FRAME
 	// Install ISR
 
 	sp_InitIM2(0xf1f1);

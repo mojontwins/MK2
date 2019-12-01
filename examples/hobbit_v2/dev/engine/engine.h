@@ -390,8 +390,8 @@ void active_sleep (int espera) {
 
 #ifdef ACTIVATE_SCRIPTING
 	void run_fire_script (void) {
-		run_script (2 * MAP_W * MAP_H + 2);
-		run_script (n_pant + n_pant + 1);
+		run_script (2 * MAP_W * MAP_H + 2);	// Press fire at any
+		run_script (n_pant + n_pant + 1);	// Press fire at n_pant
 	}
 #endif
 
@@ -449,10 +449,6 @@ void select_joyfunc (void) {
 	#ifdef MODE_128K
 		_AY_PL_SND (0);
 		sp_WaitForNoKey ();
-	#else
-		#asm
-			di
-		#endasm
 	#endif
 #endif
 }

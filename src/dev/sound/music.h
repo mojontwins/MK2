@@ -39,7 +39,9 @@
              LD   (NOTE_PTR),HL                  ; Set the note offset (within this pattern) to 0
 
 .player
-             ;DI
+#ifdef MIN_FAPS_PER_FRAME
+             DI
+#endif
              PUSH IY
              ;LD   A,BORDER_COL
              xor a
@@ -199,7 +201,9 @@
              LD   HL,$2758
              EXX
              POP  IY
-             ;EI
+#ifdef MIN_FAPS_PER_FRAME
+             EI
+#endif
              RET
 
 .render
@@ -452,536 +456,129 @@
              DEFW DRUM_NOISE1,DRUM_NOISE2,DRUM_NOISE3
 
 
-.MUSICDATA
+.musicdata
              DEFB 0  ; Pattern loop begin * 2
-             DEFB 26  ; Song length * 2
-             DEFW 16         ; Offset to start of song (length of instrument table)
-             DEFB 0      ; Multiple
-             DEFW 20      ; Detune
-             DEFB 0      ; Phase
-             DEFB 1      ; Multiple
-             DEFW 5      ; Detune
-             DEFB 0      ; Phase
-             DEFB 0      ; Multiple
-             DEFW 10      ; Detune
-             DEFB 1      ; Phase
-             DEFB 1      ; Multiple
-             DEFW 25      ; Detune
-             DEFB 5      ; Phase
+             DEFB 8  ; Song length * 2
+             DEFW 4         ; Offset to start of song (length of instrument table)
+             DEFB 2      ; Multiple
+             DEFW 0      ; Detune
+             DEFB 4      ; Phase
 
-.PATTERNDATA         DEFW      PAT0
+.patterndata        DEFW      PAT0
+                    DEFW      PAT0
                     DEFW      PAT1
-                    DEFW      PAT2
-                    DEFW      PAT3
-                    DEFW      PAT8
-                    DEFW      PAT4
-                    DEFW      PAT5
-                    DEFW      PAT6
-                    DEFW      PAT7
-                    DEFW      PAT4
-                    DEFW      PAT5
-                    DEFW      PAT10
-                    DEFW      PAT9
+                    DEFW      PAT1
 
 ; *** Pattern data - $00 marks the end of a pattern ***
-.PAT0
-         DEFB $BD,2
-         DEFB 149
-         DEFB 149
-     DEFB 6
-         DEFB 151
-     DEFB 6
-         DEFB 152
-     DEFB 6
-         DEFB 154
-     DEFB 6
-         DEFB 156
-         DEFB 148
-     DEFB 6
-         DEFB 157
-     DEFB 6
-         DEFB 160
-     DEFB 6
-         DEFB 161
-     DEFB 6
-         DEFB $00
-.PAT1
-         DEFB $BD,2
-         DEFB 163
-         DEFB 145
-     DEFB 6
-         DEFB 164
-     DEFB 6
-         DEFB 166
-     DEFB 6
-         DEFB 168
-     DEFB 6
-         DEFB 169
-         DEFB 148
-     DEFB 6
-         DEFB 172
-     DEFB 6
-         DEFB 173
-     DEFB 6
-         DEFB 175
-     DEFB 6
-         DEFB $00
-.PAT2
-         DEFB $BD,2
-         DEFB 176
-         DEFB 149
-     DEFB 6
-         DEFB 175
-     DEFB 6
-         DEFB 173
-     DEFB 6
-         DEFB 172
-     DEFB 6
-         DEFB 173
-         DEFB 151
-     DEFB 6
-         DEFB 175
-     DEFB 6
-         DEFB 176
-     DEFB 6
-         DEFB 175
-     DEFB 6
-         DEFB $00
-.PAT3
-         DEFB $BD,2
-         DEFB 176
-         DEFB 152
-     DEFB 14
-         DEFB 175
-     DEFB 14
-         DEFB 173
-     DEFB 14
-         DEFB 172
-     DEFB 14
-         DEFB $00
-.PAT4
-         DEFB $BD,2
-         DEFB 149
-         DEFB 149
-         DEFB 118
-     DEFB 2
-         DEFB 190
-         DEFB 161
-     DEFB 3
-         DEFB 151
-         DEFB 161
-         DEFB 118
-     DEFB 2
-         DEFB 190
-         DEFB 149
-         DEFB 118
-     DEFB 2
-         DEFB 190
-         DEFB 161
-         DEFB 126
-     DEFB 2
-         DEFB 151
-         DEFB 161
-     DEFB 3
-         DEFB 152
-         DEFB 149
-         DEFB 121
-     DEFB 2
-         DEFB 190
-         DEFB 161
-         DEFB 118
-     DEFB 2
-         DEFB 190
-         DEFB 148
-         DEFB 123
-     DEFB 2
-         DEFB 190
-         DEFB 160
-         DEFB 122
-     DEFB 2
-         DEFB 154
-         DEFB 160
-         DEFB 121
-     DEFB 2
-         DEFB 190
-         DEFB 148
-         DEFB 123
-     DEFB 2
-         DEFB 190
-         DEFB 160
-         DEFB 126
-     DEFB 2
-         DEFB 190
-         DEFB 160
-         DEFB 118
-     DEFB 2
-         DEFB 156
-         DEFB 148
-         DEFB 118
-     DEFB 2
-         DEFB 190
-         DEFB 160
-         DEFB 126
-     DEFB 2
-         DEFB $00
-.PAT5
-         DEFB $BD,2
-         DEFB 190
-         DEFB 145
-         DEFB 118
-     DEFB 2
-         DEFB 190
-         DEFB 157
-     DEFB 3
-         DEFB 154
-         DEFB 157
-         DEFB 118
-     DEFB 2
-         DEFB 190
-         DEFB 145
-         DEFB 118
-     DEFB 2
-         DEFB 190
-         DEFB 157
-         DEFB 126
-     DEFB 2
-         DEFB 190
-         DEFB 157
-     DEFB 3
-         DEFB 152
-         DEFB 145
-         DEFB 121
-     DEFB 2
-         DEFB 190
-         DEFB 157
-         DEFB 118
-     DEFB 2
-         DEFB 190
-         DEFB 148
-         DEFB 123
-     DEFB 2
-         DEFB 190
-         DEFB 160
-         DEFB 122
-     DEFB 2
-         DEFB 151
-         DEFB 160
-         DEFB 121
-     DEFB 2
-         DEFB 190
-         DEFB 148
-         DEFB 123
-     DEFB 2
-         DEFB 190
-         DEFB 160
-         DEFB 126
-     DEFB 2
-         DEFB 190
-         DEFB 160
-         DEFB 118
-     DEFB 2
+.pat0
          DEFB $BD,0
+         DEFB 190
          DEFB 152
+         DEFB 118
+     DEFB 6
+         DEFB 190
+         DEFB 147
+     DEFB 7
+         DEFB 190
+         DEFB 151
+     DEFB 7
+         DEFB 190
+         DEFB 152
+     DEFB 7
+         DEFB 190
+         DEFB 152
+     DEFB 7
+         DEFB 190
+         DEFB 151
+     DEFB 7
+         DEFB 190
          DEFB 149
          DEFB 118
-     DEFB 2
-         DEFB 154
-         DEFB 163
-         DEFB 126
-     DEFB 2
+     DEFB 6
+         DEFB 190
+         DEFB 147
+     DEFB 7
+         DEFB 190
+         DEFB 152
+         DEFB 118
+     DEFB 6
+         DEFB 190
+         DEFB 147
+     DEFB 7
+         DEFB 190
+         DEFB 151
+     DEFB 7
+         DEFB 190
+         DEFB 152
+     DEFB 7
+         DEFB 190
+         DEFB 152
+     DEFB 7
+         DEFB 190
+         DEFB 151
+     DEFB 7
+         DEFB 190
+         DEFB 149
+         DEFB 118
+     DEFB 6
+         DEFB 190
+         DEFB 147
+     DEFB 7
          DEFB $00
-.PAT6
+.pat1
          DEFB $BD,0
-         DEFB 156
-         DEFB 149
+         DEFB 232
+         DEFB 152
          DEFB 118
-     DEFB 2
-         DEFB 190
-         DEFB 161
-     DEFB 3
-         DEFB 190
-         DEFB 161
-         DEFB 118
-     DEFB 2
-         DEFB 157
-         DEFB 149
-         DEFB 118
-     DEFB 2
-         DEFB 190
-         DEFB 161
-         DEFB 126
-     DEFB 2
-         DEFB 190
-         DEFB 161
-     DEFB 3
-         DEFB 156
-         DEFB 149
-         DEFB 121
-     DEFB 2
-         DEFB 190
-         DEFB 161
-         DEFB 118
-     DEFB 2
+     DEFB 6
+         DEFB 254
+         DEFB 147
+     DEFB 7
          DEFB 190
          DEFB 151
-         DEFB 123
-     DEFB 2
+     DEFB 7
          DEFB 190
-         DEFB 163
-         DEFB 122
-     DEFB 2
          DEFB 152
-         DEFB 163
-         DEFB 126
-     DEFB 2
+     DEFB 7
+         DEFB 254
+         DEFB 152
+     DEFB 7
          DEFB 190
          DEFB 151
-         DEFB 126
-     DEFB 2
-         DEFB 190
-         DEFB 163
-         DEFB 126
-     DEFB 2
-         DEFB 190
-         DEFB 163
-         DEFB 126
-     DEFB 2
-         DEFB 190
-         DEFB 151
-         DEFB 126
-     DEFB 2
-         DEFB 190
-         DEFB 163
-         DEFB 126
-     DEFB 2
-         DEFB $00
-.PAT7
-         DEFB $BD,6
-         DEFB 164
-         DEFB 152
-         DEFB 118
-     DEFB 2
-         DEFB 190
-         DEFB 164
-     DEFB 3
-         DEFB 190
-         DEFB 164
-         DEFB 118
-     DEFB 2
-         DEFB 176
-         DEFB 152
-         DEFB 118
-     DEFB 2
-         DEFB 188
-         DEFB 164
-         DEFB 126
-     DEFB 2
-         DEFB 176
-         DEFB 164
-     DEFB 3
-         DEFB 188
-         DEFB 152
-         DEFB 121
-     DEFB 2
-         DEFB 164
-         DEFB 164
-         DEFB 118
-     DEFB 2
-         DEFB 166
-         DEFB 154
-         DEFB 123
-     DEFB 2
-         DEFB 190
-         DEFB 154
-         DEFB 122
-     DEFB 2
-         DEFB 190
-         DEFB 166
-         DEFB 126
-     DEFB 2
-         DEFB 178
-         DEFB 154
-         DEFB 126
-     DEFB 2
-         DEFB 188
-         DEFB 154
-         DEFB 126
-     DEFB 2
-         DEFB 178
-         DEFB 166
-         DEFB 126
-     DEFB 2
-         DEFB 188
-         DEFB 156
-         DEFB 126
-     DEFB 2
-         DEFB 166
-         DEFB 157
-         DEFB 126
-     DEFB 2
-         DEFB $00
-.PAT8
-         DEFB $BD,0
-         DEFB 176
-         DEFB 154
-     DEFB 8
-         DEFB 175
-         DEFB 152
-     DEFB 8
+     DEFB 7
          DEFB 173
-         DEFB 151
-     DEFB 8
-         DEFB 172
          DEFB 149
-     DEFB 8
-         DEFB 169
-         DEFB 148
-     DEFB 8
-         DEFB 168
-         DEFB 145
-     DEFB 8
-         DEFB 166
-         DEFB 144
-     DEFB 8
-         DEFB 164
-         DEFB 142
-     DEFB 8
-         DEFB 163
-         DEFB 140
-     DEFB 32
-         DEFB 161
-         DEFB 149
-     DEFB 32
-         DEFB $00
-.PAT9
-         DEFB $BD,0
+         DEFB 118
+     DEFB 6
          DEFB 171
+         DEFB 147
+     DEFB 7
+         DEFB 164
          DEFB 152
          DEFB 118
-     DEFB 2
+     DEFB 6
          DEFB 190
-         DEFB 164
-     DEFB 3
-         DEFB 169
-         DEFB 164
-         DEFB 118
-     DEFB 2
+         DEFB 147
+     DEFB 7
+         DEFB 190
+         DEFB 151
+     DEFB 7
          DEFB 190
          DEFB 152
-         DEFB 118
-     DEFB 2
-         DEFB 168
-         DEFB 164
-         DEFB 126
-     DEFB 2
+     DEFB 7
          DEFB 190
-         DEFB 164
-     DEFB 3
-         DEFB 166
          DEFB 152
-         DEFB 121
-     DEFB 2
+     DEFB 7
          DEFB 190
-         DEFB 164
-         DEFB 118
-     DEFB 2
-         DEFB 190
-         DEFB 154
-         DEFB 123
-     DEFB 2
-         DEFB 190
-         DEFB 154
-         DEFB 122
-     DEFB 2
-         DEFB 168
-         DEFB 166
-         DEFB 126
-     DEFB 2
-         DEFB 190
-         DEFB 154
-         DEFB 126
-     DEFB 2
-         DEFB 169
-         DEFB 154
-         DEFB 126
-     DEFB 2
-         DEFB 190
-         DEFB 166
-         DEFB 126
-     DEFB 2
-         DEFB 190
-         DEFB 156
-         DEFB 126
-     DEFB 2
-         DEFB 190
-         DEFB 157
-         DEFB 126
-     DEFB 2
-         DEFB $00
-.PAT10
-         DEFB $BD,0
-         DEFB 156
-         DEFB 149
-         DEFB 118
-     DEFB 2
-         DEFB 190
-         DEFB 161
-     DEFB 3
-         DEFB 190
-         DEFB 161
-         DEFB 118
-     DEFB 2
-         DEFB 157
-         DEFB 149
-         DEFB 118
-     DEFB 2
-         DEFB 190
-         DEFB 161
-         DEFB 126
-     DEFB 2
-         DEFB 190
-         DEFB 161
-     DEFB 3
+         DEFB 151
+     DEFB 7
          DEFB 159
          DEFB 149
-         DEFB 121
-     DEFB 2
-         DEFB 190
-         DEFB 161
          DEFB 118
-     DEFB 2
+     DEFB 6
          DEFB 190
-         DEFB 151
-         DEFB 123
-     DEFB 2
-         DEFB 190
-         DEFB 163
-         DEFB 122
-     DEFB 2
-         DEFB 190
-         DEFB 163
-         DEFB 126
-     DEFB 2
-         DEFB 190
-         DEFB 151
-         DEFB 126
-     DEFB 2
-         DEFB 190
-         DEFB 163
-         DEFB 126
-     DEFB 2
-         DEFB 190
-         DEFB 163
-         DEFB 126
-     DEFB 2
-         DEFB 171
-         DEFB 151
-         DEFB 126
-     DEFB 2
-         DEFB 169
-         DEFB 163
-         DEFB 126
-     DEFB 2
+         DEFB 147
+     DEFB 7
          DEFB $00
          
 #endasm

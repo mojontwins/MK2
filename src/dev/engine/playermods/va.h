@@ -3,23 +3,24 @@
 	#include "engine/playermods/va_genital.h"
 #endif
 
-	// Gravity
+// Gravity
 #if defined (PLAYER_HAS_JUMP) || defined (PLAYER_HAS_JETPAC) || defined (PLAYER_BOOTEE) || defined (PLAYER_CUMULATIVE_JUMP)
 	#include "engine/playermods/va_gravity.h"
 #endif
 
-	// Jetpac boost
+// Jetpac boost
 #ifdef PLAYER_HAS_JETPAC
 	#include "engine/playermods/va_jetpac.h"
 #endif
 
-	// Swimming vertical thrust
+// Swimming vertical thrust
 #ifdef PLAYER_HAS_SWIM
 	#include "engine/playermods/va_swimming.h"
 #endif
-	
-	// Move
-	p_y += p_vy;
+
+// Move
+
+p_y += p_vy;
 #if defined (PLAYER_GENITAL) && (!defined (DISABLE_PLATFORMS) || defined (ENABLE_CONVEYORS))
 	if (p_gotten) p_y += ptgmy;
 #endif
@@ -32,30 +33,30 @@
 	}
 #endif
 
-	// Safe
-	if (p_y < 0) p_y = 0;
-	if (p_y > (144<<FIXBITS)) p_y = (144<<FIXBITS);
+// Safe
+if (p_y < 0) p_y = 0;
+if (p_y > (144<<FIXBITS)) p_y = (144<<FIXBITS);
 
-	gpy = p_y >> FIXBITS;
+gpy = p_y >> FIXBITS;
 
-	// Handle collision
+// Handle collision
 #ifdef PLAYER_NEW_GENITAL
 	// "New genital" top-down games need slightly different vertical collision
 	#include "engine/playermods/va_collision_25d.h"
 #else
 	#include "engine/playermods/va_collision.h"
 #endif
-	
-	// Possee - player is on solid floor.
+
+// Possee - player is on solid floor.
 #if !defined(PLAYER_GENITAL) || defined (PLAYER_HAS_JUMP)
 	#include "engine/playermods/possee.h"
 #endif	
 
-	// Jumping Jack!
+// Jumping Jack!
 #ifdef PLAYER_HAS_JUMP
-#ifdef PLAYER_GENITAL
-	#include "engine/playermods/jump_genital.h"
-#else
-	#include "engine/playermods/jump_sideview.h"
-#endif
+	#ifdef PLAYER_GENITAL
+		#include "engine/playermods/jump_genital.h"
+	#else
+		#include "engine/playermods/jump_sideview.h"
+	#endif
 #endif

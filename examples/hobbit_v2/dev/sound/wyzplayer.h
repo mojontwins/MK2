@@ -33,6 +33,9 @@ void ISR(void) {
 		ld b, 0
 		call SetRAMBank			
 	#endasm
+	#ifdef MIN_FAPS_PER_FRAME
+		++ isrc;
+	#endif
 }
 
 void wyz_init (void) {

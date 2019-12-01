@@ -20,10 +20,6 @@
 
 // Move
 
-#ifdef PLAYER_DIZZY
-	if (p_state & EST_DIZZY) { if (p_vy) p_vy += ((rand () & 63) - 31); }
-#endif
-
 p_y += p_vy;
 #if defined (PLAYER_GENITAL) && (!defined (DISABLE_PLATFORMS) || defined (ENABLE_CONVEYORS))
 	if (p_gotten) p_y += ptgmy;

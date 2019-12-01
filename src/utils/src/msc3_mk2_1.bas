@@ -55,7 +55,9 @@ Sub stringToArray (in As String)
 	
 	For m = 1 To Len (in)
 		character = Ucase (Mid (in, m, 1))
-		If Instr (" " & Chr (9) & ",<=>;()", character) Then
+		If Instr (" " & Chr (9) & ",<;()", character) _
+			Or (character = ">" and curWord <> "<") _
+			Or (character = "=" and (curWord <> "<" and curWord <> ">" and curWord <> "!")) Then
 			If curWord <> "" Then
 				' Macro insertion
 				If Left (curWord, 1) = "%" Then

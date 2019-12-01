@@ -1,9 +1,14 @@
-#if defined (PLAYER_GENITAL) && defined (PLAYER_HAS_JUMP)
-	if ( ! ((gpit & sp_UP) == 0 || (gpit & sp_DOWN) == 0) && p_z == 0) 
-#else
-	if ( ! ((gpit & sp_UP) == 0 || (gpit & sp_DOWN) == 0)) 
-#endif
-	{
+	rda = ((gpit & sp_UP) == 0 || (gpit & sp_DOWN) == 0);
+
+	if ( 
+		!rda  
+		#if defined (PLAYER_GENITAL) && defined (PLAYER_HAS_JUMP)
+			&& p_z == 0
+		#endif
+		#if defined PLAYER_DIZZY
+			&& (((p_state & EST_DIZZY) == 0) || p_vx == 0)
+		#endif
+	) {
 		p_facing_v = 0xff;
 		if (p_vy > 0) {
 			p_vy -= RXVAL; if (p_vy < 0) p_vy = 0;
@@ -11,6 +16,12 @@
 			p_vy += RXVAL; if (p_vy > 0) p_vy = 0;
 		}
 	}
+	// Dizzy
+	#ifdef PLAYER_DIZZY
+		if (rda && (p_state & EST_DIZZY)) { 
+			p_vx += PLAYER_DIZZ_EXPR;
+		}
+	#endif 
 
 	if ((gpit & sp_UP) == 0) {
 		p_facing_v = FACING_UP;

@@ -5,11 +5,6 @@
 
 // Hotspot interaction.
 if (collide (gpx, gpy, hotspot_x, hotspot_y)) {
-	// Deactivate hotspot				
-	_x = hotspot_x >> 4;
-	_y = hotspot_y >> 4;
-	_t = orig_tile;
-	draw_invalidate_coloured_tile_gamearea ();
 	gpit = 0;
 	#ifndef USE_HOTSPOTS_TYPE_3
 		// Was it an object, key or life boost?
@@ -29,7 +24,10 @@ if (collide (gpx, gpy, hotspot_x, hotspot_y)) {
 				#ifndef DEACTIVATE_OBJECTS
 					case 1:
 						#ifdef OBJECTS_COLLECTABLE_IF
-							if (flags [OBJECTS_COLLECTABLE_IF] == 0) break;
+							if (flags [OBJECTS_COLLECTABLE_IF] == 0) {
+								gpit = 1;
+								break;
+							}
 						#endif
 							
 						#ifdef ONLY_ONE_OBJECT
@@ -41,15 +39,6 @@ if (collide (gpx, gpy, hotspot_x, hotspot_y)) {
 									beep_fx (SFX_OBJECT);
 								#endif
 							} else {
-								#ifdef MODE_128K
-									_AY_PL_SND (SFX_WRONG);
-								#else
-									beep_fx (SFX_WRONG);
-								#endif
-								_x = hotspot_x >> 4;
-								_y = hotspot_y >> 4;
-								_t = 17;
-								draw_invalidate_coloured_tile_gamearea ();
 								gpit = 1;
 							}
 						#else
@@ -121,19 +110,16 @@ if (collide (gpx, gpy, hotspot_x, hotspot_y)) {
 						break;
 				#endif
 			}
-			hotspots [n_pant].act = gpit;
 		}
-		hotspot_y = 240;
 	#else
 		// Was it an object, key or life boost?
 		if (hotspots [n_pant].act) {
-			hotspots [n_pant].act = 0;
 			switch (hotspots [n_pant].tipo) {
 				#ifndef DEACTIVATE_OBJECTS
 					case 1:
 						#ifdef OBJECTS_COLLECTABLE_IF
 							if (flags [OBJECTS_COLLECTABLE_IF] == 0) {
-								hotspots [n_pant].act = 1;
+								gpit = 1;
 								break;
 							}
 						#endif
@@ -153,11 +139,7 @@ if (collide (gpx, gpy, hotspot_x, hotspot_y)) {
 								#else
 									beep_fx (SFX_WRONG);
 								#endif
-								_x = hotspot_x >> 4;
-								_y = hotspot_y >> 4;
-								_t = 17;
-								draw_invalidate_coloured_tile_gamearea ();
-								hotspots [n_pant].act = 1;
+								gpit = 1;
 							}
 						#else
 							p_objs ++;
@@ -269,8 +251,22 @@ if (collide (gpx, gpy, hotspot_x, hotspot_y)) {
 						break;
 				#endif
 			}
-	
-			hotspot_y = 240;
 		}
 	#endif
+
+	if (gpit == 0) {
+		// Deactivate hotspot				
+		_x = hotspot_x >> 4;
+		_y = hotspot_y >> 4;
+		_t = orig_tile;
+		draw_invalidate_coloured_tile_gamearea ();
+		hotspots [n_pant].act = 0;
+	} else {
+		#ifdef MODE_128K
+			_AY_PL_SND (SFX_WRONG);
+		#else
+			beep_fx (SFX_WRONG);
+		#endif
+	}
+	hotspot_y = 240;
 }

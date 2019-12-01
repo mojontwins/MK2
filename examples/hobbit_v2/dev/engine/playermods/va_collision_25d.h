@@ -73,7 +73,7 @@
 			#if defined (BOUNDING_BOX_8_BOTTOM) || defined (BOUNDING_BOX_TINY_BOTTOM)
 				gpy = (pty2 - 1) << 4;
 			#elif defined (BOUNDING_BOX_8_CENTERED)				
-				gpy = ((pty2 - 1) << 4) + 8;
+				gpy = ((pty2 - 1) << 4) + 4;
 			#else
 				gpy = (pty2 - 1) << 4;				
 			#endif
