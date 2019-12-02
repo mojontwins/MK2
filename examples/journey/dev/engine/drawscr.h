@@ -5,7 +5,57 @@
 // Screen drawing functions
 
 void advance_worm (void) {
-	_x = rdx; _y = rdy; _n = behs [_rdt]; _t = gpd; update_tile ();
+/*	
+	map_attr [gpit] = behs [gpt]; map_buff [gpit] = _t = gpd; 
+	draw_coloured_tile ();
+*/
+
+	#asm
+			ld  bc, (_gpit)
+			ld  b, 0
+			
+			ld  de, (_gpt)
+			ld  d, 0
+			ld  hl, _behs
+			add hl, de
+			ld  a, (hl)
+
+			ld  hl, _map_attr
+			add hl, bc
+			ld  (hl), a
+
+			ld  a, (_gpd)
+			ld  hl, _map_buff
+			add hl, bc
+			ld  (hl), a
+
+			ld  (__t), a
+
+			call _draw_coloured_tile
+	#endasm			
+
+/*
+	_x += 2;
+	if (_x == 30 + VIEWPORT_X) { _x = VIEWPORT_X; _y += 2; }
+*/
+
+
+	#asm
+			ld  a, (__x)
+			add 2
+			cp  30 + VIEWPORT_X
+			jr  nz, _advance_worm_no_inc_y
+
+			ld  a, (__y)
+			add 2
+			ld  (__y), a
+
+			ld  a, VIEWPORT_X
+
+		._advance_worm_no_inc_y
+			ld  (__x), a
+	#endasm
+
 }
 
 #ifdef ENABLE_SHOOTERS
@@ -24,14 +74,16 @@ void draw_scr_background (void) {
 		srand ();
 	#endif
 
-	#if defined UNPACKED || defined PACKED
+	#if defined PACKED_MAP || defined UNPACKED_MAP
 		#ifdef UNPACKED_MAP
 			map_pointer = map + (n_pant * 150);
 		#else
 			map_pointer = map + (n_pant * 75);
 		#endif
 
-		gpit = gpx = gpy = 0;
+		gpit = 0;
+		_x = VIEWPORT_X; _y = VIEWPORT_Y;
+
 		#ifdef TWO_SETS
 			t_offs = TWO_SETS_SEL;
 		#endif
@@ -45,9 +97,7 @@ void draw_scr_background (void) {
 
 			#ifdef UNPACKED_MAP
 				// Mapa tipo UNPACKED
-				gpd = *map_pointer ++;
-				map_attr [gpit] = behs [gpd];
-				map_buff [gpit] = gpd;
+				gpt = gpd = *map_pointer ++;				
 			#else
 				// Mapa tipo PACKED
 				if (gpit & 1) {
@@ -61,7 +111,8 @@ void draw_scr_background (void) {
 					gpd += t_offs;
 				#endif
 				
-				_rdt = gpd;
+				gpt = gpd;
+
 				#ifndef NO_ALT_TILE
 					if (gpd == 0 && gpjt == 1) gpd = 19;
 				#endif
@@ -71,9 +122,7 @@ void draw_scr_background (void) {
 				brk_buff [gpit] = 0;
 			#endif
 			
-			advance_worm ();
-
-			++ gpx; if (gpx == 15) { gpx = 0; ++ gpy; }
+			advance_worm ();			
 		} while (gpit ++ < 149);
 	#else
 

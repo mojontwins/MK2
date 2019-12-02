@@ -492,11 +492,16 @@
 //#define LINE_OF_TEXT_ATTR 	71		// Attribute
 //#define LINE_OF_TEXT_SUBSTR		4 		// Line of text is max. 32-# characters
 
+// Map data format. Choose one:
+
+#define PACKED_MAP 						// Packed maps, 2 bytes per tile.
+//#define UNPACKED_MAP					// Full, uncompressed maps. Shadows settings are ignored.
+//#define RLE_MAP 				44		// Use RLE instead of packed/unpacked. 44, 53 or 62.
+
 // Graphic FX, uncomment which applies...
 
 //#define USE_AUTO_SHADOWS				// Automatic shadows made of darker attributes
 //#define USE_AUTO_TILE_SHADOWS 		// Automatic shadows using specially defined tiles 32-47.
-//#define UNPACKED_MAP					// Full, uncompressed maps. Shadows settings are ignored.
 //#define ENABLE_SUBTILESETS			// Adds subtileset loader.
 //#define MAP_ATTRIBUTES				// Enables multi-purpose map attributes array (only in multi-level games as of 0.90)
 //#define NO_MASKS						// Sprites are rendered using OR instead of masks.

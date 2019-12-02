@@ -263,11 +263,10 @@ unsigned char en_an_state [3];
 
 // Current screen buffers
 unsigned char map_attr [150];
-//unsigned char map_buff [150];
 // There's XXX bytes free at FREEPOOL according to splib2's doc.
 // (240 if in 128K mode, 512 - stack size (do not risk!) in 48K mode)
 // Why not use them?
-unsigned char *map_buff = FREEPOOL;
+unsigned char map_buff [150] @ FREEPOOL;
 //
 
 // Current screen hotspot
