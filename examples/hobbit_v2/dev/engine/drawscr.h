@@ -4,12 +4,66 @@
 // drawscr.h
 // Screen drawing functions
 
+void advance_worm (void) {
+/*	
+	map_attr [gpit] = behs [gpt]; map_buff [gpit] = _t = gpd; 
+	draw_coloured_tile ();
+*/
+
+	#asm
+			ld  bc, (_gpit)
+			ld  b, 0
+			
+			ld  de, (_gpt)
+			ld  d, 0
+			ld  hl, _behs
+			add hl, de
+			ld  a, (hl)
+
+			ld  hl, _map_attr
+			add hl, bc
+			ld  (hl), a
+
+			ld  a, (_gpd)
+			ld  hl, _map_buff
+			add hl, bc
+			ld  (hl), a
+
+			ld  (__t), a
+
+			call _draw_coloured_tile
+	#endasm			
+
+/*
+	_x += 2;
+	if (_x == 30 + VIEWPORT_X) { _x = VIEWPORT_X; _y += 2; }
+*/
+
+
+	#asm
+			ld  a, (__x)
+			add 2
+			cp  30 + VIEWPORT_X
+			jr  nz, _advance_worm_no_inc_y
+
+			ld  a, (__y)
+			add 2
+			ld  (__y), a
+
+			ld  a, VIEWPORT_X
+
+		._advance_worm_no_inc_y
+			ld  (__x), a
+	#endasm
+
+}
+
 #ifdef ENABLE_SHOOTERS
-void init_cocos (void);
+	void init_cocos (void);
 #endif
 
 #if defined (TWO_SETS) || defined (TWO_SETS_MAPPED)
-unsigned char t_offs;
+	unsigned char t_offs;
 #endif
 void draw_scr_background (void) {
 	#ifdef COMPRESSED_LEVELS
@@ -20,56 +74,145 @@ void draw_scr_background (void) {
 		srand ();
 	#endif
 
-	#ifdef UNPACKED_MAP
-		map_pointer = map + (n_pant * 150);
-	#else
-		map_pointer = map + (n_pant * 75);
-	#endif
-
-		gpit = gpx = gpy = 0;
-	#ifdef TWO_SETS
-		t_offs = TWO_SETS_SEL;
-	#endif
-	#ifdef TWO_SETS_MAPPED
-		t_offs = (*(map + (MAP_W * MAP_H * 75) + n_pant)) << 5;
-	#endif
-
-	// Draw 150 tiles
-	do {
-		gpjt = rand () & 15;
-
+	#if defined PACKED_MAP || defined UNPACKED_MAP
 		#ifdef UNPACKED_MAP
-			// Mapa tipo UNPACKED
-			gpd = *map_pointer ++;
-			map_attr [gpit] = behs [gpd];
-			map_buff [gpit] = gpd;
+			map_pointer = map + (n_pant * 150);
 		#else
-			// Mapa tipo PACKED
-			if (gpit & 1) {
-				gpd = gpc & 15;
-			} else {
-				gpc = *map_pointer ++;
-				gpd = gpc >> 4;
-			}
-
-			#if defined (TWO_SETS) || defined (TWO_SETS_MAPPED)
-				gpd += t_offs;
-			#endif
-			map_attr [gpit] = behs [gpd];
-			#ifndef NO_ALT_TILE
-				if (gpd == 0 && gpjt == 1) gpd = 19;
-			#endif
+			map_pointer = map + (n_pant * 75);
 		#endif
-		#ifdef BREAKABLE_WALLS
-			brk_buff [gpit] = 0;
-		#endif
-		
-		map_buff [gpit] = gpd;
-		_x = gpx; _y = gpy; _t = gpd;
-		draw_coloured_tile_gamearea ();
 
-		++ gpx; if (gpx == 15) { gpx = 0; ++ gpy; }
-	} while (gpit ++ < 149);
+		gpit = 0;
+		_x = VIEWPORT_X; _y = VIEWPORT_Y;
+
+		#ifdef TWO_SETS
+			t_offs = TWO_SETS_SEL;
+		#endif
+		#ifdef TWO_SETS_MAPPED
+			t_offs = (*(map + (MAP_W * MAP_H * 75) + n_pant)) << 5;
+		#endif
+
+		// Draw 150 tiles
+		do {
+			gpjt = rand () & 15;
+
+			#ifdef UNPACKED_MAP
+				// Mapa tipo UNPACKED
+				gpt = gpd = *map_pointer ++;				
+			#else
+				// Mapa tipo PACKED
+				if (gpit & 1) {
+					gpd = gpc & 15;
+				} else {
+					gpc = *map_pointer ++;
+					gpd = gpc >> 4;
+				}
+
+				#if defined (TWO_SETS) || defined (TWO_SETS_MAPPED)
+					gpd += t_offs;
+				#endif
+				
+				gpt = gpd;
+
+				#ifndef NO_ALT_TILE
+					if (gpd == 0 && gpjt == 1) gpd = 19;
+				#endif
+			#endif
+			
+			#ifdef BREAKABLE_WALLS
+				brk_buff [gpit] = 0;
+			#endif
+			
+			advance_worm ();			
+		} while (gpit ++ < 149);
+	#else
+
+		#asm
+			// Get screen address from index.
+			// RLE format
+
+			._draw_scr_get_scr_address
+				ld  a, (_n_pant)
+				sla a
+				ld  d, 0
+				ld  e, a
+				ld  hl, _mapa
+				add hl, de 		; HL = map + (n_pant << 1)
+				ld  e, (hl)
+				inc hl
+				ld  d, (hl) 	; DE = index
+				ld  hl, _mapa
+				add hl, de      ; HL = map + index
+				ld  (_gp_map), hl
+
+			// Now decode & render the current screen 
+
+			._draw_scr_rle
+				xor a
+				ld  (_gpit), a
+				ld  a, VIEWPORT_X
+				ld  (__x), a
+				ld  a, VIEWPORT_Y
+				ld  (__y), a
+
+			._draw_scr_loop
+				ld  a, (_gpit)
+				cp  150
+				jr  z, _draw_scr_loop_done
+
+				ld  hl, (_gp_map)
+				ld  a, (hl)
+				inc hl
+				ld  (_gp_map), hl
+				
+				ld  c, a
+			#if RLE_MAP == 44
+				and 0x0f
+			#elif RLE_MAP == 53
+				and 0x1f
+			#else
+				and 0x3f
+			#endif			
+				ld  (_rdt), a
+
+				ld  a, c
+				ld  (_rdct), a
+
+			._draw_scr_advance_loop
+				ld  a, (_rdct)
+			#if RLE_MAP == 44
+				cp  0x10
+			#elif RLE_MAP == 53			
+				cp  0x20
+			#else
+				cp  0x40
+			#endif
+
+				jr  c, _draw_scr_advance_loop_done
+
+			#if RLE_MAP == 44
+				sub 0x10
+			#elif RLE_MAP == 53
+				sub 0x20
+			#else
+				sub 0x40
+			#endif
+				ld  (_rdct), a
+
+				call _advance_worm
+
+				// That's it!
+
+				jr _draw_scr_advance_loop
+
+			._draw_scr_advance_loop_done
+				call _advance_worm
+
+				jr _draw_scr_loop
+
+			._draw_scr_loop_done			
+		#endasm
+
+	#endif
 
 	// Object setup
 	#ifndef DISABLE_HOTSPOTS
@@ -102,12 +245,7 @@ void draw_scr_background (void) {
 
 	#ifndef DEACTIVATE_KEYS
 		// Open locks
-		#ifdef COMPRESSED_LEVELS
-			for (gpit = 0; gpit < n_bolts; gpit ++)
-		#else
-			for (gpit = 0; gpit < MAX_bolts; gpit ++)
-		#endif
-		{
+		for (gpit = 0; gpit < MAX_BOLTS; gpit ++) {
 			if (bolts [gpit].np == n_pant && !bolts [gpit].st) {
 				_x = bolts [gpit].x;
 				_y = bolts [gpit].y;
@@ -190,7 +328,7 @@ void draw_scr (void) {
 	#endif
 
 	#if defined (PLAYER_CHECK_MAP_BOUNDARIES) || defined (PLAYER_CYCLIC_MAP)
-		#ifdef MODE_128K
+		#ifdef COMPRESSED_LEVELS
 			x_pant = n_pant % level_data->map_w;
 			y_pant = n_pant / level_data->map_w;
 		#else

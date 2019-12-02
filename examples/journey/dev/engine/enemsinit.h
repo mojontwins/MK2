@@ -36,13 +36,13 @@
 		{		
 			baddies [enoffsmasi].t &= 0x7f;
 			en_an_state [gpit] = 0;
-#if defined (PLAYER_CAN_FIRE) || defined (PLAYER_CAN_PUNCH) || defined (PLAYER_HAZ_SWORD)
-#ifdef COMPRESSED_LEVELS
-			baddies [enoffsmasi].life = level_data.enems_life;
-#else
-			baddies [enoffsmasi].life = ENEMS_LIFE_GAUGE;
-#endif
-#endif
+			#if defined (PLAYER_CAN_FIRE) || defined (PLAYER_CAN_PUNCH) || defined (PLAYER_HAZ_SWORD)
+				#ifdef COMPRESSED_LEVELS
+					baddies [enoffsmasi].life = level_data.enems_life;
+				#else
+					baddies [enoffsmasi].life = ENEMS_LIFE_GAUGE;
+				#endif
+			#endif
 		}
 #endif
 

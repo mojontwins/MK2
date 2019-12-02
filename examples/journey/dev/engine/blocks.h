@@ -52,16 +52,7 @@
 		#ifndef DEACTIVATE_KEYS
 			cx1 = x0; cy1 = y0;	if (qtile () == 15 && p_keys) {
 				_x = x0; _y = y0; _n = 0; _t = 0; update_tile ();
-				#ifdef COMPRESSED_LEVELS
-					#ifdef MODE_128K
-						for (gpit = 0; gpit < MAX_bolts; gpit ++)
-					#else
-						for (gpit = 0; gpit < n_bolts; gpit ++)
-					#endif
-				#else
-					for (gpit = 0; gpit < MAX_bolts; gpit ++)
-				#endif
-				{
+				for (gpit = 0; gpit < MAX_BOLTS; gpit ++) {
 					if (bolts [gpit].x == x0 && bolts [gpit].y == y0 && bolts [gpit].np == n_pant) {
 						bolts [gpit].st = 0;
 						break;

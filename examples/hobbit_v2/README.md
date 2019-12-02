@@ -253,5 +253,3 @@ To build (asuming the compiler, etc. are in place):
 ```
 
 You should get `hobbit_v2.tap`.
-
-

@@ -8,7 +8,7 @@
 #ifndef DEACTIVATE_KEYS
 void init_bolts (void) {
 	// Activa todos los bolts
-	for (gpit = 0; gpit < MAX_bolts; gpit ++)
+	for (gpit = 0; gpit < MAX_BOLTS; gpit ++)
 		bolts [gpit].st = 1;
 }
 #endif

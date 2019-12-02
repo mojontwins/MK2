@@ -280,16 +280,16 @@ void invalidate_viewport (void) {
 	#endasm
 }
 
-void draw_invalidate_coloured_tile_gamearea (void) {
-	draw_coloured_tile_gamearea ();
-	invalidate_tile ();
-}
-
 void draw_coloured_tile_gamearea (void) {
 	#ifdef ENABLE_TILANIMS
 		if (IS_TILANIM (_t)) tilanims_add (); 
 	#endif	
 	_x = VIEWPORT_X + (_x << 1); _y = VIEWPORT_Y + (_y << 1); draw_coloured_tile ();
+}
+
+void draw_invalidate_coloured_tile_gamearea (void) {
+	draw_coloured_tile_gamearea ();
+	invalidate_tile ();
 }
 
 void print_number2 (void) {

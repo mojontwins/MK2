@@ -19,14 +19,14 @@ extern unsigned char map [0];
 #endif
 
 #ifndef DEACTIVATE_KEYS
-	#define MAX_bolts 32
+	#define MAX_BOLTS 32
 	extern BOLTS bolts [0];
 	#asm
 		._bolts
 			BINARY "../bin/bolts.bin"
 	#endasm
 #else
-	#define MAX_bolts 0
+	#define MAX_BOLTS 0
 #endif
 
 #ifdef ENABLE_CUSTOM_CONNECTIONS
