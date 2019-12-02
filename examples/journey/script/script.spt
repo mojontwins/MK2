@@ -1,0 +1,15 @@
+###############
+# SCRIPT DEMO #
+###############
+INC_DECORATIONS map.bin.spt
+
+ENTERING GAME
+
+	IF TRUE
+	THEN
+		
+	END
+	
+END
+
+END_OF_LEVEL
