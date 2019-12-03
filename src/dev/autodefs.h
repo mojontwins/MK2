@@ -38,6 +38,5 @@ void draw_coloured_tile (void);
 void draw_coloured_tile_gamearea (void);
 unsigned char collide (unsigned char x1, unsigned char y1, unsigned char x2, unsigned char y2);
 unsigned char collide_pixel (unsigned char x, unsigned char y, unsigned char x1, unsigned char y1);
-
-// CUSTOM FOR K2T
-void update_hud ();
+unsigned char attr (void);
+void print_number2 (void);

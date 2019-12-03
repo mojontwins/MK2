@@ -290,29 +290,18 @@ unsigned char is_rendering;
 unsigned char maincounter;
 
 // Breakable walls/etc
-#ifdef BREAKABLE_WALLS
-	unsigned char brk_buff [150];
-	#ifdef BREAKABLE_ANIM
-		// Store this in the free memory pool (see ^)
-		unsigned char *breaking_x = FREEPOOL + 150;
-		unsigned char *breaking_y = FREEPOOL + 150 + MAX_BREAKABLE;
-		unsigned char *breaking_f = FREEPOOL + 150 + MAX_BREAKABLE + MAX_BREAKABLE;
+#if (defined BREAKABLE_WALLS || defined BREAKABLE_WALLS_SIMPLE) && defined BREAKABLE_ANIM
+	// Store this in the free memory pool (see ^)
+	unsigned char breaking_x [MAX_BREAKABLE] @ FREEPOOL + 150;
+	unsigned char breaking_y [MAX_BREAKABLE] @ FREEPOOL + 150 + MAX_BREAKABLE;
+	unsigned char breaking_f [MAX_BREAKABLE] @ FREEPOOL + 150 + MAX_BREAKABLE + MAX_BREAKABLE;
 
-		unsigned char breaking_idx = 0;
-		unsigned char do_process_breakable = 0;
-	#endif
+	unsigned char breaking_idx = 0;
+	unsigned char do_process_breakable = 0;
 #endif
 
-#ifdef BREAKABLE_WALLS_SIMPLE
-	#ifdef BREAKABLE_ANIM
-		unsigned char *breaking_x = FREEPOOL + 150;
-		unsigned char *breaking_y = FREEPOOL + 150 + MAX_BREAKABLE;
-		unsigned char *breaking_f = FREEPOOL + 150 + MAX_BREAKABLE + MAX_BREAKABLE;
-		//
-
-		unsigned char breaking_idx = 0;
-		unsigned char do_process_breakable = 0;
-	#endif
+#ifdef BREAKABLE_WALLS
+	unsigned char brk_buff [150];
 #endif
 
 // Fire zone
@@ -384,15 +373,16 @@ unsigned char tocado, active, killable, animate;
 unsigned char gpit, gpjt;
 unsigned char *map_pointer;
 
-#if defined USE_AUTO_TILE_SHADOWS || defined USE_AUTO_SHADOWS
+#if defined USE_AUTO_TILE_SHADOWS || defined USE_AUTO_SHADOWS	
 	unsigned char c1, c2, c3, c4;
 	unsigned char t1, t2, t3, t4;
 	unsigned char nocast, _ta;
+	unsigned char xx, yy;
 #endif
 #ifdef USE_AUTO_TILE_SHADOWS
+	unsigned a1, a2, a3;
 	unsigned char *gen_pt_alt;
-	unsigned char t_alt;
-	unsigned char xx, yy;
+	unsigned char t_alt;	
 #endif
 
 // Undo parameters

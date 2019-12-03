@@ -99,13 +99,9 @@ unsigned char AD_FREE [NUMBLOCKS * 15];
 		#include "assets/levels.h"
 	#else
 		#include "assets/mapa.h"
-	#endif
-
-	#include "assets/tileset.h"
-	#include "assets/sprites.h"
-	#include "assets/extrasprites.h"
-
-	#ifndef COMPRESSED_LEVELS
+		#include "assets/tileset.h"
+		#include "assets/sprites.h"
+		#include "assets/extrasprites.h"
 		#include "assets/enems.h"
 	#endif
 #endif

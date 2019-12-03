@@ -154,15 +154,15 @@ if (collide (gpx, gpy, hotspot_x, hotspot_y)) {
 							#endif
 							
 							#ifdef GET_X_MORE
-								#if defined (MODE_128K) && defined (COMPRESSED_LEVELS) && !defined (HANNA_LEVEL_MANAGER) && !defined (SIMPLE_LEVEL_MANAGER)
-									if (level_data.max_objs > p_objs)
+								#if defined (COMPRESSED_LEVELS) && !defined (HANNA_LEVEL_MANAGER) && !defined (SIMPLE_LEVEL_MANAGER)
+									if (level_data->max_objs > p_objs)
 								#else
 									if (PLAYER_MAX_OBJECTS > p_objs)
 								#endif
 								{
 									_x = 10; _y = 11; _t = 79; gp_gen = spacer; print_str ();
-									#if defined (MODE_128K) && defined (COMPRESSED_LEVELS) && !defined (HANNA_LEVEL_MANAGER) && !defined (SIMPLE_LEVEL_MANAGER)
-										gpjt = level_data.max_objs - p_objs;
+									#if defined (COMPRESSED_LEVELS) && !defined (HANNA_LEVEL_MANAGER) && !defined (SIMPLE_LEVEL_MANAGER)
+										gpjt = level_data->max_objs - p_objs;
 									#else
 										gpjt = PLAYER_MAX_OBJECTS - p_objs;
 									#endif

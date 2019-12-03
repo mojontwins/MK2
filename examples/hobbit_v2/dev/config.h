@@ -434,6 +434,7 @@
 //#define PLAYER_BOOTEE 				// Always jumping engine. Don't forget to disable "HAS_JUMP" and "HAS_JETPAC"!!!
 //#define PLAYER_BOUNCE_WITH_WALLS		// Bounce when hitting a wall. Only really useful in MOGGY_STYLE mode
 //#define PLAYER_CUMULATIVE_JUMP		// Keep pressing JUMP to JUMP higher in several bounces
+//#define PLAYER_BOOST_WHEN_GOING_UP	// Boost pvy when jumping to the screen above.
 
 //#define PLAYER_HAS_JETPAC 			// If defined, player can thrust a vertical jetpac
 //#define JETPAC_DEPLETES			4	// If defined, jetpac depletes each # frames.
@@ -458,11 +459,12 @@
 // This sections defines how stuff is rendered, where to show counters, etcetera
 
 #define VIEWPORT_X				1		//
-#define VIEWPORT_Y				0		// Viewport character coordinates
-#define LIFE_X					28 		//
-#define LIFE_Y					23		// Life gauge counter character coordinates
-#define OBJECTS_X				14		//
-#define OBJECTS_Y				23		// Objects counter character coordinates
+#define VIEWPORT_Y				2		// Viewport character coordinates
+#define LIFE_X					6 		//
+#define LIFE_Y					0		// Life gauge counter character coordinates
+#define OBJECTS_X				17		//
+#define OBJECTS_Y				0		// Objects counter character coordinates
+//#define REVERSE_OBJECTS_COUNT 		// If defined, from MAX to 0
 #define OBJECTS_ICON_X			99		//
 #define OBJECTS_ICON_Y			99		// Objects icon character coordinates (use with ONLY_ONE_OBJECT)
 #define KEYS_X					99		//

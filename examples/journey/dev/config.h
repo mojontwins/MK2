@@ -307,6 +307,7 @@
 
 // Kill slowly (Ramiro)
 // --------------------
+
 //#define ENABLE_KILL_SLOWLY			// Beh 3 kills slowly
 // #define KILL_SLOWLY_ON_FLAG		30 		// If defined, flag controls behaviour. If 0,beh 1.
 // #define KILL_SLOWLY_GAUGE		32 		// # of ticks before kill
@@ -314,6 +315,7 @@
 
 // Scripting
 // ---------
+
 //#define ACTIVATE_SCRIPTING		// Activates msc3 scripting and flag related stuff.
 //#define SCRIPT_PAGE		7		// Which RAM page holds the script (128)
 //#define CLEAR_FLAGS				// If defined, clear flags each level/beginning.
@@ -431,6 +433,7 @@
 //#define PLAYER_BOOTEE 				// Always jumping engine. Don't forget to disable "HAS_JUMP" and "HAS_JETPAC"!!!
 //#define PLAYER_BOUNCE_WITH_WALLS		// Bounce when hitting a wall. Only really useful in MOGGY_STYLE mode
 //#define PLAYER_CUMULATIVE_JUMP		// Keep pressing JUMP to JUMP higher in several bounces
+#define PLAYER_BOOST_WHEN_GOING_UP		// Boost pvy when jumping to the screen above.
 
 //#define PLAYER_HAS_JETPAC 			// If defined, player can thrust a vertical jetpac
 //#define JETPAC_DEPLETES			4	// If defined, jetpac depletes each # frames.
@@ -460,6 +463,7 @@
 #define LIFE_Y					0		// Life gauge counter character coordinates
 #define OBJECTS_X				17		//
 #define OBJECTS_Y				0		// Objects counter character coordinates
+#define REVERSE_OBJECTS_COUNT 			// If defined, from MAX to 0
 #define OBJECTS_ICON_X			99		//
 #define OBJECTS_ICON_Y			99		// Objects icon character coordinates (use with ONLY_ONE_OBJECT)
 #define KEYS_X					29		//
@@ -498,7 +502,7 @@
 // Graphic FX, uncomment which applies...
 
 //#define USE_AUTO_SHADOWS				// Automatic shadows made of darker attributes
-//#define USE_AUTO_TILE_SHADOWS 		// Automatic shadows using specially defined tiles 32-47.
+#define USE_AUTO_TILE_SHADOWS 			// Automatic shadows using specially defined tiles 32-47.
 //#define ENABLE_SUBTILESETS			// Adds subtileset loader.
 //#define MAP_ATTRIBUTES				// Enables multi-purpose map attributes array (only in multi-level games as of 0.90)
 //#define NO_MASKS						// Sprites are rendered using OR instead of masks.

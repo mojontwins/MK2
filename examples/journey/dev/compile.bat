@@ -187,7 +187,7 @@ rem ###########################################################################
 
 echo ### COMPILING ###
 zcc +zx -vn -m mk2.c -o work\%game%.bin -lsplib2_mk2 -zorg=24200
-REM zcc +zx -vn %game%e.c -o work\%game%e.bin -lsplib2_mk2 -zorg=24200
+zcc +zx -vn -a mk2.c -o work\%game%.asm -lsplib2_mk2 -zorg=24200
 
 echo ### MAKING TAPS ###
 ..\..\..\src\utils\bas2tap -a10 -sJOURNEY loader\loader.bas work\loader.tap

@@ -45,7 +45,7 @@
 #define PLAYER_LIFE 			10		// Max and starting life gauge.
 //#define DONT_LIMIT_LIFE				// If defined, no upper limit to life gauge.
 //#define PLAYER_REFILL			1		// Life recharge
-// #define MAX_LEVELS				1		// # of compressed levels
+//#define MAX_LEVELS				1		// # of compressed levels
 //#define REFILL_ME 					// If defined, refill player on each level
 #define WIN_CONDITION			2		// 0 = objects collected, 1 = screen 'N', 2 = scripting, 3 = SIM
 //#define EXTRA_SPRITES 		2 		// For 128K games -> # of extra sprite faces to make room for.
@@ -144,7 +144,7 @@
 //#define OBJECT_COUNT			1		// Defines which FLAG will be used to store the object count.
 //#define OBJECTS_COLLECTABLE_IF	2 		// If defined, Objs. can be collected if FLAG # == 1
 //#define DEACTIVATE_EVIL_TILE			// If defined, no killing tiles (behaviour 1) are detected.
-// #define FULL_BOUNCE 					// If defined, evil tile bounces equal MAX_VX, otherwise v/2
+//#define FULL_BOUNCE 					// If defined, evil tile bounces equal MAX_VX, otherwise v/2
 //#define PLAYER_BOUNCES				// If defined, collisions make player bounce
 //#define SLOW_DRAIN					// Works with bounces. Drain is 4 times slower
 //#define PLAYER_DIZZY 					// Enable dizzy state for player
@@ -155,8 +155,8 @@
 //#define EVERYTHING_IS_A_WALL			// If defined, any tile <> type 0 is a wall, otherwise just 8.
 //#define COUNT_SCR_ENEMS_ON_FLAG 1		// If defined, count # of enems on screen and store in flag #
 //#define SHOW_LEVEL_ON_SCREEN			// If defined, show level # whenever we enter a new screen
-// #define CUSTOM_HIT						// If defined, different agents take different amounts of life (needs to be refined, don't use)
-// #define CUSTOM_HIT_DEFAULT		10
+//#define CUSTOM_HIT						// If defined, different agents take different amounts of life (needs to be refined, don't use)
+//#define CUSTOM_HIT_DEFAULT		10
 #define IS_EVIL ==1 					// ==1 or &1, depending on what you need.
 // #define ONLY_VERTICAL_EVIL_TILE			// Does as it suggests.
 
@@ -166,18 +166,16 @@
 // General directives
 
 #define ENABLE_PATROLLERS				// Yeah, you can now deactivate good ol' patrollers...
-// #define PATROLLERS_HIT			9 		// If defined, patrollers take THIS life, otherwise 1
-
+//#define PATROLLERS_HIT			9 		// If defined, patrollers take THIS life, otherwise 1
 
 #define ENABLE_FANTIES					// If defined, add code for flying enemies.
 #define FANTIES_SIGHT_DISTANCE	96		// If defined, used in our type 6 enemies.
 //#define FANTIES_KILL_ON_TOUCH			// If defined, enemy also dies when collision happens
-// #define FANTIES_NUMB_ON_FLAG	31		// If defined, flag = 0 makes them not move.
+//#define FANTIES_NUMB_ON_FLAG	31		// If defined, flag = 0 makes them not move.
 #define FANTIES_MAX_V 			128 	// Flying enemies max speed (also for custom type 6 if you want)
 #define FANTIES_A 				16		// Flying enemies acceleration.
 #define FANTIES_LIFE_GAUGE		1		// Amount of shots needed to kill flying enemies.
 #define FANTIES_HIT 			12 		// If defined, fanties take THIS life, otherwise 1
-
 
 //#define ENABLE_PURSUE_ENEMIES 		// If defined, type 7 enemies are active
 //#define DEATH_COUNT_EXPRESSION	20+(rand()&15)
@@ -244,13 +242,13 @@
 //#define CAN_FIRE_UP					// If defined, player can fire upwards and diagonal.
 //#define PLAYER_CAN_FIRE_FLAG	1		// If defined, player can only fire when flag # is 1 Needs flags
 //#define PLAYER_CAN_FIRE_INV		45	// If defined, player con only fire if item # is selected! Needs flags
-#define PLAYER_BULLET_SPEED 	8		// Pixels/frame.
-#define MAX_BULLETS 			1		// Max number of bullets on screen. Be careful!.
-#define PLAYER_BULLET_Y_OFFSET	6		// vertical offset from the player's top.
-#define PLAYER_BULLET_X_OFFSET	0		// vertical offset from the player's left/right.
-#define PLAYER_BULLETS_STRENGTH 1		// Amount of life bullets take from baddies.
+//#define PLAYER_BULLET_SPEED 		8	// Pixels/frame.
+//#define MAX_BULLETS 				1	// Max number of bullets on screen. Be careful!.
+//#define PLAYER_BULLET_Y_OFFSET	6	// vertical offset from the player's top.
+//#define PLAYER_BULLET_X_OFFSET	0	// vertical offset from the player's left/right.
+//#define PLAYER_BULLETS_STRENGTH 	1	// Amount of life bullets take from baddies.
 //#define BULLETS_BREAK_WALLS			// If defined, bullets break breakable walls.
-#define BULLETS_DONT_COLLIDE_PLATFORMS	// Bullets and platforms don't collide
+//#define BULLETS_DONT_COLLIDE_PLATFORMS	// Bullets and platforms don't collide
 
 /*
 #define LIMITED_BULLETS 				// If defined, bullets die after N frames
@@ -309,6 +307,7 @@
 
 // Kill slowly (Ramiro)
 // --------------------
+
 //#define ENABLE_KILL_SLOWLY			// Beh 3 kills slowly
 // #define KILL_SLOWLY_ON_FLAG		30 		// If defined, flag controls behaviour. If 0,beh 1.
 // #define KILL_SLOWLY_GAUGE		32 		// # of ticks before kill
@@ -323,7 +322,7 @@
 #define SCRIPTING_DOWN				// Use DOWN as the action key.
 //#define SCRIPTING_KEY_M			// Use M as the action key instead.
 //#define SCRIPTING_KEY_FIRE		// User FIRE as the action key instead.
-// #define ENABLE_EXTERN_CODE			// Enables custom code to be run from the script using EXTERN n
+//#define ENABLE_EXTERN_CODE			// Enables custom code to be run from the script using EXTERN n
 //#define EXTERN_E					// Uncomment this as well if you use EXTERN_E in your script
 #define ENABLE_FIRE_ZONE			// Allows to define a zone which auto-triggers "FIRE"
 
@@ -434,6 +433,7 @@
 //#define PLAYER_BOOTEE 				// Always jumping engine. Don't forget to disable "HAS_JUMP" and "HAS_JETPAC"!!!
 //#define PLAYER_BOUNCE_WITH_WALLS		// Bounce when hitting a wall. Only really useful in MOGGY_STYLE mode
 //#define PLAYER_CUMULATIVE_JUMP		// Keep pressing JUMP to JUMP higher in several bounces
+//#define PLAYER_BOOST_WHEN_GOING_UP	// Boost pvy when jumping to the screen above.
 
 //#define PLAYER_HAS_JETPAC 			// If defined, player can thrust a vertical jetpac
 //#define JETPAC_DEPLETES			4	// If defined, jetpac depletes each # frames.
@@ -458,11 +458,12 @@
 // This sections defines how stuff is rendered, where to show counters, etcetera
 
 #define VIEWPORT_X				1		//
-#define VIEWPORT_Y				1		// Viewport character coordinates
-#define LIFE_X					1 		//
-#define LIFE_Y					23		// Life gauge counter character coordinates
-#define OBJECTS_X				29		//
-#define OBJECTS_Y				23		// Objects counter character coordinates
+#define VIEWPORT_Y				2		// Viewport character coordinates
+#define LIFE_X					6 		//
+#define LIFE_Y					0		// Life gauge counter character coordinates
+#define OBJECTS_X				17		//
+#define OBJECTS_Y				0		// Objects counter character coordinates
+//#define REVERSE_OBJECTS_COUNT 		// If defined, from MAX to 0
 #define OBJECTS_ICON_X			99		//
 #define OBJECTS_ICON_Y			99		// Objects icon character coordinates (use with ONLY_ONE_OBJECT)
 #define KEYS_X					99		//

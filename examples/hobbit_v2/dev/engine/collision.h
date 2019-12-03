@@ -118,7 +118,7 @@ unsigned char attr (void) {
 			sla a
 			sub b
 			ld  b, a
-			ld  a, (_cy2)
+			ld  a, (_cx1)
 			add b
 			ld  e, a
 			ld  d, 0

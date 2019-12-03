@@ -50,6 +50,7 @@ void break_wall (unsigned char x, unsigned char y) {
 	cx1 = x; cy1 = y; if (attr () & 16) {
 		gpaux = (y << 4) - y + x;
 		map_attr [gpaux] &= 0xEF; // 11101111, remove "breakable" bit.
+	
 #ifdef BREAKABLE_ANIM
 		// add this block to the "breaking" tile list
 		breaking_f [breaking_idx] = MAX_BREAKABLE_FRAMES;

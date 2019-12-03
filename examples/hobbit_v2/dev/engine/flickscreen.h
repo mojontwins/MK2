@@ -10,7 +10,7 @@
 	#define SCREEN_UP custom_connections [n_pant].up;
 	#define SCREEN_DOWN custom_connections [n_pant].down;
 #elif defined (PLAYER_CYCLIC_MAP)
-	#if defined (MDOE_128K) && defined (COMPRESSED_LEVELS)
+	#if defined (COMPRESSED_LEVELS)
 		#define SCREEN_LEFT x_pant > 0 ? n_pant - 1 : n_pant + (level_data->map_w - 1);
 		#define SCREEN_RIGHT x_pant < (level_data->map_w - 1) ? n_pant + 1 : n_pant - (level_data->map_w - 1);
 		#define SCREEN_UP y_pant > 0 ? n_pant - level_data->map_w : n_pant + (level_data->map_w * (level_data->map_h - 1));
@@ -24,7 +24,7 @@
 #else
 	#define SCREEN_LEFT	n_pant - 1
 	#define SCREEN_RIGHT n_pant + 1
-	#if defined (MODE_128K) && defined (COMPRESSED_LEVELS)
+	#if defined (COMPRESSED_LEVELS)
 		#define SCREEN_UP n_pant - level_data->map_w
 		#define SCREEN_DOWN n_pant + level_data->map_w
 	#else
@@ -36,7 +36,7 @@
 #ifdef PLAYER_CHECK_MAP_BOUNDARIES
 	#define MAP_BOUNDARY_LEFT && x_pant > 0
 	#define MAP_BOUNDARY_TOP && y_pant > 0
-	#if defined (MODE_128K) && defined (COMPRESSED_LEVELS)
+	#if defined (COMPRESSED_LEVELS)
 		#define MAP_BOUNDARY_RIGHT && (x_pant < (level_data->map_w - 1))
 		#define MAP_BOUNDARY_BOTTOM && (y_pant < (level_data->map_h - 1))
 	#else
@@ -86,17 +86,18 @@ void flick_screen (void) {
 #else
 	// Momentum engine edge screen detection
 	if (p_x == 0 && p_vx < 0 MAP_BOUNDARY_LEFT) {
-		n_pant = SCREEN_LEFT; p_x = 14336;
-	}
-	if (p_x == 14336 && p_vx > 0 MAP_BOUNDARY_RIGHT) {
-		n_pant = SCREEN_RIGHT; p_x = 0;
+		n_pant = SCREEN_LEFT; p_x = 14336; gpx = 224;
+	} else if (p_x == 14336 && p_vx > 0 MAP_BOUNDARY_RIGHT) {
+		n_pant = SCREEN_RIGHT; p_x = gpx = 0;		
 	}
 	if (p_y == 0 && p_vy < 0 MAP_BOUNDARY_TOP) {
-		n_pant = SCREEN_UP; p_y = 9216;
-	}
-	if (p_y == 9216 && p_vy > 0 MAP_BOUNDARY_BOTTOM) {
-		n_pant = SCREEN_DOWN; p_y = 0;
-		if (p_vy > 256) p_vy = 256;
+		n_pant = SCREEN_UP; p_y = 9216; gpy = 144;
+		#ifdef PLAYER_BOOST_WHEN_GOING_UP
+			if (p_vy > -PLAYER_JMP_VY_MAX) p_vy = -PLAYER_JMP_VY_MAX;
+		#endif
+	} else if (p_y == 9216 && p_vy > 0 MAP_BOUNDARY_BOTTOM) {
+		n_pant = SCREEN_DOWN; p_y = gpy = 0;
+		//if (p_vy > 256) {sp_Border (2); p_vy = 256; }
 	}
 #endif	
 }

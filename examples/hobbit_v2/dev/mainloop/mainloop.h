@@ -225,7 +225,7 @@ void main (void) {
 
 			// Warp to level condition (3)
 			// Game ending (4)
-			#if defined (COMPRESSED_LEVELS) && defined (MODE_128K)
+			#if defined (ACTIVATE_SCRIPTING) && defined (COMPRESSED_LEVELS) && defined (MODE_128K)
 				if (script_result > 2) {
 					success = script_result;	// Warp_to (3), Game ending (4)
 					playing = 0;
@@ -270,6 +270,7 @@ void main (void) {
 					mlplaying = 0;
 					active_sleep (250);
 					break;
+
 				case 1:
 					//_AY_PL_MUS (7);
 					gp_gen = " ZONE CLEAR "; print_message ();
@@ -277,19 +278,23 @@ void main (void) {
 					active_sleep (250);
 					//do_extern_action (0);
 					break;
-				case 3:
-					blackout_area ();
-					level = warp_to_level;
-					break;
-				case 4:
-					get_resource (2, 16384);
-					active_sleep (1000);
-					_AY_ST_ALL ();
-					cortina ();
-					//_AY_PL_MUS (12);
-					active_sleep (130);
-					// credits ();
-					mlplaying = 0;
+				#ifdef ACTIVATE_SCRIPTING
+					case 3:
+							blackout_area ();
+							level = warp_to_level;
+							break;
+				#endif
+				#ifdef SCRIPTED_GAME_ENDING
+					case 4:
+						get_resource (2, 16384);
+						active_sleep (1000);
+						_AY_ST_ALL ();
+						cortina ();
+						//_AY_PL_MUS (12);
+						active_sleep (130);
+						// credits ();
+						mlplaying = 0;
+				#endif
 			}
 		
 			#ifndef SCRIPTED_GAME_ENDING

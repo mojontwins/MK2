@@ -50,7 +50,7 @@ extern unsigned char sprite_15_c [];
 extern unsigned char sprite_16_a []; 
 extern unsigned char sprite_16_b []; 
 extern unsigned char sprite_16_c []; 
-
+ 
 #asm
         defb 0, 255
         defb 0, 255

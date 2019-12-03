@@ -40,18 +40,18 @@ void draw_coloured_tile (void) {
 		// Nocast for tiles which never get shadowed
 		cx1 = xx; cy1 = yy; nocast = !((attr () & 8) || (_t >= 16 && _t != 19));
 
-		// Precalc
+		// Precalc 
 		#asm
 				ld  a, (__t)
-				srl a 
-				srl a 
+				sla a 
+				sla a 
 				add 64
 				ld  (__ta), a
 
 				ld  hl, _tileset + 2048
-				ld  de, (__ta)
-				ld  d, 0
-				add hl, de
+				ld  b, 0
+				ld  c, a
+				add hl, bc
 				ld  (_gen_pt), hl
 		#endasm
 
@@ -63,6 +63,7 @@ void draw_coloured_tile (void) {
 		#endif
 		#ifdef USE_AUTO_TILE_SHADOWS
 			// Precalc
+			
 			if (_t == 19) {
 				#asm
 					ld  hl, _tileset + 2048 + 192
@@ -79,21 +80,258 @@ void draw_coloured_tile (void) {
 				#endasm
 				t_alt = 128 + _ta;
 			}
+			
+			gen_pt_alt = tileset + 2048 + t_alt;
 
-			cx1 = xx - 1; cy1 = yy - 1; if (nocast && (attr () & 8)) { c1 = *gen_pt_alt; t1 = t_alt; }
+			// cx1 = xx - 1; cy1 = yy ? yy - 1 : 0; a1 = (nocast && (attr () & 8));
+			#asm
+				// cx1 = xx - 1; 
+					ld  a, (_xx)
+					dec a
+					ld  (_cx1), a
+
+				// cy1 = yy ? yy - 1 : 0;
+					ld  a, (_yy)
+					or  a
+					jr  z, _dct_1_set_yy
+					dec a
+				._dct_1_set_yy
+					ld  (_cy1), a
+
+				// a1 = (nocast && (attr () & 8));
+					ld  a, (_nocast)
+					or  a
+					jr  z, _dct_a1_set
+
+					call _attr
+					ld  a, l
+					and 8
+					jr  z, _dct_a1_set
+
+					ld  a, 1
+
+				._dct_a1_set
+					ld  (_a1), a
+			#endasm			
+
+			// cx1 = xx    ; cy1 = yy ? yy - 1 : 0; a2 = (nocast && (attr () & 8));
+			#asm
+									// cx1 = xx; 
+					ld  a, (_xx)					
+					ld  (_cx1), a
+
+				// cy1 = yy ? yy - 1 : 0;
+					ld  a, (_yy)
+					or  a
+					jr  z, _dct_2_set_yy
+					dec a
+				._dct_2_set_yy
+					ld  (_cy1), a
+
+				// a2 = (nocast && (attr () & 8))
+					ld  a, (_nocast)
+					or  a
+					jr  z, _dct_a2_set
+
+					call _attr
+					ld  a, l
+					and 8
+					jr  z, _dct_a2_set
+
+					ld  a, 1
+
+				._dct_a2_set
+					ld  (_a2), a
+			#endasm
+
+			// cx1 = xx - 1; cy1 = yy             ; a3 = (nocast && (attr () & 8));
+			#asm
+					// cx1 = xx - 1; 
+					ld  a, (_xx)
+					dec a
+					ld  (_cx1), a
+
+				// cy1 = yy;
+					ld  a, (_yy)					
+					ld  (_cy1), a
+
+				// a3 = (nocast && (attr () & 8));
+					ld  a, (_nocast)
+					or  a
+					jr  z, _dct_a3_set
+
+					call _attr
+					ld  a, l
+					and 8
+					jr  z, _dct_a3_set
+
+					ld  a, 1
+
+				._dct_a3_set
+					ld  (_a3), a
+			#endasm
+
+			/*
+			if (a1 || (a2 && a3)) { c1 = *gen_pt_alt; t1 = t_alt; }
 				else { c1 = *gen_pt; t1 = _ta; }
 			++ gen_pt; ++ gen_pt_alt; ++ _ta; ++ t_alt;
+			*/
+			#asm
+					ld  a, (_a1)
+					or  a
+					jr  nz, _dct_1_shadow
 
-			cx1 = xx    ; cy1 = yy - 1; if (nocast && (attr () & 8)) { c1 = *gen_pt_alt; t1 = t_alt; }
+					ld  a, (_a2)
+					or  a
+					jr  z, _dct_1_no_shadow
+
+					ld  a, (_a3)
+					or  a
+					jr  z, _dct_1_no_shadow
+
+				._dct_1_shadow
+				// { c1 = *gen_pt_alt; t1 = t_alt; }
+					ld  hl, (_gen_pt_alt)
+					ld  a, (hl)
+					ld  (_c1), a
+
+					ld  a, (_t_alt)
+					ld  (_t1), a
+
+					jr  _dct_1_increment
+				
+				._dct_1_no_shadow
+				// else { c1 = *gen_pt; t1 = _ta; }
+					ld  hl, (_gen_pt)
+					ld  a, (hl)
+					ld  (_c1), a
+
+					ld  a, (__ta)
+					ld  (_t1), a
+
+				._dct_1_increment
+				// ++ gen_pt; ++ gen_pt_alt; ++ _ta; ++ t_alt;
+					ld  hl, (_gen_pt)
+					inc hl
+					ld  (_gen_pt), hl
+
+					ld  hl, (_gen_pt_alt)
+					inc hl
+					ld  (_gen_pt_alt), hl
+
+					ld  hl, __ta
+					inc (hl)
+
+					ld  hl, _t_alt
+					inc (hl)
+			#endasm 
+
+			/*		
+			if (a2) { c2 = *gen_pt_alt; t2 = t_alt; }
 				else { c2 = *gen_pt; t2 = _ta; }
 			++ gen_pt; ++ gen_pt_alt; ++ _ta; ++ t_alt;
+			*/
+			#asm
+					ld  a, (_a2)
+					or  a
+					jr  z, _dct_2_no_shadow
 
-			cx1 = xx - 1; cy1 = yy    ; if (nocast && (attr () & 8)) { c1 = *gen_pt_alt; t1 = t_alt; }
+				._dct_2_shadow
+				// { c1 = *gen_pt_alt; t1 = t_alt; }
+					ld  hl, (_gen_pt_alt)
+					ld  a, (hl)
+					ld  (_c2), a
+
+					ld  a, (_t_alt)
+					ld  (_t2), a
+
+					jr  _dct_2_increment
+				
+				._dct_2_no_shadow
+				// else { c1 = *gen_pt; t1 = _ta; }
+					ld  hl, (_gen_pt)
+					ld  a, (hl)
+					ld  (_c2), a
+
+					ld  a, (__ta)
+					ld  (_t2), a
+
+				._dct_2_increment
+				// ++ gen_pt; ++ gen_pt_alt; ++ _ta; ++ t_alt;
+					ld  hl, (_gen_pt)
+					inc hl
+					ld  (_gen_pt), hl
+
+					ld  hl, (_gen_pt_alt)
+					inc hl
+					ld  (_gen_pt_alt), hl
+
+					ld  hl, __ta
+					inc (hl)
+
+					ld  hl, _t_alt
+					inc (hl)
+			#endasm 		
+
+			/*
+			if (a3) { c3 = *gen_pt_alt; t3 = t_alt; }
 				else { c3 = *gen_pt; t3 = _ta; }
-			++ gen_pt; ++ gen_pt_alt; ++ _ta; ++ t_alt;			
+			++ gen_pt; ++ gen_pt_alt; ++ _ta; ++ t_alt;	
+			*/
+
+			#asm
+					ld  a, (_a3)
+					or  a
+					jr  z, _dct_3_no_shadow
+
+				._dct_3_shadow
+				// { c1 = *gen_pt_alt; t1 = t_alt; }
+					ld  hl, (_gen_pt_alt)
+					ld  a, (hl)
+					ld  (_c3), a
+
+					ld  a, (_t_alt)
+					ld  (_t3), a
+
+					jr  _dct_3_increment
+				
+				._dct_3_no_shadow
+				// else { c1 = *gen_pt; t1 = _ta; }
+					ld  hl, (_gen_pt)
+					ld  a, (hl)
+					ld  (_c3), a
+
+					ld  a, (__ta)
+					ld  (_t3), a
+
+				._dct_3_increment
+				// ++ gen_pt; ++ gen_pt_alt; ++ _ta; ++ t_alt;
+					ld  hl, (_gen_pt)
+					inc hl
+					ld  (_gen_pt), hl
+
+					ld  hl, (_gen_pt_alt)
+					inc hl
+					ld  (_gen_pt_alt), hl
+
+					ld  hl, __ta
+					inc (hl)
+
+					ld  hl, _t_alt
+					inc (hl)
+			#endasm 
+			
 		#endif
 
-		c4 = *gen_pt; t4 = _ta;
+		// c4 = *gen_pt; t4 = _ta;
+		#asm
+				ld  hl, (_gen_pt)
+				ld  a, (hl)
+				ld  (_c4), a
+
+				ld  a, (__ta)
+				ld  (_t4), a
+		#endasm	
 
 		// Paint tile
 		#asm
@@ -177,7 +415,6 @@ void draw_coloured_tile (void) {
 				ld  b, 0
 				ld  c, a
 				add hl, bc 			// HL = tileset + _taux
-
 				
 				ld  c, a 			// C = current pattern #
 
@@ -391,7 +628,19 @@ void print_number2 (void) {
 			}
 			_x = OBJECTS_X; _y = OBJECTS_Y; _t = flags [OBJECT_COUNT]; print_number2 ();
 		#else
-			_x = OBJECTS_X; _y = OBJECTS_Y; _t = p_objs; print_number2 ();
+			_x = OBJECTS_X; _y = OBJECTS_Y; 
+			#ifdef REVERSE_OBJECTS_COUNT
+				_t = 
+					#ifdef COMPRESSED_LEVELS
+						level_data->max_objs
+					#else						
+						PLAYER_MAX_OBJECTS
+					#endif
+					- p_objs;
+			#else
+				_t = p_objs; 
+			#endif
+			print_number2 ();
 		#endif
 	}
 #endif

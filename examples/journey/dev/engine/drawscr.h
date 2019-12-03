@@ -5,11 +5,6 @@
 // Screen drawing functions
 
 void advance_worm (void) {
-/*	
-	map_attr [gpit] = behs [gpt]; map_buff [gpit] = _t = gpd; 
-	draw_coloured_tile ();
-*/
-
 	#asm
 			ld  bc, (_gpit)
 			ld  b, 0
@@ -30,21 +25,12 @@ void advance_worm (void) {
 			ld  (hl), a
 
 			ld  (__t), a
-
 			call _draw_coloured_tile
-	#endasm			
 
-/*
-	_x += 2;
-	if (_x == 30 + VIEWPORT_X) { _x = VIEWPORT_X; _y += 2; }
-*/
-
-
-	#asm
 			ld  a, (__x)
 			add 2
 			cp  30 + VIEWPORT_X
-			jr  nz, _advance_worm_no_inc_y
+			jr  c, _advance_worm_no_inc_y
 
 			ld  a, (__y)
 			add 2
@@ -54,8 +40,10 @@ void advance_worm (void) {
 
 		._advance_worm_no_inc_y
 			ld  (__x), a
-	#endasm
 
+			ld  hl, _gpit
+			inc (hl)
+	#endasm
 }
 
 #ifdef ENABLE_SHOOTERS
@@ -75,6 +63,7 @@ void draw_scr_background (void) {
 	#endif
 
 	#if defined PACKED_MAP || defined UNPACKED_MAP
+
 		#ifdef UNPACKED_MAP
 			map_pointer = map + (n_pant * 150);
 		#else
@@ -123,7 +112,8 @@ void draw_scr_background (void) {
 			#endif
 			
 			advance_worm ();			
-		} while (gpit ++ < 149);
+		} while (gpit < 150);
+
 	#else
 
 		#asm
@@ -135,14 +125,14 @@ void draw_scr_background (void) {
 				sla a
 				ld  d, 0
 				ld  e, a
-				ld  hl, _mapa
+				ld  hl, _map
 				add hl, de 		; HL = map + (n_pant << 1)
 				ld  e, (hl)
 				inc hl
 				ld  d, (hl) 	; DE = index
-				ld  hl, _mapa
+				ld  hl, _map
 				add hl, de      ; HL = map + index
-				ld  (_gp_map), hl
+				ld  (_map_pointer), hl
 
 			// Now decode & render the current screen 
 
@@ -159,10 +149,10 @@ void draw_scr_background (void) {
 				cp  150
 				jr  z, _draw_scr_loop_done
 
-				ld  hl, (_gp_map)
+				ld  hl, (_map_pointer)
 				ld  a, (hl)
 				inc hl
-				ld  (_gp_map), hl
+				ld  (_map_pointer), hl
 				
 				ld  c, a
 			#if RLE_MAP == 44
@@ -172,13 +162,14 @@ void draw_scr_background (void) {
 			#else
 				and 0x3f
 			#endif			
-				ld  (_rdt), a
+				ld  (_gpt), a
+				ld  (_gpd), a
 
 				ld  a, c
-				ld  (_rdct), a
+				ld  (_gpc), a
 
 			._draw_scr_advance_loop
-				ld  a, (_rdct)
+				ld  a, (_gpc)
 			#if RLE_MAP == 44
 				cp  0x10
 			#elif RLE_MAP == 53			
@@ -196,11 +187,9 @@ void draw_scr_background (void) {
 			#else
 				sub 0x40
 			#endif
-				ld  (_rdct), a
+				ld  (_gpc), a
 
 				call _advance_worm
-
-				// That's it!
 
 				jr _draw_scr_advance_loop
 
@@ -217,30 +206,26 @@ void draw_scr_background (void) {
 	// Object setup
 	#ifndef DISABLE_HOTSPOTS
 		hotspot_x = hotspot_y = 240;
-		gpx = (hotspots [n_pant].xy >> 4);
-		gpy = (hotspots [n_pant].xy & 15);
+		_x = (hotspots [n_pant].xy >> 4);
+		_y = (hotspots [n_pant].xy & 15);
+	
+		if (
+			(hotspots [n_pant].act && hotspots [n_pant].tipo) 
+			#ifndef USE_HOTSPOTS_TYPE_3				
+				|| (hotspots [n_pant].act == 0 && (rand () & 7) == 2)
+			#endif
+		) {
+			hotspot_x = _x << 4;
+			hotspot_y = _y << 4;
+			orig_tile = map_buff [(_y << 4) - _y + _x];
 
-		#ifndef USE_HOTSPOTS_TYPE_3
-			if ((hotspots [n_pant].act == 1 && hotspots [n_pant].tipo) ||
-				(hotspots [n_pant].act == 0 && (rand () & 7) == 2)) {
-				hotspot_x = gpx << 4;
-				hotspot_y = gpy << 4;
-				orig_tile = map_buff [15 * gpy + gpx];
-				_x = gpx; _y = gpy;
-				_t = 16 + (hotspots [n_pant].act ? hotspots [n_pant].tipo : 0);
-				draw_coloured_tile_gamearea ();
-			}
-		#else
-			// Modificación para que los hotspots de tipo 3 sean recargas directas:
-			if (hotspots [n_pant].act == 1 && hotspots [n_pant].tipo) {
-		        hotspot_x = gpx << 4;
-		        hotspot_y = gpy << 4;
-		        orig_tile = map_buff [15 * gpy + gpx];
-		        _x = gpx; _y = gpy;
-		        _t = 16 + (hotspots [n_pant].tipo != 3 ? hotspots [n_pant].tipo : 0);
-		        draw_coloured_tile_gamearea ();
-		    }
-		#endif
+			#ifdef USE_HOTSPOTS_TYPE_3
+				_t = 16 + (hotspots [n_pant].tipo != 3 ? hotspots [n_pant].tipo : 0);
+			#else
+				_t = 16 + (hotspots [n_pant].act ? hotspots [n_pant].tipo : 0);				
+			#endif
+			draw_coloured_tile_gamearea ();
+		}	
 	#endif
 
 	#ifndef DEACTIVATE_KEYS
@@ -251,7 +236,7 @@ void draw_scr_background (void) {
 				_y = bolts [gpit].y;
 				_t = 0;
 				draw_coloured_tile_gamearea ();
-				gpd = 15 * gpy + gpx;
+				gpd = _x + (_y << 4) - _y;
 				map_attr [gpd] = 0;
 				map_buff [gpd] = 0;
 			}

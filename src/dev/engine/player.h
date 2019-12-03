@@ -28,8 +28,10 @@ void player_init (void) {
 			p_x = PLAYER_INI_X << 4;
 			p_y = PLAYER_INI_Y << 4;;
 		#else
-			p_x = PLAYER_INI_X << 10;
-			p_y = PLAYER_INI_Y << 10;
+			gpx = PLAYER_INI_X << 4;
+			gpy = PLAYER_INI_Y << 4;
+			p_x = gpx << FIXBITS;
+			p_y = gpy << FIXBITS;
 		#endif
 	#endif
 
