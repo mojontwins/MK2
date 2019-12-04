@@ -18,37 +18,37 @@ Let's get busy!
 The game contains lots of fixed screens. The original game does not have a script to automate the building and compression of these screens which we'll promptly add, `build_fixed.bat`:
 
 ```
-	@echo off
-	echo Building fixed screens
-	echo ======================
-	echo Converting...
-	..\..\..\src\utils\png2scr.exe ..\gfx\dedicado.png work\dedicado.src >nul
-	..\..\..\src\utils\png2scr.exe ..\gfx\ending.png work\ending.src >nul
-	..\..\..\src\utils\png2scr.exe ..\gfx\ending1.png work\ending1.src >nul
-	..\..\..\src\utils\png2scr.exe ..\gfx\ending2.png work\ending2.src >nul
-	..\..\..\src\utils\png2scr.exe ..\gfx\ending3.png work\ending3.src >nul
-	..\..\..\src\utils\png2scr.exe ..\gfx\ending4.png work\ending4.src >nul
-	..\..\..\src\utils\png2scr.exe ..\gfx\level.png work\level.src >nul
-	..\..\..\src\utils\png2scr.exe ..\gfx\loading.png work\loading.src >nul
-	..\..\..\src\utils\png2scr.exe ..\gfx\marco.png work\marco.src >nul
-	..\..\..\src\utils\png2scr.exe ..\gfx\title.png work\title.src >nul
+    @echo off
+    echo Building fixed screens
+    echo ======================
+    echo Converting...
+    ..\..\..\src\utils\png2scr.exe ..\gfx\dedicado.png work\dedicado.src >nul
+    ..\..\..\src\utils\png2scr.exe ..\gfx\ending.png work\ending.src >nul
+    ..\..\..\src\utils\png2scr.exe ..\gfx\ending1.png work\ending1.src >nul
+    ..\..\..\src\utils\png2scr.exe ..\gfx\ending2.png work\ending2.src >nul
+    ..\..\..\src\utils\png2scr.exe ..\gfx\ending3.png work\ending3.src >nul
+    ..\..\..\src\utils\png2scr.exe ..\gfx\ending4.png work\ending4.src >nul
+    ..\..\..\src\utils\png2scr.exe ..\gfx\level.png work\level.src >nul
+    ..\..\..\src\utils\png2scr.exe ..\gfx\loading.png work\loading.src >nul
+    ..\..\..\src\utils\png2scr.exe ..\gfx\marco.png work\marco.src >nul
+    ..\..\..\src\utils\png2scr.exe ..\gfx\title.png work\title.src >nul
 
-	echo Compressing...
-	..\..\..\src\utils\apack.exe work\dedicado.src ..\bin\dedicado.bin >nul 
-	..\..\..\src\utils\apack.exe work\ending.src ..\bin\ending.bin >nul 
-	..\..\..\src\utils\apack.exe work\ending1.src ..\bin\ending1.bin >nul 
-	..\..\..\src\utils\apack.exe work\ending2.src ..\bin\ending2.bin >nul 
-	..\..\..\src\utils\apack.exe work\ending3.src ..\bin\ending3.bin >nul 
-	..\..\..\src\utils\apack.exe work\ending4.src ..\bin\ending4.bin >nul 
-	..\..\..\src\utils\apack.exe work\level.src ..\bin\level.bin >nul 
-	..\..\..\src\utils\apack.exe work\loading.src ..\bin\loading.bin >nul 
-	..\..\..\src\utils\apack.exe work\marco.src ..\bin\marco.bin >nul 
-	..\..\..\src\utils\apack.exe work\title.src ..\bin\title.bin >nul 
+    echo Compressing...
+    ..\..\..\src\utils\apack.exe work\dedicado.src ..\bin\dedicado.bin >nul 
+    ..\..\..\src\utils\apack.exe work\ending.src ..\bin\ending.bin >nul 
+    ..\..\..\src\utils\apack.exe work\ending1.src ..\bin\ending1.bin >nul 
+    ..\..\..\src\utils\apack.exe work\ending2.src ..\bin\ending2.bin >nul 
+    ..\..\..\src\utils\apack.exe work\ending3.src ..\bin\ending3.bin >nul 
+    ..\..\..\src\utils\apack.exe work\ending4.src ..\bin\ending4.bin >nul 
+    ..\..\..\src\utils\apack.exe work\level.src ..\bin\level.bin >nul 
+    ..\..\..\src\utils\apack.exe work\loading.src ..\bin\loading.bin >nul 
+    ..\..\..\src\utils\apack.exe work\marco.src ..\bin\marco.bin >nul 
+    ..\..\..\src\utils\apack.exe work\title.src ..\bin\title.bin >nul 
 
-	echo Cleaning...
-	del work\*.src >nul 
+    echo Cleaning...
+    del work\*.src >nul 
 
-	echo DONE
+    echo DONE
 ```
 
 ## Graphics assets: spritesets and tilesets
@@ -80,8 +80,8 @@ We'll just copy those to gfx. Conversion and compression will be taken care by `
 As mentionted, `font.png` isn't covered in `build_levels.bat` and has to be converted from the main `compile.bat`:
 
 ```
-	echo ### MAKING TILESET ###
-	..\..\..\src\utils\ts2bin.exe ..\gfx\font.png notiles ..\bin\font.bin forcezero
+    echo ### MAKING TILESET ###
+    ..\..\..\src\utils\ts2bin.exe ..\gfx\font.png notiles ..\bin\font.bin forcezero
 ```
 
 ## Map data
@@ -115,7 +115,7 @@ The actual conversion and compression is handled by `build_levels.bat` as well.
 As always, enems data is always trickier as the format has changed and files have to be updated. I've copied every .ene file in the original to a scratch folder, edited them with an hex editor to fix the header and reat the tiles from a the .png file, and then executed `enemsupdater.exe` for each. 
 
 ```
-	$ for /r %T in (..\scratch\*.ene) do ..\..\..\src\utils\enemsupdr.exe %T %~nxT verbose
+    $ for /r %T in (..\scratch\*.ene) do ..\..\..\src\utils\enemsupdr.exe %T %~nxT verbose
 ```
 
 The results are stored in the `enems` folder:
@@ -149,18 +149,18 @@ Metatileset behaviour data are stored in text files. We'll just copy them into t
 This file is a huge collection of calls to the converters and the compressor. For each level there's a construct that's simmilar to this:
 
 ```
-	echo Level 0
-	..\utils\map2bin.exe ..\map\mapa0.map 1 12 99 work\map0.bin work\bolts0.bin >nul
-	..\utils\ts2bin.exe nofont ..\gfx\work0.png work\ts0.bin >nul
-	..\utils\sp2bin.exe ..\gfx\sprites0.png work\ss0.bin >nul
-	..\utils\ene2bin.exe 1 12 1 ..\enems\enems0.ene work\enems0.bin work\hotspots0.bin >nul
-	..\utils\behs2bin.exe ..\levels\behs0.txt work\behs0.bin >nul
-	..\utils\apack.exe work\map0.bin ..\bin\map0c.bin >nul
-	..\utils\apack.exe work\ts0.bin ..\bin\ts0c.bin >nul
-	..\utils\apack.exe work\ss0.bin ..\bin\ss0c.bin >nul
-	..\utils\apack.exe work\enems0.bin ..\bin\enems0c.bin >nul
-	..\utils\apack.exe work\hotspots0.bin ..\bin\hotspots0c.bin >nul
-	..\utils\apack.exe work\behs0.bin ..\bin\behs0c.bin >nul
+    echo Level 0
+    ..\utils\map2bin.exe ..\map\mapa0.map 1 12 99 work\map0.bin work\bolts0.bin >nul
+    ..\utils\ts2bin.exe nofont ..\gfx\work0.png work\ts0.bin >nul
+    ..\utils\sp2bin.exe ..\gfx\sprites0.png work\ss0.bin >nul
+    ..\utils\ene2bin.exe 1 12 1 ..\enems\enems0.ene work\enems0.bin work\hotspots0.bin >nul
+    ..\utils\behs2bin.exe ..\levels\behs0.txt work\behs0.bin >nul
+    ..\utils\apack.exe work\map0.bin ..\bin\map0c.bin >nul
+    ..\utils\apack.exe work\ts0.bin ..\bin\ts0c.bin >nul
+    ..\utils\apack.exe work\ss0.bin ..\bin\ss0c.bin >nul
+    ..\utils\apack.exe work\enems0.bin ..\bin\enems0c.bin >nul
+    ..\utils\apack.exe work\hotspots0.bin ..\bin\hotspots0c.bin >nul
+    ..\utils\apack.exe work\behs0.bin ..\bin\behs0c.bin >nul
 ```
 
 That should convert everything, compress it, and place it in the `bin` folder, ready to be parsed by the librarian and made into `RAMx.bin` files. Note how `bolts?.bin` are not included, as Ninjajar! doesn't use locks & keys.
@@ -190,46 +190,46 @@ Just copy the original `mus` folder. The `WYZproPlay47aZXc.ASM` file contains WY
 We'll start building our `compile.bat` with the stuff we have right now. Namely converting the font, stuffing the text, compiling the script, setting up the `preloadX.bin` files, calling the librarian, and crossing our fingers so everything is in place at this point:
 
 ```
-	@echo off
+    @echo off
 
-	SET game=ninjajar!
-	SET lang=ES
+    SET game=ninjajar!
+    SET lang=ES
 
-	echo ------------------------------------------------------------------------------
-	echo    BUILDING %game%
-	echo ------------------------------------------------------------------------------
+    echo ------------------------------------------------------------------------------
+    echo    BUILDING %game%
+    echo ------------------------------------------------------------------------------
 
-	echo ### MAKING TILESET ###
-	..\..\..\src\utils\ts2bin.exe ..\gfx\font.png notiles ..\bin\font.bin forcezero > nul
+    echo ### MAKING TILESET ###
+    ..\..\..\src\utils\ts2bin.exe ..\gfx\font.png notiles ..\bin\font.bin forcezero > nul
 
-	echo ### MAKING TEXT ###
-	..\..\..\src\utils\textstuffer.exe ..\texts\texts_%lang%.txt ..\bin\preload6.bin 24 > nul
+    echo ### MAKING TEXT ###
+    ..\..\..\src\utils\textstuffer.exe ..\texts\texts_%lang%.txt ..\bin\preload6.bin 24 > nul
 
-	echo ### MAKING SCRIPT ###
-	cd ..\script
-	..\..\..\src\utils\msc3_mk2_1.exe script.spt 21 rampage > nul
-	echo #define SCRIPT_INIT 49152 >> msc-config.h
-	copy msc.h ..\dev\my > nul
-	copy msc-config.h ..\dev\my > nul
-	copy scripts.bin ..\bin\preload7.bin > nul
-	cd ..\dev
+    echo ### MAKING SCRIPT ###
+    cd ..\script
+    ..\..\..\src\utils\msc3_mk2_1.exe script.spt 21 rampage > nul
+    echo #define SCRIPT_INIT 49152 >> msc-config.h
+    copy msc.h ..\dev\my > nul
+    copy msc-config.h ..\dev\my > nul
+    copy scripts.bin ..\bin\preload7.bin > nul
+    cd ..\dev
 
-	echo ### BUILDING RAMS ###
-	cd ..\bin
-	..\..\..\src\utils\librarian.exe > nul
-	copy ram?.bin ..\dev\work > nul
-	copy librarian.h ..\dev\assets\ > nul
-	cd ..\dev
+    echo ### BUILDING RAMS ###
+    cd ..\bin
+    ..\..\..\src\utils\librarian.exe > nul
+    copy ram?.bin ..\dev\work > nul
+    copy librarian.h ..\dev\assets\ > nul
+    cd ..\dev
 
-	echo ### BUILDING WYZ PLAYER ###
-	cd ..\mus
-	..\..\..\src\utils\pasmo WYZproPlay47aZXc.ASM RAM1.bin > nul
-	copy ram1.bin ..\dev\work
-	cd ..\dev
+    echo ### BUILDING WYZ PLAYER ###
+    cd ..\mus
+    ..\..\..\src\utils\pasmo WYZproPlay47aZXc.ASM RAM1.bin > nul
+    copy ram1.bin ..\dev\work
+    cd ..\dev
 
-	rem ###########################################################################
-	rem ## COMPILATION AND TAPE BUILDING
-	rem ###########################################################################
+    rem ###########################################################################
+    rem ## COMPILATION AND TAPE BUILDING
+    rem ###########################################################################
 ```
 
 Note how you can generate the Spanish or English version just by modifying the `lang` environment variable at the top of the file. More on this later.
@@ -258,29 +258,29 @@ The level structure is of type `LEVEL`, which, for `EXTENDED_LEVELS`, has these 
 
 ```c
 typedef struct {
-	unsigned char map_res;
-	#ifndef DEACTIVATE_KEYS
-		unsigned char bolts_res;
-	#endif
-	unsigned char ts_res;
-	unsigned char ss_res;
-	unsigned char enems_res;
-	#ifndef DISABLE_HOTSPOTS
-		unsigned char hotspots_res;
-	#endif
-	unsigned char behs_res;
+    unsigned char map_res;
+    #ifndef DEACTIVATE_KEYS
+        unsigned char bolts_res;
+    #endif
+    unsigned char ts_res;
+    unsigned char ss_res;
+    unsigned char enems_res;
+    #ifndef DISABLE_HOTSPOTS
+        unsigned char hotspots_res;
+    #endif
+    unsigned char behs_res;
 
-	unsigned char music_id;
-	unsigned char scr_ini, ini_x, ini_y;
-	unsigned char scr_fin;
-	unsigned char map_w, map_h;
-	unsigned char max_objs;
-	unsigned char enems_life;
-	unsigned char win_condition;
-	unsigned char switchable_engine_type;
-	unsigned char facing;
-	unsigned char activate_scripting;
-	unsigned int script_offset;
+    unsigned char music_id;
+    unsigned char scr_ini, ini_x, ini_y;
+    unsigned char scr_fin;
+    unsigned char map_w, map_h;
+    unsigned char max_objs;
+    unsigned char enems_life;
+    unsigned char win_condition;
+    unsigned char switchable_engine_type;
+    unsigned char facing;
+    unsigned char activate_scripting;
+    unsigned int script_offset;
 } LEVEL;
 ```
 
@@ -289,9 +289,9 @@ Note how the `bolts_res` and `hotspots_res` fields may or may not be present.
 So each level entry of our levels array for Ninjajar (which doesn't use locks, but does use hotspots) is as follows (this is the entry for the first level:
 
 ```c
-	{MAP5C_BIN, TS5C_BIN, SS0C_BIN, ENEMS5C_BIN, HOTSPOTS5C_BIN, BEHS5C_BIN, 0, 
-	 8, 7, 7, 99, 7, 3, 99, 1, 2, SENG_JUMP, 0,
-	 1, SCRIPT_INIT + SCRIPT_0},
+    {MAP5C_BIN, TS5C_BIN, SS0C_BIN, ENEMS5C_BIN, HOTSPOTS5C_BIN, BEHS5C_BIN, 0, 
+     8, 7, 7, 99, 7, 3, 99, 1, 2, SENG_JUMP, 0,
+     1, SCRIPT_INIT + SCRIPT_0},
 ```
 
 Here is what we found in the struct:
@@ -322,17 +322,17 @@ In addition to all this, Ninjajar! uses `LEVEL_SEQUENCE`, which allows to use a 
 Notice how the first level to be executed is the tutorial, and then a set of levels in order intersped with level 11 which is the shop.
 
 ```c
-	#ifdef LEVEL_SEQUENCE
-		unsigned char level_sequence [] = {
-			12,
-			0, 1, 2, 11, 
-			3, 4, 5, 11,
-			6, 7, 8, 11,
-			9, 10, 11,
-			15, 14, 13, 11,
-			11, 17, 16, 18
-		};
-	#endif
+    #ifdef LEVEL_SEQUENCE
+        unsigned char level_sequence [] = {
+            12,
+            0, 1, 2, 11, 
+            3, 4, 5, 11,
+            6, 7, 8, 11,
+            9, 10, 11,
+            15, 14, 13, 11,
+            11, 17, 16, 18
+        };
+    #endif
 ```
 
 ## Building
@@ -340,9 +340,9 @@ Notice how the first level to be executed is the tutorial, and then a set of lev
 Run these commands to completely rebuild Ninjajar! v2
 
 ```
-	$ setenv.bat
-	$ build_fixed.bat
-	$ build_levels.bat
-	$ compile.bat
+    $ setenv.bat
+    $ build_fixed.bat
+    $ build_levels.bat
+    $ compile.bat
 ```
 
