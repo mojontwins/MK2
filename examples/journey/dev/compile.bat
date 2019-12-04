@@ -36,8 +36,8 @@ rem tilesets. Check on whatsnew.txt for directions.
 del ..\bin\*.bin /a /s >nul
 
 echo ### MAKING MAPS ###
-..\..\..\src\utils\map2rlebin.exe rle=44 in=..\map\level0.map out=..\bin\level0 size=4,7 tlock=15
-..\..\..\src\utils\map2rlebin.exe rle=44 in=..\map\level1.map out=..\bin\level1 size=4,7 tlock=15
+..\..\..\src\utils\map2rlebin.exe rle=44 in=..\map\level0.map out=..\bin\level0 size=4,7 tlock=15 fulllocks
+..\..\..\src\utils\map2rlebin.exe rle=44 in=..\map\level1.map out=..\bin\level1 size=4,7 tlock=15 fulllocks
 
 echo ### COMPRESSING MAPS ###
 ..\..\..\src\utils\apack.exe ..\bin\level0.map.bin ..\bin\level0.map.c.bin > nul

@@ -21,7 +21,7 @@
 // Types:
 // This contains the level data for current level. Not really needed, but
 // this is here because of legacy support of 128K full-contained levels like
-// those found in Goku Mal.
+// those found in Goku Mal and others
 typedef struct {
 	unsigned char map_w, map_h;
 	unsigned char scr_ini, ini_x, ini_y;

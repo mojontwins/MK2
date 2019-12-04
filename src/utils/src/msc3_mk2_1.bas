@@ -1040,7 +1040,6 @@ If maxItem > 0 then
 	print #f3, "unsigned char items [MSC_MAXITEMS];"
 	print #f3, "unsigned char its_it, its_p;"
 	print #f3, " "
-	print #f3, "int key_z;"
 	print #f3, "unsigned char key_z_pressed = 0;"
 	print #f3, " "
 	
@@ -1101,7 +1100,7 @@ If maxItem > 0 then
 	End If
 	
 	print #f3, "void do_inventory_fiddling (void) {"
-	print #f3, "	if (sp_KeyPressed (key_z)) {"
+	print #f3, "	if (sp_KeyPressed (KEY_Z)) {"
 	print #f3, "		if (!key_z_pressed) {"
 	print #f3, "#ifdef MODE_128K"
 	print #f3, "			_AY_PL_SND (2);"

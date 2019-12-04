@@ -126,7 +126,7 @@ unsigned char d_pressed;
 #define ADJUST_BOTTOM 	(pty2 - 1) << 4
 #endif
 
-#define BUTTON_FIRE	((gpit & sp_FIRE) == 0)
+#define BUTTON_FIRE	((pad0 & sp_FIRE) == 0)
 
 #if ADVANCE_FRAME_COUNTER != 1
 void advance_frame (void) {
@@ -143,7 +143,6 @@ unsigned char p_jump_max_steps;
 #endif
 
 unsigned char player_move () {
-	gpit = (joyfunc) (&keys);
 	wall_h = 0;
 	check_to_v = check_to_h = 0;
 	mx = my = 0;
@@ -188,15 +187,12 @@ unsigned char player_move () {
 			if (ptgmx < 0) check_to_h = WLEFT; else if (ptgmx > 0) check_to_h = WRIGHT;
 			if (ptgmy < 0) check_to_v = WTOP; else if (ptgmy > 0) check_to_v = WBOTTOM;
 		}
-
-		// Read controller
-		gpit = (joyfunc) (&keys);
 	
 		// Jump?
 #if PHANTOMAS_ENGINE == 3
-		if (0 == p_jmp_on && 0 == falling && (gpit & sp_UP) == 0) {
+		if (0 == p_jmp_on && 0 == falling && (pad0 & sp_UP) == 0) {
 #else
-		if ((gpit & sp_UP) == 0) {
+		if ((pad0 & sp_UP) == 0) {
 #endif
 			p_jmp_ct = 0;
 			p_jmp_on = 1;
@@ -219,10 +215,10 @@ unsigned char player_move () {
 			// Abu Simbel Profanation - LONG jump
 			p_vy = PHANTOMAS_INCR_1;
 			p_jump_max_steps = PHANTOMAS_JUMP_CTR + PHANTOMAS_JUMP_CTR;
-			if ((gpit & sp_LEFT) == 0) {
+			if ((pad0 & sp_LEFT) == 0) {
 				p_vx = PHANTOMAS_INCR_1;
 				p_facing = 0;
-			} else if ((gpit & sp_RIGHT) == 0) {
+			} else if ((pad0 & sp_RIGHT) == 0) {
 				p_vx = PHANTOMAS_INCR_1;
 				p_facing = 4;
 			} else {
@@ -232,7 +228,7 @@ unsigned char player_move () {
 #if PHANTOMAS_ENGINE == 3
 		}
 #else
-		} else if ((gpit & sp_DOWN) == 0) {
+		} else if ((pad0 & sp_DOWN) == 0) {
 			p_jmp_ct = 0;
 			p_jmp_on = 1;
 #ifdef MODE_128K
@@ -251,10 +247,10 @@ unsigned char player_move () {
 			// Abu Simbel Profanation - SHORT jump
 			p_vy = PHANTOMAS_INCR_1;
 			p_jump_max_steps = PHANTOMAS_JUMP_CTR;
-			if ((gpit & sp_LEFT) == 0) {
+			if ((pad0 & sp_LEFT) == 0) {
 				p_vx = PHANTOMAS_INCR_1;
 				p_facing = 0;
-			} else if ((gpit & sp_RIGHT) == 0) {
+			} else if ((pad0 & sp_RIGHT) == 0) {
 				p_vx = PHANTOMAS_INCR_1;
 				p_facing = 4;
 			} else {
@@ -270,7 +266,7 @@ unsigned char player_move () {
 		d_pressed = 0;
 #endif		
 			
-		if ((gpit & sp_LEFT) == 0) {			
+		if ((pad0 & sp_LEFT) == 0) {			
 			if (p_facing == 4) {
 				p_facing = 0;
 			} else {
@@ -290,7 +286,7 @@ unsigned char player_move () {
 			}
 		}
 		
-		if ((gpit & sp_RIGHT) == 0) {
+		if ((pad0 & sp_RIGHT) == 0) {
 			if (p_facing == 0) {
 				p_facing = 4;
 			} else {
@@ -338,9 +334,9 @@ unsigned char player_move () {
 		
 #if PHANTOMAS_ENGINE == 2
 		// Change direction?
-		if ((gpit & sp_LEFT) == 0) {
+		if ((pad0 & sp_LEFT) == 0) {
 			p_facing = 0;
-		} else if ((gpit & sp_RIGHT) == 0) {
+		} else if ((pad0 & sp_RIGHT) == 0) {
 			p_facing = 4;
 		}
 #endif
@@ -404,7 +400,9 @@ unsigned char player_move () {
 	if (check_to_h == WLEFT) {		
 		#if defined (PLAYER_PUSH_BOXES) || !defined (DEACTIVATE_KEYS)
 			cx1 = LIMIT_LEFT; cy1 = (p_y + 8) >> 4;
-			if (attr () == 10) process_tile (cx1, cy1, cx1 - 1, cy1);
+			if (attr () == 10) {
+				x0 = cx1; y0 = y1 = cy1; x1 = cx1 - 1; process_tile ();
+			}
 		#endif
 
 		cx1 = cx2 = LIMIT_LEFT; cy1 = LIMIT_TOP; cy2 = LIMIT_BOTTOM;
@@ -417,7 +415,9 @@ unsigned char player_move () {
 		
 		#if defined (PLAYER_PUSH_BOXES) || !defined (DEACTIVATE_KEYS)
 			cx1 = LIMIT_LEFT; cy1 = (p_y + 8) >> 4;
-			if (attr () == 10) process_tile (cx1, cy1, cx1 + 1, cy1);
+			if (attr () == 10) {
+				x0 = cx1; y0 = y1 = cy1; x1 = cx1 + 1; process_tile ();
+			}
 		#endif
 
 		cx1 = cx2 = LIMIT_RIGHT; cy1 = LIMIT_TOP; cy2 = LIMIT_BOTTOM;

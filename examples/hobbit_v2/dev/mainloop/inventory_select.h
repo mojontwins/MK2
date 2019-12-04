@@ -1,6 +1,6 @@
 #if defined (MSC_MAXITEMS) || defined (ENABLE_SIM)
 			// Select object
-			if (sp_KeyPressed (key_z)) {
+			if (sp_KeyPressed (KEY_Z)) {
 				if (!key_z_pressed) {
 #ifdef MODE_128K
 					_AY_PL_SND (SFX_INVENTORY);

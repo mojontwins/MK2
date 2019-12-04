@@ -13,7 +13,10 @@
 				cy1 = gpy >> 3;		
 			#endif
 
-			if (attr () == 10) process_tile (cx1, cy1, cx1, cy1 - 1);
+			if (attr () == 10) {
+				x0 = x1 = cx1; y0 = cy1; y1 = cy1 - 1;
+				process_tile ();
+			}
 
 		} else if (wall_v == WBOTTOM) {
 			// interact down
@@ -25,7 +28,10 @@
 				cy1 = (gpy + 16) >> 3;				
 			#endif		
 		
-			if (attr () == 10) process_tile (cx1, cy1, cx1, cy1 + 1);
+			if (attr () == 10) {
+				x0 = x1 = cx1; y0 = cy1; y1 = cy1 + 1;
+				process_tile ();
+			}
 		} else
 	#endif	
 	
@@ -37,7 +43,10 @@
 			cx1 = gpx >> 4;		
 		#endif		
 
-		if (attr () == 10) process_tile (cx1, cy1, cx1 - 1, cy1);
+		if (attr () == 10) {
+			y0 = y1 = cy1; x0 = cx1; x1 = cx1 - 1;
+			process_tile ();
+		}
 	} else if (wall_h == WRIGHT) {
 		// interact right
 		#if defined (BOUNDING_BOX_8_BOTTOM) || defined (BOUNDING_BOX_8_CENTERED)
@@ -45,7 +54,10 @@
 		#else
 			cx1 = (gpx + 16) >> 4;		
 		#endif		
-		if (attr () == 10) process_tile (cx1, cy1, cx1 + 1, cy1);
+		if (attr () == 10) {
+			y0 = y1 = cy1; x0 = cx1; x1 = cx1 + 1;
+			process_tile ();
+		}
 	}
 #endif
 	

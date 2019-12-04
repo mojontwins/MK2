@@ -1,4 +1,4 @@
-			if (sp_KeyPressed (key_h)) {
+			if (sp_KeyPressed (KEY_H)) {
 				sp_WaitForNoKey ();
 #ifdef MODE_128K
 				_AY_ST_ALL ();
@@ -6,7 +6,7 @@
 #endif
 				//hide_sprites (0);
 				//pause_screen ();
-				while (sp_KeyPressed (key_h) == 0);
+				while (sp_KeyPressed (KEY_H) == 0);
 				sp_WaitForNoKey ();
 				//draw_scr_background ();
 #ifdef ACTIVATE_SCRIPTING
@@ -21,6 +21,6 @@
 #endif
 #endif
 			}
-			if (sp_KeyPressed (key_y)) {
+			if (sp_KeyPressed (KEY_Y)) {
 				playing = 0;
 			}

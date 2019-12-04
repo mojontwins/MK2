@@ -205,7 +205,8 @@ void draw_scr_background (void) {
 
 	// Object setup
 	#ifndef DISABLE_HOTSPOTS
-		hotspot_x = hotspot_y = 240;
+		/*
+		hotspot_y = 240;
 		_x = (hotspots [n_pant].xy >> 4);
 		_y = (hotspots [n_pant].xy & 15);
 	
@@ -226,21 +227,209 @@ void draw_scr_background (void) {
 			#endif
 			draw_coloured_tile_gamearea ();
 		}	
+		*/
+		#asm 
+				ld  a, 240
+				ld  (_hotspot_y), a
+
+				// Hotspots are 3-byte wide structs. No game will have more than 85 screens
+				// in the same map so we can do the math in 8 bits:
+
+				ld  a, (_n_pant)
+				ld  b, a
+				sla a
+				add b
+
+				ld  c, a
+				ld  b, 0
+
+				// BC = Index to the hotspots struct, which happens to be {xy, type, act}
+
+				ld  hl, _hotspots
+				add hl, bc
+
+				// Now HL points to hotspots [n_pant]
+
+				ld  a, (hl) 		// A = hotspots [n_pant].xy
+				ld  b, a
+
+				srl a
+				srl a
+				srl a
+				srl a
+				ld  (__x), a
+
+				ld  a, b
+				and 15
+				ld  (__y), a
+
+				inc hl 				// HL->hotspots [n_pant].type
+				ld  b, (hl) 		// B = hotspots [n_pant].type
+				inc hl 				// HL->hotspots [n_pant].type
+				ld  c, (hl) 		// C = hotspots [n_pant].act
+
+				// if (
+				// 	(hotspots [n_pant].act && hotspots [n_pant].tipo) 
+
+				ld  a, b
+				and c
+			
+			#ifndef USE_HOTSPOTS_TYPE_3						
+				jr  nz, _hotspots_setup_do
+
+				// || (hotspots [n_pant].act == 0 && (rand () & 7) == 2)
+
+				call _rand
+				ld  a, l
+				and 7
+				cp  2		
+			#endif
+
+				jr  z, _hotspots_setup_done
+
+			._hotspots_setup_do
+				ld  a, (__x)
+				ld  e, a
+				sla a
+				sla a
+				sla a
+				sla a
+				ld  (_hotspot_x), a
+
+				ld  a, (__y)
+				ld  d, a
+				sla a
+				sla a
+				sla a
+				sla a
+				ld  (_hotspot_y), a
+
+				// orig_tile = map_buff [(_y << 4) - _y + _x];
+				// A = (_y << 4), D = _y, E = _x, so
+				sub d
+				add e
+
+				ld  e, a
+				ld  d, 0
+				ld  hl, _map_buff
+				add hl, de
+				ld  a, (hl)
+				ld  (_orig_tile), a
+
+			#ifdef USE_HOTSPOTS_TYPE_3
+				// _t = 16 + (hotspots [n_pant].tipo != 3 ? hotspots [n_pant].tipo : 0);
+				ld  a, b
+				cp  3
+				jp  nz, _hotspots_setup_set
+			#else
+				// _t = 16 + (hotspots [n_pant].act ? hotspots [n_pant].tipo : 0);	
+				ld  a, c
+				or  a
+				jr  z, _hotspots_setup_set_refill
+
+				ld  a, b
+				jp  _hotspots_setup_set
+			#endif
+
+			._hotspots_setup_set_refill
+				xor a
+			._hotspots_setup_set
+				add 16
+				ld  (__t), a		
+
+				call _draw_coloured_tile_gamearea
+
+			._hotspots_setup_done
+		#endasm
 	#endif
 
 	#ifndef DEACTIVATE_KEYS
 		// Open locks
+		/*
 		for (gpit = 0; gpit < MAX_BOLTS; gpit ++) {
 			if (bolts [gpit].np == n_pant && !bolts [gpit].st) {
 				_x = bolts [gpit].x;
 				_y = bolts [gpit].y;
-				_t = 0;
-				draw_coloured_tile_gamearea ();
 				gpd = _x + (_y << 4) - _y;
 				map_attr [gpd] = 0;
 				map_buff [gpd] = 0;
+
+				_t = 0;
+				draw_coloured_tile_gamearea ();				
 			}
 		}
+		*/
+
+		#asm
+				// BOLTS structure is 4 bytes wide: { np, x, y, st }
+				ld  hl, _bolts
+				ld  b, MAX_BOLTS
+			._open_locks_loop
+				push bc
+				
+				ld  a, (_n_pant)
+				ld  c, a
+
+				ld  a, (hl)			// A = bolts [gpit].np
+				inc hl
+
+				cp  c
+				jr  nz, _open_locks_done
+				
+				ld  a, (hl)
+				inc hl
+
+				ld  d, a 			// D = bolts [gpit].x;
+
+				ld  a, (hl)
+				inc hl
+
+				ld  e, a 			// E = bolts [gpit].y;
+
+				ld  a, (hl)			// A = bolts [gpit].st
+				inc hl
+
+				or  a
+				jr  nz, _open_locks_done				
+				
+			._open_locks_do
+				ld  a, d
+				ld  (__x), a
+				ld  a, e
+				ld  (__y), a
+				
+				sla a
+				sla a
+				sla a
+				sla a
+				sub e
+				add d
+
+				ld  b, 0
+				ld  c, a
+				xor a
+				
+				push hl 			// Save for later.
+				
+				ld  hl, _map_attr
+				add hl, bc
+				ld  (hl), a
+				ld  hl, _map_buff
+				add hl, bc
+				ld  (hl), a
+
+				ld  (__t), a
+
+				call _draw_coloured_tile_gamearea
+
+				pop hl
+
+			._open_locks_done
+				
+				pop bc
+				dec b
+				jr  nz, _open_locks_loop
+		#endasm
 	#endif
 }
 
@@ -336,10 +525,6 @@ void draw_scr (void) {
 		#endif
 	#endif
 
-	// CUSTOM {
-		// Shows screen name
-		// do_extern_action (1 + n_pant);
-	// }
 	invalidate_viewport ();
 
 	is_rendering = 0;

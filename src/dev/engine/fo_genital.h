@@ -16,9 +16,7 @@
 #include "engine/fo_common.h"
 
 void FO_do (void) {
-	fo_gp = (joyfunc) (&keys);
-
-	if ((fo_gp & sp_FIRE) == 0) {
+	if ((pad0 & sp_FIRE) == 0) {
 		if (0 == d_prs) {
 			fo_it = 0;
 			while (fo_it < MAX_FLOATING_OBJECTS) {

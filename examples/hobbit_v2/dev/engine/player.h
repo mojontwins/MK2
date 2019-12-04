@@ -7,15 +7,15 @@
 
 // Predefine button detection
 #ifdef USE_TWO_BUTTONS
-	#define BUTTON_FIRE	((gpit & sp_FIRE) == 0 || sp_KeyPressed (key_fire))
+	#define BUTTON_FIRE	((pad0 & sp_FIRE) == 0 || sp_KeyPressed (key_fire))
 	#define BUTTON_JUMP	(sp_KeyPressed (key_jump))
 #else
 	#if defined (PLAYER_CAN_FIRE) || defined (PLAYER_CAN_PUNCH) || defined (PLAYER_HAZ_SWORD) || defined (CARRIABLE_BOXES_THROWABLE)
-		#define BUTTON_FIRE	((gpit & sp_FIRE) == 0)
-		#define BUTTON_JUMP	((gpit & sp_UP) == 0)
+		#define BUTTON_FIRE	((pad0 & sp_FIRE) == 0)
+		#define BUTTON_JUMP	((pad0 & sp_UP) == 0)
 	#else
 		#define BUTTON_FIRE	(0)
-		#define BUTTON_JUMP	((gpit & sp_FIRE) == 0)
+		#define BUTTON_JUMP	((pad0 & sp_FIRE) == 0)
 	#endif
 #endif
 
@@ -273,7 +273,6 @@ signed int p_vlhit;
 unsigned char player_move (void) {
 
 	wall_v = wall_h = 0;
-	gpit = (joyfunc) (&keys);
 
 	// Get bottom-center pixel tile behaviour for several NEW_GENITAL stuff
 	#if defined (PLAYER_GENITAL)

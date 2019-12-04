@@ -6,83 +6,90 @@
 
 // General defines
 
-#define EST_NORMAL 		0
-#define EST_PARP 		2
-#define EST_MUR 		4
-#define EST_DIZZY 		8
-#define sgni(n)			(n < 0 ? -1 : 1)
-#define saturate(n)		(n < 0 ? 0 : n)
-#define WTOP 			1
-#define WBOTTOM 		2
-#define WLEFT 			3
-#define WRIGHT 			4
+#define EST_NORMAL 				0
+#define EST_PARP 				2
+#define EST_MUR 				4
+#define EST_DIZZY 				8
+#define sgni(n)					(n < 0 ? -1 : 1)
+#define saturate(n)				(n < 0 ? 0 : n)
+#define WTOP 					1
+#define WBOTTOM 				2
+#define WLEFT 					3
+#define WRIGHT 					4
 
-#define FACING_RIGHT 	0
-#define FACING_LEFT 	2
-#define FACING_UP 		4
-#define FACING_DOWN 	6
+#define FACING_RIGHT 			0
+#define FACING_LEFT			 	2
+#define FACING_UP 				4
+#define FACING_DOWN 			6
 
-#define SENG_JUMP 		0
-#define SENG_SWIM 		1
-#define SENG_COPT 		2
-#define SENG_JETP 		3
-#define SENG_BOOT 		4
+#define SENG_JUMP 				0
+#define SENG_SWIM 				1
+#define SENG_COPT 				2
+#define SENG_JETP 				3
+#define SENG_BOOT 				4
 
-#define FANTIES_IDLE 		0
-#define FANTIES_PURSUING	1
-#define FANTIES_RETREATING	2
-#define GENERAL_DYING		4
+#define FANTIES_IDLE 			0
+#define FANTIES_PURSUING		1
+#define FANTIES_RETREATING		2
+#define GENERAL_DYING			4
 
-#define MAX_FLAGS 		32
+#define MAX_FLAGS 				32
 
-#define BUFFER_IDX(x,y) x+(y<<4)-y
+#define BUFFER_IDX(x,y) 		x+(y<<4)-y
 
-#define TILE_EVIL 		1
-#define TILE_HOLE 		2
+#define TILE_EVIL 				1
+#define TILE_HOLE 				2
 
 // Sound effects. Alter here and you are done!
-#define SFX_PUSH_BOX	2
-#define SFX_LOCK		8
-#define SFX_BREAK_WALL	10
-#define SFX_BREAK_WALL_ANIM 10
-#define SFX_SHOOT		9
-#define SFX_KILL_ENEMY	2
-#define SFX_ENEMY_HIT	2
-#define SFX_EXPLOSION	10
-#define SFX_CONTAINER	6
-#define SFX_FO_DRAIN	2
-#define SFX_FO_DESTROY	10
-#define SFX_FO_DROP		2
-#define SFX_FO_GET		2
-#define SFX_JUMP 		1
-#define SFX_JUMP_ALT 	1
-#define SFX_TILE_GET 	5
-#define SFX_HITTER_HIT 	2
-#define SFX_FALL_HOLE 	9
-#define SFX_KS_TICK 	4
-#define SFX_KS_DRAIN 	3
-#define SFX_REFILL 		7
-#define SFX_OBJECT 		6
-#define SFX_KEY 		6
-#define SFX_AMMO		6
-#define SFX_TIME		6
-#define SFX_FUEL		6
-#define SFX_WRONG 		2
-#define SFX_INVENTORY 	2
-#define SFX_PLAYER_DEATH_BOMB 2
-#define SFX_PLAYER_DEATH_COCO 2
-#define SFX_PLAYER_DEATH_ENEMY 2
-#define SFX_PLAYER_DEATH_SPIKE 3
-#define SFX_PLAYER_DEATH_HOLE 10
-#define SFX_PLAYER_DEATH_TIME 2
-#define SFX_PLAYER_DEATH_LAVA 10
-#define SFX_ENDING_LAME_1 2
-#define SFX_ENDING_LAME_2 3
-#define SFX_ENDING_LAME_WIN 6
-#define SFX_ENDING_LAME_LOSE 10
+#define SFX_PUSH_BOX			2
+#define SFX_LOCK				8
+#define SFX_BREAK_WALL			10
+#define SFX_BREAK_WALL_ANIM 	10
+#define SFX_SHOOT				9
+#define SFX_KILL_ENEMY			2
+#define SFX_ENEMY_HIT			2
+#define SFX_EXPLOSION			10
+#define SFX_CONTAINER			6
+#define SFX_FO_DRAIN			2
+#define SFX_FO_DESTROY			10
+#define SFX_FO_DROP				2
+#define SFX_FO_GET				2
+#define SFX_JUMP 				1
+#define SFX_JUMP_ALT 			1
+#define SFX_TILE_GET 			5
+#define SFX_HITTER_HIT 			2
+#define SFX_FALL_HOLE 			9
+#define SFX_KS_TICK 			4
+#define SFX_KS_DRAIN 			3
+#define SFX_REFILL 				7
+#define SFX_OBJECT 				6
+#define SFX_KEY 				6
+#define SFX_AMMO				6
+#define SFX_TIME				6
+#define SFX_FUEL				6
+#define SFX_WRONG 				2
+#define SFX_INVENTORY 			2
+#define SFX_PLAYER_DEATH_BOMB 	2
+#define SFX_PLAYER_DEATH_COCO 	2
+#define SFX_PLAYER_DEATH_ENEMY 	2
+#define SFX_PLAYER_DEATH_SPIKE 	3
+#define SFX_PLAYER_DEATH_HOLE 	10
+#define SFX_PLAYER_DEATH_TIME 	2
+#define SFX_PLAYER_DEATH_LAVA 	10
+#define SFX_ENDING_LAME_1 		2
+#define SFX_ENDING_LAME_2 		3
+#define SFX_ENDING_LAME_WIN		6
+#define SFX_ENDING_LAME_LOSE 	10
 
-#define MAX_TILANIMS 	16
-#define TILANIMS_PRIME  3 			// Prime to MAX_TILANIMS, ideally /4-1
+#define MAX_TILANIMS 			16
+#define TILANIMS_PRIME 			 3 	// Prime to MAX_TILANIMS, ideally /4-1
+
+// Keys
+
+#define KEY_L 					0x02bf
+#define KEY_M 					0x047f
+#define KEY_H					0x08bf
+#define KEY_Y 					0x10df
 
 // General externs
 
@@ -329,16 +336,7 @@ unsigned char maincounter;
 	int key_jump, key_fire;
 #endif
 
-#ifdef SCRIPTING_KEY_M
-	int key_m;
-#endif
-
-#ifdef PAUSE_ABORT
-	int key_h, key_y;
-#endif
-
 #if defined (ENABLE_SIM)
-	int key_z;
 	unsigned char key_z_pressed = 0;
 #endif
 
@@ -379,6 +377,7 @@ unsigned char *map_pointer;
 	unsigned char nocast, _ta;
 	unsigned char xx, yy;
 #endif
+
 #ifdef USE_AUTO_TILE_SHADOWS
 	unsigned a1, a2, a3;
 	unsigned char *gen_pt_alt;
@@ -388,6 +387,9 @@ unsigned char *map_pointer;
 // Undo parameters
 unsigned char _x, _y, _t, _n;
 unsigned char *gp_gen;
+#if defined (PLAYER_PUSH_BOXES) || !defined (DEACTIVATE_KEYS)
+	unsigned char x0, y0, x1, y1;
+#endif
 
 #ifdef ENABLE_TILANIMS
 	unsigned char tait;
@@ -400,3 +402,5 @@ unsigned char *gp_gen;
 #ifdef MIN_FAPS_PER_FRAME
 	unsigned char isrc;
 #endif
+
+unsigned char pad0;

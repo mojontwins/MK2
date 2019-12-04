@@ -1,4 +1,4 @@
-	rda = ((gpit & sp_UP) == 0 || (gpit & sp_DOWN) == 0);
+	rda = ((pad0 & sp_UP) == 0 || (pad0 & sp_DOWN) == 0);
 
 	if ( 
 		!rda  
@@ -23,13 +23,13 @@
 		}
 	#endif 
 
-	if ((gpit & sp_UP) == 0) {
+	if ((pad0 & sp_UP) == 0) {
 		p_facing_v = FACING_UP;
 		p_thrust = 1;
 		if (p_vy > -PLAYER_VX_MAX) p_vy -= AXVAL;
 	}
 
-	if ((gpit & sp_DOWN) == 0) {
+	if ((pad0 & sp_DOWN) == 0) {
 		p_facing_v = FACING_DOWN;
 		p_thrust = 1;
 		if (p_vy < PLAYER_VX_MAX) p_vy += AXVAL;

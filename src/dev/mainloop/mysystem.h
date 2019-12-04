@@ -13,16 +13,6 @@
 	// Reserve memory blocks for sprites
 	sp_AddMemory(0, NUMBLOCKS, 14, AD_FREE);
 
-#ifdef SCRIPTING_KEY_M
-	key_m = 0x047f;
-#endif
-#ifdef PAUSE_ABORT
-	key_h = 0x08bf;
-	key_y = 0x10df;
-#endif
-#if defined (MSC_MAXITEMS) || defined (ENABLE_SIM)
-	key_z = 0x02fe;
-#endif
 	joyfunc = sp_JoyKeyboard;
 
 	// Load tileset

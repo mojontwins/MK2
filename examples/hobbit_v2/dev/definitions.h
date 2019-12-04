@@ -84,6 +84,13 @@
 #define MAX_TILANIMS 	16
 #define TILANIMS_PRIME  3 			// Prime to MAX_TILANIMS, ideally /4-1
 
+// Keys
+
+#define KEY_L 					0x02bf
+#define KEY_M 					0x047f
+#define KEY_H					0x08bf
+#define KEY_Y 					0x10df
+
 // General externs
 
 unsigned int asm_int;
@@ -329,16 +336,7 @@ unsigned char maincounter;
 	int key_jump, key_fire;
 #endif
 
-#ifdef SCRIPTING_KEY_M
-	int key_m;
-#endif
-
-#ifdef PAUSE_ABORT
-	int key_h, key_y;
-#endif
-
 #if defined (ENABLE_SIM)
-	int key_z;
 	unsigned char key_z_pressed = 0;
 #endif
 
@@ -388,6 +386,9 @@ unsigned char *map_pointer;
 // Undo parameters
 unsigned char _x, _y, _t, _n;
 unsigned char *gp_gen;
+#if defined (PLAYER_PUSH_BOXES) || !defined (DEACTIVATE_KEYS)
+	unsigned char x0, y0, x1, y1;
+#endif
 
 #ifdef ENABLE_TILANIMS
 	unsigned char tait;
@@ -400,3 +401,5 @@ unsigned char *gp_gen;
 #ifdef MIN_FAPS_PER_FRAME
 	unsigned char isrc;
 #endif
+
+unsigned char pad0;

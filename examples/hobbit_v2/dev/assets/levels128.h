@@ -16,12 +16,12 @@
 
 // Definitions
 // This is fixed. 32 bolts per level.
-#define MAX_bolts 32
+#define MAX_BOLTS 32
 
 // Types:
 // This contains the level data for current level. Not really needed, but
 // this is here because of legacy support of 128K full-contained levels like
-// those found in Goku Mal.
+// those found in Goku Mal and others
 typedef struct {
 	unsigned char map_w, map_h;
 	unsigned char scr_ini, ini_x, ini_y;
@@ -92,51 +92,64 @@ extern LEVELHEADER level_data [0];
 #asm
 	._level_data defs 16
 #endasm
+
 extern unsigned char map [0];
 #ifdef UNPACKED_MAP
-#asm
-	._map defs MAP_W * MAP_H * 150
-#endasm
+	#asm
+		._map defs MAP_W * MAP_H * 150
+	#endasm
+#elif defined PACKED_MAP
+	#asm
+		._map defs MAP_W * MAP_H * 75
+	#endasm
 #else
-#asm
-	._map defs MAP_W * MAP_H * 75
-#endasm
+	#asm
+		._map defs 1024 // MAKE ROOM FOR YOUR BIGGEST RLE'D MAP!
+	#endasm
 #endif
+
 #ifdef MAP_ATTRIBUTES
-extern unsigned char map_attrs [0];
-#asm
-	._map_attrs defs MAP_W * MAP_H
-#endasm
+	extern unsigned char map_attrs [0];
+	#asm
+		._map_attrs defs MAP_W * MAP_H
+	#endasm
 #endif
+
 #ifndef DEACTIVATE_KEYS
-extern BOLTS bolts [0];
-#asm
-	; 32 * 4
-	._bolts defs 128
-#endasm
+	extern BOLTS bolts [0];
+	#asm
+		; 32 * 4
+		._bolts defs 128
+	#endasm
 #endif
+
 extern unsigned char tileset [0];
 #asm
 	._tileset BINARY "../bin/basicts.bin"
 #endasm
+
 extern unsigned char spriteset [0];
 #include "assets/sprites-empty.h"
+
 #ifdef EXTRA_SPRITES
-extern unsigned char sprite_e [0];
-#asm
-	._sprite_e defs 144 * EXTRA_SPRITES
-#endasm
+	extern unsigned char sprite_e [0];
+	#asm
+		._sprite_e defs 144 * EXTRA_SPRITES
+	#endasm
 #endif
+
 extern BADDIE baddies [0];
 #asm
 	._baddies defs MAP_W * MAP_H * 3 * 12
 #endasm
+
 #ifndef DISABLE_HOTSPOTS
-extern HOTSPOT hotspots [0];
-#asm
-	._hotspots defs MAP_W * MAP_H * 3
-#endasm
+	extern HOTSPOT hotspots [0];
+	#asm
+		._hotspots defs MAP_W * MAP_H * 3
+	#endasm
 #endif
+		
 extern unsigned char behs [0];
 #asm
 	._behs defs 48
@@ -144,7 +157,7 @@ extern unsigned char behs [0];
 
 // This is different - we take extrasprites.h from the main chunk
 // so we can use level bundles without having to worry.
-#include "extrasprites.h"
+#include "assets/extrasprites.h"
 
 // Level struct
 #ifdef EXTENDED_LEVELS

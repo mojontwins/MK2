@@ -9,14 +9,13 @@
 #endif
 
 #if defined (PLAYER_PUSH_BOXES) || !defined (DEACTIVATE_KEYS)
-	void process_tile (unsigned char x0, unsigned char y0, signed char x1, signed char y1) {
+	void process_tile (void) {
 		#ifdef PLAYER_PUSH_BOXES
-			#ifdef FIRE_TO_PUSH
-				gpit = (joyfunc) (&keys);
+			#ifdef FIRE_TO_PUSH				
 				#ifdef USE_TWO_BUTTONS
-					if ((gpit & sp_FIRE) == 0 || sp_KeyPressed (key_fire))
+					if ((pad0 & sp_FIRE) == 0 || sp_KeyPressed (key_fire))
 				#else
-					if ((gpit & sp_FIRE) == 0)
+					if ((pad0 & sp_FIRE) == 0)
 				#endif
 			#endif
 			{

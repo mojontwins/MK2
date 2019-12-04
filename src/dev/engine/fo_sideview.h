@@ -65,12 +65,11 @@ void FO_do (void) {
 #endif
 		fo_x = (gpx + 8) >> 4;
 
-		// Read keys / controller
-		fo_gp = (joyfunc) (&keys);
+		// Read keys / controller		
 
 #ifdef ENABLE_FO_CARRIABLE_BOXES
 #ifdef CARRIABLE_BOXES_THROWABLE
-		if ((fo_gp & sp_FIRE) == 0) {
+		if ((pad0 & sp_FIRE) == 0) {
 			if (99 != p_hasbox && fo_fly == 0) {
 				fo_fly = 1;
 				if (p_facing) f_o_mx = 16; else f_o_mx = -16;
@@ -108,11 +107,11 @@ void FO_do (void) {
 #endif
 
 #if defined (SCRIPTING_DOWN)
-		if ((fo_gp & sp_DOWN) == 0)
+		if ((pad0 & sp_DOWN) == 0)
 #elif defined (SCRIPTING_KEY_FIRE)
-		if ((fo_gp & sp_FIRE) == 0)
+		if ((pad0 & sp_FIRE) == 0)
 #elif defined (SCRIPTING_KEY_M) {
-		if (sp_KeyPressed (key_m))
+		if (sp_KeyPressed (KEY_M))
 #endif
 		{
 			if (0 == d_prs) {

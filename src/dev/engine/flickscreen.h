@@ -51,16 +51,13 @@
 #endif
 
 void flick_screen (void) {
-#if defined (PHANTOMAS_ENGINE) || defined (HANNA_ENGINE)	
-	gpit = (joyfunc) (&keys);
-#endif
 	
 #if defined (PHANTOMAS_ENGINE)
 	// Phantomas engine edge screen detection
-	if (p_x <= 0 && ((gpit & sp_LEFT) == 0 || (p_jmp_on && p_facing == 0)) MAP_BOUNDARY_LEFT) {
+	if (p_x <= 0 && ((pad0 & sp_LEFT) == 0 || (p_jmp_on && p_facing == 0)) MAP_BOUNDARY_LEFT) {
 		n_pant = SCREEN_LEFT; p_x = 224;
 	}
-	if (p_x >= 224 && ((gpit & sp_RIGHT) == 0 || (p_jmp_on && p_facing)) MAP_BOUNDARY_RIGHT) {
+	if (p_x >= 224 && ((pad0 & sp_RIGHT) == 0 || (p_jmp_on && p_facing)) MAP_BOUNDARY_RIGHT) {
 		n_pant = SCREEN_RIGHT; p_x = 0;
 	}
 	if (p_y <= 0 && p_jmp_on MAP_BOUNDARY_TOP) {
@@ -71,16 +68,16 @@ void flick_screen (void) {
 	}
 #elif defined (HANNA_ENGINE)
 	// Hanna engine edge screen detection
-	if (p_x <= 0 && (gpit & sp_LEFT) == 0 MAP_BOUNDARY_LEFT) {
+	if (p_x <= 0 && (pad0 & sp_LEFT) == 0 MAP_BOUNDARY_LEFT) {
 		n_pant = SCREEN_LEFT; p_x = 224;
 	}
-	if (p_x >= 224 && (gpit & sp_RIGHT) == 0 MAP_BOUNDARY_RIGHT) {
+	if (p_x >= 224 && (pad0 & sp_RIGHT) == 0 MAP_BOUNDARY_RIGHT) {
 		n_pant = SCREEN_RIGHT; p_x = 0;
 	}
-	if (p_y <= 0 && (gpit & sp_UP) == 0 MAP_BOUNDARY_TOP) {
+	if (p_y <= 0 && (pad0 & sp_UP) == 0 MAP_BOUNDARY_TOP) {
 		n_pant = SCREEN_UP; p_y = 144;
 	}
-	if (p_y >= 144 && (gpit & sp_DOWN) == 0 MAP_BOUNDARY_BOTTOM) {
+	if (p_y >= 144 && (pad0 & sp_DOWN) == 0 MAP_BOUNDARY_BOTTOM) {
 		n_pant = SCREEN_DOWN; p_y = 0;
 	}
 #else

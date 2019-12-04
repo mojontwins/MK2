@@ -74,15 +74,14 @@ void fire_bullet (void) {
 #else
 
 #ifdef CAN_FIRE_UP
-			gpjt = (joyfunc) (&keys);
-			if (!(gpjt & sp_UP)) {
+			if (!(pad0 & sp_UP)) {
 #if defined (PHANTOMAS_ENGINE) || defined (HANNA_ENGINE)
 				bullets_y [gpit] = p_y;
 #else
 				bullets_y [gpit] = (p_y >> 6);
 #endif
 				bullets_my [gpit] = -PLAYER_BULLET_SPEED;
-			} else if (!(gpjt & sp_DOWN)) {
+			} else if (!(pad0 & sp_DOWN)) {
 #if defined (PHANTOMAS_ENGINE) || defined (HANNA_ENGINE)
 				bullets_y [gpit] = 8 + p_y;
 #else
@@ -102,7 +101,7 @@ void fire_bullet (void) {
 #endif
 
 #ifdef CAN_FIRE_UP
-			if (!(gpjt & sp_LEFT) || !(gpjt & sp_RIGHT) || ((gpjt & sp_UP) && (gpjt & sp_DOWN))) {
+			if (!(pad0 & sp_LEFT) || !(pad0 & sp_RIGHT) || ((pad0 & sp_UP) && (pad0 & sp_DOWN))) {
 #endif				
 				if (p_facing == 0) {
 #if defined (PHANTOMAS_ENGINE) || defined (HANNA_ENGINE)

@@ -96,54 +96,54 @@
 				call SPPrintAtInv
 			#endasm
 		#endif
-		#endif
+	#endif
 
-		objs_old = keys_old = life_old = killed_old = 0xff;
+	objs_old = keys_old = life_old = killed_old = 0xff;
 
-		#ifdef MAX_AMMO
-			ammo_old = 0xff;
-		#endif
-		#if defined (TIMER_ENABLE) && defined (PLAYER_SHOW_TIMER)
-			timer_old = 0;
-		#endif
-		#ifdef PLAYER_SHOW_FLAG
-			flag_old = 99;
-		#endif
-		#if defined (PLAYER_HAS_JETPAC) && defined (JETPAC_DEPLETES) && defined (PLAYER_SHOW_FUEL)
-			fuel_old = 99;
-		#endif
-		#if defined (ENABLE_KILL_SLOWLY) && defined (PLAYER_SHOW_KILL_SLOWLY_GAUGE)
-			ks_gauge_old = 99;
-		#endif
-		success = 0;
+	#ifdef MAX_AMMO
+		ammo_old = 0xff;
+	#endif
+	#if defined (TIMER_ENABLE) && defined (PLAYER_SHOW_TIMER)
+		timer_old = 0;
+	#endif
+	#ifdef PLAYER_SHOW_FLAG
+		flag_old = 99;
+	#endif
+	#if defined (PLAYER_HAS_JETPAC) && defined (JETPAC_DEPLETES) && defined (PLAYER_SHOW_FUEL)
+		fuel_old = 99;
+	#endif
+	#if defined (ENABLE_KILL_SLOWLY) && defined (PLAYER_SHOW_KILL_SLOWLY_GAUGE)
+		ks_gauge_old = 99;
+	#endif
+	success = 0;
 
-		#if defined (BREAKABLE_WALLS) || defined (BREAKABLE_WALLS_SIMPLE)
-			#ifdef BREAKABLE_ANIM
-					do_process_breakable = 0;
-					gen_pt = breaking_f;
-					for (gpit = 0; gpit < MAX_BREAKABLE; gpit ++) *gen_pt ++ = 0;
-			#endif
+	#if defined (BREAKABLE_WALLS) || defined (BREAKABLE_WALLS_SIMPLE)
+		#ifdef BREAKABLE_ANIM
+				do_process_breakable = 0;
+				gen_pt = breaking_f;
+				for (gpit = 0; gpit < MAX_BREAKABLE; gpit ++) *gen_pt ++ = 0;
 		#endif
+	#endif
 
-		#ifdef MODE_128K
-			// Play music
-			#if !defined (HANNA_LEVEL_MANAGER) && !defined (SIMPLE_LEVEL_MANAGER)
-				#ifdef COMPRESSED_LEVELS
-					#ifdef EXTENDED_LEVELS
-						_AY_PL_MUS (level_data->music_id);
-					#else
-						_AY_PL_MUS (levels [level].music_id);
-					#endif		
+	#ifdef MODE_128K
+		// Play music
+		#if !defined (HANNA_LEVEL_MANAGER) && !defined (SIMPLE_LEVEL_MANAGER)
+			#ifdef COMPRESSED_LEVELS
+				#ifdef EXTENDED_LEVELS
+					_AY_PL_MUS (level_data->music_id);
 				#else
-					//_AY_PL_MUS (0);
-				#endif
+					_AY_PL_MUS (levels [level].music_id);
+				#endif		
+			#else
+				//_AY_PL_MUS (0);
 			#endif
 		#endif
-		o_pant = 0xff;
+	#endif
+	o_pant = 0xff;
 
-		#if defined (MSC_MAXITEMS) || defined (ENABLE_SIM)
-			display_items ();
-		#endif
+	#if defined (MSC_MAXITEMS) || defined (ENABLE_SIM)
+		display_items ();
+	#endif
 
-		no_draw = 0;
-		
+	no_draw = 0;
+	

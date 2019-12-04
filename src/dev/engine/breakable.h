@@ -8,26 +8,26 @@
 void wall_broken (unsigned char x, unsigned char y) {
 	gpd = 0;
 	gpaux = (y << 4) - y + x;
-#ifdef BREAKABLE_TILE_GET
-	if (map_buff [gpaux] == BREAKABLE_TILE_GET &&
-		(rand () & BREAKABLE_TILE_FREQ) == 0) gpd = TILE_GET;
-#endif
+	#ifdef BREAKABLE_TILE_GET
+		if (map_buff [gpaux] == BREAKABLE_TILE_GET &&
+			(rand () & BREAKABLE_TILE_FREQ) == 0) gpd = TILE_GET;
+	#endif
 	_x = x; _y = y; _n = 0; _t = gpd; update_tile ();
 
 	// Persistent maps:
-#ifdef PERSISTENT_BREAKABLE
-	// Modify map
-#ifdef UNPACKED_MAP
-	map [n_pant * 150 + gpaux] = 0;
-#else
-	map_pointer = map + n_pant * 75 + (gpaux >> 1);
-	if (gpaux & 1) {
-		*map_pointer = ((*map_pointer) & 0xf0);
-	} else {
-		*map_pointer = ((*map_pointer) & 0x0f);
-	}
-#endif
-#endif
+	#ifdef PERSISTENT_BREAKABLE
+		// Modify map
+		#ifdef UNPACKED_MAP
+			map [n_pant * 150 + gpaux] = 0;
+		#else
+			map_pointer = map + n_pant * 75 + (gpaux >> 1);
+			if (gpaux & 1) {
+				*map_pointer = ((*map_pointer) & 0xf0);
+			} else {
+				*map_pointer = ((*map_pointer) & 0x0f);
+			}
+		#endif
+	#endif
 }
 
 #ifdef BREAKABLE_ANIM
@@ -40,9 +40,9 @@ void process_breakable () {
 		if (breaking_f [brkit]) {
 			breaking_f [brkit] --;
 			if (!breaking_f [brkit]) {
-#ifdef MODE_128K
-				_AY_PL_SND (3);
-#endif
+				#ifdef MODE_128K
+					_AY_PL_SND (3);
+				#endif
 				wall_broken (breaking_x [brkit], breaking_y [brkit]);
 			} else {
 				do_process_breakable = 1;
@@ -72,21 +72,21 @@ void break_wall (unsigned char x, unsigned char y) {
 	} else {
 		map_attr [gpaux] &= 0xEF; // 11101111, remove "breakable" bit.
 
-#ifdef BREAKABLE_ANIM
-		// add this block to the "breaking" tile list
-		add_to_breakable (x, y);
-#else
-		// break this block.
-		wall_broken (x, y);
-#endif
+		#ifdef BREAKABLE_ANIM
+			// add this block to the "breaking" tile list
+			add_to_breakable (x, y);
+		#else
+			// break this block.
+			wall_broken (x, y);
+		#endif
 
 		// Play this sound
 		gpaux = 7;
 	}
 
-#ifdef MODE_128K
-	_AY_PL_SND (gpaux);
-#else
-	beep_fx (gpaux);
-#endif
+	#ifdef MODE_128K
+		_AY_PL_SND (gpaux);
+	#else
+		beep_fx (gpaux);
+	#endif
 }

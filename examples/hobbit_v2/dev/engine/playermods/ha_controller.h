@@ -1,4 +1,4 @@
-	rda = (gpit & sp_LEFT) == 0 || (gpit & sp_RIGHT) == 0;
+	rda = (pad0 & sp_LEFT) == 0 || (pad0 & sp_RIGHT) == 0;
 
 	if (
 		!rda 
@@ -26,7 +26,7 @@
 	#endif 
 
 
-	if ((gpit & sp_LEFT) == 0) {
+	if ((pad0 & sp_LEFT) == 0) {
 		#ifdef PLAYER_GENITAL
 			p_thrust = 1;
 			p_facing_h = FACING_LEFT;
@@ -40,7 +40,7 @@
 		}
 	}
 
-	if ((gpit & sp_RIGHT) == 0) {
+	if ((pad0 & sp_RIGHT) == 0) {
 		#ifdef PLAYER_GENITAL
 			p_thrust = 1;
 			p_facing_h = FACING_RIGHT;

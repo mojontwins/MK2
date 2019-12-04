@@ -27,9 +27,13 @@ extern unsigned char map [0];
 	#asm
 		._map defs MAP_W * MAP_H * 150
 	#endasm
-#else
+#elif defined PACKED_MAP
 	#asm
 		._map defs MAP_W * MAP_H * 75
+	#endasm
+#else
+	#asm
+		._map defs 1024 // MAKE ROOM FOR YOUR BIGGEST RLE'D MAP!
 	#endasm
 #endif
 

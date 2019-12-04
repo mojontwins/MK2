@@ -95,8 +95,10 @@ void main (void) {
 		// *********
 		// MAIN LOOP
 		// *********
-
+n_pant = 17; p_keys = 30;
 		while (playing) {
+			// Read controllers
+			pad0 = (joyfunc) (&keys);
 
 			// Timer stuff
 			#include "mainloop/timer.h"
@@ -243,6 +245,13 @@ void main (void) {
 			#elif defined (PLAYER_WRAP_AROUND)
 				// Wrap around!
 				wrap_around ();
+			#endif
+
+			#ifdef DEBUG
+				if (sp_KeyPressed (KEY_L)) {
+					success = 1;	// Next
+					playing = 0;
+				}
 			#endif
 
 			// Main loop is done!

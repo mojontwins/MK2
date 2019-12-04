@@ -1,4 +1,3 @@
-gpit = (joyfunc) (&keys);
 
 #ifdef ACTIVATE_SCRIPTING
 	if (
@@ -9,10 +8,10 @@ gpit = (joyfunc) (&keys);
 			sp_KeyPressed (key_m)
 		#endif
 		#ifdef SCRIPTING_DOWN
-			(gpit & sp_DOWN) == 0
+			(pad0 & sp_DOWN) == 0
 		#endif
 		#ifdef SCRIPTING_KEY_FIRE
-			(gpit & sp_FIRE) == 0
+			(pad0 & sp_FIRE) == 0
 		#endif
 	) {
 		if (action_pressed == 0)  {

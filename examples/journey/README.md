@@ -63,9 +63,11 @@ Change for:
 This is a matter of putting the original map files `level0.fmp` and `level1.fmp`, then generating `level0.map` and `level1.map`. Finally, `compile.bat` should be modified to replace the `map2bin.exe` converter to `map2rlebin.exe` with the right parameters. Both maps are 4x7 screens:
 
 ```
-..\utils\map2rlebin.exe rle=44 in=..\map\level0.map out=..\bin\level0 size=4,7 tlock=15
-..\utils\map2rlebin.exe rle=44 in=..\map\level1.map out=..\bin\level1 size=4,7 tlock=15
+..\utils\map2rlebin.exe rle=44 in=..\map\level0.map out=..\bin\level0 size=4,7 tlock=15 fulllocks
+..\utils\map2rlebin.exe rle=44 in=..\map\level1.map out=..\bin\level1 size=4,7 tlock=15 fulllocks
 ```
+
+Notice the `fulllocks` paramter - this makes *this* converter output 4 bytes per lock and this is **mandatory** for MK2.
 
 Now run those command lines and write down the size of the uncompressed binaries, as we'll have to make room in `levels.h` for the biggest. In this case, generated maps are 1577 and 875 bytes, so we'll have to reserve 1577 bytes.
 

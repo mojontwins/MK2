@@ -10,13 +10,14 @@ Dim Shared As Integer mainIndex
 Sub usage 
 	Print "usage:"
 	Print ""
-	Print "map2rlebin.exe rle=XY in=map.map out=map.bin size=W,H [tlock=T]"
+	Print "map2rlebin.exe rle=XY in=map.map out=map.bin size=W,H [tlock=T] [fulllocks]"
 	Print "               [scrsize=w,h] [fixmappy] [nodecos] [t0=N] [verbose]"
 	Print "               rle is the RLE format (44, 53, 62)"
 	Print "               in is the input filename."
 	Print "               out is the output filename."
 	Print "               size is the size, in screens."
 	Print "               tlock is the tile representing locks/bolts"
+	Print "               fulllocks outputs 4 bytes per lock and is mandatory for MK2!!"
 	Print "               scrsize is the size of the screen in tiles. Default is 15x10"
 	Print "               fixmappy will substract 1 from every byte read"
 	Print "               nodecos will throw away any tile out of range i.o. generating decos"
@@ -60,6 +61,7 @@ Dim As String fileName
 Dim As Integer scrOffsets (127)
 Dim As Integer mapSize
 Dim As Integer verbose
+Dim As Integer fullLocks
 Dim As Integer rleformat, MAXRUN, ANDVALUE, NUMBITS
 
 ' decos
@@ -75,6 +77,8 @@ sclpParseAttrs
 If Not sclpCheck (mandatory ()) Then usage: End
 
 verbose = (sclpGetValue ("verbose") <> "")
+fullLocks = (sclpGetValue ("fulllocks") <> "")
+if fullLocks then Print "Full locks ~ ";
 
 ' Map size
 parseCoordinatesString sclpGetValue ("size"), coords ()
@@ -143,8 +147,15 @@ While Not Eof (fIn)
 
 	' tlock?
 	If d = tLock Then
-		locks (locksI) = nPant: locksI = locksI + 1
-		locks (locksI) = (y Shl 4) Or x: locksI = locksI + 1
+		If fullLocks Then
+			locks (locksI) = nPant: locksI = locksI + 1
+			locks (locksI) = x: locksI = locksI + 1
+			locks (locksI) = y: locksI = locksI + 1
+			locks (locksI) = 1: locksI = locksI + 1
+		Else
+			locks (locksI) = nPant: locksI = locksI + 1
+			locks (locksI) = (y Shl 4) Or x: locksI = locksI + 1
+		End If
 	End if
 
 	' Is d a decoration' 
