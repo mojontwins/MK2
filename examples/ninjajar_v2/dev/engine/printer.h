@@ -567,80 +567,87 @@ void print_number2 (void) {
 #ifndef DEACTIVATE_OBJECTS
 	void draw_objs () {
 		#if defined (ONLY_ONE_OBJECT) && defined (ACTIVATE_SCRIPTING)
-			if (p_objs) {
-				// Make tile 17 flash
-				/*
-				sp_PrintAtInv (OBJECTS_ICON_Y, OBJECTS_ICON_X, 135, 132);
-				sp_PrintAtInv (OBJECTS_ICON_Y, OBJECTS_ICON_X + 1, 135, 133);
-				sp_PrintAtInv (OBJECTS_ICON_Y + 1, OBJECTS_ICON_X, 135, 134);
-				sp_PrintAtInv (OBJECTS_ICON_Y + 1, OBJECTS_ICON_X + 1, 135, 135);
-				*/
-				#asm
-						// Calculate address in the display list
+			#if OBJECTS_ICON_X != 99
+				if (p_objs) {
+					// Make tile 17 flash
+					/*
+					sp_PrintAtInv (OBJECTS_ICON_Y, OBJECTS_ICON_X, 135, 132);
+					sp_PrintAtInv (OBJECTS_ICON_Y, OBJECTS_ICON_X + 1, 135, 133);
+					sp_PrintAtInv (OBJECTS_ICON_Y + 1, OBJECTS_ICON_X, 135, 134);
+					sp_PrintAtInv (OBJECTS_ICON_Y + 1, OBJECTS_ICON_X + 1, 135, 135);
+					*/
+					#asm
+							// Calculate address in the display list
 
-						ld  a, (OBJECTS_ICON_X)
-						ld  (__x), a
-						ld  c, a
-						ld  a, (OBJECTS_ICON_Y)
-						ld  (__y), a
-						call SPCompDListAddr // -> HL
+							ld  a, (OBJECTS_ICON_X)
+							ld  (__x), a
+							ld  c, a
+							ld  a, (OBJECTS_ICON_Y)
+							ld  (__y), a
+							call SPCompDListAddr // -> HL
 
-						ld  a, 135
-						ld  (hl), a 		// Colour 1
-						inc hl
-						ld  a, 132
-						ld  (hl), a 		// Tile 1
+							ld  a, 135
+							ld  (hl), a 		// Colour 1
+							inc hl
+							ld  a, 132
+							ld  (hl), a 		// Tile 1
 
-						inc hl
-						inc hl 				// Next cell
+							inc hl
+							inc hl 				// Next cell
 
-						ld  a, 135
-						ld  (hl), a 		// Colour 2
-						inc hl
-						ld  a, 133
-						ld  (hl), a 		// Tile 2
+							ld  a, 135
+							ld  (hl), a 		// Colour 2
+							inc hl
+							ld  a, 133
+							ld  (hl), a 		// Tile 2
 
-						ld  bc, 123
-						add hl, bc 			// Next cell
+							ld  bc, 123
+							add hl, bc 			// Next cell
 
-						ld  a, 135
-						ld  (hl), a 		// Colour 3
-						inc hl
-						ld  a, 134
-						ld  (hl), a 		// Tile 3
+							ld  a, 135
+							ld  (hl), a 		// Colour 3
+							inc hl
+							ld  a, 134
+							ld  (hl), a 		// Tile 3
 
-						inc hl
-						inc hl 				// Next cell
+							inc hl
+							inc hl 				// Next cell
 
-						ld  a, 135
-						ld  (hl), a 		// Colour 4
-						inc hl
-						ld  a, 135
-						ld  (hl), a 		// Tile 4
+							ld  a, 135
+							ld  (hl), a 		// Colour 4
+							inc hl
+							ld  a, 135
+							ld  (hl), a 		// Tile 4
 
-						// Invalidate
-						call _invalidate_tile
-				#endasm						
-			} else {
-				_x = OBJECTS_ICON_X; _y = OBJECTS_ICON_Y; _t = 17; 
-				draw_coloured_tile ();
-				invalidate_tile ();
-			}
-			_x = OBJECTS_X; _y = OBJECTS_Y; _t = flags [OBJECT_COUNT]; print_number2 ();
-		#else
-			_x = OBJECTS_X; _y = OBJECTS_Y; 
-			#ifdef REVERSE_OBJECTS_COUNT
-				_t = 
-					#ifdef COMPRESSED_LEVELS
-						level_data->max_objs
-					#else						
-						PLAYER_MAX_OBJECTS
-					#endif
-					- p_objs;
-			#else
-				_t = p_objs; 
+							// Invalidate
+							call _invalidate_tile
+					#endasm						
+				} else {
+					_x = OBJECTS_ICON_X; _y = OBJECTS_ICON_Y; _t = 17; 
+					draw_coloured_tile ();
+					invalidate_tile ();
+				}
 			#endif
-			print_number2 ();
+				
+			#if OBJECTS_X != 99
+				_x = OBJECTS_X; _y = OBJECTS_Y; _t = flags [OBJECT_COUNT]; print_number2 ();
+			#endif
+		#else
+			#if OBJECTS_X != 99
+				_x = OBJECTS_X; _y = OBJECTS_Y; 
+				#ifdef REVERSE_OBJECTS_COUNT
+					_t = 
+						#ifdef COMPRESSED_LEVELS
+							level_data->max_objs
+						#else						
+							PLAYER_MAX_OBJECTS
+						#endif
+						- p_objs;
+				#else
+					_t = p_objs; 
+				#endif
+				print_number2 ();
+			#endif
 		#endif
 	}
 #endif

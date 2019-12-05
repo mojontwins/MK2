@@ -471,6 +471,9 @@ unsigned char player_move (void) {
 		if (qtile () == TILE_GET) {
 			_x = gpxx; _y = gpyy; _t = TILE_GET_REPLACE; _n = behs [TILE_GET_REPLACE];
 			update_tile ();
+			#if defined (PLAYER_SHOW_FLAG) && PLAYER_SHOW_FLAG == TILE_GET_FLAG
+				if (flags [TILE_GET_FLAG] < 99)
+			#endif
 			flags [TILE_GET_FLAG] ++;
 			#ifdef MODE_128K
 				_AY_PL_SND (SFX_TILE_GET);

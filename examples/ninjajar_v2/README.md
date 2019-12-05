@@ -335,6 +335,400 @@ Notice how the first level to be executed is the tutorial, and then a set of lev
     #endif
 ```
 
+## Engine configuration
+
+Luckily, even if early (the earliest), the original Ninjajar! is a MK2 game. That means that every `config.h` line in the original game should be available in the current version of the engine and the semantics are the same. As with the other games, we just put the two files side to side and replicate the configuration.
+
+I'll try and drop some lines on the important bits so this document keeps being informative to developers who want to venture in writing a full fledged game with the engine.
+
+### General configuration
+
+```c
+    // 128K support
+    #define MODE_128K                       // 128K mode.
+
+    // Music engine
+    //#define USE_ARKOS                     // Just comment this to use the default WYZ player.
+    //#define ARKOS_SFX_CHANNEL     1       // SFX Channel (0-2)
+    //#define NO_SOUND                      // Durante el desarrollo, no llama al player.
+
+    // Multi-level support
+
+    #define COMPRESSED_LEVELS               // use levels.h/levels128.h instead of mapa.h and enems.h (!)
+    #define EXTENDED_LEVELS                 // Ninjajar! style full-featured levelset
+    #define LEVEL_SEQUENCE                  // Ninjajar! style level sequence array
+    #define SCRIPTED_GAME_ENDING            // Game ending is triggered from the script
+    //#define SIMPLE_LEVEL_MANAGER          // Custom level manager "simple" <- UNFINISHED. DON'T USE!
+
+    #define MIN_FAPS_PER_FRAME      2       // Experimental. Adds an ISR even in 48K mode.
+                                            // Limits the max. speed to 50/N fps.
+
+    // In this section we define map dimmensions, initial and authomatic ending conditions, etc.
+
+    #define MAP_W                   3       //
+    #define MAP_H                   7       // Map dimmensions in screens
+    //#define ENABLE_CUSTOM_CONNECTIONS     // Custom connections array. MAP_W/MAP_H just define how many screens
+    //#define SCR_INI               99      //  Initial screen
+    //#define PLAYER_INI_X          99      //
+    //#define PLAYER_INI_Y          99      // Initial tile coordinates
+    //#define SCR_END               99      // Last screen. 99 = deactivated.
+    //#define PLAYER_END_X          99      //
+    //#define PLAYER_END_Y          99      // Player tile coordinates to finish game
+    //#define PLAYER_MAX_OBJECTS    99      // Objects to get to finish game
+    #define PLAYER_LIFE             9       // Max and starting life gauge.
+    #define DONT_LIMIT_LIFE                 // If defined, no upper limit to life gauge.
+    #define PLAYER_REFILL           1       // Life recharge
+   // #define MAX_LEVELS            99      // # of compressed levels
+    //#define REFILL_ME                     // If defined, refill player on each level
+    //#define WIN_CONDITION         99      // 0 = objects collected, 1 = screen 'N', 2 = scripting, 3 = SIM
+    //#define EXTRA_SPRITES         2       // For 128K games -> # of extra sprite faces to make room for.
+```
+
+This is a `MODE_128K` game which uses Wyz Player for music (so the other sound options are commented out). It uses `COMPRESSED_LEVELS` in the format already explained: `EXTENDED_LEVELS`. Also a `LEVEL_SEQUENCE` array is used. The game ending won't be launched after completing the last level, so `SCRIPTED_GAME_ENDING` should be enabled so the game ends when the script decides.
+
+We set up `MAP_W` and `MAP_H`, as with every multi-level game, no matter the individual size of each level, so `MAP_W*MAP_H` is greater or equal to the amount of rooms in the biggest level. In this game, no level is bigger than 21 rooms, so 3 and 7 work.
+
+The next group of directives are commented out as the initial screen, position, number of objects, etc. are managed by the level manager.
+
+`MAX_LEVELS` is also commented out as the game ending will be launched from the script.
+
+### Keyboard bindings
+
+Note that Ninjajar! is not a "two buttons" game, as the "UP" direction is never used so it will be mapped to the jump function. In order to make this work with WASD and OPQA we have to change the key assignations, also in `config.h`, so they look this way:
+
+```c 
+    // UP DOWN LEFT RIGHT FIRE JUMP <- with fire/hitter/throwable
+    // UP DOWN LEFT RIGHT JUMP xxxx <- with just jump, so configure ahead:
+    unsigned int keyscancodes [] = {
+    #ifdef USE_TWO_BUTTONS
+        0x02fb, 0x02fd, 0x01fd, 0x04fd, 0x047f, 0x087f,     // WSADMN
+        0x01fb, 0x01fd, 0x02df, 0x01df, 0x047f, 0x087f,     // QAOPMN
+    #else
+        0x087f, 0x02fd, 0x01fd, 0x04fd, 0x047f, 0,          // NSADM-  <-- HERE
+        0x01fb, 0x01fd, 0x02df, 0x01df, 0x017f, 0,          // QAOPs-
+    #endif
+    };
+```
+
+### Engine type configuration
+
+```c
+                                            // Comment all of them for normal 16x16 bounding box
+    #define BOUNDING_BOX_8_BOTTOM           // 8x8 aligned to bottom center in 16x16
+    //#define BOUNDING_BOX_8_CENTERED       // 8x8 aligned to center in 16x16
+    //#define BOUNDING_BOX_TINY_BOTTOM      // 8x2 aligned to bottom center in 16x16
+    #define SMALL_COLLISION                 // 8x8 centered collision instead of 12x12
+
+    // General directives:
+    // -------------------
+
+    #define PLAYER_CHECK_MAP_BOUNDARIES     // If defined, you can't exit the map.
+    //#define PLAYER_CYCLIC_MAP             // Cyclic, endless map in all directions.
+    //#define PLAYER_CANNOT_FLICK_SCREEN    // If defined, automatic screen flicking is disabled.
+    //#define PLAYER_WRAP_AROUND            // If defined, wrap-around. Needs PLAYER_CANNOT_FLICK_SCREEN
+    //#define DIRECT_TO_PLAY                // If defined, title screen is also the game frame.
+    //#define DISABLE_HOTSPOTS              // Disable them completely. Saves tons of memory.
+    #define DEACTIVATE_KEYS                 // If defined, keys are not present.
+    //#define DEACTIVATE_OBJECTS            // If defined, objects are not present.
+    //#define DEACTIVATE_REFILLS
+    //#define ONLY_ONE_OBJECT               // If defined, only one object can be carried at a time.
+    //#define OBJECT_COUNT              1   // Defines which FLAG will be used to store the object count.
+    //#define OBJECTS_COLLECTABLE_IF    2   // If defined, Objs. can be collected if FLAG # == 1
+    //#define DEACTIVATE_EVIL_TILE          // If defined, no killing tiles (behaviour 1) are detected.
+    #define FULL_BOUNCE                     // If defined, evil tile bounces equal MAX_VX, otherwise v/2
+    //#define PLAYER_BOUNCES                // If defined, collisions make player bounce
+    //#define SLOW_DRAIN                    // Works with bounces. Drain is 4 times slower
+    //#define PLAYER_DIZZY                  // Enable dizzy state for player
+    //#define PLAYER_DIZZ_EXPR              (((rand () & 15) - 7) << 3)
+    #define PLAYER_FLICKERS                 // If defined, collisions make player flicker instead.
+    //#define MAP_BOTTOM_KILLS              // If defined, exiting the map bottomwise kills.
+    #define WALLS_STOP_ENEMIES              // If defined, enemies react to the scenary (new: if bit 5 on!)
+    //#define EVERYTHING_IS_A_WALL          // If defined, any tile <> type 0 is a wall, otherwise just 8.
+    //#define COUNT_SCR_ENEMS_ON_FLAG 1     // If defined, count # of enems on screen and store in flag #
+    //#define SHOW_LEVEL_ON_SCREEN          // If defined, show level # whenever we enter a new screen
+    //#define CUSTOM_HIT                    // If defined, different agents take different amounts of life (needs to be refined, don't use)
+    //#define CUSTOM_HIT_DEFAULT        10
+    #define IS_EVIL &1                      // ==1 or &1, depending on what you need.
+    //#define ONLY_VERTICAL_EVIL_TILE       // Does as it suggests.
+```
+
+In the bounding / collision box configuration, Ninjajar! uses the small 8x8 bottom-centered bounding box to collide with the background (`BOUNDING_BOX_8_BOTTOM`) and a centered 8x8 collision box (`SMALL_COLLISION`).
+
+Most levels have open air rooms, so `PLAYER_CHECK_MAP_BOUNDARIES` is needed. Also there's no keys/bolts, so `DEACTIVATE_KEYS` is on. `FULL_BOUNCE` makes the game more playable in the swimming sections. Also, the player must flicker when respawn after being hit (`PLAYER_FLICKERS`). 
+
+All enemy trajectories should be affected by non walkable background tiles, hence `WALLS_STOP_ENEMIES`.
+
+To finish with, `IS_EVIL` has to be configured to `&1` as that was the way killing metatiles were detected in MK2 when Ninjajar! was developed.
+
+### Enemy engine
+
+We need patrollers, that is, good ol' linear enemies. 
+
+```c
+    #define ENABLE_PATROLLERS               // Yeah, you can now deactivate good ol' patrollers...
+    //#define PATROLLERS_HIT            9   // If defined, patrollers take THIS life, otherwise 1
+```
+
+We also need fanties of the *homing* type, which will stay dormant until you approach them (`FANTIES_SIGHT_DISTANCE`). They must die if the collide the player (who, of course, will die too): `FANTILES_KILL_ON_TOUCH`. They are also pretty fast. They should die after one hit.
+
+```c
+    #define ENABLE_FANTIES                  // If defined, add code for flying enemies.
+    #define FANTIES_SIGHT_DISTANCE  96      // If defined, used in our type 6 enemies.
+    #define FANTIES_KILL_ON_TOUCH           // If defined, enemy also dies when collision happens
+    //#define FANTIES_NUMB_ON_FLAG  31      // If defined, flag = 0 makes them not move.
+    #define FANTIES_MAX_V           256     // Flying enemies max speed (also for custom type 6 if you want)
+    #define FANTIES_A               16      // Flying enemies acceleration.
+    #define FANTIES_LIFE_GAUGE      1       // Amount of shots needed to kill flying enemies.
+    //#define FANTIES_HIT           12      // If defined, fanties take THIS life, otherwise 1 
+```
+
+We need some enemies to throw cocos - those were the old "type 8" enemies. This is now encoded as linear enemies with the "shooting" flag enabled.  I've replicated the values from the original (the constants had different names):
+
+```c
+    #define MAX_COCOS           3           // Max # of cocos.
+    // #define COCOS_COLLIDE                // Cocos will die with beh 8
+
+    #define ENABLE_SHOOTERS                 // Activate this if your raise bit 4 in any enemies.
+
+    #define SHOOTER_SHOOT_FREQ      63      // Shoot frequency (2^n-1)
+    #define SHOOTER_SAFE_DISTANCE   64      // if closer won't shoot
+    #define SHOOTER_FIRE_ONE                // If defined, just fire one coco per enemy
+    #define ENEMY_SHOOT_SPEED       6       // pixels per frame
+```
+
+The original Ninjajar! had a special enemy type called "clouds" (type 9). I left them out when I changed the enemy format, so a custom modification will be needed. We'll discuss that later.
+
+### Extra engine configuration
+
+```c 
+    //#define USE_TWO_BUTTONS               // Alternate keyboard scheme for two-buttons games
+    #define USE_HOTSPOTS_TYPE_3             // Alternate logic for recharges.
+    #define TILE_GET                22      // If defined, player can "get" tile #
+    #define TILE_GET_REPLACE        0       // Replace tile got with tile #
+    #define TILE_GET_FLAG           1       // And this increments flag #
+    //#define TILE_GET_SCRIPT               // Run PLAYER_GETS_COIN when player gets tile TILE_GET
+    #define DIE_AND_RESPAWN                 // If defined, dying = respawn on latest safe.
+    //#define DISABLE_AUTO_SAFE_SPOT        // If defined, you have to define the save spot via scripting
+    //#define REENTER_ON_DEATH              // Reenter screen when killed, for 1-screen arcades.
+    //#define PLAYER_STEP_SOUND             // Sound while walking. No effect in the BOOTEE engine.
+    //#define DISABLE_PLATFORMS             // If defined, disable platforms (all engines)
+    #define ENABLE_CONVEYORS                // Enable conveyors (all engines)
+```
+
+This game uses refills placed in the `.ene` files, so `USE_HOTSPOTS_TYPE_3`. You can get coins, wich are metatile #22 in all metatilesets, so `TILE_GET` equals 22. It should be replaced with metatile 0: `TILE_GET_REPLACE` defined as 0, and increment flag 1 (`TILE_GET_FLAG`) so they can be counted.
+
+`DIE_AND_RESPAWN` makes the player respawn from the latest safe spot after being killed. This game also uses conveyors, so `ENABLE_CONVEYORS` is on.
+
+### The hitter
+
+Ninjajar!'s was the first hitter, so it had nothing to configure. We have some stuff to configure now, though:
+
+```c
+    #define PLAYER_CAN_PUNCH                // Player can punch. (Ninjajar! (side))
+    //#define PLAYER_HAZ_SWORD              // Player haz sword. (Espadewr (side))
+    //#define PLAYER_HAZ_WHIP               // Player haz whip. (Nicanor (side) / Key to time (top-down))
+
+    //#define PLAYER_HITTER_INV     46      // If defined, player can use hitter only if item # is selected!
+    #define PLAYER_HITTER_STRENGTH  1       // Hitter strength. 0 = just makes monsters turn around.
+    #define HITTER_BREAKS_WALLS             // If defined, hitter breaks breakable walls.
+```
+
+Our hitter must kill enemies (so `PLAYER_HITTER_STRENGTH` must equal 1) and also break breakable tiles: `HITTER_BREAK_WALLS`.
+
+### Breakable walls
+
+To make rocks destructible, the `BREAKABLE_WALLS_SIMPLE` engine must be enabled and configured:
+
+```c 
+    #define BREAKABLE_WALLS_SIMPLE
+
+    #define BREAKABLE_ANIM                  // If defined, breakable tiles look "broken"
+    #define BREAKABLE_TILE          31      // "broken tile"
+    #define MAX_BREAKABLE           3       // Max tiles showing "breaking"
+    #define MAX_BREAKABLE_FRAMES    4       // Frames to show "breaking"
+```
+
+`BREAKABLE_ANIM` is on, which means that rocks won't disappear right away. Instead, a "broken tile" (number in `BREAKABLE_TILE`) is shown for some (`MAX_BREAKABLE_FRAMES`) frames. Three simultaneous breaking tiles are enough for this game (`MAX_BREAKABLE`). There's no way the player can move so fast so it destroys more than 3 tiles in less than 4 frames. The optimal value has to be configured via trial and error. For example, our NES game **Nin Nin** runs at 50fps so `MAX_BREAKABLE_FRAMES` is higher and `MAX_BREAKABLE` had to be raised to 8.
+
+### Breakable rocks spawn coins
+
+This is achieved enabling and configuring `BREAKABLE_TILE_GET`:
+
+```c
+    #define BREAKABLE_TILE_GET      12      // If defined, tile "TILE GET" may appear when breaking tile #
+    #define BREAKABLE_TILE_FREQ     3       // Breakable tile frequency (AND)
+    #define BREAKABLE_TILE_FREQ_T   2       // <= this value = true.
+```
+
+`BREAKABLE_TILE_GET` enables this engine and also define which tile number will spawn a `TILE_GET` when broken. In our case is number 12 which, in all metatilesets, is the "box with a star" tile. That way we may have several breakable tiles (all kinds of rocks) but only have the special boxes to spawn coins.
+
+Coins are spawned when this formula evaluates to true:
+
+```c
+    ((rand () & BREAKABLE_TILE_FREQ) < BREAKABLE_TILE_FREQ_T)
+```
+
+This gives us a 50% chance (rand () & 3 makes the random number be either 0, 1, 2 or 3), but as the random number generator is a bit crap to be fast, this works better that simply calculating `rand () & 1`...
+
+### Scripting engine (msc)
+
+```c
+    #define ACTIVATE_SCRIPTING          // Activates msc3 scripting and flag related stuff.
+    #define SCRIPT_PAGE     7           // Which RAM page holds the script (128)
+    //#define CLEAR_FLAGS               // If defined, clear flags each level/beginning.
+    #define SCRIPTING_DOWN              // Use DOWN as the action key.
+    //#define SCRIPTING_KEY_M           // Use M as the action key instead.
+    //#define SCRIPTING_KEY_FIRE        // User FIRE as the action key instead.
+    #define ENABLE_EXTERN_CODE          // Enables custom code to be run from the script using EXTERN n
+    //#define EXTERN_E                  // Uncomment this as well if you use EXTERN_E in your script
+    #define ENABLE_FIRE_ZONE            // Allows to define a zone which auto-triggers "FIRE"
+```
+
+Ninjajar! makes heavy use of the scripting engine. Scripts reside at the beginning of RAM 7 (as we have discussed earlier). The action key is DOWN. Also we need to `ENABLE_FIRE_ZONE` so we can define a zone on screen which will trigger the `PRESS_FIRE_ON` sections when the player touches it. We also need to use `EXTERN`to show text boxes (we'll discuss this later on).
+
+### Lava
+
+Lava was introduced for Ninjajar! and I doubt it works anywhere else, but thankfully I did not remove it as I did with clouds.
+
+Just use the default configuration:
+
+```c
+    #define ENABLE_LAVA
+    #define LAVA_FLAG           30
+    #define LAVA_PERIOD         7
+    #define LAVA_X1             2
+    #define LAVA_X2             28          // LAVA_X1 <= x < LAVA_X2
+    #define LAVA_T              18
+```
+
+### Side view
+
+Just enable the jumping and swimming engines, and activate `SWITCHABLE_ENGINES` so they can be switched as per level basis:
+
+```c
+    #define PLAYER_HAS_JUMP                 // If defined, player is able to jump. EVEN IN TOP-DOWN!
+    //#define PLAYER_BOOTEE                 // Always jumping engine. Don't forget to disable "HAS_JUMP" and "HAS_JETPAC"!!!
+    //#define PLAYER_BOUNCE_WITH_WALLS      // Bounce when hitting a wall. Only really useful in MOGGY_STYLE mode
+    //#define PLAYER_CUMULATIVE_JUMP        // Keep pressing JUMP to JUMP higher in several bounces
+    //#define PLAYER_BOOST_WHEN_GOING_UP    // Boost pvy when jumping to the screen above.
+
+    //#define PLAYER_HAS_JETPAC             // If defined, player can thrust a vertical jetpac
+    //#define JETPAC_DEPLETES           4   // If defined, jetpac depletes each # frames.
+    //#define JETPAC_FUEL_INITIAL       25  // needed by "JETPAC_DEPLETES", initial fuel value.
+    //#define JETPAC_FUEL_MAX           25  // needed by "JETPAC_DEPLETES" & "JETPAC_REFILLS", max fuel value.
+    //#define JETPAC_AUTO_REFILLS       2   // If defined, jetpac refills each # frames when not in use.
+    //#define JETPAC_REFILLS                // If defined, type 6 hotspots are refills.
+    //#define JETPAC_FUEL_REFILL        25  // needed by "JETPAC_REFILLS"
+
+    // Stepping over enemies...
+    //#define PLAYER_KILLS_ENEMIES          // If defined, stepping on enemies kills them
+    //#define PLAYER_CAN_KILL_FLAG      1   // If defined, player can only kill when flag # is "1"
+    //#define PLAYER_MIN_KILLABLE       3   // Only kill enemies with id >= PLAYER_MIN_KILLABLE
+
+    #define PLAYER_HAS_SWIM                 // If defined, player is able to swim
+    #define SWITCHABLE_ENGINES              // WIP! VERY, VERY, VERY WIP! See Sir Ababol DX or Ninjajar!
+```
+
+### Screen configuration
+
+Note how stuff you don't want to show are defined with their X coordinate = 99:
+
+```c
+    #define VIEWPORT_X              1       //
+    #define VIEWPORT_Y              2       // Viewport character coordinates
+    #define LIFE_X                  3       //
+    #define LIFE_Y                  0       // Life gauge counter character coordinates
+    #define OBJECTS_X               99      //
+    #define OBJECTS_Y               99      // Objects counter character coordinates
+    //#define REVERSE_OBJECTS_COUNT         // If defined, from MAX to 0
+    #define OBJECTS_ICON_X          99      //
+    #define OBJECTS_ICON_Y          99      // Objects icon character coordinates (use with ONLY_ONE_OBJECT)
+    #define KEYS_X                  99      //
+    #define KEYS_Y                  99      // Keys counter character coordinates
+    #define KILLED_X                99      //
+    #define KILLED_Y                99      // Kills counter character coordinates
+    #define AMMO_X                  99      //
+    #define AMMO_Y                  99      // Ammo counter character coordinates
+    #define TIMER_X                 99      //
+    #define TIMER_Y                 99      // Timer counter coordinates
+    #define FLAG_X                  29      //
+    #define FLAG_Y                  0       // Custom flag character coordinates
+    #define PLAYER_SHOW_FLAG        1       // If defined, show flag #
+    #define FUEL_X                  99      //
+    #define FUEL_Y                  99      // Fuel counter in bla bla bla
+
+    #define KILL_SLOWLY_GAUGE_X     99      // For evil zone counters
+    #define KILL_SLOWLY_GAUGE_Y     99      //
+```
+
+This is the case of collectable objects (onigiris). You don't want to show them on the hud even if they are enabled, so `OBJECTS_X` should equal 99.
+
+`PLAYER_SHOW_FLAG` equals 1 so flag #1 is shown on the hud: the amount of coins. Note that this is safe: if the value of `PLAYER_SHOW_FLAG` and the value of `TILE_GET_FLAG` are the same, you can get a maximum of 99 `TILE_GET`s.
+
+### Graphic and more misc. stuff
+
+```c
+    //#define USE_AUTO_SHADOWS              // Automatic shadows made of darker attributes
+    //#define USE_AUTO_TILE_SHADOWS         // Automatic shadows using specially defined tiles 32-47.
+    //#define ENABLE_SUBTILESETS            // Adds subtileset loader.
+    //#define MAP_ATTRIBUTES                // Enables multi-purpose map attributes array (only in multi-level games as of 0.90)
+    //#define NO_MASKS                      // Sprites are rendered using OR instead of masks.
+    //#define PLAYER_ALTERNATE_ANIMATION    // If defined, animation is 1,2,3,1,2,3...
+    #define MASKED_BULLETS                  // If needed
+    //#define ENABLE_TILANIMS               // If defined, animated tiles are enabled and will alternate between t and t+1
+    //#define IS_TILANIM(t)     ((t)==20)   // Condition to detect if a tile is animated                                        
+    #define PAUSE_ABORT                     // Add h=PAUSE, y=ABORT
+    //#define GET_X_MORE                    // Shows "get X more" when getting an object
+    //#define NO_ALT_TILE                   // No alternate automatic tile 19 for tile 0.
+    //#define TWO_SETS                      // If defined, use two 16 sets in one (just ask)
+    //#define TWO_SETS_SEL (n_pant>8?32:0)  // This expresion must equal 0 for set 1 to be used, or 32 for set 2 to be used (just ask)
+    //#define TWO_SETS_MAPPED               // Two sets, but which set to use is mapped after map data (1 byte per screen)
+    //#define ENABLE_LEVEL_NAMES            // Give a name for each level/screen in engine/levelnames.h
+    //#define ENABLE_EXTRA_PRINTS           // Configure extra tile prints for some screens in engine/extraprints.h
+```
+
+All off but `MASKED_BULLETS` so cocos show nicely against the background, and `PAUSE_ABORT`.
+
+### Player movement configuration
+
+Lifted directly from the original Ninjajar!.
+
+```c
+    // IV.1. Vertical movement. Only for side-view.
+
+    #define PLAYER_FALL_VY_MAX      512     // Max falling speed (512/64 = 8 pixels/frame)
+    #define PLAYER_G                48      // Gravity acceleration (32/64 = 0.5 pixels/frame^2)
+
+    #define PLAYER_JMP_VY_INITIAL   96      // Initial junp velocity (64/64 = 1 pixel/frame)
+    #define PLAYER_JMP_VY_MAX       312     // Max jump velocity (320/64 = 5 pixels/frame)
+    #define PLAYER_JMP_VY_INCR      48      // acceleration while JUMP is pressed (48/64 = 0.75 pixels/frame^2)
+
+    //#define PLAYER_JETPAC_VY_INCR 32      // Vertical jetpac gauge
+    //#define PLAYER_JETPAC_VY_MAX  256     // Max vertical jetpac speed
+
+    // IV.2. Horizontal (side view) or general (top view) movement.
+
+    #define PLAYER_VX_MAX           256     // Max velocity (192/64 = 3 pixels/frame)
+    #define PLAYER_AX               64      // Acceleration (24/64 = 0,375 pixels/frame^2)
+    #define PLAYER_RX               96      // Friction (32/64 = 0,5 pixels/frame^2)
+
+    //#define PLAYER_AX_ALT         8       // Acceleration (alternate) when stepping on tile w/beh. 64
+    //#define PLAYER_RX_ALT         8       // Friction (alternate) when stepping on tile w/beh. 64
+
+    #define PLAYER_V_BOUNCE         320     // Bouncing speed
+
+    // IV.3. Swimming
+
+    #define PLAYER_MAX_VSWIM        128
+    #define PLAYER_ASWIM            32
+```
+
+## Text box renderer and text unstuffer
+
+I found *text unstuffer* funny, sorry. If enabled, the scripting can fire up external code written in C via the `EXTERN N` command. In Ninjajar! it is used to display text. The original driver is there somehow but some stuff has changed. I will port the original `extern.h` and then make some adjustements (code enhancements). Just check out the results.
+
+The text is read from RAM 6, decoded into a buffer, then displayed in a nice albeit simple text box. Just that.
+
 ## Building
 
 Run these commands to completely rebuild Ninjajar! v2
