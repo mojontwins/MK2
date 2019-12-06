@@ -179,9 +179,9 @@ void do_extern_action (unsigned char n) {
 	
 	// Draw text
 	extx = 4; 
-	extaddress = textbuff + 1;
+	gp_gen = textbuff + 1;
 	keyp = 1;
-	while (exti = *extaddress ++) {
+	while (exti = *gp_gen ++) {
 		if (exti == '%') {
 			extx = 4; exty += 2;
 		} else {
@@ -225,5 +225,5 @@ void do_extern_action (unsigned char n) {
 	sp_UpdateNow ();
 	sp_WaitForNoKey ();
 	while (button_pressed ());
-	espera_activa (5000);
+	active_sleep (5000);
 }

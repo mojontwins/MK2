@@ -14,7 +14,7 @@
 
 	//if ((pad0 & sp_UP) == 0) {	
 	//CUSTOM!
-	if ((pad0 & sp_UP) == 0 || sp_KeyPressed (key_jump)) {			
+	if ((pad0 & sp_UP) == 0 || BUTTON_JUMP) {			
 		if (p_vy > -PLAYER_MAX_VSWIM) p_vy -= PLAYER_ASWIM;
 	}
 }

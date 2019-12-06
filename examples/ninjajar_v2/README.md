@@ -729,6 +729,26 @@ I found *text unstuffer* funny, sorry. If enabled, the scripting can fire up ext
 
 The text is read from RAM 6, decoded into a buffer, then displayed in a nice albeit simple text box. Just that.
 
+## Test build
+
+At this point I'll try and build the whole thing to correct stuff before I go on. That needs to complete the `compile.bat` file.
+
+```c
+    echo ### COMPILING ###
+    zcc +zx -vn -m mk2.c -o work\%game%.bin -lsplib2_mk2 -zorg=24200
+```
+
+The thing is, this game uses RAM7 and this page is used a some sort of scratchpad by the ROM if IM1 is on, so we can't use a BASIC loader. Thankfully, thanks to some explanations by the almighty Antonio Villena, I've crafted a little loader in assembly which loads every asset (aplib compressed) and decompresses everything in place.
+
+This may bit a bit advanced as the original ASM file has to be patched in real time with the actual sizes of the binaries. I hate doing things by hand, that's why I use `nicanor.exe`, which performs simple textual substitutions. If you don't get this but you are interested in assembly loaders you can drop me a line. You should know that [I love coffee](https://ko-fi.com/I2I0JUJ9).
+
+First of all we must compress every binary: loading screen, all 5 extra RAM pages, and the main binary:
+
+```
+
+```
+
+
 ## Building
 
 Run these commands to completely rebuild Ninjajar! v2

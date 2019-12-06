@@ -40,7 +40,7 @@ echo ### BUILDING RAMS ###
 cd ..\bin
 ..\..\..\src\utils\librarian.exe > nul
 copy ram?.bin ..\dev\work > nul
-copy librarian.h ..\dev\assets\ > nul
+copy librarian.h ..\dev\my\ > nul
 cd ..\dev
 
 rem ###########################################################################
@@ -68,7 +68,13 @@ rem ###########################################################################
 :compilestage
 
 echo ### COMPILING ###
-rem zcc +zx -vn -m mk2.c -o work\%game%.bin -lsplib2_mk2 -zorg=24200
-rem zcc +zx -vn %game%e.c -o work\%game%e.bin -lsplib2_mk2 -zorg=24200
+zcc +zx -vn -m mk2.c -o work\%game%.bin -lsplib2_mk2 -zorg=24200
+
+echo ### COMPRESSING ###
+..\..\..\src\utils\apack.exe ..\bin\loading.bin work\loading_c.bin > nul
+..\..\..\src\utils\apack.exe work\RAM1.bin work\RAM1c.bin > nul
+..\..\..\src\utils\apack.exe work\RAM6.bin work\RAM6c.bin > nul
+..\..\..\src\utils\apack.exe work\RAM7.bin work\RAM7c.bin > nul
+..\..\..\src\utils\apack.exe work\%game%.bin work\MAINc.bin > nul
 
 echo ### MAKING TAPS ###
