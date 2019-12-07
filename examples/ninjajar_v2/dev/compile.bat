@@ -68,13 +68,27 @@ rem ###########################################################################
 :compilestage
 
 echo ### COMPILING ###
-zcc +zx -vn -m mk2.c -o work\%game%.bin -lsplib2_mk2 -zorg=24200
-
-echo ### COMPRESSING ###
-..\..\..\src\utils\apack.exe ..\bin\loading.bin work\loading_c.bin > nul
-..\..\..\src\utils\apack.exe work\RAM1.bin work\RAM1c.bin > nul
-..\..\..\src\utils\apack.exe work\RAM6.bin work\RAM6c.bin > nul
-..\..\..\src\utils\apack.exe work\RAM7.bin work\RAM7c.bin > nul
-..\..\..\src\utils\apack.exe work\%game%.bin work\MAINc.bin > nul
+zcc +zx -vn -m mk2.c -o work\%game%.bin -lsplib2_mk2 -zorg=24200 > nul
 
 echo ### MAKING TAPS ###
+..\..\..\src\utils\imanol.exe ^
+    in=loader\loaderzx.asm-orig ^
+    out=loader\loader.asm ^
+    ram1_length=?work\RAM1.bin ^
+    ram3_length=?work\RAM3.bin ^
+    ram4_length=?work\RAM4.bin ^
+    ram6_length=?work\RAM6.bin ^
+    ram7_length=?work\RAM7.bin ^
+    mb_length=?work\%game%.bin  > nul
+..\..\..\src\utils\pasmo.exe loader\loader.asm work\loader.bin loader.txt
+..\..\..\src\utils\GenTape.exe %game%.tap ^
+    basic 'NINJAJAR' 10 work\loader.bin ^
+    data                ..\bin\loading.scr ^
+    data                work\RAM1.bin ^
+    data                work\RAM3.bin ^
+    data                work\RAM4.bin ^
+    data                work\RAM6.bin ^
+    data                work\RAM7.bin ^
+    data                work\%game%.bin
+
+echo DONE!

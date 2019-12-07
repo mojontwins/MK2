@@ -45,7 +45,7 @@ End Function
 
 ' Variables
 
-Dim As Integer fIn, fOut, cpos, from, cto, offset, filel, result, ccpos, i
+Dim As Integer fIn, fOut, cpos, from, cto, offset, filel, result, ccpos, i, lastOp
 Dim As String linea
 Dim As String leftTrim, rightTrim, find, replace, portn, m
 
@@ -106,15 +106,21 @@ While Not Eof (fIn)
 		Else
 			If Left (replace, 1) = "?" Then
 				replace = Right (replace, Len (replace) - 1)
+				lastOp = 0
 				
-				' Parse (simple, tokenize by +)
+				' Parse (simple, tokenize by +, -)
 				result = 0
 				replace = replace & "+"
 				portn = ""
 				For i = 1 To Len (replace)
 					m = Mid (replace, i, 1)
-					If m = "+" Then
-						result = result + getParmVal (portn)
+					If m = "+" Or m = "-" Then
+						If lastOp = 0 Then 
+							result = result + getParmVal (portn)
+						Else
+							result = result - getParmVal (portn)
+						End If
+						If m = "+" Then lastOp = 0 Else lastOp = 1
 						portn = ""
 					Else
 						portn = portn + m

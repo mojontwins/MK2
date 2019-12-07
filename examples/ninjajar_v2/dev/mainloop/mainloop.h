@@ -27,8 +27,6 @@ void main (void) {
 	// SYSTEM INITIALIZATION
 	// *********************
 
-	cortina ();
-
 	#asm
 		di
 	#endasm
@@ -44,6 +42,8 @@ void main (void) {
 			ei
 		#endasm
 	#endif
+
+	cortina ();
 
 	#ifdef MODE_128K
 		// Music player initialization

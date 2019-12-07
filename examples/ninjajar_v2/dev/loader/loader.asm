@@ -25,7 +25,7 @@
 	scf
 	ld	a, $ff
 	ld	ix, $C000
-	ld	de, %%%ram1_length%%%
+	ld	de, 14002
 	call $0556
 	di
 
@@ -37,7 +37,7 @@
 	scf
 	ld	a, $ff
 	ld	ix, $C000
-	ld	de, %%%ram3_length%%%
+	ld	de, 16287
 	call $0556
 	di
 
@@ -49,7 +49,7 @@
 	scf
 	ld	a, $ff
 	ld	ix, $C000
-	ld	de, %%%ram4_length%%%
+	ld	de, 16334
 	call $0556
 	di
 
@@ -61,7 +61,7 @@
 	scf
 	ld	a, $ff
 	ld	ix, $C000
-	ld	de, %%%ram6_length%%%
+	ld	de, 16077
 	call $0556
 	di
 
@@ -73,7 +73,7 @@
 	scf
 	ld	a, $ff
 	ld	ix, $C000
-	ld	de, %%%ram7_length%%%
+	ld	de, 14617
 	call $0556
 	di
 
@@ -85,7 +85,7 @@
 	scf
 	ld	a, $ff
 	ld	ix, 24200
-	ld	de, %%%mb_length%%%
+	ld	de, 33733
 	call $0556
 	di
 	

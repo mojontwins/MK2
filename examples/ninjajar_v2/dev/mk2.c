@@ -20,10 +20,10 @@
 #endasm
 
 // FOR 128K GAMES:
-//#pragma output STACKPTR=24199
+#pragma output STACKPTR=24199
 
 // FOR 48K GAMES:
-#pragma output STACKPTR=61937
+//#pragma output STACKPTR=61937
 
 /* splib2 memory map
 61440 - 61696 IM2 vector table
@@ -38,7 +38,7 @@
 
 // Define where to store and how many sprite descriptors are needed.
 // This game = 4*10 = 40 blocks
-#define NUMBLOCKS			40
+#define NUMBLOCKS			60
 unsigned char AD_FREE [NUMBLOCKS * 15];
 
 // Note the 15: blocks are 14 bytes, but there's an overhead of 1 byte per block

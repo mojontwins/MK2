@@ -22,31 +22,29 @@ The game contains lots of fixed screens. The original game does not have a scrip
     echo Building fixed screens
     echo ======================
     echo Converting...
-    ..\..\..\src\utils\png2scr.exe ..\gfx\dedicado.png work\dedicado.src >nul
-    ..\..\..\src\utils\png2scr.exe ..\gfx\ending.png work\ending.src >nul
-    ..\..\..\src\utils\png2scr.exe ..\gfx\ending1.png work\ending1.src >nul
-    ..\..\..\src\utils\png2scr.exe ..\gfx\ending2.png work\ending2.src >nul
-    ..\..\..\src\utils\png2scr.exe ..\gfx\ending3.png work\ending3.src >nul
-    ..\..\..\src\utils\png2scr.exe ..\gfx\ending4.png work\ending4.src >nul
-    ..\..\..\src\utils\png2scr.exe ..\gfx\level.png work\level.src >nul
-    ..\..\..\src\utils\png2scr.exe ..\gfx\loading.png work\loading.src >nul
-    ..\..\..\src\utils\png2scr.exe ..\gfx\marco.png work\marco.src >nul
-    ..\..\..\src\utils\png2scr.exe ..\gfx\title.png work\title.src >nul
+    ..\..\..\src\utils\png2scr.exe ..\gfx\dedicado.png work\dedicado.scr >nul
+    ..\..\..\src\utils\png2scr.exe ..\gfx\ending.png work\ending.scr >nul
+    ..\..\..\src\utils\png2scr.exe ..\gfx\ending1.png work\ending1.scr >nul
+    ..\..\..\src\utils\png2scr.exe ..\gfx\ending2.png work\ending2.scr >nul
+    ..\..\..\src\utils\png2scr.exe ..\gfx\ending3.png work\ending3.scr >nul
+    ..\..\..\src\utils\png2scr.exe ..\gfx\ending4.png work\ending4.scr >nul
+    ..\..\..\src\utils\png2scr.exe ..\gfx\level.png work\level.scr >nul
+    ..\..\..\src\utils\png2scr.exe ..\gfx\loading.png work\loading.scr >nul
+    ..\..\..\src\utils\png2scr.exe ..\gfx\marco.png work\marco.scr >nul
+    ..\..\..\src\utils\png2scr.exe ..\gfx\title.png work\title.scr >nul
 
     echo Compressing...
-    ..\..\..\src\utils\apack.exe work\dedicado.src ..\bin\dedicado.bin >nul 
-    ..\..\..\src\utils\apack.exe work\ending.src ..\bin\ending.bin >nul 
-    ..\..\..\src\utils\apack.exe work\ending1.src ..\bin\ending1.bin >nul 
-    ..\..\..\src\utils\apack.exe work\ending2.src ..\bin\ending2.bin >nul 
-    ..\..\..\src\utils\apack.exe work\ending3.src ..\bin\ending3.bin >nul 
-    ..\..\..\src\utils\apack.exe work\ending4.src ..\bin\ending4.bin >nul 
-    ..\..\..\src\utils\apack.exe work\level.src ..\bin\level.bin >nul 
-    ..\..\..\src\utils\apack.exe work\loading.src ..\bin\loading.bin >nul 
-    ..\..\..\src\utils\apack.exe work\marco.src ..\bin\marco.bin >nul 
-    ..\..\..\src\utils\apack.exe work\title.src ..\bin\title.bin >nul 
-
-    echo Cleaning...
-    del work\*.src >nul 
+    ..\..\..\src\utils\apack.exe work\dedicado.scr ..\bin\dedicado.bin >nul 
+    ..\..\..\src\utils\apack.exe work\ending.scr ..\bin\ending.bin >nul 
+    ..\..\..\src\utils\apack.exe work\ending1.scr ..\bin\ending1.bin >nul 
+    ..\..\..\src\utils\apack.exe work\ending2.scr ..\bin\ending2.bin >nul 
+    ..\..\..\src\utils\apack.exe work\ending3.scr ..\bin\ending3.bin >nul 
+    ..\..\..\src\utils\apack.exe work\ending4.scr ..\bin\ending4.bin >nul 
+    ..\..\..\src\utils\apack.exe work\level.scr ..\bin\level.bin >nul 
+    ..\..\..\src\utils\apack.exe work\loading.scr ..\bin\loading.bin >nul 
+    ..\..\..\src\utils\apack.exe work\marco.scr ..\bin\marco.bin >nul 
+    ..\..\..\src\utils\apack.exe work\title.scr ..\bin\title.bin >nul 
+    copy work\loading.scr ..\bin\loading.scr > nul
 
     echo DONE
 ```
@@ -526,7 +524,7 @@ Ninjajar!'s was the first hitter, so it had nothing to configure. We have some s
 ```c
     #define PLAYER_CAN_PUNCH                // Player can punch. (Ninjajar! (side))
     //#define PLAYER_HAZ_SWORD              // Player haz sword. (Espadewr (side))
-    //#define PLAYER_HAZ_WHIP               // Player haz whip. (Nicanor (side) / Key to time (top-down))
+    //#define PLAYER_HAZ_WHIP               // Player haz whip. (imanol (side) / Key to time (top-down))
 
     //#define PLAYER_HITTER_INV     46      // If defined, player can use hitter only if item # is selected!
     #define PLAYER_HITTER_STRENGTH  1       // Hitter strength. 0 = just makes monsters turn around.
@@ -738,16 +736,178 @@ At this point I'll try and build the whole thing to correct stuff before I go on
     zcc +zx -vn -m mk2.c -o work\%game%.bin -lsplib2_mk2 -zorg=24200
 ```
 
+### The loader
+
 The thing is, this game uses RAM7 and this page is used a some sort of scratchpad by the ROM if IM1 is on, so we can't use a BASIC loader. Thankfully, thanks to some explanations by the almighty Antonio Villena, I've crafted a little loader in assembly which loads every asset (aplib compressed) and decompresses everything in place.
 
-This may bit a bit advanced as the original ASM file has to be patched in real time with the actual sizes of the binaries. I hate doing things by hand, that's why I use `nicanor.exe`, which performs simple textual substitutions. If you don't get this but you are interested in assembly loaders you can drop me a line. You should know that [I love coffee](https://ko-fi.com/I2I0JUJ9).
+This may bit a bit advanced as the original `loaderzx.asm-orig` file has to be patched in real time with the actual sizes of the binaries. I hate doing things by hand, that's why I use `imanol.exe`, which performs simple textual substitutions. If you don't get this but you are interested in assembly loaders you can drop me a line. You should know that [I love coffee](https://ko-fi.com/I2I0JUJ9).
 
-First of all we must compress every binary: loading screen, all 5 extra RAM pages, and the main binary:
-
-```
+The loader starts with a bit of magic by A.Villena that, to be honest, I don't really understand, but makes this code auto-executable:
 
 ```
+        org $5ccb
+        ld  sp, 24199
+        di
+        db  $de, $c0, $37, $0e, $8f, $39, $96 ;OVER USR 7 ($5ccb)
+```
 
+First thing is loading the screen to 16384. We'll be using the ROM loading routine on a headerless block, so we must know the exact length as we have to pass it to the routine in this case it is 6912.
+
+```
+    ; load screen
+        scf
+        ld  a, $ff
+        ld  ix, $4000
+        ld  de, 6912
+        call $0556
+        di
+```
+
+The ROM loading routine which resides in $0556 needs the loading address in IX and the number of bytes to oad in DE, and the carry flag set. It also enables interrupts at the end, so a DI is needed right after. 
+
+Next block is the compressed RAM1. To load the block, we page in RAM1 and then load the block to $C000 (where RAM1 is mapped once it is paged in). DE should contain the block length, but as I said before, I like to automate things, so for this parameter I'll use a constant and later on I'll inject the actual length of the bin file using my utility `imanol.exe`.
+
+```
+    ; RAM1
+        ld  a, $11      ; ROM 1, RAM 1
+        ld  bc, $7ffd
+        out (C), a
+
+        scf
+        ld  a, $ff
+        ld  ix, $C000
+        ld  de, %%%ram1_length%%%
+        call $0556
+        di
+```
+
+Same for the remaining RAM blocks:
+
+```
+    ; RAM3
+        ld  a, $13      ; ROM 1, RAM 3
+        ld  bc, $7ffd
+        out (C), a
+
+        scf
+        ld  a, $ff
+        ld  ix, $C000
+        ld  de, %%%ram3_length%%%
+        call $0556
+        di
+
+    ; RAM4
+        ld  a, $14      ; ROM 1, RAM 4
+        ld  bc, $7ffd
+        out (C), a
+
+        scf
+        ld  a, $ff
+        ld  ix, $C000
+        ld  de, %%%ram4_length%%%
+        call $0556
+        di
+
+    ; RAM6
+        ld  a, $16      ; ROM 1, RAM 6
+        ld  bc, $7ffd
+        out (C), a
+
+        scf
+        ld  a, $ff
+        ld  ix, $C000
+        ld  de, %%%ram6_length%%%
+        call $0556
+        di
+
+    ; RAM7
+        ld  a, $17      ; ROM 1, RAM 7
+        ld  bc, $7ffd
+        out (C), a
+
+        scf
+        ld  a, $ff
+        ld  ix, $C000
+        ld  de, %%%ram7_length%%%
+        call $0556
+        di
+```
+
+The last block is the main binary. Same as before, but load to 24200. Oh, and dont' forget to put RAM0 back in!:
+
+```
+; Main binary
+    ld  a, $10      ; ROM 1, RAM 0
+    ld  bc, $7ffd
+    out (C), a
+
+    scf
+    ld  a, $ff
+    ld  ix, 24200
+    ld  de, %%%mb_length%%%
+    call $0556
+    di
+```
+
+And now everything is in place, run the game:
+
+```
+    ; run game!
+    jp 24200
+```
+
+What follows in the `loaderzx.asm-orig` file is the blackout routine which puts the screen black.
+
+Now is when we put `imanol.exe` to use. This simple command line tool just takes a text file, makes some substitutions, and writes a new file with the changes. Substitutions are passed as parameters in the format `constant=expression`, where expression may be a literal, a file length, or a simple aritmetic expression (addition and substraction).
+
+Those are the constants we have to substitute:
+
+```
+    ram1_length
+    ram3_length
+    ram4_length
+    ram6_length
+    ram7_length
+    mb_length
+```
+
+And this is how `imanol.exe` is called (I've broken the command line into several lines using `^` for clarity - this is a feature of Windows' .cmd and .bat files):
+
+```
+    ..\utils\imanol.exe ^
+        in=loader\loaderzx.asm-orig ^
+        out=loader\loader.asm ^
+        ram1_length=?work\RAM1.bin ^
+        ram3_length=?work\RAM3.bin ^
+        ram4_length=?work\RAM4.bin ^
+        ram6_length=?work\RAM6.bin ^
+        ram7_length=?work\RAM7.bin ^
+        mb_length=?work\%game%.bin
+```
+
+If the value of a substitution begins with `?` that means "expression". A file name here equals its file length.
+
+Next step is using `pasmo.exe` to assemble the loader:
+
+```
+    ..\utils\pasmo.exe loader\loader.asm work\loader.bin loader.txt
+```
+
+And now we have all the pieces of the puzzle, we have to build the tape using Antonio Villena's `GenTape.exe`:
+
+```
+    ..\..\..\src\utils\GenTape.exe %game%.tap ^
+        basic 'NINJAJAR!' 10 work\loader.bin ^
+        data                ..\bin\loading.scr ^
+        data                 work\RAM1.bin ^
+        data                 work\RAM3.bin ^
+        data                 work\RAM4.bin ^
+        data                 work\RAM6.bin ^
+        data                 work\RAM7.bin ^
+        data                 work\%game%.bin
+```
+
+And now - fingers crossed :D
 
 ## Building
 
