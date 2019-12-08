@@ -399,7 +399,7 @@ unsigned char *gp_gen;
 #endif
 
 #ifdef MIN_FAPS_PER_FRAME
-	unsigned char isrc;
+	unsigned char isrc @ ISRC_ADDRESS;
 #endif
 
 unsigned char pad0;

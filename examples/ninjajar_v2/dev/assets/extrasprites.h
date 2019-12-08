@@ -5,45 +5,49 @@
 // Extra sprite frames (explosion, fist, shoots...)
 
 #if defined (PLAYER_CAN_FIRE) || defined (PLAYER_KILLS_ENEMIES) || defined (ENABLE_PURSUERS) || defined (MODE_128K) || defined (PLAYER_CAN_PUNCH) || defined (CARRIABLE_BOXES_THROWABLE) || defined (PLAYER_HAZ_SWORD) || defined (PLAYER_HAZ_WHIP) || defined (PLAYER_SIMPLE_BOMBS)
-extern unsigned char sprite_17_a []; 
+	extern unsigned char sprite_17_a []; 
 #endif
+
 extern unsigned char sprite_18_a []; 
+
 #if defined (PLAYER_CAN_FIRE) || defined (MODE_128K) || defined (ENABLE_SHOOTERS)
-extern unsigned char sprite_19_a [];
-extern unsigned char sprite_19_b [];
+	extern unsigned char sprite_19_a [];
+	extern unsigned char sprite_19_b [];
 #endif
+
 #if defined (PLAYER_CAN_PUNCH)
-extern unsigned char sprite_20_a [];
-extern unsigned char sprite_21_a [];
+	extern unsigned char sprite_20_a [];
+	extern unsigned char sprite_21_a [];
 #elif defined (PLAYER_HAZ_SWORD)
-extern unsigned char sprite_sword_l [];
-extern unsigned char sprite_sword_r [];
-extern unsigned char sprite_sword_u [];
+	extern unsigned char sprite_sword_l [];
+	extern unsigned char sprite_sword_r [];
+	extern unsigned char sprite_sword_u [];
 #elif defined (PLAYER_HAZ_WHIP)
-extern unsigned char sprite_whip [];
+	extern unsigned char sprite_whip [];
 #endif 
+
 #if defined (PLAYER_GENITAL) && defined (PLAYER_HAS_JUMP)
-extern unsigned char sprite_shadow [];
+	extern unsigned char sprite_shadow [];
 #endif
 
 // Extra sprites (probably needed) for the floating objects
 #ifdef ENABLE_FLOATING_OBJECTS
-#ifdef ENABLE_FO_CARRIABLE_BOXES
-extern unsigned char carriable_a [];
-extern unsigned char carriable_b [];
-extern unsigned char carriable_c [];
-#endif
+	#ifdef ENABLE_FO_CARRIABLE_BOXES
+		extern unsigned char carriable_a [];
+		extern unsigned char carriable_b [];
+		extern unsigned char carriable_c [];
+	#endif
 #endif
 
 #if defined (PLAYER_CAN_FIRE) || defined (PLAYER_KILLS_ENEMIES) || defined (ENABLE_PURSUERS) || defined (MODE_128K) || defined (PLAYER_CAN_PUNCH) || defined (CARRIABLE_BOXES_THROWABLE) || defined (PLAYER_HAZ_SWORD) || defined (PLAYER_HAZ_WHIP) || defined (PLAYER_SIMPLE_BOMBS)
-#asm
-    ._sprite_17_a
-        defb 0, 128, 56, 0, 117, 0, 123, 0, 127, 0, 57, 0, 0, 0, 96, 0, 238, 0, 95, 0, 31, 0, 62, 0, 53, 128, 42, 128, 20, 128, 0, 192, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255 
-    ._sprite_17_b
-        defb 0, 3, 240, 1, 248, 0, 236, 0, 212, 0, 248, 0, 224, 1, 24, 0, 124, 0, 120, 0, 244, 0, 168, 0, 0, 1, 0, 3, 0, 63, 0, 127, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255 
-    ._sprite_17_c
-        defb 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255
-#endasm
+	#asm
+	    ._sprite_17_a
+	        defb 0, 128, 56, 0, 117, 0, 123, 0, 127, 0, 57, 0, 0, 0, 96, 0, 238, 0, 95, 0, 31, 0, 62, 0, 53, 128, 42, 128, 20, 128, 0, 192, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255 
+	    ._sprite_17_b
+	        defb 0, 3, 240, 1, 248, 0, 236, 0, 212, 0, 248, 0, 224, 1, 24, 0, 124, 0, 120, 0, 244, 0, 168, 0, 0, 1, 0, 3, 0, 63, 0, 127, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255 
+	    ._sprite_17_c
+	        defb 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255
+	#endasm
 #endif
 
 #asm

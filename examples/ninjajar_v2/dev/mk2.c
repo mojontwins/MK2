@@ -33,6 +33,9 @@
 61952 - 65535 Horizontal Rotation Tables
 */
 
+// If you use a frame limiter you need the isrc counter
+#define ISRC_ADDRESS 23296
+
 // Free space in the splib2 area we can use
 #define FREEPOOL 61697
 

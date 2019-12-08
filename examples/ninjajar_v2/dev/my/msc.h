@@ -304,7 +304,7 @@ void run_script (unsigned char whichs) {
                         // SOUND sc_n
                         // Opcode: E0 sc_n
 #ifdef MODE_128K
-                        wyz_play_sound (read_vbyte ());
+                        _AY_PL_SND (read_vbyte ());
 #else
                         beep_fx (read_vbyte ());
 #endif
@@ -336,13 +336,13 @@ void run_script (unsigned char whichs) {
                         // MUSIC n
                         sc_n = read_vbyte ();
                         if (sc_n == 0xff) {
-                            wyz_stop_sound ();
+                            _AY_ST_ALL ();
                         } else {
 #ifdef COMPRESSED_LEVELS
                             level_data->music_id = sc_n;
-                            wyz_play_music (level_data->music_id);
+                            _AY_PL_MUS (level_data->music_id);
 #else
-                            wyz_play_music (sc_n);
+                            _AY_PL_MUS (sc_n);
 #endif
                         }
                         break;

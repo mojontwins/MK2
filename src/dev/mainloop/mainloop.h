@@ -95,7 +95,7 @@ void main (void) {
 		// *********
 		// MAIN LOOP
 		// *********
-n_pant = 17; p_keys = 30;
+
 		while (playing) {
 			// Read controllers
 			pad0 = (joyfunc) (&keys);

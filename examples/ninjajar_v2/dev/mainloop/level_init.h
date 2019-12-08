@@ -146,4 +146,3 @@
 	#endif
 
 	no_draw = 0;
-	

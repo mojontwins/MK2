@@ -82,13 +82,13 @@ echo ### MAKING TAPS ###
     mb_length=?work\%game%.bin  > nul
 ..\..\..\src\utils\pasmo.exe loader\loader.asm work\loader.bin loader.txt
 ..\..\..\src\utils\GenTape.exe %game%.tap ^
-    basic 'NINJAJAR' 10 work\loader.bin ^
+    basic 'NINJAJAR!' 10 work\loader.bin ^
     data                ..\bin\loading.scr ^
-    data                work\RAM1.bin ^
-    data                work\RAM3.bin ^
-    data                work\RAM4.bin ^
-    data                work\RAM6.bin ^
-    data                work\RAM7.bin ^
-    data                work\%game%.bin
+    data                 work\RAM1.bin ^
+    data                 work\RAM3.bin ^
+    data                 work\RAM4.bin ^
+    data                 work\RAM6.bin ^
+    data                 work\RAM7.bin ^
+    data                 work\%game%.bin
 
 echo DONE!

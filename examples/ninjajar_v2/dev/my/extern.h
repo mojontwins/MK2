@@ -205,7 +205,7 @@ void do_extern_action (unsigned char n) {
 			#asm
 				halt
 			#endasm
-			if (exti != 32 && is_cutscene == 0) wyz_play_sound (8);
+			if (exti != 32 && is_cutscene == 0) _AY_PL_SND (8);
 			#asm
 				halt
 				halt

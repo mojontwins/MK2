@@ -42,68 +42,70 @@ void mueve_bicharracos (void) {
 		gpen_y = baddies [enoffsmasi].y;
 
 		if (en_an_state [gpit] == GENERAL_DYING) {
-			en_an_count [gpit] --;
+			-- en_an_count [gpit];
+			enem_move_spr_abs ();
 			if (0 == en_an_count [gpit]) {
 				en_an_state [gpit] = 0;
 				en_an_n_f [gpit] = sprite_18_a;
 				continue;
 			}
-		}
+		} else {
 
-		// Gotten preliminary:	
-		#ifdef PLAYER_NEW_GENITAL	
-			pregotten =	(gpx + 12 >= baddies [enoffsmasi].x && gpx <= baddies [enoffsmasi].x + 12) &&
-						(gpy + 15 >= baddies [enoffsmasi].y && gpy <= baddies [enoffsmasi].y);
-		#elif !defined (PLAYER_GENITAL)
-			#if defined (BOUNDING_BOX_8_CENTERED) || defined (BOUNDING_BOX_8_BOTTOM)
-				pregotten = (gpx + 11 >= baddies [enoffsmasi].x && gpx <= baddies [enoffsmasi].x + 11);
-			#else
-				pregotten = (gpx + 15 >= baddies [enoffsmasi].x && gpx <= baddies [enoffsmasi].x + 15);
+			// Gotten preliminary:	
+			#ifdef PLAYER_NEW_GENITAL	
+				pregotten =	(gpx + 12 >= baddies [enoffsmasi].x && gpx <= baddies [enoffsmasi].x + 12) &&
+							(gpy + 15 >= baddies [enoffsmasi].y && gpy <= baddies [enoffsmasi].y);
+			#elif !defined (PLAYER_GENITAL)
+				#if defined (BOUNDING_BOX_8_CENTERED) || defined (BOUNDING_BOX_8_BOTTOM)
+					pregotten = (gpx + 11 >= baddies [enoffsmasi].x && gpx <= baddies [enoffsmasi].x + 11);
+				#else
+					pregotten = (gpx + 15 >= baddies [enoffsmasi].x && gpx <= baddies [enoffsmasi].x + 15);
+				#endif
 			#endif
-		#endif
 
-		#if defined (ENABLE_SHOOTERS) || defined (ENABLE_ARROWS)
-			if (baddies [enoffsmasi].t & 4) {
-				enemy_shoots = 1;
-			} else enemy_shoots = 0;
-		#endif
-		gpt = baddies [enoffsmasi].t >> 3;
+			#if defined (ENABLE_SHOOTERS) || defined (ENABLE_ARROWS)
+				if (baddies [enoffsmasi].t & 4) {
+					enemy_shoots = 1;
+				} else enemy_shoots = 0;
+			#endif
+			gpt = baddies [enoffsmasi].t >> 3;
 
-		switch (gpt) {
-			#ifdef ENABLE_PATROLLERS
-				case 1:			// linear
-					killable = 1;
-				case 8:			// moving platforms
-					#include "engine/enemmods/move_linear.h"
-					break;
-			#endif
-			#ifdef ENABLE_FANTIES
-				case 2:			// flying
-					#include "engine/enemmods/move_fanty.h"
-					break;
-			#endif
-			#ifdef ENABLE_PURSUERS
-				case 3:			// pursuers
-					#include "engine/enemmods/move_pursuers.h"
-					break;
-			#endif
-			#ifdef ENABLE_DROPS
-				case 9:			// drops
-					#include "addons/drops/move.h"
-					break;
-			#endif
-			#ifdef ENABLE_ARROWS
-				case 10:		// arrows
-					#include "addons/arrows/move.h"
-					break;
-			#endif
-			#ifdef ENABLE_HANNA_MONSTERS_11
-				case 11:		// Hanna monsters type 11
-					#include "engine/enemmods/move_hanna_11.h"
-					break;
-			#endif
-			default:
-				if (gpt > 15 && en_an_state [gpit] != GENERAL_DYING) en_an_n_f [gpit] = sprite_18_a;
+			switch (gpt) {
+				#ifdef ENABLE_PATROLLERS
+					case 1:			// linear
+						killable = 1;
+					case 8:			// moving platforms
+						#include "engine/enemmods/move_linear.h"
+						break;
+				#endif
+				#ifdef ENABLE_FANTIES
+					case 2:			// flying
+						#include "engine/enemmods/move_fanty.h"
+						break;
+				#endif
+				#ifdef ENABLE_PURSUERS
+					case 3:			// pursuers
+						#include "engine/enemmods/move_pursuers.h"
+						break;
+				#endif
+				#ifdef ENABLE_DROPS
+					case 9:			// drops
+						#include "addons/drops/move.h"
+						break;
+				#endif
+				#ifdef ENABLE_ARROWS
+					case 10:		// arrows
+						#include "addons/arrows/move.h"
+						break;
+				#endif
+				#ifdef ENABLE_HANNA_MONSTERS_11
+					case 11:		// Hanna monsters type 11
+						#include "engine/enemmods/move_hanna_11.h"
+						break;
+				#endif
+				default:
+					if (gpt > 15 && en_an_state [gpit] != GENERAL_DYING) en_an_n_f [gpit] = sprite_18_a;
+			}
 		}
 
 		if (active) {

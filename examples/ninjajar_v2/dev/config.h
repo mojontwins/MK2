@@ -17,7 +17,7 @@
 // Music engine
 //#define USE_ARKOS						// Just comment this to use the default WYZ player.
 //#define ARKOS_SFX_CHANNEL		1		// SFX Channel (0-2)
-//#define NO_SOUND						// Durante el desarrollo, no llama al player.
+#define NO_SOUND						// Durante el desarrollo, no llama al player.
 
 // Multi-level support
 
@@ -627,21 +627,19 @@ unsigned char behs [] = {
 // Sound driver macro
 
 #ifdef MODE_128K
-#ifdef NO_SOUND
-	#define _AY_PL_SND nosound_play_sound
-	#define _AY_PL_MUS nosound_play_music
-	#define _AY_ST_ALL nosound_stop_sound
-#else
-#ifdef USE_ARKOS
-	#define _AY_PL_SND arkos_play_sound
-	#define _AY_PL_MUS arkos_play_music
-	#define _AY_ST_ALL arkos_stop_sound
-#else
-	#define _AY_PL_SND wyz_play_sound
-	#define _AY_PL_MUS wyz_play_music
-	#define _AY_ST_ALL wyz_stop_sound
-#endif
-#endif
+	#ifdef NO_SOUND
+		#define _AY_PL_SND nosound_play_sound
+		#define _AY_PL_MUS nosound_play_music
+		#define _AY_ST_ALL nosound_stop_sound
+	#elif defined USE_ARKOS
+		#define _AY_PL_SND arkos_play_sound
+		#define _AY_PL_MUS arkos_play_music
+		#define _AY_ST_ALL arkos_stop_sound
+	#else
+		#define _AY_PL_SND wyz_play_sound
+		#define _AY_PL_MUS wyz_play_music
+		#define _AY_ST_ALL wyz_stop_sound
+	#endif
 #else
 	#define _AY_PL_SND beep_fx
 #endif

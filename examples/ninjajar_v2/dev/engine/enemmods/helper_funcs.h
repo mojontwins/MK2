@@ -112,6 +112,8 @@
 
 	unsigned char mons_col_sc_y (void) {
 		cy1 = cy2 = (baddies [enoffsmasi].my > 0 ? gpen_cy + 15 : gpen_cy) >> 4;
+		cx1 = gpen_cx >> 4; cx2 = (gpen_cx + 15) >> 4;
+		cm_two_points ();
 		#ifdef EVERYTHING_IS_A_WALL
 			return (at1 || at2);
 		#else
