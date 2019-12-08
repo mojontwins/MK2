@@ -36,6 +36,7 @@ void mueve_bicharracos (void) {
 	tocado = 0;
 	p_gotten = 0;
 	for (gpit = 0; gpit < 3; gpit ++) {
+		
 		active = killable = animate = 0;
 		enoffsmasi = enoffs + gpit;
 		gpen_x = baddies [enoffsmasi].x;
@@ -43,7 +44,6 @@ void mueve_bicharracos (void) {
 
 		if (en_an_state [gpit] == GENERAL_DYING) {
 			-- en_an_count [gpit];
-			enem_move_spr_abs ();
 			if (0 == en_an_count [gpit]) {
 				en_an_state [gpit] = 0;
 				en_an_n_f [gpit] = sprite_18_a;
@@ -218,52 +218,14 @@ void mueve_bicharracos (void) {
 				#endif
 			}
 
-			// Render
-			#include "engine\enemmods\render.h"
-
 			#ifdef PLAYER_CAN_FIRE
 				#include "engine\enemmods\bullets.h"
 			#endif
 
-		} else {
-			// sp_MoveSprAbs (sp_moviles [gpit], spritesClip, 0, -2, -2, 0, 0);
-			#asm
-				; enter: IX = sprite structure address 
-				;        IY = clipping rectangle, set it to "ClipStruct" for full screen 
-				;        BC = animate bitdef displacement (0 for no animation) 
-				;         H = new row coord in chars 
-				;         L = new col coord in chars 
-				;         D = new horizontal rotation (0..7) ie horizontal pixel position 
-				;         E = new vertical rotation (0..7) ie vertical pixel position
+		} 
 
-				// sp_moviles [gpit] = sp_moviles + gpit*2
-				ld  a, (_gpit)
-				sla a
-				ld  c, a
-				ld  b, 0 				// BC = offset to [gpit] in 16bit arrays
-				ld  hl, _sp_moviles
-				add hl, bc
-				ld  e, (hl)
-				inc hl 
-				ld  d, (hl)
-				push de						
-				pop ix
-
-				// Clipping rectangle
-				ld  iy, vpClipStruct
-
-				// Animate
-				ld  bc, 0
-
-				// Character row, col
-				ld hl, 0xfefe
-
-				// rotation horz, vert
-				ld de, 0
-
-				call SPMoveSprAbs
-			#endasm
-		}
+		// Render
+		#include "engine\enemmods\render.h"
 	}
 	#if defined (SLOW_DRAIN) && defined (PLAYER_BOUNCES)
 		lasttimehit = tocado;
