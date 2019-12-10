@@ -198,58 +198,6 @@ unsigned int abs (int n) {
 		return (unsigned int) n;
 }
 
-void kill_player (unsigned char sound) {
-	#ifdef CUSTOM_HIT
-		if (gpt == 0xff) {
-			//p_life -= CUSTOM_HIT_DEFAULT;
-			gpd = CUSTOM_HIT_DEFAULT;
-		}
-	#ifdef FANTIES_HIT
-		else if (gpt == 2) {
-			//p_life -= FANTIES_HIT;
-			gpd = FANTIES_HIT;
-		}
-	#endif
-	#ifdef PATROLLERS_HIT
-		else if (gpt == 1) {
-			gpd = PATROLLERS_HIT;
-			//p_life -= PATROLLERS_HIT;
-		}
-	#endif
-		else //p_life -= CUSTOM_HIT_DEFAULT;
-			gpd = CUSTOM_HIT_DEFAULT;
-
-		if (p_life > CUSTOM_HIT_DEFAULT) p_life -= CUSTOM_HIT_DEFAULT; else p_life = 0;
-	#else
-		p_life --;
-	#endif
-
-	#ifdef MODE_128K
-		//_AY_ST_ALL ();
-		_AY_PL_SND (sound);
-	#else
-		beep_fx (sound);
-	#endif
-
-	#ifdef DIE_AND_RESPAWN
-	#ifdef ENABLE_HOLES
-		if (p_ct_hole >= 2)
-	#endif
-		{
-			p_killme = 1;
-			half_life = 0;
-		}
-	#endif
-	#ifdef PLAYER_FLICKERS
-		p_state = EST_PARP;
-		p_state_ct = 50;
-	#endif
-	#ifdef REENTER_ON_DEATH
-		o_pant = 99;
-		hide_sprites (0);
-	#endif
-}
-
 // Floating objects
 #if defined (ENABLE_FLOATING_OBJECTS) || defined (ENABLE_SIM)
 #ifdef PLAYER_GENITAL

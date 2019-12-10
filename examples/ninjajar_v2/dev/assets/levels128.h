@@ -168,7 +168,7 @@ extern unsigned char behs [0];
 		// Fase 0: Intro.
 		{MAP5C_BIN, TS5C_BIN, SS0C_BIN, ENEMS5C_BIN, HOTSPOTS5C_BIN, BEHS5C_BIN, 0, 
 		 8, 7, 7, 99, 7, 3, 99, 1, 2, SENG_JUMP, 0,
-		 1, SCRIPT_INIT + SCRIPT_0},	
+		 1, SCRIPT_INIT + LEVEL_TOWN},	
 		 
 		// Fase 1: Montaña.
 		{MAP0C_BIN, TS0C_BIN, SS0C_BIN, ENEMS0C_BIN, HOTSPOTS0C_BIN, BEHS0C_BIN, 17, 
@@ -183,7 +183,7 @@ extern unsigned char behs [0];
 		// Fase 3: Los llanos del marrano.
 		{MAP4C_BIN, TS4C_BIN, SS4C_BIN, ENEMS4C_BIN, HOTSPOTS4C_BIN, BEHS4C_BIN, 2,
 		 0, 3, 2, 99, 12, 1, 1, 1, 0, SENG_JUMP, 1,
-		 1, SCRIPT_INIT + SCRIPT_11},	
+		 1, SCRIPT_INIT + LEVEL_CLUB},	
 		 
 		// Fase 4: El pozo poroso
 		{MAP6C_BIN, TS2C_BIN, SS2C_BIN, ENEMS6C_BIN, HOTSPOTS6C_BIN, BEHS2C_BIN, 1,
@@ -193,7 +193,7 @@ extern unsigned char behs [0];
 		// Fase 5: Isla de la Bruja Sarollán
 		{MAP8C_BIN, TS8C_BIN, SS4C_BIN, ENEMS8C_BIN, HOTSPOTS8C_BIN, BEHS8C_BIN, 0,
 		 13, 10, 6, 99, 7, 3, 99, 1, 2, SENG_JUMP, 0, 
-		 1, SCRIPT_INIT + SCRIPT_2},
+		 1, SCRIPT_INIT + LEVEL_SAROLLAN},
 		 
 		// Fase 6: Los llanos del marrano, 2
 		{MAP7C_BIN, TS4C_BIN, SS4C_BIN, ENEMS7C_BIN, HOTSPOTS7C_BIN, BEHS4C_BIN, 2,
@@ -213,27 +213,27 @@ extern unsigned char behs [0];
 		// Fase 9: El lago oscuro
 		{MAPAC_BIN, TSAC_BIN, SS2C_BIN, ENEMSAC_BIN, HOTSPOTSAC_BIN, BEHSAC_BIN, 11,
 		 0, 1, 1, 99, 7, 2, 99, 1, 2, SENG_SWIM, 1,
-		 1, SCRIPT_INIT + SCRIPT_5},
+		 1, SCRIPT_INIT + LEVEL_OCTOPUS},
 		 
 		// Fase 10: El castillo de la carne de membrillo
 		{MAP9C_BIN, TS9C_BIN, SS1C_BIN, ENEMS9C_BIN, HOTSPOTS9C_BIN, BEHS9C_BIN, 3,
 		 9, 1, 6, 99, 4, 4, 1, 1, 2, SENG_JUMP, 1,
-		 1, SCRIPT_INIT + SCRIPT_3},	
+		 1, SCRIPT_INIT + LEVEL_CASTLE_A},	
 
 		// Fase 11: Tienda (repetir)
 		{MAPBC_BIN, TSBC_BIN, SS0C_BIN, ENEMSBC_BIN, HOTSPOTSBC_BIN, BEHSBC_BIN, 6,
 		 0, 1, 3, 99, 2, 6, 1, 1, 2, SENG_JUMP, 1,
-		 1, SCRIPT_INIT + SCRIPT_4},
+		 1, SCRIPT_INIT + LEVEL_SHOPS},
 		 
 		// Fase 12: Tutorial
 		{MAPDC_BIN, TS1C_BIN, SS1C_BIN, ENEMSDC_BIN, HOTSPOTSDC_BIN, BEHS1C_BIN, 19,
 		 0, 4, 2, 99, 12, 1, 1, 1, 0, SENG_JUMP, 1,
-		 1, SCRIPT_INIT + SCRIPT_6},
+		 1, SCRIPT_INIT + LEVEL_TUTORIAL},
 		 
 		// Fase 13: Lava
 		{MAPCC_BIN, TSCC_BIN, SS0C_BIN, ENEMSCC_BIN, HOTSPOTSCC_BIN, BEHSCC_BIN, 2, 
 		 9, 12, 5, 99, 1, 10, 1, 1, 0, SENG_JUMP, 0,
-		 1, SCRIPT_INIT + SCRIPT_7},
+		 1, SCRIPT_INIT + LEVEL_LAVA},
 		 
 		// Fase 14: Anju's Cave
 		{MAPEC_BIN, TS3C_BIN, SS1C_BIN, ENEMSEC_BIN, HOTSPOTSEC_BIN, BEHS3C_BIN, 2,
@@ -248,17 +248,17 @@ extern unsigned char behs [0];
 		// Fase 16: Gonzalo's Castle!
 		{MAPZC_BIN, TSZC_BIN, SS1C_BIN, ENEMSZC_BIN, HOTSPOTSZC_BIN, BEHSZC_BIN, 3,
 		 15, 7, 7, 99, 4, 5, 99, 1, 2, SENG_JUMP, 0,
-		 1, SCRIPT_INIT + SCRIPT_8},
+		 1, SCRIPT_INIT + LEVEL_CASTLE_B},
 		 
 		// Fase 17: Final mal (playa pepinoni)
 		{MAPYC_BIN, TSYC_BIN, SS0C_BIN, ENEMSYC_BIN, HOTSPOTSYC_BIN, BEHSYC_BIN, 17,
 		 0, 1, 1, 99, 20, 1, 1, 1, 0, SENG_JUMP, 1,
-		 1, SCRIPT_INIT + SCRIPT_9},
+		 1, SCRIPT_INIT + LEVEL_ENDING_BAD},
 		 
 		// Fase 18: secuencia final bien animada
 		{MAPXC_BIN, TSXC_BIN, SS0C_BIN, ENEMSXC_BIN, HOTSPOTSXC_BIN, BEHSXC_BIN, 3, 
 		 0, 12, 8, 99, 3, 1, 99, 1, 2, SENG_JUMP, 0,
-		 1, SCRIPT_INIT + SCRIPT_10}
+		 1, SCRIPT_INIT + LEVEL_ENDING_GOOD}
 	};
 
 	#ifdef LEVEL_SEQUENCE

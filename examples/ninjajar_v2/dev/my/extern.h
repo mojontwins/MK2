@@ -4,7 +4,7 @@
 // extern.h
 // External custom code to be run from a script
 
-unsigned char textbuff [150];						// Max. 150 characters.
+unsigned char textbuff [150] @ SAFE_MEMORY_POOL;	// Max. 150 characters.
 unsigned char exti, extx, exty, stepbystep, keyp;
 unsigned char is_cutscene = 0;
 
@@ -78,21 +78,23 @@ void do_extern_action (unsigned char n) {
 	
 	asm_int = (gpt - 1) << 1;
 	#asm
+	._extern_depack_text
 			di
 			ld  b, 6
 			call SetRAMBank
 		
 			; First we get where to look for the packed string
 			
-			ld  de, (_asm_int)
-			ld  hl, $c000
+			ld  hl, (_asm_int)
+			ld  de, $c000
 			add hl, de
 			ld  a, (hl)
 			inc hl
 			ld  h, (hl)
 			ld  l, a
-			
-			ld de, 23458
+			add hl, de
+
+			ld de, _textbuff
 
 			; 5-bit scaped depacker by na_th_an
 			; Contains code by Antonio Villena
@@ -169,7 +171,7 @@ void do_extern_action (unsigned char n) {
 	
 		_x = 3; _y = 3; _t = 1; gp_gen = "#$$$$$$$$$$$$$$$$$$$$$$$$%"; print_str ();
 		_x = 3; _t = 1; gp_gen = "&                        '";
-		for (_y = 4; _y < extx; ++ _y) print_str ();
+		for (_y = 4; _y < extx; ++ _y) { _x = 3; print_str (); }
 		_x = 3; _y = extx; _t = 1; gp_gen = "())))))))))))))))))))))))*"; print_str ();
 		
 		exty = 4;

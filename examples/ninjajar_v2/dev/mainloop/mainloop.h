@@ -180,7 +180,7 @@ void main (void) {
 			#ifdef ENABLE_LAVA
 				if (flags [LAVA_FLAG] == 1) {
 					if (do_lava ()) {
-						kill_player (SFX_PLAYER_DEATH_LAVA);
+						p_killme = SFX_PLAYER_DEATH_LAVA;
 						success = 2;	// repeat
 						playing = 0;
 						//continue;
@@ -234,10 +234,10 @@ void main (void) {
 				}
 			#endif
 			
-			// Respawn
-			#ifdef DIE_AND_RESPAWN
-				#include "mainloop/die_and_respawn.h"
-			#endif
+			if (p_killme) {
+				player_kill ();
+				p_killme = 0;
+			}
 
 			// Flick screen
 			#ifndef PLAYER_CANNOT_FLICK_SCREEN

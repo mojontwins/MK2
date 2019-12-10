@@ -10,28 +10,44 @@ void msc_init_all (void) {
 #endif
 
 unsigned char read_byte (void) {
-    unsigned char sc_b;
-#ifdef MODE_128K
     #asm
-        di
-        ld b, SCRIPT_PAGE
-        call SetRAMBank
+        #ifdef MODE_128K
+            di
+            ld b, SCRIPT_PAGE
+            call SetRAMBank
+        #endif
+
+            ld  hl, (_script)
+            ld  a, (hl)
+            ld  (_safe_byte), a
+            inc hl
+            ld  (_script), hl
+
+        #ifdef MODE_128K
+            ld b, 0
+            call SetRAMBank
+            ei
+        #endif
     #endasm
-#endif
-    sc_b = *script ++;
-#ifdef MODE_128K
-    #asm
-        ld b, 0
-        call SetRAMBank
-        ei
-    #endasm
-#endif
-    return sc_b;
+    return safe_byte;
 }
 
 unsigned char read_vbyte (void) {
-    sc_c = read_byte ();
-    return (sc_c & 128) ? flags [sc_c & 127] : sc_c;
+    #asm
+        call _read_byte
+        ld  a, l
+        and 128
+        ret z
+        ld  a, l
+        and 127
+        ld  c, a
+        ld  b, 0
+        ld  hl, _flags
+        add hl, bc
+        ld  l, (hl)
+        ld  h, 0
+        ret
+    #endasm
 }
 
 void readxy (void) {
@@ -40,12 +56,12 @@ void readxy (void) {
 }
 
 #if !(defined (PHANTOMAS_ENGINE) || defined (HANNA_ENGINE))
-void __FASTCALL__ stop_player (void) {
+void stop_player (void) {
     p_vx = p_vy = 0;
 }
 #endif
 
-void __FASTCALL__ reloc_player (void) {
+void reloc_player (void) {
 #if defined (PHANTOMAS_ENGINE) || defined (HANNA_ENGINE)
     p_x = read_vbyte () << 4;
     p_y = read_vbyte () << 4;
@@ -62,7 +78,7 @@ void run_script (unsigned char whichs) {
     // main_script_offset contains the address of scripts for current level
     asm_int = main_script_offset + whichs + whichs;
 #ifdef DEBUG
-    debug_print_16bits (0, 0, asm_int);
+    debug_print_16bits (0, 23, asm_int);
 #endif
 
 #ifdef MODE_128K
@@ -90,12 +106,16 @@ void run_script (unsigned char whichs) {
     #endasm
 #endif
 
+#ifdef DEBUG
+    debug_print_16bits (5, 23, (unsigned int) script);
+#endif
+
     if (script == 0)
         return;
 
     script += main_script_offset;
 #ifdef DEBUG
-    debug_print_16bits (5, 0, script);
+    debug_print_16bits (10, 23, (unsigned int) script);
 #endif
 
 
@@ -354,6 +374,13 @@ void run_script (unsigned char whichs) {
                         // Final del todo
                         script_result = 4;
                         return;
+                        break;
+                    case 0xF4:
+                        // DECORATIONS
+                        while (0xff != (sc_x = read_byte ())) {
+                            sc_n = read_byte ();
+                            _x = sc_x >> 4; _y = sc_x & 15; _n = behs [sc_n]; _t = sc_n; update_tile ();
+                        }
                         break;
                     case 0xFF:
                         sc_terminado = 1;

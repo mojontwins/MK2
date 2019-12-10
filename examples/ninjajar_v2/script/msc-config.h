@@ -20,16 +20,15 @@ extern unsigned char *script;
     ._script defw 0
 #endasm
 
-#define SCRIPT_0 0x0000
-#define SCRIPT_1 0x04E1
-#define SCRIPT_2 0x056D
-#define SCRIPT_3 0x0996
-#define SCRIPT_4 0x0DE8
-#define SCRIPT_5 0x14F9
-#define SCRIPT_6 0x184F
-#define SCRIPT_7 0x1B3B
-#define SCRIPT_8 0x1C85
-#define SCRIPT_9 0x2758
-#define SCRIPT_10 0x27D1
-#define SCRIPT_11 0x2AC7
+#define LEVEL_TOWN 0x0000
+#define LEVEL_SAROLLAN 0x047D
+#define LEVEL_CASTLE_A 0x080C
+#define LEVEL_SHOPS 0x0C1A
+#define LEVEL_OCTOPUS 0x129B
+#define LEVEL_TUTORIAL 0x15E7
+#define LEVEL_LAVA 0x185B
+#define LEVEL_CASTLE_B 0x1989
+#define LEVEL_ENDING_BAD 0x240A
+#define LEVEL_ENDING_GOOD 0x2483
+#define LEVEL_CLUB 0x26D7
 #define SCRIPT_INIT 49152 

@@ -14,8 +14,11 @@ Yup - that was it. It seems that I forgot a DI when some page was paged in. I co
 
 #### [ ] Clouds are not implemented!
 
-#### [ ] No explosion when killing.
+#### [ ] explosion sprite frame management is off
 
 Explosion is `sprite_17`. 
 
-#### [ ] Scripting is off ?!
+#### [X] Scripting is off ?!
+
+#### [ ] Broken tiles not persistent
+

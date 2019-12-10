@@ -123,9 +123,9 @@ RESOURCE resources [] = {
    {6, 61213},   // 112: tsZc.bin
    {6, 62377},   // 113: level.bin
    {6, 65229},   // 114: credits.bin
-   {7, 60319},   // 115: ending3.bin
-   {7, 61507},   // 116: ending2.bin
-   {7, 62738}    // 117: tsXc.bin
+   {7, 59265},   // 115: ending3.bin
+   {7, 60453},   // 116: ending2.bin
+   {7, 61684}    // 117: tsXc.bin
 };
  
 void get_resource (unsigned char res, unsigned int dest) {

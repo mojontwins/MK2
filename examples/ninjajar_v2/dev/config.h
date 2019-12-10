@@ -17,7 +17,8 @@
 // Music engine
 //#define USE_ARKOS						// Just comment this to use the default WYZ player.
 //#define ARKOS_SFX_CHANNEL		1		// SFX Channel (0-2)
-#define NO_SOUND						// Durante el desarrollo, no llama al player.
+//#define NO_SOUND						// Durante el desarrollo, no llama al player.
+#define PLAY_SAMPLE_ON_DEATH 	0 		// Ninjajar!
 
 // Multi-level support
 

@@ -188,10 +188,16 @@ void mueve_bicharracos (void) {
 
 				#if defined (SLOW_DRAIN) && defined (PLAYER_BOUNCES)
 					if ((lasttimehit == 0) || ((maincounter & 3) == 0)) {
-						kill_player (SFX_PLAYER_DEATH_ENEMY);
+						p_killme = SFX_PLAYER_DEATH_ENEMY;
+						#ifdef CUSTOM_HIT
+							was_hit_by_type = gpt;
+						#endif
 					}
 				#else
-					kill_player (SFX_PLAYER_DEATH_ENEMY);
+					p_killme = SFX_PLAYER_DEATH_ENEMY;
+					#ifdef CUSTOM_HIT
+						was_hit_by_type = gpt;
+					#endif
 				#endif
 
 				#ifdef FANTIES_KILL_ON_TOUCH
@@ -229,12 +235,5 @@ void mueve_bicharracos (void) {
 	}
 	#if defined (SLOW_DRAIN) && defined (PLAYER_BOUNCES)
 		lasttimehit = tocado;
-	#endif
-
-	#ifdef CUSTOM_HIT
-		// This is for kill_player.
-		// If kill_player is called out of the enems loop,
-		// we will know...
-		gpt = 0xff;
 	#endif
 }

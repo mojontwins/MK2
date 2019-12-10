@@ -12,6 +12,8 @@
 # LEVEL 0
 ##############################################################################
 
+LEVELID LEVEL_TOWN
+
 # flags:
 # 2	- Estado general
 # 3 - Tiene las bragas
@@ -82,14 +84,16 @@ END
 ENTERING SCREEN 3
 	IF TRUE 
 	THEN
-		SET TILE (7, 4) = 18
-		SET TILE (8, 4) = 20
-		SET TILE (7, 5) = 45
-		SET TILE (8, 5) = 46
-		SET TILE (2, 9) = 17
-		SET TILE (3, 8) = 17
-		SET TILE (11, 8) = 21
-		SET TILE (12, 9) = 21
+		DECORATIONS
+			7, 4, 18
+			8, 4, 20
+			7, 5, 45
+			8, 5, 46
+			2, 9, 17
+			3, 8, 17
+			11, 8, 21
+			12, 9, 21
+		END
 	END
 END
 
@@ -108,10 +112,12 @@ END
 ENTERING SCREEN 7
 	IF TRUE
 	THEN
-		SET TILE (2, 6) = 34
-		SET TILE (3, 6) = 35
-		SET TILE (2, 7) = 32
-		SET TILE (3, 7) = 33
+		DECORATIONS
+			2, 6, 34
+			3, 6, 35
+			2, 7, 32
+			3, 7, 33
+		END
 	END
 END
 
@@ -208,12 +214,14 @@ END
 ENTERING SCREEN 10
 	IF TRUE
 	THEN
-		SET TILE (5, 7) = 42
-		SET TILE (1, 8) = 21
-		SET TILE (4, 9) = 17
-		SET TILE (5, 8) = 17
-		SET TILE (10, 8) = 21
-		SET TILE (13, 8) = 17
+		DECORATIONS
+			5, 7, 42
+			1, 8, 21
+			4, 9, 17
+			5, 8, 17
+			10, 8, 21
+			13, 8, 17
+		END
 	END
 
 	IF FLAG 8 = 0
@@ -235,10 +243,12 @@ END
 ENTERING SCREEN 11
 	IF TRUE
 	THEN
-		SET TILE (6, 6) = 34
-		SET TILE (7, 6) = 35
-		SET TILE (6, 7) = 32
-		SET TILE (7, 7) = 33
+		DECORATIONS
+			6, 6, 34
+			7, 6, 35
+			6, 7, 32
+			7, 7, 33
+		END
 	END
 END
 
@@ -269,10 +279,12 @@ END
 ENTERING SCREEN 13
 	IF TRUE
 	THEN
-		SET TILE (8, 6) = 34
-		SET TILE (9, 6) = 35
-		SET TILE (8, 7) = 32
-		SET TILE (9, 7) = 33
+		DECORATIONS
+			8, 6, 34
+			9, 6, 35
+			8, 7, 32
+			9, 7, 33
+		END
 	END
 END
 
@@ -288,13 +300,15 @@ END
 ENTERING SCREEN 14
 	IF TRUE
 	THEN
-		SET TILE (10, 7) = 24
-		SET TILE (8, 7) = 36
-		SET TILE (4, 5) = 37
-		SET TILE (7, 5) = 37
-		SET TILE (10, 5) = 37
-		SET TILE (2, 2) = 34
-		SET TILE (12, 2) = 35
+		DECORATIONS
+			10, 7, 24
+			8, 7, 36
+			4, 5, 37
+			7, 5, 37
+			10, 5, 37
+			2, 2, 34
+			12, 2, 35
+		END
 		SET_FIRE_ZONE 0, 0, 32, 192
 	END
 END
@@ -354,20 +368,24 @@ END
 ENTERING SCREEN 15
 	IF TRUE
 	THEN
-		SET TILE (0, 8) = 21
-		SET TILE (3, 9) = 21
-		SET TILE (12, 9) = 21
-		SET TILE (6, 9) = 17
+		DECORATIONS
+			0, 8, 21
+			3, 9, 21
+			12, 9, 21
+			6, 9, 17
+		END
 	END
 END
 
 ENTERING SCREEN 16
 	IF TRUE
 	THEN
-		SET TILE (8, 9) = 21
-		SET TILE (13, 8) = 17
-		SET TILE (11, 9) = 17
-		SET TILE (2, 9) = 17
+		DECORATIONS
+			8, 9, 21
+			13, 8, 17
+			11, 9, 17
+			2, 9, 17
+		END
 	END
 	
 	IF FLAG 4 = 0
@@ -392,11 +410,13 @@ END
 ENTERING SCREEN 17
 	IF TRUE
 	THEN
-		SET TILE (1, 7) = 42
-		SET TILE (1, 8) = 21
-		SET TILE (2, 9) = 21
-		SET TILE (13, 8) = 17
-		SET TILE (12, 9) = 17
+		DECORATIONS
+			1, 7, 42
+			1, 8, 21
+			2, 9, 21
+			13, 8, 17
+			12, 9, 17
+		END
 	END
 END
 
@@ -512,14 +532,16 @@ END
 ENTERING SCREEN 19
 	IF TRUE
 	THEN
-		SET TILE (4, 6) = 37
-		SET TILE (7, 6) = 37
-		SET TILE (10, 6) = 37
-		SET TILE (3, 7) = 41
-		SET TILE (5, 7) = 36
-		SET TILE (1, 1) = 34
-		SET TILE (7, 1) = 35
-		SET TILE (13, 4) = 35
+		DECORATIONS
+			4, 6, 37
+			7, 6, 37
+			10, 6, 37
+			3, 7, 41
+			5, 7, 36
+			1, 1, 34
+			7, 1, 35
+			13, 4, 35
+		END
 		SET_FIRE_ZONE 207, 0, 239, 159
 	END
 END
@@ -569,13 +591,15 @@ END
 ENTERING SCREEN 20
 	IF TRUE
 	THEN
-		SET TILE (4, 6) = 37
-		SET TILE (7, 6) = 37
-		SET TILE (6, 3) = 44
-		SET TILE (2, 4) = 34
-		SET TILE (4, 1) = 34
-		SET TILE (8, 0) = 34
-		SET TILE (11, 0) = 35
+		DECORATIONS
+			4, 6, 37
+			7, 6, 37
+			6, 3, 44
+			2, 4, 34
+			4, 1, 34
+			8, 0, 34
+			11, 0, 35
+		END
 		SET_FIRE_ZONE 0, 0, 32, 192
 	END
 END
@@ -602,40 +626,6 @@ END
 END_OF_LEVEL
 
 ##############################################################################
-# Level 4
-##############################################################################
-
-## Al final no se usa.
-
-ENTERING GAME
-	IF TRUE
-	THEN
-		SET FLAG 31 = 0
-	END
-END
-
-ENTERING SCREEN 6
-	IF FLAG 31 = 0
-	THEN
-		SET TILE (2, 5) = 23
-		SET_FIRE_ZONE 17, 64, 47, 95
-	END
-END
-
-PRESS_FIRE AT SCREEN 6
-	IF FLAG 31 = 0
-	IF PLAYER_TOUCHES 2, 5
-	THEN
-		EXTERN 28
-		PRINT_TILE_AT (28, 22) = 23
-		SET FLAG 31 = 1
-		REENTER
-	END
-END
-
-END_OF_LEVEL
-
-##############################################################################
 # Level 5 : ISLA SAROLLÁN
 ##############################################################################
 
@@ -653,6 +643,8 @@ END_OF_LEVEL
 
 ## Modificación: Buscar alguna pantalla donde ocultar el sostén!
 
+LEVELID LEVEL_SAROLLAN
+
 ENTERING GAME
 	IF TRUE
 	THEN
@@ -668,17 +660,19 @@ END
 ENTERING SCREEN 1
 	IF TRUE
 	THEN
-		SET TILE (12, 6) = 38
-		SET TILE (11, 7) = 35
-		SET TILE (12, 7) = 36
-		SET TILE (13, 7) = 37
-		SET TILE (11, 8) = 32
-		SET TILE (12, 8) = 33
-		SET TILE (13, 8) = 34
-		SET TILE (2, 7) = 29
-		SET TILE (3, 7) = 30
-		SET TILE (4, 6) = 29
-		SET TILE (7, 8) = 30
+		DECORATIONS
+			12, 6, 38
+			11, 7, 35
+			12, 7, 36
+			13, 7, 37
+			11, 8, 32
+			12, 8, 33
+			13, 8, 34
+			2, 7, 29
+			3, 7, 30
+			4, 6, 29
+			7, 8, 30
+		END
 		
 		# Secreto! Ocultar tiles traspasables
 		PRINT_TILE_AT (29, 4) = 5
@@ -780,13 +774,15 @@ END
 ENTERING SCREEN 7
 	IF TRUE
 	THEN
-		SET TILE (5, 8) = 24
-		SET TILE (11, 7) = 30
-		SET TILE (9, 8) = 29
-		SET TILE (6, 8) = 29
-		SET TILE (7, 8) = 46
-		SET TILE (8, 8) = 30
-		SET TILE (1, 8) = 30
+		DECORATIONS
+			5, 8, 24
+			11, 7, 30
+			9, 8, 29
+			6, 8, 29
+			7, 8, 46
+			8, 8, 30
+			1, 8, 30
+		END
 	END
 END
 
@@ -801,10 +797,12 @@ END
 ENTERING SCREEN 8
 	IF TRUE
 	THEN
-		SET TILE (1, 8) = 29
-		SET TILE (2, 8) = 46
-		SET TILE (3, 8) = 46
-		SET TILE (4, 8) = 30
+		DECORATIONS
+			1, 8, 29
+			2, 8, 46
+			3, 8, 46
+			4, 8, 30
+		END
 	END
 END
 
@@ -820,11 +818,13 @@ END
 ENTERING SCREEN 10
 	IF TRUE
 	THEN
-		SET TILE (3, 3) = 25
-		SET TILE (6, 3) = 25
-		SET TILE (9, 3) = 26
-		SET TILE (2, 2) = 29
-		SET TILE (3, 2) = 30
+		DECORATIONS
+			3, 3, 25
+			6, 3, 25
+			9, 3, 26
+			2, 2, 29
+			3, 2, 30
+		END
 
 		SET_FIRE_ZONE 129, 32, 159, 47
 		SET FLAG 2 = 0
@@ -867,10 +867,12 @@ END
 ENTERING SCREEN 11
 	IF TRUE
 	THEN
-		SET TILE (13, 7) = 29
-		SET TILE (12, 8) = 29
-		SET TILE (1, 8) = 29
-		SET TILE (2, 8) = 30
+		DECORATIONS
+			13, 7, 29
+			12, 8, 29
+			1, 8, 29
+			2, 8, 30
+		END
 	END
 END
 
@@ -878,15 +880,17 @@ END
 ENTERING SCREEN 12
 	IF TRUE
 	THEN
-		SET TILE (8, 8) = 24
-		SET TILE (3, 1) = 24
-		SET TILE (12, 8) = 46
-		SET TILE (8, 8) = 29
-		SET TILE (9, 7) = 29
-		SET TILE (10, 7) = 46
-		SET TILE (11, 7) = 30
-		SET TILE (5, 4) = 30
-		SET TILE (1, 4) = 29
+		DECORATIONS
+			8, 8, 24
+			3, 1, 24
+			12, 8, 46
+			8, 8, 29
+			9, 7, 29
+			10, 7, 46
+			11, 7, 30
+			5, 4, 30
+			1, 4, 29
+		END
 	END
 END
 
@@ -908,15 +912,17 @@ END
 ENTERING SCREEN 13
 	IF TRUE
 	THEN
-		SET TILE (13, 9) = 18
-		SET TILE (14, 9) = 18
-		SET TILE (9, 7) = 24
-		SET TILE (11, 8) = 29
-		SET TILE (12, 8) = 30
-		SET TILE (8, 8) = 46
-		SET TILE (5, 7) = 29
-		SET TILE (1, 8) = 29
-		SET TILE (2, 8) = 46
+		DECORATIONS
+			13, 9, 18
+			14, 9, 18
+			9, 7, 24
+			11, 8, 29
+			12, 8, 30
+			8, 8, 46
+			5, 7, 29
+			1, 8, 29
+			2, 8, 46
+		END
 	END
 END
 
@@ -932,16 +938,18 @@ END
 ENTERING SCREEN 14
 	IF TRUE
 	THEN
-		SET TILE (10, 2) = 43
-		SET TILE (11, 2) = 44
-		SET TILE (4, 6) = 28
-		SET TILE (5, 6) = 41
-		SET TILE (6, 6) = 42
-		SET TILE (1, 6) = 29
-		SET TILE (2, 6) = 30
-		SET TILE (12, 6) = 29
-		SET TILE (13, 6) = 46
-		SET TILE (14, 6) = 30
+		DECORATIONS
+			10, 2, 43
+			11, 2, 44
+			4, 6, 28
+			5, 6, 41
+			6, 6, 42
+			1, 6, 29
+			2, 6, 30
+			12, 6, 29
+			13, 6, 46
+			14, 6, 30
+		END
 		SET_FIRE_ZONE 174, 0, 239, 143
 	END
 END
@@ -995,11 +1003,13 @@ PRESS_FIRE AT SCREEN 14
 		EXTERN 35
 		EXTERN 36
 		REDRAW
-		SET TILE (10, 2) = 43
-		SET TILE (11, 2) = 44
-		SET TILE (4, 6) = 28
-		SET TILE (5, 6) = 41
-		SET TILE (6, 6) = 42
+		DECORATIONS
+			10, 2, 43
+			11, 2, 44
+			4, 6, 28
+			5, 6, 41
+			6, 6, 42
+		END
 		EXTERN 37
 		EXTERN 38
 		SET FLAG 4 = 1
@@ -1011,15 +1021,17 @@ END
 ENTERING SCREEN 15
 	IF TRUE
 	THEN
-		SET TILE (4, 6) = 27
-		SET TILE (7, 6) = 39
-		SET TILE (9, 6) = 40
-		SET TILE (5, 2) = 38
+		DECORATIONS
+			4, 6, 27
+			7, 6, 39
+			9, 6, 40
+			5, 2, 38
+			0, 6, 29
+			1, 6, 46
+			2, 6, 30
+			12, 6, 30
+		END
 		SET_FIRE_ZONE 0, 0, 239, 47
-		SET TILE (0, 6) = 29
-		SET TILE (1, 6) = 46
-		SET TILE (2, 6) = 30
-		SET TILE (12, 6) = 30
 	END
 END
 
@@ -1063,21 +1075,25 @@ END
 ENTERING SCREEN 16
 	IF TRUE
 	THEN
-		SET TILE (4, 0) = 29
-		SET TILE (8, 7) = 29
-		SET TILE (9, 6) = 29
-		SET TILE (10, 6) = 30
-		SET TILE (11, 8) = 30
+		DECORATIONS
+			4, 0, 29
+			8, 7, 29
+			9, 6, 29
+			10, 6, 30
+			11, 8, 30
+		END
 	END
 END
 
 ENTERING SCREEN 17
 	IF TRUE
 	THEN
-		SET TILE (2, 8) = 29
-		SET TILE (4, 6) = 29
-		SET TILE (5, 6) = 30
-		SET TILE (12, 8) = 30
+		DECORATIONS
+			2, 8, 29
+			4, 6, 29
+			5, 6, 30
+			12, 8, 30
+		END
 	END
 END
 
@@ -1111,15 +1127,17 @@ END
 ENTERING SCREEN 20
 	IF TRUE
 	THEN
-		SET TILE (8, 3) = 43
-		SET TILE (9, 3) = 44
-		SET TILE (7, 4) = 35
-		SET TILE (8, 4) = 36
-		SET TILE (9, 4) = 37
-		SET TILE (7, 5) = 32
-		SET TILE (8, 5) = 33
-		SET TILE (9, 5) = 20
-		SET TILE (12, 0) = 46
+		DECORATIONS
+			8, 3, 43
+			9, 3, 44
+			7, 4, 35
+			8, 4, 36
+			9, 4, 37
+			7, 5, 32
+			8, 5, 33
+			9, 5, 20
+			12, 0, 46
+		END
 	END
 END
 
@@ -1151,6 +1169,8 @@ END_OF_LEVEL
 # Flag 8: 0 - no tengo el grifo
 #         1 - tengo el grifo
 #         2 - grifo usado (moco drenado)
+
+LEVELID LEVEL_CASTLE_A
 
 ENTERING GAME
 	IF TRUE
@@ -1190,34 +1210,39 @@ END
 ENTERING SCREEN 1
 	IF TRUE
 	THEN
-		SET TILE (4, 3) = 18
-		SET TILE (6, 3) = 18
-		SET TILE (8, 3) = 18
-		SET TILE (10, 3) = 18
 		SET FLAG 2 = 0
 		SET FLAG 3 = 0
 		SET FLAG 4 = 0
 		SET FLAG 5 = 0
-		SET TILE (3, 8) = 24
-		SET TILE (12, 8) = 24
+		DECORATIONS
+			4, 3, 18
+			6, 3, 18
+			8, 3, 18
+			10, 3, 18
+			3, 8, 24
+			12, 8, 24
+		END
 	END
 	
 	IF FLAG 6 = 0
 	THEN
-		SET TILE (4, 4) = 32
-		SET TILE (6, 4) = 32
-		SET TILE (8, 4) = 32
-		SET TILE (10, 4) = 32	
-		SET TILE (7, 7) = 20
-		SET TILE (7, 8) = 21
+		DECORATIONS
+			4, 4, 32
+			6, 4, 32
+			8, 4, 32
+			10, 4, 32
+			7, 7, 20
+			7, 8, 21
 	END
 	
 	IF FLAG 6 = 1
 	THEN
-		SET TILE (4, 4) = 33
-		SET TILE (6, 4) = 33
-		SET TILE (8, 4) = 33
-		SET TILE (10, 4) = 33
+		DECORATIONS
+			4, 4, 33
+			6, 4, 33
+			8, 4, 33
+			10, 4, 33
+		END
 	END
 END
 
@@ -1333,10 +1358,12 @@ ENTERING SCREEN 2
 	
 	IF FLAG 8 = 2
 	THEN
-		SET TILE (11, 8) = 0
-		SET TILE (12, 8) = 0
-		SET TILE (13, 8) = 0
-		SET TILE (14, 8) = 0
+		DECORATIONS
+			11, 8, 0
+			12, 8, 0
+			13, 8, 0
+			14, 8, 0
+		END
 	END
 END
 
@@ -1355,10 +1382,12 @@ END
 ENTERING SCREEN 3
 	IF TRUE
 	THEN
-		SET TILE (11, 7) = 43
-		SET TILE (12, 7) = 44
-		SET TILE (11, 8) = 45
-		SET TILE (12, 8) = 46
+		DECORATIONS
+			11, 7, 43
+			12, 7, 44
+			11, 8, 45
+			12, 8, 46
+		END
 		SET_FIRE_ZONE 120, 0, 239, 159
 	END
 END
@@ -1440,12 +1469,14 @@ ENTERING SCREEN 9
 	IF TRUE
 	THEN
 		SET FLAG 2 = 0
-		SET TILE (13, 7) = 20
-		SET TILE (13, 8) = 21
-		SET TILE (2, 9) = 27
-		SET TILE (5, 9) = 28
-		SET TILE (8, 9) = 29
-		SET TILE (11, 9) = 30
+		DECORATIONS
+			13, 7, 20
+			13, 8, 21
+			2, 9, 27
+			5, 9, 28
+			8, 9, 29
+			11, 9, 30
+		END
 	END
 END
 
@@ -1567,14 +1598,16 @@ END
 ENTERING SCREEN 12
 	IF TRUE
 	THEN
-		SET TILE (1, 1) = 35
-		SET TILE (1, 2) = 36
-		SET TILE (2, 2) = 37
-		SET TILE (4, 2) = 24
-		SET TILE (2, 8) = 38
-		SET TILE (3, 8) = 39
-		SET TILE (4, 8) = 40
-		SET TILE (6, 8) = 24
+		DECORATIONS
+			1, 1, 35
+			1, 2, 36
+			2, 2, 37
+			4, 2, 24
+			2, 8, 38
+			3, 8, 39
+			4, 8, 40
+			6, 8, 24
+		END
 	END
 	
 	IF FLAG 8 = 2
@@ -1700,6 +1733,8 @@ END_OF_LEVEL
 # 19 - tienda Alex Kidd (pantallas 8, 9)
 # 20 - bifurcación (pantallas 10, 11)
 
+LEVELID LEVEL_SHOPS
+
 ENTERING GAME
 	IF TRUE
 	THEN
@@ -1745,14 +1780,16 @@ END
 ENTERING SCREEN 0, 2, 4, 6, 8
 	IF TRUE
 	THEN
-		SET TILE (7, 6) = 25
-		SET TILE (8, 6) = 26
-		SET TILE (9, 6) = 27
-		SET TILE (7, 7) = 28
-		SET TILE (8, 7) = 29
-		SET TILE (9, 7) = 30
-		SET TILE (12, 7) = 18
-		SET TILE (6, 7) = 24
+		DECORATIONS
+			7, 6, 25
+			8, 6, 26
+			9, 6, 27
+			7, 7, 28
+			8, 7, 29
+			9, 7, 30
+			12, 7, 18
+			6, 7, 24
+		END
 		SET FLAG 7 = 0
 		SET_FIRE_ZONE 224, 0, 239, 159
 	END
@@ -1901,14 +1938,16 @@ END
 ENTERING SCREEN 1
 	IF TRUE
 	THEN
-		SET TILE (10, 5) = 32
-		SET TILE (10, 6) = 33
-		SET TILE (2, 2) = 20
-		SET TILE (12, 2) = 21
-		SET TILE (6, 1) = 44
-		SET TILE (7, 1) = 45
-		SET TILE (8, 1) = 46
-		SET TILE (7, 4) = 16
+		DECORATIONS
+			10, 5, 32
+			10, 6, 33
+			2, 2, 20
+			12, 2, 21
+			6, 1, 44
+			7, 1, 45
+			8, 1, 46
+			7, 4, 16
+		END
 		SET FLAG 3 = 0
 		SET FLAG 6 = 1
 	END
@@ -2005,14 +2044,16 @@ END
 ENTERING SCREEN 3
 	IF TRUE
 	THEN
-		SET TILE (10, 5) = 34
-		SET TILE (10, 6) = 35
-		SET TILE (2, 2) = 20
-		SET TILE (12, 2) = 21
-		SET TILE (6, 1) = 44
-		SET TILE (7, 1) = 45
-		SET TILE (8, 1) = 46
-		SET TILE (7, 4) = 16
+		DECORATIONS
+			10, 5, 34
+			10, 6, 35
+			2, 2, 20
+			12, 2, 21
+			6, 1, 44
+			7, 1, 45
+			8, 1, 46
+			7, 4, 16
+		END
 		SET FLAG 3 = 0
 		SET FLAG 6 = 1
 	END
@@ -2104,14 +2145,16 @@ END
 ENTERING SCREEN 5
 	IF TRUE
 	THEN
-		SET TILE (10, 5) = 36
-		SET TILE (10, 6) = 37
-		SET TILE (2, 2) = 20
-		SET TILE (12, 2) = 21
-		SET TILE (6, 1) = 44
-		SET TILE (7, 1) = 45
-		SET TILE (8, 1) = 46
-		SET TILE (7, 4) = 16
+		DECORATIONS
+			10, 5, 36
+			10, 6, 37
+			2, 2, 20
+			12, 2, 21
+			6, 1, 44
+			7, 1, 45
+			8, 1, 46
+			7, 4, 16
+		END
 		SET FLAG 3 = 0
 		SET FLAG 6 = 1
 	END
@@ -2209,14 +2252,16 @@ END
 ENTERING SCREEN 7
 	IF TRUE
 	THEN
-		SET TILE (10, 5) = 38
-		SET TILE (10, 6) = 39
-		SET TILE (2, 2) = 20
-		SET TILE (12, 2) = 21
-		SET TILE (6, 1) = 44
-		SET TILE (7, 1) = 45
-		SET TILE (8, 1) = 46
-		SET TILE (7, 4) = 16
+		DECORATIONS
+			10, 5, 38
+			10, 6, 39
+			2, 2, 20
+			12, 2, 21
+			6, 1, 44
+			7, 1, 45
+			8, 1, 46
+			7, 4, 16
+		END
 		SET FLAG 3 = 0
 		SET FLAG 6 = 1
 	END
@@ -2319,16 +2364,18 @@ END
 ENTERING SCREEN 9
 	IF TRUE
 	THEN
-		SET TILE (10, 5) = 40
-		SET TILE (10, 6) = 41
-		SET TILE (2, 2) = 20
-		SET TILE (12, 2) = 21
-		SET TILE (6, 1) = 44
-		SET TILE (7, 1) = 45
-		SET TILE (8, 1) = 46
-		SET TILE (8, 4) = 16
-		SET TILE (6, 4) = 22
-		SET TILE (7, 4) = 23
+		DECORATIONS
+			10, 5, 40
+			10, 6, 41
+			2, 2, 20
+			12, 2, 21
+			6, 1, 44
+			7, 1, 45
+			8, 1, 46
+			8, 4, 16
+			6, 4, 22
+			7, 4, 23
+		END
 		SET FLAG 3 = 0
 		SET FLAG 6 = 1
 	END
@@ -2505,6 +2552,8 @@ END_OF_LEVEL
 #	1 a 5 - tienes la flor N
 # flag 8: puerta abierta
 # flag 9: ya has hablado con pulpor. Por si vas con las llaves de entrada.
+
+LEVELID LEVEL_OCTOPUS
 
 ENTERING GAME
 	IF TRUE
@@ -2859,12 +2908,14 @@ END
 ENTERING SCREEN 12
 	IF TRUE
 	THEN
-		SET TILE (5, 4) = 24
-		SET TILE (6, 4) = 25
-		SET TILE (5, 5) = 26
-		SET TILE (6, 5) = 27
-		SET TILE (5, 6) = 28
-		SET TILE (6, 6) = 29
+		DECORATIONS
+			5, 4, 24
+			6, 4, 25
+			5, 5, 26
+			6, 5, 27
+			5, 6, 28
+			6, 6, 29
+		END
 		SET_FIRE_ZONE 81, 65, 111, 95
 	END
 END
@@ -2947,6 +2998,8 @@ END_OF_LEVEL
 # flag 3: Controla el hacha. 0: No, 1: Si, 2: Usada
 # flag 4: Controla el touchplate. 0: No, 1: Si
 
+LEVELID LEVEL_TUTORIAL
+
 ENTERING GAME
 	IF TRUE
 	THEN
@@ -2961,18 +3014,20 @@ END
 ENTERING SCREEN 0
 	IF TRUE
 	THEN
-		SET TILE (0, 2) = 25
-		SET TILE (0, 3) = 24
-		SET TILE (0, 4) = 23
-		SET TILE (1, 4) = 25
-		SET TILE (0, 5) = 23
-		SET TILE (1, 5) = 24
-		SET TILE (0, 6) = 23
-		SET TILE (1, 6) = 23
-		SET TILE (2, 6) = 25
-		SET TILE (0, 7) = 23
-		SET TILE (1, 7) = 23
-		SET TILE (2, 7) = 24
+		DECORATIONS
+			0, 2, 25
+			0, 3, 24
+			0, 4, 23
+			1, 4, 25
+			0, 5, 23
+			1, 5, 24
+			0, 6, 23
+			1, 6, 23
+			2, 6, 25
+			0, 7, 23
+			1, 7, 23
+			2, 7, 24
+		END
 	END
 END
 
@@ -3060,13 +3115,15 @@ END
 ENTERING SCREEN 5
 	IF TRUE
 	THEN
-		SET TILE (6, 6) = 38
-		SET TILE (7, 6) = 39
-		SET TILE (8, 6) = 40
-		SET TILE (6, 7) = 35
-		SET TILE (7, 7) = 36
-		SET TILE (8, 7) = 37
-		SET TILE (3, 7) = 32
+		DECORATIONS
+			6, 6, 38
+			7, 6, 39
+			8, 6, 40
+			6, 7, 35
+			7, 7, 36
+			8, 7, 37
+			3, 7, 32
+		END
 	END
 END
 
@@ -3075,13 +3132,15 @@ PRESS_FIRE AT SCREEN 5
 	THEN
 		EXTERN 127
 		REDRAW
-		SET TILE (6, 6) = 38
-		SET TILE (7, 6) = 39
-		SET TILE (8, 6) = 40
-		SET TILE (6, 7) = 35
-		SET TILE (7, 7) = 36
-		SET TILE (8, 7) = 37
-		SET TILE (3, 7) = 32
+		DECORATIONS
+			6, 6, 38
+			7, 6, 39
+			8, 6, 40
+			6, 7, 35
+			7, 7, 36
+			8, 7, 37
+			3, 7, 32
+		END
 	END
 	
 	IF PLAYER_TOUCHES 8, 7
@@ -3204,49 +3263,46 @@ END
 ENTERING SCREEN 9
 	IF TRUE
 	THEN
-		SET TILE (3, 2) = 26
-		SET TILE (4, 2) = 27
-		SET TILE (5, 2) = 27
-		SET TILE (6, 2) = 27
-		SET TILE (7, 2) = 27
-		SET TILE (8, 2) = 27
-		SET TILE (9, 2) = 27
-		SET TILE (10, 2) = 27
-		SET TILE (11, 2) = 28
-		SET TILE (3, 3) = 29
-		SET TILE (11, 3) = 30
-				
-		SET TILE (4, 4) = 45
-		SET TILE (5, 4) = 45
-		SET TILE (7, 4) = 45
-		SET TILE (8, 4) = 45
-		SET TILE (10, 4) = 45
-		
-		SET TILE (4, 5) = 45
-		SET TILE (5, 5) = 45
-		SET TILE (6, 5) = 45
-		SET TILE (7, 5) = 45
-		SET TILE (8, 5) = 45
-		SET TILE (9, 5) = 45
-		SET TILE (10, 5) = 45
-		
-		SET TILE (4, 6) = 45
-		SET TILE (5, 6) = 46
-		SET TILE (6, 6) = 45
-		SET TILE (7, 6) = 46
-		SET TILE (8, 6) = 45
-		SET TILE (9, 6) = 46
-		SET TILE (10, 6) = 45
-		
-		SET TILE (3, 7) = 45
-		SET TILE (4, 7) = 45
-		SET TILE (5, 7) = 32
-		SET TILE (6, 7) = 45
-		SET TILE (7, 7) = 20
-		SET TILE (8, 7) = 18
-		SET TILE (9, 7) = 20
-		SET TILE (10, 7) = 45
-		
+		DECORATIONS
+			3, 2, 26
+			4, 2, 27
+			5, 2, 27
+			6, 2, 27
+			7, 2, 27
+			8, 2, 27
+			9, 2, 27
+			10, 2, 27
+			11, 2, 28
+			3, 3, 29
+			11, 3, 30
+			4, 4, 45
+			5, 4, 45
+			7, 4, 45
+			8, 4, 45
+			10, 4, 45
+			4, 5, 45
+			5, 5, 45
+			6, 5, 45
+			7, 5, 45
+			8, 5, 45
+			9, 5, 45
+			10, 5, 45
+			4, 6, 45
+			5, 6, 46
+			6, 6, 45
+			7, 6, 46
+			8, 6, 45
+			9, 6, 46
+			10, 6, 45
+			3, 7, 45
+			4, 7, 45
+			5, 7, 32
+			6, 7, 45
+			7, 7, 20
+			8, 7, 18
+			9, 7, 20
+			10, 7, 45
+		END
 		SET_FIRE_ZONE 32, 0, 47, 159
 	END
 END
@@ -3280,6 +3336,8 @@ END_OF_LEVEL
 # flag 3: bloques aparecidos
 # flag 30: Parcheado en el motor para activar la lava / trampilla abierta
 
+LEVELID LEVEL_LAVA
+
 ENTERING GAME
 # atención a lo que hacemos aquí:
 # el flag 29 se pone a 0 cuando empezamos a jugar.
@@ -3308,15 +3366,17 @@ ENTERING SCREEN 0
 	
 	IF FLAG 30 = 1
 	THEN
-		SET TILE (3, 4) = 0
-		SET TILE (4, 4) = 0
-		SET TILE (5, 4) = 0
-		SET TILE (6, 4) = 0
-		SET TILE (7, 4) = 0
-		SET TILE (8, 4) = 0
-		SET TILE (9, 4) = 0
-		SET TILE (10, 4) = 0
-		SET TILE (11, 4) = 0
+		DECORATIONS
+			3, 4, 0
+			4, 4, 0
+			5, 4, 0
+			6, 4, 0
+			7, 4, 0
+			8, 4, 0
+			9, 4, 0
+			10, 4, 0
+			11, 4, 0
+		END
 	END
 END
 
@@ -3336,10 +3396,12 @@ ENTERING SCREEN 5
 	
 	IF FLAG 3 = 1
 	THEN
-		SET TILE (5, 4) = 7
-		SET TILE (5, 3) = 1
-		SET TILE (9, 3) = 7
-		SET TILE (9, 2) = 2
+		DECORATIONS
+			5, 4, 7
+			5, 3, 1
+			9, 3, 7
+			8, 2, 2
+		END
 	END
 END
 
@@ -3349,10 +3411,12 @@ PRESS_FIRE AT SCREEN 5
 	THEN
 		SET FLAG 5 = 1
 		SOUND 1
-		SET TILE (5, 4) = 7
-		SET TILE (5, 3) = 1
-		SET TILE (9, 3) = 7
-		SET TILE (9, 2) = 2
+		DECORATIONS
+			5, 4, 7
+			5, 3, 1
+			9, 3, 7
+			9, 2, 2
+		END
 	END
 END
 
@@ -3427,6 +3491,8 @@ END_OF_LEVEL
 # flag 21: M.A.
 # flag 22: Music
 # flag 23: Secuencia de la puerta jaime dice
+
+LEVELID LEVEL_CASTLE_B
 
 ENTERING GAME
 	IF TRUE
@@ -3581,16 +3647,18 @@ ENTERING SCREEN 3
 	IF TRUE
 	THEN
 		SET FLAG 4 = 0
-		SET TILE (0, 7) = 20
-		SET TILE (0, 8) = 21
-		SET TILE (5, 4) = 12
-		SET TILE (7, 4) = 12
-		SET TILE (9, 4) = 12
-		SET TILE (7, 9) = 18
-		SET TILE (4, 8) = 23
-		SET TILE (0, 4) = 32
-		SET TILE (0, 5) = 32
-		SET TILE (0, 6) = 32
+		DECORATIONS
+			0, 7, 20
+			0, 8, 21
+			5, 4, 12
+			7, 4, 12
+			9, 4, 12
+			7, 9, 18
+			4, 8, 23
+			0, 4, 32
+			0, 5, 32
+			0, 6, 32
+		END
 	END
 	
 	IF FLAG 23 > 0
@@ -4121,34 +4189,40 @@ ENTERING SCREEN 6
 		SET FLAG 16 = 0
 		SET FLAG 17 = 0
 		SET FLAG 18 = 0
-		SET TILE (12, 8) = 38
-		SET TILE (3, 3) = 18
-		SET TILE (5, 3) = 18
-		SET TILE (7, 3) = 18
-		SET TILE (9, 3) = 18
-		SET TILE (11, 3) = 18
-		SET TILE (5, 8) = 24
+		DECORATIONS
+			12, 8, 38
+			3, 3, 18
+			5, 3, 18
+			7, 3, 18
+			9, 3, 18
+			11, 3, 18
+			5, 8, 23
+		END
 	END
 	
 	IF FLAG 19 = 0
 	THEN
-		SET TILE (1, 7) = 20
-		SET TILE (1, 8) = 21
-		SET TILE (3, 4) = 32
-		SET TILE (5, 4) = 32
-		SET TILE (7, 4) = 32
-		SET TILE (9, 4) = 32
-		SET TILE (11, 4) = 32
+		DECORATIONS
+			1, 7, 20
+			1, 8, 21
+			3, 4, 32
+			5, 4, 32
+			7, 4, 32
+			9, 4, 32
+			11, 4, 32
+		END
 		ENEMY 1 ON
 	END
 		
 	IF FLAG 19 = 1
 	THEN
-		SET TILE (3, 4) = 33
-		SET TILE (5, 4) = 33
-		SET TILE (7, 4) = 33
-		SET TILE (9, 4) = 33
-		SET TILE (11, 4) = 33
+		DECORATIONS
+			3, 4, 33
+			5, 4, 33
+			7, 4, 33
+			9, 4, 33
+			11, 4, 33
+		END
 		ENEMY 1 OFF
 	END
 	
@@ -4628,15 +4702,17 @@ ENTERING SCREEN 15
 	IF TRUE
 	THEN
 		# agua
-		SET TILE (3, 9) = 25 
 		# estrella
-		SET TILE (5, 9) = 12 
 		# luna
-		SET TILE (7, 9) = 26 
 		# hoja
-		SET TILE (9, 9) = 28
 		# piedra
-		SET TILE (11, 9) = 27
+		DECORATIONS
+			3, 9, 25
+			5, 9, 12
+			7, 9, 26
+			9, 9, 28
+			11, 9, 27
+		END
 		SET FLAG 2 = 0
 	END
 	
@@ -4648,10 +4724,12 @@ ENTERING SCREEN 15
 	
 	IF FLAG 3 = 2
 	THEN
-		SET TILE (7, 1) = 13
-		SET TILE (8, 3) = 13
-		SET TILE (7, 5) = 13
-		SET TILE (8, 7) = 13
+		DECORATIONS
+			7, 1, 13
+			8, 3, 13
+			7, 5, 13
+			8, 7, 13
+		END
 	END
 END
 
@@ -4729,10 +4807,12 @@ PRESS_FIRE AT SCREEN 15
 	IF FLAG 3 = 1
 	THEN
 		SOUND 1
-		SET TILE (7, 1) = 13
-		SET TILE (8, 3) = 13
-		SET TILE (7, 5) = 13
-		SET TILE (8, 7) = 13
+		DECORATIONS
+			7, 1, 13
+			8, 3, 13
+			7, 5, 13
+			8, 7, 13
+		END
 		SET FLAG 3 = 2
 	END
 	
@@ -4777,13 +4857,15 @@ END
 ENTERING SCREEN 18
 	IF TRUE 
 	THEN
-		SET TILE (9, 7) = 39
-		SET TILE (10, 7) = 40
-		SET TILE (11, 7) = 41
-		SET TILE (9, 8) = 42
-		SET TILE (10, 8) = 43
-		SET TILE (11, 8) = 44
-		SET TILE (8, 8) = 24
+		DECORATIONS
+			9, 7, 39
+			11, 7, 40
+			11, 7, 41
+			9, 8, 42
+			10, 8, 43
+			11, 8, 44
+			8, 8, 24
+		END
 	END
 END
 
@@ -4834,6 +4916,8 @@ END_OF_LEVEL
 # LEVEL Y - FINAL MAL
 ##############################################################################
 
+LEVELID LEVEL_ENDING_BAD
+
 ENTERING SCREEN 19
 	IF TRUE
 	THEN
@@ -4857,15 +4941,19 @@ END_OF_LEVEL
 # LEVEL X - ANIMACIÓN CHUNGA FINAL BUENO
 ##############################################################################
 
+LEVELID LEVEL_ENDING_GOOD
+
 ENTERING SCREEN 0
 	IF TRUE
 	THEN
 		MUSIC 21
-		SET TILE (3, 7) = 36
-		SET TILE (4, 7) = 37
-		SET TILE (3, 8) = 38
-		SET TILE (4, 8) = 39
-		SET TILE (6, 8) = 32
+		DECORATIONS
+			3, 7, 36
+			4, 7, 37
+			3, 8, 38
+			4, 8, 39
+			6, 8, 32
+		END
 		SET_FIRE_ZONE 0, 0, 239, 159
 	END
 END
@@ -4877,10 +4965,12 @@ PRESS_FIRE AT SCREEN 0
 		# Secuencia
 		EXTERN 198
 		REDRAW
-		SET TILE (3, 7) = 36
-		SET TILE (4, 7) = 37
-		SET TILE (3, 8) = 38
-		SET TILE (4, 8) = 39
+		DECORATIONS
+			3, 7, 36
+			4, 7, 37
+			3, 8, 38
+			4, 8, 39
+		END
 				
 		SOUND 2
 		SET TILE (6, 8) = 0
@@ -4907,114 +4997,142 @@ PRESS_FIRE AT SCREEN 0
 		
 		REDRAW
 		PRINT_TILE_AT (10, 16) = 0
-		SET TILE (3, 7) = 20
-		SET TILE (4, 7) = 21
-		SET TILE (3, 8) = 22
-		SET TILE (4, 8) = 23
+		DECORATIONS
+			3, 7, 20
+			4, 7, 21
+			3, 8, 22
+			4, 8, 23
+		END
 		SHOW
 		SOUND 6
 		PAUSE 15
 		
-		SET TILE (3, 7) = 24
-		SET TILE (4, 7) = 25
-		SET TILE (3, 8) = 26
-		SET TILE (4, 8) = 27
+		DECORATIONS
+			3, 7, 24
+			4, 7, 25
+			3, 8, 26
+			4, 8, 27
+		END
 		SHOW
 		SOUND 7
 		PAUSE 15
 		
-		SET TILE (3, 7) = 28
-		SET TILE (4, 7) = 21
-		SET TILE (3, 8) = 22
-		SET TILE (4, 8) = 23
+		DECORATIONS
+			3, 7, 28
+			4, 7, 21
+			3, 8, 22
+			4, 8, 23
+		END
 		SHOW
 		SOUND 8
 		PAUSE 15
 		
-		SET TILE (3, 7) = 24
-		SET TILE (4, 7) = 29
-		SET TILE (3, 8) = 26
-		SET TILE (4, 8) = 27
+		DECORATIONS
+			3, 7, 24
+			4, 7, 29
+			3, 8, 26
+			4, 8, 27
+		END
 		SHOW
 		SOUND 7
 		PAUSE 15
 		
-		SET TILE (3, 7) = 20
-		SET TILE (4, 7) = 21
-		SET TILE (3, 8) = 22
-		SET TILE (4, 8) = 23
+		DECORATIONS
+			3, 7, 20
+			4, 7, 21
+			3, 8, 22
+			4, 8, 23
+		END
 		SHOW
 		SOUND 8
 		PAUSE 15
 		
-		SET TILE (3, 7) = 24
-		SET TILE (4, 7) = 25
-		SET TILE (3, 8) = 30
-		SET TILE (4, 8) = 27
+		DECORATIONS
+			3, 7, 24
+			4, 7, 25
+			3, 8, 30
+			4, 8, 27
+		END
 		SHOW
 		SOUND 6
 		PAUSE 15
 		
-		SET TILE (3, 7) = 20
-		SET TILE (4, 7) = 21
-		SET TILE (3, 8) = 22
-		SET TILE (4, 8) = 31
+		DECORATIONS
+			3, 7, 20
+			4, 7, 21
+			3, 8, 22
+			4, 8, 31
+		END
 		SHOW
 		SOUND 7
 		PAUSE 15
 		
-		SET TILE (3, 7) = 28
-		SET TILE (4, 7) = 25
-		SET TILE (3, 8) = 26
-		SET TILE (4, 8) = 27
+		DECORATIONS
+			3, 7, 28
+			4, 7, 25
+			3, 8, 26
+			4, 8, 27
+		END
 		SHOW
 		SOUND 8
 		PAUSE 15
 		
-		SET TILE (3, 7) = 24
-		SET TILE (4, 7) = 25
-		SET TILE (3, 8) = 26
-		SET TILE (4, 8) = 27
+		DECORATIONS
+			3, 7, 24
+			4, 7, 25
+			3, 8, 26
+			4, 8, 27
+		END
 		SHOW
 		SOUND 7
 		PAUSE 15
 		
-		SET TILE (3, 7) = 28
-		SET TILE (4, 7) = 21
-		SET TILE (3, 8) = 22
-		SET TILE (4, 8) = 23
+		DECORATIONS
+			3, 7, 28
+			4, 7, 21
+			3, 8, 22
+			4, 8, 23
+		END
 		SHOW
 		SOUND 8
 		PAUSE 15
 		
-		SET TILE (3, 7) = 24
-		SET TILE (4, 7) = 29
-		SET TILE (3, 8) = 26
-		SET TILE (4, 8) = 27
+		DECORATIONS
+			3, 7, 24
+			4, 7, 29
+			3, 8, 26
+			4, 8, 27
+		END
 		SHOW
 		SOUND 7
 		PAUSE 15
 		
-		SET TILE (3, 7) = 20
-		SET TILE (4, 7) = 21
-		SET TILE (3, 8) = 22
-		SET TILE (4, 8) = 23
+		DECORATIONS
+			3, 7, 20
+			4, 7, 21
+			3, 8, 22
+			4, 8, 23
+		END
 		SHOW
 		SOUND 8
 		PAUSE 15
 		
-		SET TILE (3, 7) = 24
-		SET TILE (4, 7) = 25
-		SET TILE (3, 8) = 30
-		SET TILE (4, 8) = 27
+		DECORATIONS
+			3, 7, 24
+			4, 7, 25
+			3, 8, 30
+			4, 8, 27
+		END
 		SHOW
 		SOUND 6
 		PAUSE 15
 		
-		SET TILE (3, 7) = 20
-		SET TILE (4, 7) = 21
-		SET TILE (3, 8) = 22
-		SET TILE (4, 8) = 31
+		DECORATIONS
+			3, 7, 20
+			4, 7, 21
+			3, 8, 22
+			4, 8, 31
+		END
 		SHOW
 		SOUND 7
 		PAUSE 15
@@ -5026,10 +5144,12 @@ END
 ENTERING SCREEN 1
 	IF TRUE
 	THEN
-		SET TILE (3, 7) = 44
-		SET TILE (4, 7) = 45
-		SET TILE (3, 8) = 46
-		SET TILE (4, 8) = 47
+		DECORATIONS
+			3, 7, 44
+			4, 7, 45
+			3, 8, 46
+			4, 8, 47
+		END
 		PRINT_TILE_AT (11, 17) = 33
 		SET_FIRE_ZONE 0, 0, 239, 159
 	END
@@ -5042,65 +5162,81 @@ PRESS_FIRE AT SCREEN 1
 		PAUSE 5
 		
 		REDRAW
-		SET TILE (3, 7) = 40
-		SET TILE (4, 7) = 41
-		SET TILE (3, 8) = 42
-		SET TILE (4, 8) = 43
+		DECORATIONS
+			3, 7, 40
+			4, 7, 41
+			3, 8, 42
+			4, 8, 43
+		END
 		PRINT_TILE_AT (11, 17) = 0
 		PRINT_TILE_AT (11, 18) = 32
 		SHOW
 		PAUSE 5
 		
-		SET TILE (3, 7) = 44
-		SET TILE (4, 7) = 45
-		SET TILE (3, 8) = 46
-		SET TILE (4, 8) = 47
+		DECORATIONS
+			3, 7, 44
+			4, 7, 45
+			3, 8, 46
+			4, 8, 47
+		END
 		SHOW
 		PAUSE 5
 		
-		SET TILE (3, 7) = 40
-		SET TILE (4, 7) = 41
-		SET TILE (3, 8) = 42
-		SET TILE (4, 8) = 43
+		DECORATIONS
+			3, 7, 40
+			4, 7, 41
+			3, 8, 42
+			4, 8, 43
+		END
 		SHOW
 		PAUSE 5
 		
-		SET TILE (3, 7) = 44
-		SET TILE (4, 7) = 45
-		SET TILE (3, 8) = 46
-		SET TILE (4, 8) = 47
+		DECORATIONS
+			3, 7, 44
+			4, 7, 45
+			3, 8, 46
+			4, 8, 47
+		END
 		SHOW
 		PAUSE 5
 		
-		SET TILE (3, 7) = 40
-		SET TILE (4, 7) = 41
-		SET TILE (3, 8) = 42
-		SET TILE (4, 8) = 43
+		DECORATIONS
+			3, 7, 40
+			4, 7, 41
+			3, 8, 42
+			4, 8, 43
+		END
 		SHOW
 		PAUSE 5
 		
-		SET TILE (3, 7) = 44
-		SET TILE (4, 7) = 45
-		SET TILE (3, 8) = 46
-		SET TILE (4, 8) = 47
+		DECORATIONS
+			3, 7, 44
+			4, 7, 45
+			3, 8, 46
+			4, 8, 47
+		END
 		SHOW
 		PAUSE 5
 		
-		SET TILE (3, 7) = 40
-		SET TILE (4, 7) = 41
-		SET TILE (3, 8) = 42
-		SET TILE (4, 8) = 43
+		DECORATIONS
+			3, 7, 40
+			4, 7, 41
+			3, 8, 42
+			4, 8, 43
+		END
 		SHOW
 		PAUSE 15
 		
 		EXTERN 199
 		
 		REDRAW
-		SET TILE (3, 7) = 40
-		SET TILE (4, 7) = 41
-		SET TILE (3, 8) = 42
-		SET TILE (4, 8) = 43
-		SET TILE (5, 8) = 32
+		DECORATIONS
+			3, 7, 40
+			4, 7, 41
+			3, 8, 42
+			4, 8, 43
+			5, 8, 32
+		END
 		SHOW
 		PAUSE 15
 		EXTERN 200
@@ -5108,11 +5244,13 @@ PRESS_FIRE AT SCREEN 1
 		
 		
 		REDRAW
-		SET TILE (3, 7) = 40
-		SET TILE (4, 7) = 41
-		SET TILE (3, 8) = 42
-		SET TILE (4, 8) = 43
-		SET TILE (5, 8) = 32
+		DECORATIONS
+			3, 7, 40
+			4, 7, 41
+			3, 8, 42
+			4, 8, 43
+			5, 8, 32
+		END
 		SHOW
 		PAUSE 15
 		SET TILE (5, 8) = 35
@@ -5138,6 +5276,8 @@ END_OF_LEVEL
 # LEVEL 4 - CLUB EXCLUSIVO
 ##############################################################################
 
+LEVELID LEVEL_CLUB
+
 ENTERING SCREEN 2
 	IF TRUE
 	THEN
@@ -5148,32 +5288,32 @@ END
 ENTERING SCREEN 3
 	IF TRUE
 	THEN
-		SET TILE (4, 7) = 23
-		SET TILE (4, 8) = 24
-		SET TILE (6, 7) = 25
-		SET TILE (6, 8) = 20
-		SET TILE (7, 7) = 26
-		SET TILE (7, 8) = 26
-		SET TILE (8, 7) = 27
-		SET TILE (8, 8) = 28
-		SET TILE (9, 7) = 26
-		SET TILE (9, 8) = 26
-		SET TILE (10, 7) = 26
-		SET TILE (10, 8) = 29
-		SET TILE (11, 7) = 26
-		SET TILE (11, 8) = 30
-		# SET TILE (12, 8) = 30
-		SET TILE (2, 6) = 32
-		SET TILE (3, 6) = 32
-		SET TILE (4, 6) = 32
-		SET TILE (5, 6) = 32
-		SET TILE (6, 6) = 34
-		SET TILE (7, 6) = 33
-		SET TILE (8, 6) = 33
-		SET TILE (9, 6) = 33
-		SET TILE (10, 6) = 33
-		SET TILE (11, 6) = 33
-		# SET TILE (12, 6) = 33
+		DECORATIONS
+			4, 7, 23
+			4, 8, 24
+			6, 7, 25
+			6, 8, 20
+			7, 7, 26
+			7, 8, 26
+			8, 7, 27
+			8, 8, 28
+			9, 7, 26
+			9, 8, 26
+			10, 7, 26
+			10, 8, 29
+			11, 7, 26
+			11, 8, 30
+			2, 6, 32
+			3, 6, 32
+			4, 6, 32
+			5, 6, 32
+			6, 6, 34
+			7, 6, 33
+			8, 6, 33
+			9, 6, 33
+			10, 6, 33
+			11, 6, 33
+		END
 	END
 END
 

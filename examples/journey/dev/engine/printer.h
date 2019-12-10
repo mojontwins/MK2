@@ -647,30 +647,31 @@ void print_number2 (void) {
 
 void print_str (void) {
 	#asm
+		ld  hl, (_gp_gen)
 		.print_str_loop
-			ld  hl, (_gp_gen)
 			ld  a, (hl)
 			or  a
-
 			ret z 
 
 			inc hl
-			ld  (_gp_gen), hl
-
+			
 			sub 32
 			ld  e, a
 
 			ld  a, (__t)
 			ld  d, a
 
-			ld  hl, __x
-			ld  c, (hl)
-			inc (hl)
-
+			ld  a, (__x)
+			ld  c, a
+			inc a
+			ld  (__x), a
+			
 			ld  a, (__y)
 
+			push hl
 			call SPPrintAtInv
-
+			pop  hl
+			
 			jr  print_str_loop
 	#endasm
 }

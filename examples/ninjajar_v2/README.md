@@ -721,6 +721,24 @@ Lifted directly from the original Ninjajar!.
     #define PLAYER_ASWIM            32
 ```
 
+## Sound effects
+
+From examining the source code I've extracted this list of sounds Ninjajar! uses:
+
+```
+    0   Z (items)
+    1   pause / start / 
+    2   jump
+    3   hotspot (collectable / key / ammo / time) / block / lock / broken / coco
+    4   shoot
+    5   hotspot (refill) / tile get
+    6   enemy hit / stepped on / shot
+    7   enemy dead / broken
+    8   punch
+```
+
+Just edited the `SFX_?` constants in `definitions.h`.
+
 ## Text box renderer and text unstuffer
 
 I found *text unstuffer* funny, sorry. If enabled, the scripting can fire up external code written in C via the `EXTERN N` command. In Ninjajar! it is used to display text. The original driver is there somehow but some stuff has changed. I will port the original `extern.h` and then make some adjustements (code enhancements). Just check out the results.

@@ -43,7 +43,7 @@
 #ifdef TIMER_AUTO_RESET
 				ctimer.t = TIMER_INITIAL;
 #endif
-				kill_player (SFX_PLAYER_DEATH_TIME);
+				p_killme = SFX_PLAYER_DEATH_TIME;
 #if defined (TIMER_WARP_TO_X) && defined (TIMER_WARP_TO_Y)
 				p_x = TIMER_WARP_TO_X << 10;
 				p_y = TIMER_WARP_TO_Y << 10;

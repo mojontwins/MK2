@@ -146,3 +146,7 @@
 	#endif
 
 	no_draw = 0;
+
+	#ifdef CUSTOM_HIT
+		was_hit_by_type = 0xff;
+	#endif

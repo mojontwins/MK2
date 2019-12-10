@@ -449,7 +449,7 @@ keepontruckin:
 #ifndef DEACTIVATE_EVIL_TILE	
 	// Killing tile
 	if (attr () & 1) {
-		kill_player (SFX_PLAYER_DEATH_SPIKE);
+		p_killme = SFX_PLAYER_DEATH_SPIKE;
 	}
 #endif
 

@@ -62,7 +62,7 @@
 				if (p_state == EST_NORMAL) {
 					if (collide_pixel (ctx, cty, gpx, gpy)) {
 						coco_s [coco_it] = 0;
-						kill_player (SFX_PLAYER_DEATH_COCO);
+						p_killme = SFX_PLAYER_DEATH_COCO;
 					}
 				}
 				// Collide cocos

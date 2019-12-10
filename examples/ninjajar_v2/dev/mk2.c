@@ -8,7 +8,7 @@
 
 #define FIXBITS 6
 #include <spritepack.h>
-#define DEBUG
+//#define DEBUG
 
 // We are using some stuff from splib2 directly.
 #asm
@@ -34,7 +34,13 @@
 */
 
 // If you use a frame limiter you need the isrc counter
-#define ISRC_ADDRESS 23296
+#define ISRC_ADDRESS 		23296
+
+// For two integers & one char which are never paged out (reserve 5 bytes)
+#define SAFE_INT_ADDRESS 	23297
+
+// Safe memory pool (use it carefully)
+#define SAFE_MEMORY_POOL 	23302
 
 // Free space in the splib2 area we can use
 #define FREEPOOL 61697

@@ -270,6 +270,107 @@ void player_calc_bounding_box (void) {
 signed int p_vlhit;
 #endif
 
+void player_kill (void) {
+	#ifdef CUSTOM_HIT
+		if (was_hit_by_type == 0xff) {
+			gpd = CUSTOM_HIT_DEFAULT;
+		}
+		#ifdef FANTIES_HIT
+			else if (was_hit_by_type == 2) {
+				gpd = FANTIES_HIT;
+			}
+		#endif
+		#ifdef PATROLLERS_HIT
+			else if (was_hit_by_type == 1) {
+				gpd = PATROLLERS_HIT;
+			}
+		#endif
+		else gpd = CUSTOM_HIT_DEFAULT;
+		was_hit_by_type = 0xff;
+
+		if (p_life > CUSTOM_HIT_DEFAULT) p_life -= CUSTOM_HIT_DEFAULT; else p_life = 0;
+	#else
+		p_life --;
+	#endif
+
+	#ifdef MODE_128K
+		#ifdef PLAY_SAMPLE_ON_DEATH
+			_AY_ST_ALL ();
+		#else
+			_AY_PL_SND (p_killme);
+		#endif
+	#else
+		beep_fx (p_killme);
+	#endif
+
+	#ifdef DIE_AND_RESPAWN
+		#ifdef ENABLE_HOLES
+			if (p_ct_hole >= 2)
+		#endif
+		{
+			half_life = 0;
+		}
+	#endif
+	#ifdef PLAYER_FLICKERS
+		p_state = EST_PARP;
+		p_state_ct = 50;
+	#endif
+	#ifdef REENTER_ON_DEATH
+		o_pant = 99;
+		hide_sprites (0);
+	#endif
+
+	#ifdef DIE_AND_RESPAWN
+		#ifdef PLAY_SAMPLE_ON_DEATH
+			wyz_play_sample (PLAY_SAMPLE_ON_DEATH);
+		#endif
+
+		active_sleep (50);
+		#ifdef PLAYER_HAS_SWIM
+			if (p_engine != SENG_SWIM)
+		#endif	
+		{
+			n_pant = p_safe_pant;
+			
+			#if !defined (DISABLE_AUTO_SAFE_SPOT) && !defined (PLAYER_GENITAL)
+			/*
+			gpjt = p_safe_x; gpit = 15; while (
+				gpit -- && 
+				(!(attr (p_safe_x, p_safe_y + 1) & 12) ||
+				(attr (p_safe_x, p_safe_y) & 8))
+			) gpjt ++;
+			if (gpit) p_safe_x = gpjt;
+			*/
+			#endif
+
+			#if defined (PHANTOMAS_ENGINE) || defined (HANNA_ENGINE)
+				p_x = p_safe_x << 4;
+				p_y = p_safe_y << 4;
+			#elif defined (PLAYER_GENITAL)
+				gpx = p_safe_x; gpy = p_safe_y;
+				p_x = gpx << FIXBITS;
+				p_y = gpy << FIXBITS;
+			#else
+				gpx = p_safe_x << 4; gpy = p_safe_y << 4;
+				p_x = gpx << FIXBITS;
+				p_y = gpy << FIXBITS;
+			#endif
+			
+			p_vx = p_vy = p_jmp_on = 0;
+		}
+
+		#ifdef MODE_128K
+			// Play music
+			#ifdef COMPRESSED_LEVELS
+				_AY_PL_MUS (level_data->music_id);
+			#else
+				_AY_PL_MUS (1);
+			#endif
+			//_AY_PL_SND (18);
+		#endif
+	#endif
+}
+
 unsigned char player_move (void) {
 
 	wall_v = wall_h = 0;
@@ -409,7 +510,7 @@ unsigned char player_move (void) {
 				#ifdef MODE_128K			
 					active_sleep (25);
 				#endif			
-				kill_player (SFX_PLAYER_DEATH_HOLE);
+				p_killme = SFX_PLAYER_DEATH_HOLE;
 			}
 		} else p_ct_hole = 0;
 	#endif
@@ -504,7 +605,7 @@ unsigned char player_move (void) {
 					if (p_life > 0)
 				#endif
 				{
-					kill_player (SFX_PLAYER_DEATH_SPIKE);
+					p_killme = SFX_PLAYER_DEATH_SPIKE;
 				}
 			}
 		#else
@@ -533,7 +634,7 @@ unsigned char player_move (void) {
 					if (p_life > 0)
 				#endif
 				{
-					kill_player (SFX_PLAYER_DEATH_SPIKE);
+					p_killme = SFX_PLAYER_DEATH_SPIKE;
 				}
 			}
 		#endif
