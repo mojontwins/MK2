@@ -305,7 +305,7 @@
 #define BREAKABLE_TILE_FREQ 	3		// Breakable tile frequency (AND)
 #define BREAKABLE_TILE_FREQ_T	2		// <= this value = true.
 
-//#define PERSISTENT_BREAKABLE			// Only works with compressed levels/128K games.
+#define PERSISTENT_BREAKABLE			// Only works with compressed levels/128K games.
 
 // Kill slowly (Ramiro)
 // --------------------

@@ -514,14 +514,16 @@ void draw_scr (void) {
 		#if defined (SWITCHABLE_ENGINES)
 			if (p_engine == SENG_SWIM) {
 				p_safe_pant = n_pant;
-				p_safe_x = (p_x >> 10);
-				p_safe_y = (p_y >> 10);
+				//p_safe_x = (p_x >> 10);
+				//p_safe_y = (p_y >> 10);
+				p_safe_x = gpx >> 4;
+				p_safe_y = gpy >> 4;
 			}
 		#endif
 		#if defined (PLAYER_GENITAL)
 			p_safe_pant = n_pant;
-			p_safe_x = (p_x >> 6);
-			p_safe_y = (p_y >> 6);
+			p_safe_x = (p_x >> FIXBITS);
+			p_safe_y = (p_y >> FIXBITS);
 		#endif
 	#endif
 

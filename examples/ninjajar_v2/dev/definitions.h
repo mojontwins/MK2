@@ -246,6 +246,11 @@ unsigned char en_an_state [3];
 #ifdef ENABLE_HANNA_MONSTERS_11
 	unsigned char en_an_dir [3];
 #endif
+	
+unsigned char pregotten;
+#if defined (ENABLE_SHOOTERS) || defined (ENABLE_ARROWS)
+	unsigned char enemy_shoots;
+#endif
 
 // Bullets
 
@@ -371,6 +376,7 @@ unsigned char gpen_x, gpen_y, gpen_cx, gpen_cy, gpen_xx, gpen_yy, gpaux;
 unsigned char tocado, active, killable, animate;
 unsigned char gpit, gpjt;
 unsigned char *map_pointer;
+unsigned char enit;
 
 #if defined USE_AUTO_TILE_SHADOWS || defined USE_AUTO_SHADOWS
 	unsigned char c1, c2, c3, c4;

@@ -79,8 +79,8 @@ void player_init (void) {
 	#ifdef DIE_AND_RESPAWN
 		p_killme = 0;
 		p_safe_pant = n_pant;
-		p_safe_x = p_x >> 10;
-		p_safe_y = p_y >> 10;
+		p_safe_x = p_x >> 4;
+		p_safe_y = p_y >> 4;
 	#endif
 
 	#if defined (BREAKABLE_WALLS) || defined (BREAKABLE_WALLS_SIMPLE)

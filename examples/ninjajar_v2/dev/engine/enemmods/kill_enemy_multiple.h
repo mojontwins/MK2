@@ -5,14 +5,12 @@ void enemy_kill (unsigned char amount) {
 	baddies [enoffsmasi].y = gpen_y;
 
 	if (amount > 0) {
-		en_an_n_f [gpit] = sprite_17_a;
-		//en_an_morido [gpit] = 1;							
-
+		
 // Trajectory modification?
 #ifdef ENABLE_FANTIES
 	if (gpt == 2) {
-		en_an_vx [gpit] += -en_an_vx [gpit];
-		en_an_x [gpit] += en_an_vx [gpit];
+		en_an_vx [enit] += -en_an_vx [enit];
+		en_an_x [enit] += en_an_vx [enit];
 	}
 #endif
 
@@ -28,17 +26,17 @@ void enemy_kill (unsigned char amount) {
 
 	// Play sound								
 #ifdef MODE_128K
-			en_an_state [gpit] = GENERAL_DYING;
-			en_an_count [gpit] = 8;
+			en_an_state [enit] = GENERAL_DYING;
+			en_an_count [enit] = 8;
 			_AY_PL_SND (SFX_KILL_ENEMY);
 #else
-			//sp_MoveSprAbs (sp_moviles [gpit], spritesClip, en_an_n_f [gpit] - en_an_c_f [gpit], VIEWPORT_Y + (gpen_cy >> 3), VIEWPORT_X + (gpen_cx >> 3), gpen_cx & 7, gpen_cy & 7);
-			// en_an_c_f [gpit] = en_an_n_f [gpit];
+			//sp_MoveSprAbs (sp_moviles [enit], spritesClip, en_an_n_f [enit] - en_an_c_f [enit], VIEWPORT_Y + (gpen_cy >> 3), VIEWPORT_X + (gpen_cx >> 3), gpen_cx & 7, gpen_cy & 7);
+			// en_an_c_f [enit] = en_an_n_f [enit];
 			enem_move_spr_abs ();
 
 			sp_UpdateNow ();
 			beep_fx (SFX_KILL_ENEMY);
-			en_an_n_f [gpit] = sprite_18_a;
+			en_an_n_f [enit] = sprite_18_a;
 #endif								
 		
 // Mark as enemy dead																
@@ -57,8 +55,8 @@ void enemy_kill (unsigned char amount) {
 
 // Special for pursuers...	
 #ifdef ENABLE_PURSUERS
-			en_an_alive [gpit] = 0;
-			en_an_dead_row [gpit] = DEATH_COUNT_EXPRESSION;
+			en_an_alive [enit] = 0;
+			en_an_dead_row [enit] = DEATH_COUNT_EXPRESSION;
 #endif
 
 // Run script on kill
@@ -82,7 +80,7 @@ void enemy_kill (unsigned char amount) {
 // Trajectory modification?
 #ifdef ENABLE_FANTIES
 		if (gpt == 2) {
-			en_an_vx [gpit] =- en_an_vx [gpit];
+			en_an_vx [enit] =- en_an_vx [enit];
 		}
 #endif
 

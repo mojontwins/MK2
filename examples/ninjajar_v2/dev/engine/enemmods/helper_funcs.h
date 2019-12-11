@@ -26,7 +26,7 @@
 	void shoot_coco (void) {
 		coco_x0 = gpen_cx + 4;
 		#ifdef SHOOTER_FIRE_ONE
-			coco_it = gpit;	
+			coco_it = enit;	
 		#else
 			for (coco_it = 0; coco_it < MAX_COCOS; coco_it ++) 
 		#endif

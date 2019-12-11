@@ -20,5 +20,10 @@ Explosion is `sprite_17`.
 
 #### [X] Scripting is off ?!
 
-#### [ ] Broken tiles not persistent
+Needed to place some vars in non-bankable memory
 
+#### [X] Broken tiles not persistent
+
+Needed to define `PERSISTENT_BREAKABLE`
+
+#### [ ] Safe spot on spikes ?!

@@ -5,7 +5,7 @@
 // Well, self explanatory innit?
 
 void enem_move_spr_abs (void) {
-	//sp_MoveSprAbs (sp_moviles [gpit], spritesClip, en_an_n_f [gpit] - en_an_c_f [gpit], VIEWPORT_Y + (gpen_cy >> 3), VIEWPORT_X + (gpen_cx >> 3), gpen_cx & 7, gpen_cy & 7);
+	//sp_MoveSprAbs (sp_moviles [enit], spritesClip, en_an_n_f [enit] - en_an_c_f [enit], VIEWPORT_Y + (gpen_cy >> 3), VIEWPORT_X + (gpen_cx >> 3), gpen_cx & 7, gpen_cy & 7);
 	
 	#asm
 		; enter: IX = sprite structure address 
@@ -16,11 +16,11 @@ void enem_move_spr_abs (void) {
 		;         D = new horizontal rotation (0..7) ie horizontal pixel position 
 		;         E = new vertical rotation (0..7) ie vertical pixel position 
 
-		// sp_moviles [gpit] = sp_moviles + gpit*2
-		ld  a, (_gpit)
+		// sp_moviles [enit] = sp_moviles + enit*2
+		ld  a, (_enit)
 		sla a
 		ld  c, a
-		ld  b, 0 				// BC = offset to [gpit] in 16bit arrays
+		ld  b, 0 				// BC = offset to [enit] in 16bit arrays
 		ld  hl, _sp_moviles
 		add hl, bc
 		ld  e, (hl)
@@ -33,22 +33,22 @@ void enem_move_spr_abs (void) {
 		ld  iy, vpClipStruct
 
 		// Animation
-		// en_an_n_f [gpit] - en_an_c_f [gpit]
+		// en_an_n_f [enit] - en_an_c_f [enit]
 		ld  hl, _en_an_c_f
-		add hl, bc 				// HL -> en_an_current_frame [gpit]
+		add hl, bc 				// HL -> en_an_current_frame [enit]
 		ld  e, (hl)
 		inc hl 
-		ld  d, (hl) 			// DE = en_an_current_frame [gpit]
+		ld  d, (hl) 			// DE = en_an_current_frame [enit]
 
 		ld  hl, _en_an_n_f
-		add hl, bc 				// HL -> en_an_next_frame [gpit]
+		add hl, bc 				// HL -> en_an_next_frame [enit]
 		ld  a, (hl)
 		inc hl
 		ld  h, (hl)
-		ld  l, a 				// HL = en_an_next_frame [gpit]
+		ld  l, a 				// HL = en_an_next_frame [enit]
 
 		or  a 					// clear carry
-		sbc hl, de 				// en_an_next_frame [gpit] - en_an_current_frame [gpit]
+		sbc hl, de 				// en_an_next_frame [enit] - en_an_current_frame [enit]
 
 		push bc 				// Save for later
 
@@ -81,16 +81,16 @@ void enem_move_spr_abs (void) {
 
 		call SPMoveSprAbs
 
-		// en_an_c_f [gpit] = en_an_n_f [gpit];
+		// en_an_c_f [enit] = en_an_n_f [enit];
 
 		pop bc 					// Retrieve index
 
 		ld  hl, _en_an_c_f
 		add hl, bc
-		ex  de, hl 				// DE -> en_an_c_f [gpit]	
+		ex  de, hl 				// DE -> en_an_c_f [enit]	
 
 		ld  hl, _en_an_n_f
-		add hl, bc 				// HL -> en_an_n_f [gpit]
+		add hl, bc 				// HL -> en_an_n_f [enit]
 		
 		ldi
 		ldi
