@@ -142,6 +142,12 @@ void run_script (unsigned char whichs) {
                     readxy ();
                     sc_terminado = (flags [sc_x] <= sc_y);
                     break;
+                case 0x13:
+                    // IF FLAG sc_x <> sc_n
+                    // Opcode: 13 sc_x sc_n
+                    readxy ();
+                    sc_terminado = (flags [sc_x] == sc_y);
+                    break;
                 case 0x20:
                     // IF PLAYER_TOUCHES sc_x, sc_y
                     // Opcode: 20 sc_x sc_y

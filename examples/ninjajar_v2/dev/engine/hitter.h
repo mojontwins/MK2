@@ -22,7 +22,7 @@
 	#define HITTER_MAX_FRAME 7
 #endif
 
-void __FASTCALL__ render_hitter (void) {
+void render_hitter (void) {
 #if defined (PHANTOMAS_ENGINE) || defined (HANNA_ENGINE)
 	gpy = p_y;
 	gpx = p_x;

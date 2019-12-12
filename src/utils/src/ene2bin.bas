@@ -4,17 +4,16 @@
 
 
 Sub usage
-	puts ("ene2bin 0.1")
-	puts ("usage")
-	puts ("")
-	puts ("$ ene2bin map_w map_h enems_life enems.ene enems.bin hotspots.bin")
-	Puts ("")
-	Puts ("where:")
-	Puts ("   * map_w, map_h are map dimmensions in screens")
-	Puts ("   * enems_life is the enemies max life gauge")
-	Puts ("   * enems.ene enems/hotspots directly from colocador.exe")
-	Puts ("   * enems.bin output binary file")
-	Puts ("   * hotspots.bin output binary file")
+	Print "usage"
+	Print ""
+	Print "$ ene2bin map_w map_h enems_life enems.ene enems.bin hotspots.bin"
+	Print ""
+	Print "where:"
+	Print "   * map_w, map_h are map dimmensions in screens"
+	Print "   * enems_life is the enemies max life gauge"
+	Print "   * enems.ene enems/hotspots directly from colocador.exe"
+	Print "   * enems.bin output binary file"
+	Print "   * hotspots.bin output binary file"
 End Sub
 
 Type EnemyIn
@@ -41,6 +40,7 @@ Dim As uByte tileset (2303)
 Dim As String dummy
 Dim As EnemyIn e
 
+Print "ene2bin v0.2 20191212 ~ ";
 
 ' DO
 
@@ -61,15 +61,14 @@ fout = FreeFile
 Open Command (5) for Binary as #fout
 
 byteswritten = 0
-Puts ("reading enems file")
-Puts ("    enems filename = " & Command (4))
+Print "Reading " & Command (4) & " ~ ";
 f = freefile
 Open Command (4) For Binary as #f
 ' Skip header
 dummy = Input (261, f)
 ' Read enems
 max = map_w * map_h * 3 
-Puts ("    reading " & max & " enemies")
+Print "" & max & " enemies: ";
 For idx = 1 To max
 	' Read
 	Get #f, , e.t
@@ -82,14 +81,9 @@ For idx = 1 To max
 	Get #f, , e.s2
 	
 	' Write		
-	' int16 x, y; lsb msb
-	x = e.x * 16
-	d = x And &hff: Put #fout, , d
-	d = (x Shr 8) And &hff: Put #fout, , d
-	
-	y = e.y * 16
-	d = y And &hff: Put #fout, , d
-	d = (y Shr 8) And &hff: Put #fout, , d
+	' ubyte x, y; 
+	d = e.x * 16: Put #fout, , d
+	d = e.y * 16: Put #fout, , d
 	
 	' ubyte x1, y1, x2, y2
 	d = 16 * e.x: Put #fout, , d
@@ -107,11 +101,10 @@ For idx = 1 To max
 	' ubyte life
 	d = life: Put #fout, , d
 	
-	'puts ("->" & x & ", " & y & ", " & e.x & ", " & e.y & ", " & e.xx & ", " & e.yy & ", " & 
-	byteswritten = byteswritten + 12	
+	'Print "->" & x & ", " & y & ", " & e.x & ", " & e.y & ", " & e.xx & ", " & e.yy & ", " & 
+	byteswritten = byteswritten + 10
 Next idx
-Puts ("    written " & max & " enemies")
-Puts ("    " & byteswritten & " bytes written.")
+Print "" & byteswritten & " bytes ~ ";
 totalsize = totalsize + byteswritten
 byteswritten = 0
 Close #fout
@@ -119,7 +112,7 @@ fout = FreeFile
 Open Command (6) for Binary as #fout
 
 max = map_w * map_h
-Puts ("    reading " & max & " hotspots")
+Print "" & max & " hotspots: "; 
 For idx = 1 To max
 	' Read
 	get #f, , e.x
@@ -136,5 +129,5 @@ For idx = 1 To max
 	byteswritten = byteswritten + 3
 Next idx
 Close #f
-Puts ("    " & byteswritten & " bytes written.")
-Puts ("")
+Print "" & byteswritten & " bytes ~ ";
+Print "DONE!"

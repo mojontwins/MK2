@@ -4,17 +4,17 @@ echo Building Levels
 echo ===============
 
 echo Level 0
-..\..\..\src\utils\map2bin.exe ..\map\mapa0.map 1 12 99 work\map0.bin work\bolts0.bin >nul
-..\..\..\src\utils\ts2bin.exe nofont ..\gfx\work0.png work\ts0.bin >nul
-..\..\..\src\utils\sp2bin.exe ..\gfx\sprites0.png work\ss0.bin >nul
-..\..\..\src\utils\ene2bin.exe 1 12 1 ..\enems\enems0.ene work\enems0.bin work\hotspots0.bin >nul
-..\..\..\src\utils\behs2bin.exe ..\levels\behs0.txt work\behs0.bin >nul
-..\..\..\src\utils\apack.exe work\map0.bin ..\bin\map0c.bin >nul
-..\..\..\src\utils\apack.exe work\ts0.bin ..\bin\ts0c.bin >nul
-..\..\..\src\utils\apack.exe work\ss0.bin ..\bin\ss0c.bin >nul
-..\..\..\src\utils\apack.exe work\enems0.bin ..\bin\enems0c.bin >nul
-..\..\..\src\utils\apack.exe work\hotspots0.bin ..\bin\hotspots0c.bin >nul
-..\..\..\src\utils\apack.exe work\behs0.bin ..\bin\behs0c.bin >nul
+..\..\..\src\utils\map2bin.exe ..\map\mapa0.map 1 12 99 work\map0.bin work\bolts0.bin > nul
+..\..\..\src\utils\ts2bin.exe nofont ..\gfx\work0.png work\ts0.bin > nul
+..\..\..\src\utils\sp2bin.exe ..\gfx\sprites0.png work\ss0.bin > nul
+..\..\..\src\utils\ene2bin.exe 1 12 1 ..\enems\enems0.ene work\enems0.bin work\hotspots0.bin > nul
+..\..\..\src\utils\behs2bin.exe ..\levels\behs0.txt work\behs0.bin > nul
+..\..\..\src\utils\apack.exe work\map0.bin ..\bin\map0c.bin > nul
+..\..\..\src\utils\apack.exe work\ts0.bin ..\bin\ts0c.bin > nul
+..\..\..\src\utils\apack.exe work\ss0.bin ..\bin\ss0c.bin > nul
+..\..\..\src\utils\apack.exe work\enems0.bin ..\bin\enems0c.bin > nul
+..\..\..\src\utils\apack.exe work\hotspots0.bin ..\bin\hotspots0c.bin > nul
+..\..\..\src\utils\apack.exe work\behs0.bin ..\bin\behs0c.bin > nul
 
 echo Level 1
 ..\..\..\src\utils\map2bin.exe ..\map\mapa1.map 12 1 99 work\map1.bin work\bolts1.bin > nul

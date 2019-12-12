@@ -21,7 +21,196 @@
 	#include "engine/enemmods/kill_enemy_multiple.h"
 #endif
 
-void mueve_bicharracos (void) {
+void enems_init (void) {
+	
+	// Enemies' "t" is now slightly more complex:
+	// XTTTTDNN where
+	// X = dead
+	// TTTT = type       1000 = platform
+	//                   0001 = linear
+	//                   0010 = flying
+	//                   0011 = pursuing
+
+	// Reserved (addons)
+	//                   1001 = drops
+	//                   1010 = arrows
+	//                   1011 = Hanna Type 11
+	//                   1100 = Hanna Punchos
+
+	#ifdef COUNT_SCR_ENEMS_ON_FLAG
+		flags [COUNT_SCR_ENEMS_ON_FLAG]	= 0;
+	#endif
+
+	for (gpit = 0; gpit < 3; gpit ++) {
+		//en_an_frame [gpit] = 0;
+		en_an_count [gpit] = 3;
+		en_an_state [gpit] = 0;
+		enoffsmasi = enoffs + gpit;
+		_en_t = baddies [enoffsmasi].t;
+
+		#ifdef RESPAWN_ON_ENTER
+			// Back to life!
+			#ifndef RESPAWN_ON_ENTER
+					if (do_respawn)
+			#endif
+			{		
+				_en_t &= 0x7f;
+				en_an_state [gpit] = 0;
+				#if defined (PLAYER_CAN_FIRE) || defined (PLAYER_CAN_PUNCH) || defined (PLAYER_HAZ_SWORD)
+					#ifdef COMPRESSED_LEVELS
+						baddies [enoffsmasi].life = level_data.enems_life;
+					#else
+						baddies [enoffsmasi].life = ENEMS_LIFE_GAUGE;
+					#endif
+				#endif
+			}
+		#endif
+
+		// Init enems:
+		// - Asign "base frame"
+		// - Init coordinates for flying people
+		// Remember XTTTTDNN, TTTT = type, D = fires balls, NN = sprite number
+
+		gpt = _en_t >> 3;
+		if (gpt && gpt < 16) {
+			en_an_base_frame [gpit] = (_en_t & 3) << 1;
+
+			switch (gpt) {
+				#ifdef ENABLE_FANTIES
+					case 2:
+						// Flying
+						#ifdef FANTIES_FIXED_SPRITE
+							en_an_base_frame [gpit] = FANTIES_FIXED_SPRITE << 1;
+						#endif
+						en_an_x [gpit] = baddies [enoffsmasi].x << FIXBITS;
+						en_an_y [gpit] = baddies [enoffsmasi].y << FIXBITS;
+						en_an_vx [gpit] = en_an_vy [gpit] = 0;
+						#ifdef FANTIES_SIGHT_DISTANCE					
+							en_an_state [gpit] = FANTIES_IDLE;
+						#endif					
+						break;
+				#endif
+				#ifdef ENABLE_PURSUE_ENEMIES
+					case 3:
+						// Pursuing
+						en_an_alive [gpit] = 0;
+						en_an_dead_row [gpit] = 0;//DEATH_COUNT_EXPRESSION;
+						break;
+				#endif
+				#ifdef ENABLE_HANNA_MONSTERS_11
+					case 11:
+						en_an_state [gpit] = 0;
+						break;
+				#endif
+				default:
+					break;
+			}
+
+			#ifdef COUNT_SCR_ENEMS_ON_FLAG
+				#if defined (DISABLE_PLATFORMS) || defined (PLAYER_GENITAL)
+					flags [COUNT_SCR_ENEMS_ON_FLAG] ++;
+				#else
+					if (16 != gpt) flags [COUNT_SCR_ENEMS_ON_FLAG] ++;
+				#endif
+			#endif
+		} 
+	}
+}
+
+void enems_move_spr_abs (void) {
+	//sp_MoveSprAbs (sp_moviles [enit], spritesClip, en_an_n_f [enit] - en_an_c_f [enit], VIEWPORT_Y + (_en_y >> 3), VIEWPORT_X + (_en_x >> 3), _en_x & 7, _en_y & 7);
+	
+	#asm
+		; enter: IX = sprite structure address 
+		;        IY = clipping rectangle, set it to "ClipStruct" for full screen 
+		;        BC = animate bitdef displacement (0 for no animation) 
+		;         H = new row coord in chars 
+		;         L = new col coord in chars 
+		;         D = new horizontal rotation (0..7) ie horizontal pixel position 
+		;         E = new vertical rotation (0..7) ie vertical pixel position 
+
+		// sp_moviles [enit] = sp_moviles + enit*2
+		ld  a, (_enit)
+		sla a
+		ld  c, a
+		ld  b, 0 				// BC = offset to [enit] in 16bit arrays
+		ld  hl, _sp_moviles
+		add hl, bc
+		ld  e, (hl)
+		inc hl 
+		ld  d, (hl)
+		push de						
+		pop ix
+
+		// Clipping rectangle
+		ld  iy, vpClipStruct
+
+		// Animation
+		// en_an_n_f [enit] - en_an_c_f [enit]
+		ld  hl, _en_an_c_f
+		add hl, bc 				// HL -> en_an_current_frame [enit]
+		ld  e, (hl)
+		inc hl 
+		ld  d, (hl) 			// DE = en_an_current_frame [enit]
+
+		ld  hl, _en_an_n_f
+		add hl, bc 				// HL -> en_an_next_frame [enit]
+		ld  a, (hl)
+		inc hl
+		ld  h, (hl)
+		ld  l, a 				// HL = en_an_next_frame [enit]
+
+		or  a 					// clear carry
+		sbc hl, de 				// en_an_next_frame [enit] - en_an_current_frame [enit]
+
+		push bc 				// Save for later
+
+		ld  b, h
+		ld  c, l 				// ** BC = animate bitdef **
+
+		//VIEWPORT_Y + (_en_y >> 3), VIEWPORT_X + (_en_x >> 3)
+		ld  a, (__en_y)					
+		srl a
+		srl a
+		srl a
+		add VIEWPORT_Y
+		ld h, a
+
+		ld  a, (__en_x)
+		srl a
+		srl a
+		srl a
+		add VIEWPORT_X
+		ld  l, a
+
+		// _en_x & 7, _en_y & 7
+		ld  a, (__en_x)
+		and 7
+		ld  d, a
+
+		ld  a, (__en_y)
+		and 7
+		ld  e, a
+
+		call SPMoveSprAbs
+
+		// en_an_c_f [enit] = en_an_n_f [enit];
+
+		pop bc 					// Retrieve index
+
+		ld  hl, _en_an_c_f
+		add hl, bc
+		ex  de, hl 				// DE -> en_an_c_f [enit]	
+
+		ld  hl, _en_an_n_f
+		add hl, bc 				// HL -> en_an_n_f [enit]
+		
+		ldi
+		ldi
+	#endasm
+}
+
+void enems_move (void) {
 	#if !defined (PLAYER_GENITAL) || defined (PLAYER_NEW_GENITAL)
 		p_gotten = ptgmy = ptgmx = 0;
 	#endif
@@ -32,39 +221,217 @@ void mueve_bicharracos (void) {
 		active = killable = animate = 0;
 		enoffsmasi = enoffs + enit;
 
-		gpen_x = baddies [enoffsmasi].x;
-		gpen_y = baddies [enoffsmasi].y;
+		// Copy array values to temporary variables as fast as possible
+		
+		#asm
+				// Those values are stores in this order:
+				// x, y, x1, y1, x2, y2, mx, my, t, life
+				// Point HL to baddies [enoffsmasi]. The struct is 10 bytes long
+				// so this is baddies + enoffsmasi*9, or...
+				// enoffsmasi is, at maximum, ((MAP_W*MAP_H)-1)*3+2, or 47.
+				// We can keep the multiplications 8-bit as long as possible
+				ld 	a, (_enoffsmasi) 	// Max 47
+				sla a 					// Max 94  (x2)
+				ld  b, a 				// B = A*2
+				sla a 					// Max 188 (x4)
+				ld  l, a
+				ld  h, 0
+				add hl, hl 				// HL = x8
+				
+				ld  e, b 
+				ld  d, 0                // DE = x2
+				add hl, de 				// HL = x10
 
-		if (baddies [enoffsmasi].t == 0) {
+				ld  de, _baddies
+				add hl, de
+
+				ld  (__baddies_pointer), hl 		// Save address for later
+
+				ld  a, (hl)
+				ld  (__en_x), a
+				inc hl 
+
+				ld  a, (hl)
+				ld  (__en_y), a
+				inc hl 
+
+				ld  a, (hl)
+				ld  (__en_x1), a
+				inc hl 
+
+				ld  a, (hl)
+				ld  (__en_y1), a
+				inc hl 
+
+				ld  a, (hl)
+				ld  (__en_x2), a
+				inc hl 
+
+				ld  a, (hl)
+				ld  (__en_y2), a
+				inc hl 
+
+				ld  a, (hl)
+				ld  (__en_mx), a
+				inc hl 
+
+				ld  a, (hl)
+				ld  (__en_my), a
+				inc hl 
+
+				ld  a, (hl)
+				ld  (__en_t), a
+				inc hl 
+
+				ld  a, (hl)
+				ld  (__en_life), a
+		#endasm
+
+		if (_en_t == 0) {
 			en_an_n_f [enit] = sprite_18_a;
 		} else if (en_an_state [enit] == GENERAL_DYING) {
 			if (en_an_count [enit]) {
 				-- en_an_count [enit];
 				en_an_n_f [enit] = sprite_17_a;
 			} else {
+				#ifndef MODE_128K
+					beep_fx (SFX_KILL_ENEMY);
+				#endif
 				en_an_state [enit] = 0;
 				en_an_n_f [enit] = sprite_18_a;
 			}
+			
 		} else {
 
 			#if defined (ENABLE_SHOOTERS) || defined (ENABLE_ARROWS)
-				if (baddies [enoffsmasi].t & 4) {
+				if (_en_t & 4) {
 					enemy_shoots = 1;
 				} else enemy_shoots = 0;
 			#endif
-			gpt = baddies [enoffsmasi].t >> 3;
+			gpt = _en_t >> 3;
 
 			// Gotten preliminary:	
 			if (gpt == 8) {
 				#ifdef PLAYER_NEW_GENITAL	
-					pregotten =	(gpx + 12 >= baddies [enoffsmasi].x && gpx <= baddies [enoffsmasi].x + 12) &&
-								(gpy + 15 >= baddies [enoffsmasi].y && gpy <= baddies [enoffsmasi].y);
+					/*
+					pregotten =	(gpx + 12 >= _en_x && gpx <= _en_x + 12) &&
+								(gpy + 15 >= _en_y && gpy <= _en_y);
+					*/
+					#asm
+							// gpx + 12 >= _en_x
+							ld  a, (__en_x)
+							ld  c, a
+							ld  a, (_gpx)
+							add 12
+							cp  c
+							jp  c, _enems_move_pregotten_not 	// branch if <
+
+							// gpx <= _en_x + 12; _en_x + 12 >= gpx
+							ld  a, (_gpx)
+							ld  c, a
+							ld  a, (__en_x)
+							add 12
+							cp  c 
+							jp  c, _enems_move_pregotten_not 	// branch if <
+
+							// gpy + 15 >= _en_y
+							ld  a, (__en_y)
+							ld  c, a
+							ld  a, (_gpy)
+							add 15
+							cp  c
+							jp  c, _enems_move_pregotten_not	// branch if <
+
+							// gpy <= _en_y; _en_y >= gpy
+							ld  a, (_gpy)
+							ld  c, a
+							ld  a, (__en_y)
+							cp  c
+							jp  c, _enems_move_pregotten_not	// branch if <
+
+							ld  a, 1
+							jr  _enems_move_pregotten_set
+
+						._enems_move_pregotten_not
+							xor a
+
+						._enems_move_pregotten_set
+							ld  (_pregotten), a
+					
+						// enemy_shoots = (_en_t & 4);
+						// gpt = _en_t >> 3;
+
+							ld  a, (__en_t)
+							ld  c, a
+							and 4
+							ld  (_enemy_shoots), a
+							ld  a, c
+							srl a
+							srl a
+							srl a
+							ld  (_gpt), a
+					#endasm
+
 				#elif !defined (PLAYER_GENITAL)
+					
 					#if defined (BOUNDING_BOX_8_CENTERED) || defined (BOUNDING_BOX_8_BOTTOM)
-						pregotten = (gpx + 11 >= baddies [enoffsmasi].x && gpx <= baddies [enoffsmasi].x + 11);
+						// pregotten = (gpx + 12 >= _en_x && gpx <= _en_x + 12);
+						#asm
+								// gpx + 12 >= _en_x
+								ld  a, (__en_x)
+								ld  c, a
+								ld  a, (_gpx)
+								add 12
+								cp  c
+								jp  c, _enems_move_pregotten_not 	// branch if <
+
+								// gpx <= _en_x + 12; _en_x + 12 >= gpx
+								ld  a, (_gpx)
+								ld  c, a
+								ld  a, (__en_x)
+								add 12
+								cp  c 
+								jp  c, _enems_move_pregotten_not 	// branch if <
+
+								ld  a, 1
+								jr  _enems_move_pregotten_set
+
+							._enems_move_pregotten_not
+								xor a
+
+							._enems_move_pregotten_set
+								ld  (_pregotten), a			
+						#endasm
 					#else
-						pregotten = (gpx + 15 >= baddies [enoffsmasi].x && gpx <= baddies [enoffsmasi].x + 15);
+						// pregotten = (gpx + 12 >= _en_x && gpx <= _en_x + 12);
+						#asm
+								// gpx + 15 >= _en_x
+								ld  a, (__en_x)
+								ld  c, a
+								ld  a, (_gpx)
+								add 12
+								cp  c
+								jp  c, _enems_move_pregotten_not 	// branch if <
+
+								// gpx <= _en_x + 15; _en_x + 12 >= gpx
+								ld  a, (_gpx)
+								ld  c, a
+								ld  a, (__en_x)
+								add 12
+								cp  c 
+								jp  c, _enems_move_pregotten_not 	// branch if <
+
+								ld  a, 1
+								jr  _enems_move_pregotten_set
+
+							._enems_move_pregotten_not
+								xor a
+
+							._enems_move_pregotten_set
+								ld  (_pregotten), a			
+						#endasm
 					#endif
+
 				#endif
 			}
 
@@ -102,13 +469,12 @@ void mueve_bicharracos (void) {
 						break;
 				#endif
 				default:
-					if (gpt > 15 && en_an_state [enit] != GENERAL_DYING)
 					en_an_n_f [enit] = sprite_18_a;
 			}
 
 			if (active) {
 				if (animate) {
-					gpjt = baddies [enoffsmasi].mx ? ((gpen_cx + 4) >> 3) & 1 : ((gpen_cy + 4) >> 3) & 1;
+					gpjt = _en_mx ? ((_en_x + 4) >> 3) & 1 : ((_en_y + 4) >> 3) & 1;
 					en_an_n_f [enit] = enem_frames [en_an_base_frame [enit] + gpjt];
 				}
 
@@ -142,7 +508,7 @@ void mueve_bicharracos (void) {
 						#include "engine/enemmods/platforms.h"
 					#endif
 				#endif 	// ends with  } else
-				if ((tocado == 0) && collide (gpx, gpy, gpen_cx, gpen_cy) && p_state == EST_NORMAL) {
+				if ((tocado == 0) && collide (gpx, gpy, _en_x, _en_y) && p_state == EST_NORMAL) {
 					#ifdef PLAYER_KILLS_ENEMIES
 						#include "engine/enemmods/step_on.h"
 					#endif
@@ -165,36 +531,89 @@ void mueve_bicharracos (void) {
 					#endif
 
 					#ifdef FANTIES_KILL_ON_TOUCH
-						if (gpt == 2) enemy_kill (FANTIES_LIFE_GAUGE);
+						if (gpt == 2) enems_kill (FANTIES_LIFE_GAUGE);
 					#endif
 
 					#ifdef PLAYER_BOUNCES
 						#ifndef PLAYER_GENITAL
 
-							p_vx = addsign (baddies [enoffsmasi].mx, PLAYER_VX_MAX << 1);
-							p_vy = addsign (baddies [enoffsmasi].my, PLAYER_VX_MAX << 1);
+							p_vx = addsign (_en_mx, PLAYER_VX_MAX << 1);
+							p_vy = addsign (_en_my, PLAYER_VX_MAX << 1);
 
 						#else
-							if (baddies [enoffsmasi].mx) {
-								p_vx = addsign (gpx - gpen_cx, abs (baddies [enoffsmasi].mx) << 8);
+							if (_en_mx) {
+								p_vx = addsign (gpx - _en_x, abs (_en_mx) << 8);
 							}
-							if (baddies [enoffsmasi].my) {
-								p_vy = addsign (gpy - gpen_cy, abs (baddies [enoffsmasi].my) << 8);
+							if (_en_my) {
+								p_vy = addsign (gpy - _en_y, abs (_en_my) << 8);
 							}
 						#endif
 					#endif
 				}
+
+				#asm
+					._enems_collision_skip
+				#endasm
 			}			
 		}
 
 		enems_loop_continue:
+		#asm
+			.enems_loop_continue_a
+		#endasm
 
 		// Render
 		#ifdef PIXEL_SHIFT
-			if ((baddies [enoffsmasi].t & 0x78) == 8) gpen_y -= PIXEL_SHIFT;
+			if ((_en_t & 0x78) == 8) gpen_y -= PIXEL_SHIFT;
 		#endif
 
-		enem_move_spr_abs ();			
+		enems_move_spr_abs ();
+
+		#asm		
+				// Those values are stores in this order:
+				// x, y, x1, y1, x2, y2, mx, my, t, life
+
+				ld  hl, (__baddies_pointer) 		// Restore pointer
+
+				ld  a, (__en_x)
+				ld  (hl), a
+				inc hl
+
+				ld  a, (__en_y)
+				ld  (hl), a
+				inc hl
+
+				ld  a, (__en_x1)
+				ld  (hl), a
+				inc hl
+
+				ld  a, (__en_y1)
+				ld  (hl), a
+				inc hl
+
+				ld  a, (__en_x2)
+				ld  (hl), a
+				inc hl
+
+				ld  a, (__en_y2)
+				ld  (hl), a
+				inc hl
+
+				ld  a, (__en_mx)
+				ld  (hl), a
+				inc hl
+
+				ld  a, (__en_my)
+				ld  (hl), a
+				inc hl
+
+				ld  a, (__en_t)
+				ld  (hl), a
+				inc hl
+
+				ld  a, (__en_life)
+				ld  (hl), a
+		#endasm	
 	}
 
 	#if defined (SLOW_DRAIN) && defined (PLAYER_BOUNCES)

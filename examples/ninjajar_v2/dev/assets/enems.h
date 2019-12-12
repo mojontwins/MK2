@@ -9,7 +9,7 @@
 // End of BROKEN stuff
 
 typedef struct {
-	int x, y;
+	unsigned char x, y;
 	unsigned char x1, y1, x2, y2;
 	signed char mx, my;
 	char t;

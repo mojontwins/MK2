@@ -25,14 +25,32 @@ Dim Shared As Byte decorated (255)
 Dim Shared As Integer maxScr
 Dim Shared As String macros (MAX_MACROS, MACRO_SIZE)
 Dim Shared As Integer macrosPtr
+Dim Shared As Integer debuggingThisShit
 
 ' Items
 Dim Shared As Integer maxItem
 Dim Shared As Integer itemSetx, itemSety, itemSetStep, itemSetOr, itemFlag, slotFlag
 Dim Shared As Integer itemSelectClr, itemSelectC1, itemSelectC2, itemEmpty
 
+debuggingThisShit = 0'-1
+
 maxClausuleSize = 0
 itemEmpty = -1
+
+Sub displayMe (clausula As String)
+	Dim i As Integer
+	Dim p As String
+
+	For i = 1 To Len (clausula)
+		'p = Str (asc (mid (clausula, i, 1)))
+		'if Len (p) = 1 Then p = "00" + p
+		'If Len (p) = 2 Then p = "0" + p
+		'? p;
+		? Hex (asc (mid (clausula, i, 1)), 2);
+		If i < Len (clausula) Then ? ", ";
+	Next i
+	Print
+End Sub
 
 Sub resetScript (n as Integer)
 	Dim as integer i
@@ -87,17 +105,24 @@ Sub stringToArray (in As String)
 					If index >= LIST_WORDS_SIZE Then Exit For
 				End If
 				curWord = ""
+			ElseIf character = ">" Then
+				' Fix <>
+				If index > 0 And lP (index - 1) = "<" Then
+					lP (index - 1) = "<>"
+					character = " "
+				End If
 			End If
+			
 			If Instr (" " & Chr (9), character) = 0 Then
 				lP (index) = character
 				index = index + 1
 				If index >= LIST_WORDS_SIZE Then Exit For
-			End If
+			End If		
 		Else
 			curWord = curWord & character
 		End If
 	Next m
-	'for m = 0 to index:Print lP (m); " ";:next m: Print
+	If debuggingThisShit Then for m = 0 to index:Print lP (m); " ";:next m: Print
 End Sub
 
 Function pval (s as string) as integer
@@ -779,27 +804,17 @@ Function procesaClausulas (f As integer) As String
 						clausulas = clausulas + clausula
 						numclausulas = 0
 						estado = 0
+						If debuggingThisShit Then 
+							displayMe clausula
+						End If
 						clausula = ""
 				End Select
 			End if
 		Wend
 	End If
+	
 	If Clausulas <> "" Then procesaClausulas = Clausulas + Chr (255)
 End Function
-
-Sub displayMe (clausula As String)
-	Dim i As Integer
-	Dim p As String
-
-	For i = 1 To Len (clausula)
-		p = Str (asc (mid (clausula, i, 1)))
-		if Len (p) = 1 Then p = "00" + p
-		If Len (p) = 2 Then p = "0" + p
-		? p;
-		If i < Len (clausula) Then ? ", ";
-	Next i
-	Print
-End Sub
 
 Dim As Integer f, f2, f3, i, j, clin, nPant, maxidx, scriptCount, binPt, offsPt
 Dim As String linea, clausulas, o, inFileName, outFileName

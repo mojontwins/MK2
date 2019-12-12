@@ -281,7 +281,7 @@
 */
 
 #define ENEMS_LIFE_GAUGE	1			// Amount of shots/hits needed to kill enemies.
-//#define RESPAWN_ON_ENTER				// Enemies respawn when entering screen
+#define RESPAWN_ON_ENTER				// Enemies respawn when entering screen
 //#define RESPAWN_ON_REENTER			// Respawn even on a REENTER in the script (by default REENTER doesn't respawn enemies!)
 //#define FIRE_MIN_KILLABLE 	3		// If defined, only enemies >= N can be killed.
 /*

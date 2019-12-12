@@ -1,26 +1,18 @@
-				// linear movement
+// linear movement
 
-				active = animate = 1;
-				baddies [enoffsmasi].x += baddies [enoffsmasi].mx;
-				baddies [enoffsmasi].y += baddies [enoffsmasi].my;
-				gpen_cx = baddies [enoffsmasi].x;
-				gpen_cy = baddies [enoffsmasi].y;
-				
+active = animate = 1;
+_en_x += _en_mx;
+_en_y += _en_my;				
+	
 #ifdef WALLS_STOP_ENEMIES
-				if (gpen_cx == baddies [enoffsmasi].x1 || gpen_cx == baddies [enoffsmasi].x2 || mons_col_sc_x ())
-					baddies [enoffsmasi].mx = -baddies [enoffsmasi].mx;
-				if (gpen_cy == baddies [enoffsmasi].y1 || gpen_cy == baddies [enoffsmasi].y2 || mons_col_sc_y ())
-					baddies [enoffsmasi].my = -baddies [enoffsmasi].my;
+	if (_en_x == _en_x1 || _en_x == _en_x2 || mons_col_sc_x ())	_en_mx = -_en_mx;
+	if (_en_y == _en_y1 || _en_y == _en_y2 || mons_col_sc_y ())	_en_my = -_en_my;
 #else
-				if (gpen_cx == baddies [enoffsmasi].x1 || gpen_cx == baddies [enoffsmasi].x2)
-					baddies [enoffsmasi].mx = -baddies [enoffsmasi].mx;
-				if (gpen_cy == baddies [enoffsmasi].y1 || gpen_cy == baddies [enoffsmasi].y2)
-					baddies [enoffsmasi].my = -baddies [enoffsmasi].my;
+	if (_en_x == _en_x1 || _en_x == _en_x2)	_en_mx = -_en_mx;
+	if (_en_y == _en_y1 || _en_y == _en_y2)	_en_my = -_en_my;
 #endif
 
 #ifdef ENABLE_SHOOTERS
-				// Shoot a coco
-				if (enemy_shoots && (rand () & SHOOTER_SHOOT_FREQ) == 1) {
-					shoot_coco ();
-				}
+	// Shoot a coco
+	if (enemy_shoots && (rand () & SHOOTER_SHOOT_FREQ) == 1) shoot_coco ();
 #endif

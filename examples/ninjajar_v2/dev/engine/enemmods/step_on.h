@@ -6,7 +6,7 @@ if (
 	#if defined (PLAYER_HAS_SWIM) && defined (SWITCHABLE_ENGINES)
 		p_engine != SENG_SWIM &&
 	#endif
-	gpy < gpen_cy - 2 && p_vy >= 0 && baddies [enoffsmasi].t >= PLAYER_MIN_KILLABLE && killable
+	gpy < _en_y - 2 && p_vy >= 0 && _en_t >= PLAYER_MIN_KILLABLE && killable
 ) {
 	en_an_n_f [enit] = sprite_17_a;
 	#ifdef MODE_128K
@@ -14,15 +14,15 @@ if (
 		en_an_state [enit] = GENERAL_DYING;
 		en_an_count [enit] = 8;
 	#else
-		//sp_MoveSprAbs (sp_moviles [enit], spritesClip, en_an_n_f [enit] - en_an_c_f [enit], VIEWPORT_Y + (gpen_cy >> 3), VIEWPORT_X + (gpen_cx >> 3), gpen_cx & 7, gpen_cy & 7);
+		//sp_MoveSprAbs (sp_moviles [enit], spritesClip, en_an_n_f [enit] - en_an_c_f [enit], VIEWPORT_Y + (_en_y >> 3), VIEWPORT_X + (_en_x >> 3), _en_x & 7, _en_y & 7);
 		//en_an_c_f [enit] = en_an_n_f [enit];
-		enem_move_spr_abs ();
+		enems_move_spr_abs ();
 		
 		sp_UpdateNow ();
 		beep_fx (SFX_KILL_ENEMY);
 		en_an_n_f [enit] = sprite_18_a;
 	#endif
-	baddies [enoffsmasi].t |= 128;			// Mark as dead
+	_en_t |= 128;			// Mark as dead
 	#ifdef BODY_COUNT_ON
 		flags [BODY_COUNT_ON] ++;
 	#else

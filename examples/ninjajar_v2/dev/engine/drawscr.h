@@ -467,7 +467,7 @@ void draw_scr (void) {
 	// Enemy initialization for this screen
 	enoffs = n_pant * 3;
 
-	#include "engine/enemsinit.h"
+	enems_init ();
 
 	#ifndef RESPAWN_ON_REENTER
 		do_respawn = 1;

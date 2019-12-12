@@ -14,9 +14,9 @@ Yup - that was it. It seems that I forgot a DI when some page was paged in. I co
 
 #### [ ] Clouds are not implemented!
 
-#### [ ] explosion sprite frame management is off
+#### [X] explosion sprite frame management is off
 
-Explosion is `sprite_17`. 
+Completely replaced the enemies engine.
 
 #### [X] Scripting is off ?!
 
@@ -26,4 +26,15 @@ Needed to place some vars in non-bankable memory
 
 Needed to define `PERSISTENT_BREAKABLE`
 
-#### [ ] Safe spot on spikes ?!
+#### [ ] Safe spot should be pixel perfect!
+
+Otherwise it reappears in bad places sometimes. Could [re]apply a simple fix. Gotta think about it.
+
+#### [X] TILE_GET is bugged, infinite get!
+
+#### [ ] Can't jump off vertical platforms.
+
+#### [ ] Horz platforms not right.
+
+`p_vx` and `p_vy` are 16 bit integer. No good. Time to change to FIXBITS = 4 and use signed chars. Do this next.
+

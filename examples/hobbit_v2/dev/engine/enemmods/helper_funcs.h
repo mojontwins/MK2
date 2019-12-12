@@ -10,7 +10,7 @@
 #if defined (ENABLE_HANNA_MONSTERS_11)
 	// TODO: add light/torch stuff here!
 	unsigned char i_can_see_you (void) {
-		return (distance (gpx, gpy, gpen_cx, gpen_cy) <= HANNA_MONSTERS_11_SIGHT);
+		return (distance (gpx, gpy, _en_x, _en_y) <= HANNA_MONSTERS_11_SIGHT);
 	}
 #endif
 
@@ -24,7 +24,7 @@
 
 	unsigned char coco_it, coco_d, coco_x0;
 	void shoot_coco (void) {
-		coco_x0 = gpen_cx + 4;
+		coco_x0 = _en_x + 4;
 		#ifdef SHOOTER_FIRE_ONE
 			coco_it = gpit;	
 		#else
@@ -32,7 +32,7 @@
 		#endif
 		{
 			if (coco_s [coco_it] == 0) {
-				coco_d = distance (coco_x0, gpen_cy, gpx, gpy);
+				coco_d = distance (coco_x0, _en_y, gpx, gpy);
 				if (coco_d >= SHOOTER_SAFE_DISTANCE) {
 					#ifdef MODE_128K
 						_AY_PL_SND (3);
@@ -40,10 +40,10 @@
 
 					coco_s [coco_it] = 1;
 					coco_x [coco_it] = coco_x0;
-					coco_y [coco_it] = gpen_cy;
+					coco_y [coco_it] = _en_y;
 
 					coco_vx [coco_it] = (ENEMY_SHOOT_SPEED * (gpx - coco_x0) / coco_d);
-					coco_vy [coco_it] = (ENEMY_SHOOT_SPEED * (gpy - gpen_cy) / coco_d);
+					coco_vy [coco_it] = (ENEMY_SHOOT_SPEED * (gpy - _en_y) / coco_d);
 				}
 			}
 		}
@@ -99,8 +99,8 @@
 
 #ifdef WALLS_STOP_ENEMIES
 	unsigned char mons_col_sc_x (void) {
-		cx1 = cx2 = (baddies [enoffsmasi].mx > 0 ? gpen_cx + 15 : gpen_cx) >> 4;
-		cy1 = gpen_cy >> 4; cy2 = (gpen_cy + 15) >> 4;
+		cx1 = cx2 = (_en_mx > 0 ? _en_x + 15 : _en_x) >> 4;
+		cy1 = _en_y >> 4; cy2 = (_en_y + 15) >> 4;
 		cm_two_points ();
 		#ifdef EVERYTHING_IS_A_WALL
 			return (at1 || at2);
@@ -111,7 +111,7 @@
 	}
 
 	unsigned char mons_col_sc_y (void) {
-		cy1 = cy2 = (baddies [enoffsmasi].my > 0 ? gpen_cy + 15 : gpen_cy) >> 4;
+		cy1 = cy2 = (_en_my > 0 ? _en_y + 15 : _en_y) >> 4;
 		#ifdef EVERYTHING_IS_A_WALL
 			return (at1 || at2);
 		#else

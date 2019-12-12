@@ -517,6 +517,17 @@ This game uses refills placed in the `.ene` files, so `USE_HOTSPOTS_TYPE_3`. You
 
 `DIE_AND_RESPAWN` makes the player respawn from the latest safe spot after being killed. This game also uses conveyors, so `ENABLE_CONVEYORS` is on.
 
+### Enemies should respawn
+
+In Ninjajar!, enemies should respawn when reentering a room no matter if you already killed them.
+
+```c
+    #define ENEMS_LIFE_GAUGE    1           // Amount of shots/hits needed to kill enemies.
+    #define RESPAWN_ON_ENTER                // Enemies respawn when entering screen
+    //#define RESPAWN_ON_REENTER            // Respawn even on a REENTER in the script (by default REENTER doesn't respawn enemies!)
+    //#define FIRE_MIN_KILLABLE     3       // If defined, only enemies >= N can be killed.
+```
+
 ### The hitter
 
 Ninjajar!'s was the first hitter, so it had nothing to configure. We have some stuff to configure now, though:

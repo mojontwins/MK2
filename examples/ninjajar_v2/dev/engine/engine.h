@@ -4,99 +4,6 @@
 // engine.h
 // Well, self explanatory innit?
 
-void enem_move_spr_abs (void) {
-	//sp_MoveSprAbs (sp_moviles [enit], spritesClip, en_an_n_f [enit] - en_an_c_f [enit], VIEWPORT_Y + (gpen_cy >> 3), VIEWPORT_X + (gpen_cx >> 3), gpen_cx & 7, gpen_cy & 7);
-	
-	#asm
-		; enter: IX = sprite structure address 
-		;        IY = clipping rectangle, set it to "ClipStruct" for full screen 
-		;        BC = animate bitdef displacement (0 for no animation) 
-		;         H = new row coord in chars 
-		;         L = new col coord in chars 
-		;         D = new horizontal rotation (0..7) ie horizontal pixel position 
-		;         E = new vertical rotation (0..7) ie vertical pixel position 
-
-		// sp_moviles [enit] = sp_moviles + enit*2
-		ld  a, (_enit)
-		sla a
-		ld  c, a
-		ld  b, 0 				// BC = offset to [enit] in 16bit arrays
-		ld  hl, _sp_moviles
-		add hl, bc
-		ld  e, (hl)
-		inc hl 
-		ld  d, (hl)
-		push de						
-		pop ix
-
-		// Clipping rectangle
-		ld  iy, vpClipStruct
-
-		// Animation
-		// en_an_n_f [enit] - en_an_c_f [enit]
-		ld  hl, _en_an_c_f
-		add hl, bc 				// HL -> en_an_current_frame [enit]
-		ld  e, (hl)
-		inc hl 
-		ld  d, (hl) 			// DE = en_an_current_frame [enit]
-
-		ld  hl, _en_an_n_f
-		add hl, bc 				// HL -> en_an_next_frame [enit]
-		ld  a, (hl)
-		inc hl
-		ld  h, (hl)
-		ld  l, a 				// HL = en_an_next_frame [enit]
-
-		or  a 					// clear carry
-		sbc hl, de 				// en_an_next_frame [enit] - en_an_current_frame [enit]
-
-		push bc 				// Save for later
-
-		ld  b, h
-		ld  c, l 				// ** BC = animate bitdef **
-
-		//VIEWPORT_Y + (gpen_cy >> 3), VIEWPORT_X + (gpen_cx >> 3)
-		ld  a, (_gpen_cy)					
-		srl a
-		srl a
-		srl a
-		add VIEWPORT_Y
-		ld h, a
-
-		ld  a, (_gpen_cx)
-		srl a
-		srl a
-		srl a
-		add VIEWPORT_X
-		ld  l, a
-
-		// gpen_cx & 7, gpen_cy & 7
-		ld  a, (_gpen_cx)
-		and 7
-		ld  d, a
-
-		ld  a, (_gpen_cy)
-		and 7
-		ld  e, a
-
-		call SPMoveSprAbs
-
-		// en_an_c_f [enit] = en_an_n_f [enit];
-
-		pop bc 					// Retrieve index
-
-		ld  hl, _en_an_c_f
-		add hl, bc
-		ex  de, hl 				// DE -> en_an_c_f [enit]	
-
-		ld  hl, _en_an_n_f
-		add hl, bc 				// HL -> en_an_n_f [enit]
-		
-		ldi
-		ldi
-	#endasm
-}
-
 #ifndef PLAYER_MIN_KILLABLE
 #define PLAYER_MIN_KILLABLE 0
 #endif
@@ -312,11 +219,11 @@ unsigned int abs (int n) {
 	#include "engine/levelnames.h"
 #endif
 
-// Screen drawing
-#include "engine/drawscr.h"
-
 // Enemies
 #include "engine/enems.h"
+
+// Screen drawing
+#include "engine/drawscr.h"
 
 void active_sleep (int espera) {
 	do {

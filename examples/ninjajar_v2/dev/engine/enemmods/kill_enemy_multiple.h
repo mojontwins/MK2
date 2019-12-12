@@ -1,9 +1,6 @@
 //
 
-void enemy_kill (unsigned char amount) {
-	baddies [enoffsmasi].x = gpen_x;
-	baddies [enoffsmasi].y = gpen_y;
-
+void enems_kill (unsigned char amount) {
 	if (amount > 0) {
 		
 // Trajectory modification?
@@ -16,10 +13,10 @@ void enemy_kill (unsigned char amount) {
 
 #if ENEMS_LIFE_GAUGE > 1 || FANTIES_LIFE_GAUGE > 1
 	// Lose life
-		if (killable) baddies [enoffsmasi].life -= amount;
+		if (killable) _en_life -= amount;
 	
 	// No life left?
-		if (baddies [enoffsmasi].life == 0) {
+		if (_en_life == 0) {
 #else
 		if (killable) {
 #endif								
@@ -30,9 +27,9 @@ void enemy_kill (unsigned char amount) {
 			en_an_count [enit] = 8;
 			_AY_PL_SND (SFX_KILL_ENEMY);
 #else
-			//sp_MoveSprAbs (sp_moviles [enit], spritesClip, en_an_n_f [enit] - en_an_c_f [enit], VIEWPORT_Y + (gpen_cy >> 3), VIEWPORT_X + (gpen_cx >> 3), gpen_cx & 7, gpen_cy & 7);
+			//sp_MoveSprAbs (sp_moviles [enit], spritesClip, en_an_n_f [enit] - en_an_c_f [enit], VIEWPORT_Y + (_en_y >> 3), VIEWPORT_X + (_en_x >> 3), _en_x & 7, _en_y & 7);
 			// en_an_c_f [enit] = en_an_n_f [enit];
-			enem_move_spr_abs ();
+			enems_move_spr_abs ();
 
 			sp_UpdateNow ();
 			beep_fx (SFX_KILL_ENEMY);
@@ -41,9 +38,9 @@ void enemy_kill (unsigned char amount) {
 		
 // Mark as enemy dead																
 #ifdef ENABLE_PURSUERS
-			if (gpt != 7) baddies [enoffsmasi].t |= 128;
+			if (gpt != 7) _en_t |= 128;
 #else
-			baddies [enoffsmasi].t |= 128;
+			_en_t |= 128;
 #endif
 
 // Count kills								
@@ -68,8 +65,8 @@ void enemy_kill (unsigned char amount) {
 
 #if ENEMS_LIFE_GAUGE > 1 || FANTIES_LIFE_GAUGE > 1
 		} else {
-			baddies [enoffsmasi].mx = -baddies [enoffsmasi].mx;
-			baddies [enoffsmasi].my = -baddies [enoffsmasi].my;
+			_en_mx = -_en_mx;
+			_en_my = -_en_my;
 		}
 #else
 		}
@@ -85,8 +82,8 @@ void enemy_kill (unsigned char amount) {
 #endif
 
 #ifdef ENABLE_PATROLLERS
-		baddies [enoffsmasi].mx = -baddies [enoffsmasi].mx;
-		baddies [enoffsmasi].my = -baddies [enoffsmasi].my;
+		_en_mx = -_en_mx;
+		_en_my = -_en_my;
 #endif
 
 // Play sound

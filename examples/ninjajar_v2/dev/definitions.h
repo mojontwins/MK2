@@ -245,6 +245,7 @@ unsigned char en_an_state [3];
 
 #ifdef ENABLE_HANNA_MONSTERS_11
 	unsigned char en_an_dir [3];
+	unsigned char _en_cx, _en_cy;
 #endif
 	
 unsigned char pregotten;
@@ -372,7 +373,10 @@ unsigned char enoffsmasi;
 unsigned char gpx, gpy, gpd, gpc, gpt, gps, rdx, rdy, rda, rdb;
 unsigned char gpxx, gpyy, gpcx, gpcy;
 unsigned char possee, hit_v, hit_h, hit, wall_h, wall_v;
-unsigned char gpen_x, gpen_y, gpen_cx, gpen_cy, gpen_xx, gpen_yy, gpaux;
+unsigned char gpaux;
+unsigned char _en_x, _en_y, _en_x1, _en_y1, _en_x2, _en_y2, _en_t, _en_life;
+signed char _en_mx, _en_my;
+unsigned char *_baddies_pointer;
 unsigned char tocado, active, killable, animate;
 unsigned char gpit, gpjt;
 unsigned char *map_pointer;

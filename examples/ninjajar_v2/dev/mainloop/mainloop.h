@@ -131,7 +131,7 @@ void main (void) {
 				gpy = p_y;
 			#endif
 			// Move enemies
-			mueve_bicharracos ();
+			enems_move ();
 			#ifdef CARRIABLE_BOXES_THROWABLE
 				if (n_pant != o_pant) continue;
 			#endif

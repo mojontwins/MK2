@@ -333,14 +333,19 @@ void player_kill (void) {
 			n_pant = p_safe_pant;
 			
 			#if !defined (DISABLE_AUTO_SAFE_SPOT) && !defined (PLAYER_GENITAL)
-			/*
-			gpjt = p_safe_x; gpit = 15; while (
-				gpit -- && 
-				(!(attr (p_safe_x, p_safe_y + 1) & 12) ||
-				(attr (p_safe_x, p_safe_y) & 8))
-			) gpjt ++;
-			if (gpit) p_safe_x = gpjt;
-			*/
+			
+				gpjt = p_safe_x; gpit = 15; while (	gpit -- ) {
+					cx1 = gpjt;
+					cy1 = p_safe_y + 1;
+					at1 = attr ();
+					cx1 = gpjt;
+					cy1 = p_safe_y;
+					at2 = attr ();
+					if ((at1 & 12) && !(at2 & 8)) break;
+					gpjt ++; if (gpjt == 15) gpjt = 0; 
+				}
+				p_safe_x = gpjt;
+			
 			#endif
 
 			#if defined (PHANTOMAS_ENGINE) || defined (HANNA_ENGINE)
@@ -570,7 +575,7 @@ unsigned char player_move (void) {
 	
 	#ifdef TILE_GET
 		if (qtile () == TILE_GET) {
-			_x = gpxx; _y = gpyy; _t = TILE_GET_REPLACE; _n = behs [TILE_GET_REPLACE];
+			_x = cx1; _y = cy1; _t = TILE_GET_REPLACE; _n = behs [TILE_GET_REPLACE];
 			update_tile ();
 			#if defined (PLAYER_SHOW_FLAG) && PLAYER_SHOW_FLAG == TILE_GET_FLAG
 				if (flags [TILE_GET_FLAG] < 99)

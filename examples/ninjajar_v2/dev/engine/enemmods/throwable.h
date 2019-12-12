@@ -1,16 +1,16 @@
 // Collide with thrownable
 
 if (fo_fly && killable) {
-	//if (collide (f_o_xp, f_o_yp, gpen_cx, gpen_cy)) {
-	if (f_o_xp + 15 >= gpen_cx && f_o_xp <= gpen_cx + 15 &&
-		f_o_yp + 15 >= gpen_cy && f_o_yp <= gpen_cy + 15) {
+	//if (collide (f_o_xp, f_o_yp, _en_x, _en_y)) {
+	if (f_o_xp + 15 >= _en_x && f_o_xp <= _en_x + 15 &&
+		f_o_yp + 15 >= _en_y && f_o_yp <= _en_y + 15) {
 		en_an_n_f [enit] = sprite_17_a;
 		en_an_state [enit] = GENERAL_DYING;
 		en_an_count [enit] = 8;
 		#ifdef CARRIABLE_BOXES_COUNT_KILLS
 			flags [CARRIABLE_BOXES_COUNT_KILLS] ++;
 		#endif
-		baddies [enoffsmasi].t |= 128;
+		_en_t |= 128;
 		#ifdef BODY_COUNT_ON
 			flags [BODY_COUNT_ON] ++;
 		#else					

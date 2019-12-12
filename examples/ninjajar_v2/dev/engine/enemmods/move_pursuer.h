@@ -3,14 +3,14 @@
 				switch (en_an_alive [enit]) {
 					case 0:
 						if (en_an_dead_row [enit] == 0) {
-							baddies [enoffsmasi].x = baddies [enoffsmasi].x1;
-							baddies [enoffsmasi].y = baddies [enoffsmasi].y1;
+							_en_x = _en_x1;
+							_en_y = _en_y1;
 							en_an_alive [enit] = 1;
 							en_an_rawv [enit] = 1 << (rand () % 5);
 							if (en_an_rawv [enit] > 4) en_an_rawv [enit] = 2;
 							en_an_dead_row [enit] = 11 + (rand () & 7);
 #if defined (PLAYER_KILLS_ENEMIES) || defined (PLAYER_CAN_FIRE)
-							baddies [enoffsmasi].life = ENEMS_LIFE_GAUGE;
+							_en_life = ENEMS_LIFE_GAUGE;
 #endif
 						} else {
 							en_an_dead_row [enit] --;
@@ -32,21 +32,21 @@
 					case 2:
 						active = killable = animate = 1;
 						if (p_state == EST_NORMAL) {
-							baddies [enoffsmasi].mx = (signed char) (addsign (((gpx >> 2) << 2) - gpen_x, en_an_rawv [enit]));
-							baddies [enoffsmasi].x += baddies [enoffsmasi].mx;
-							gpen_xx = baddies [enoffsmasi].x >> 4;
-							gpen_yy = baddies [enoffsmasi].y >> 4;
+							_en_mx = (signed char) (addsign (((gpx >> 2) << 2) - gpen_x, en_an_rawv [enit]));
+							_en_x += _en_mx;
+							gpen_xx = _en_x >> 4;
+							gpen_yy = _en_y >> 4;
 #ifdef WALLS_STOP_ENEMIES
-							if (mons_col_sc_x ()) baddies [enoffsmasi].x = gpen_x;
+							if (mons_col_sc_x ()) _en_x = gpen_x;
 #endif
-							baddies [enoffsmasi].my = (signed char) (addsign (((gpy >> 2) << 2) - gpen_y, en_an_rawv [enit]));
-							baddies [enoffsmasi].y += baddies [enoffsmasi].my;
-							gpen_xx = baddies [enoffsmasi].x >> 4;
-							gpen_yy = baddies [enoffsmasi].y >> 4;
+							_en_my = (signed char) (addsign (((gpy >> 2) << 2) - gpen_y, en_an_rawv [enit]));
+							_en_y += _en_my;
+							gpen_xx = _en_x >> 4;
+							gpen_yy = _en_y >> 4;
 #ifdef WALLS_STOP_ENEMIES
-							if (mons_col_sc_y ()) baddies [enoffsmasi].y = gpen_y;
+							if (mons_col_sc_y ()) _en_y = gpen_y;
 #endif
 						}
-						gpen_cx = baddies [enoffsmasi].x;
-						gpen_cy = baddies [enoffsmasi].y;
+						gpen_cx = _en_x;
+						gpen_cy = _en_y;
 				}
