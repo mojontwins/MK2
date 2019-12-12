@@ -35,7 +35,9 @@ void mueve_bicharracos (void) {
 		gpen_x = baddies [enoffsmasi].x;
 		gpen_y = baddies [enoffsmasi].y;
 
-		if (en_an_state [enit] == GENERAL_DYING) {
+		if (baddies [enoffsmasi].t == 0) {
+			en_an_n_f [enit] = sprite_18_a;
+		} else if (en_an_state [enit] == GENERAL_DYING) {
 			if (en_an_count [enit]) {
 				-- en_an_count [enit];
 				en_an_n_f [enit] = sprite_17_a;
@@ -129,7 +131,7 @@ void mueve_bicharracos (void) {
 
 				// Bullets
 				#ifdef PLAYER_CAN_FIRE
-					#include "engine\enemmods\bullets.h"
+					#include "engine/enemmods/bullets.h"
 				#endif
 
 				// Collide with player
