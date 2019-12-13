@@ -40,3 +40,14 @@ Otherwise it reappears in bad places sometimes. Could [re]apply a simple fix. Go
 
 #### [X] `drawscr` in `PACKED` / `UNPACKED` mode - rewrite in assembly
 
+#### [ ] Moving platforms kill
+
+What's up with that `else` which should invalidate the collision check?
+
+#### [ ] Fix different animation for fanties
+
+I mean, Ninjajar's should not animate but face left / right.
+
+#### [ ] Fanties don't respawn!
+
+#### [ ] You can leave "jump" pressed

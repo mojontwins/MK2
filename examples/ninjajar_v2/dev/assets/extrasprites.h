@@ -40,14 +40,14 @@ extern unsigned char sprite_18_a [];
 #endif
 
 #asm
-        defb 85, 170
-        defb 85, 170
-        defb 85, 170
-        defb 85, 170
-        defb 85, 170
-        defb 85, 170
-        defb 85, 170
-        defb 85, 170
+        defb 0, 255
+        defb 0, 255
+        defb 0, 255
+        defb 0, 255
+        defb 0, 255
+        defb 0, 255
+        defb 0, 255
+        defb 0, 255
 #endasm
 
 #ifdef ENEMS_MAY_DIE
