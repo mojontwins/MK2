@@ -8,6 +8,13 @@ void advance_worm (void) {
 	#asm
 			ld  bc, (_gpit)
 			ld  b, 0
+
+		#ifdef BREAKABLE_WALLS
+			xor  a
+			ld  hl, _brk_buff
+			add hl, bc
+			ld  (hl), a			
+		#endif
 			
 			ld  de, (_gpt)
 			ld  d, 0
@@ -65,13 +72,11 @@ void draw_scr_background (void) {
 	#if defined PACKED_MAP || defined UNPACKED_MAP
 
 		#ifdef UNPACKED_MAP
-			map_pointer = map + (n_pant * 150);
+			//map_pointer = map + (n_pant * 150);
+			map_pointer = map + (n_pant << 7) + (n_pant << 4) + (n_pant << 2) + (n_pant << 1);
 		#else
-			map_pointer = map + (n_pant * 75);
+			map_pointer = map + (n_pant << 6) + (n_pant << 3) + (n_pant << 1) + (n_pant);
 		#endif
-
-		gpit = 0;
-		_x = VIEWPORT_X; _y = VIEWPORT_Y;
 
 		#ifdef TWO_SETS
 			t_offs = TWO_SETS_SEL;
@@ -81,6 +86,9 @@ void draw_scr_background (void) {
 		#endif
 
 		// Draw 150 tiles
+
+		/*
+		gpit = 0; _x = VIEWPORT_X; _y = VIEWPORT_Y;
 		do {
 			gpjt = rand () & 15;
 
@@ -113,6 +121,77 @@ void draw_scr_background (void) {
 			
 			advance_worm ();			
 		} while (gpit < 150);
+		*/
+
+		#asm
+			._draw_scr_packed_unpacked
+				ld  a, VIEWPORT_X
+				ld  (__x), a
+				ld  a, VIEWPORT_Y
+				ld  (__y), a
+
+				xor a
+				ld  (_gpit), a				
+			._draw_scr_background_loop				
+
+		#ifdef UNPACKED_MAP
+				ld  hl, (_map_pointer)
+				ld  a, (hl)
+				inc hl
+				ld  (_map_pointer), hl
+				ld  (_gpd), a
+				ld  (_gpt), a
+		#else
+				and 1
+				jr  z, draw_scr_background_new_byte
+
+				ld  a, (_gpc)
+				and 15
+				jr  draw_scr_background_set_t
+
+			.draw_scr_background_new_byte
+				ld  hl, (_map_pointer)
+				ld  a, (hl)
+				inc hl
+				ld  (_map_pointer), hl
+				ld  (_gpc), a
+				srl a
+				srl a
+				srl a
+				srl a
+
+			.draw_scr_background_set_t
+
+			#if defined (TWO_SETS) || defined (TWO_SETS_MAPPED)
+				ld  c, a
+				ld  a, (_t_offs)
+				add c
+			#endif
+
+				ld  (_gpt), a
+				ld  (_gpd), a				
+
+			#ifndef NO_ALT_TILE
+				or  a
+				jr  nz, _draw_scr_alt_tile_skip
+
+				call _rand 
+				ld   a, l
+				and  15
+				cp   1
+				jr  nz, _draw_scr_alt_tile_skip
+
+				ld  a, 19
+				ld  (_gpd), a
+			._draw_scr_alt_tile_skip
+			#endif
+		#endif
+				call _advance_worm
+
+				ld  a, (_gpit)
+				cp  150
+				jr  nz, _draw_scr_background_loop
+		#endasm
 
 	#else
 
@@ -467,7 +546,7 @@ void draw_scr (void) {
 	// Enemy initialization for this screen
 	enoffs = n_pant * 3;
 
-	#include "engine/enemsinit.h"
+	enems_init ();
 
 	#ifndef RESPAWN_ON_REENTER
 		do_respawn = 1;
@@ -514,14 +593,14 @@ void draw_scr (void) {
 		#if defined (SWITCHABLE_ENGINES)
 			if (p_engine == SENG_SWIM) {
 				p_safe_pant = n_pant;
-				p_safe_x = (p_x >> 10);
-				p_safe_y = (p_y >> 10);
+				p_safe_x = gpx >> 4;
+				p_safe_y = gpy >> 4;
 			}
 		#endif
 		#if defined (PLAYER_GENITAL)
 			p_safe_pant = n_pant;
-			p_safe_x = (p_x >> 6);
-			p_safe_y = (p_y >> 6);
+			p_safe_x = (p_x >> FIXBITS);
+			p_safe_y = (p_y >> FIXBITS);
 		#endif
 	#endif
 

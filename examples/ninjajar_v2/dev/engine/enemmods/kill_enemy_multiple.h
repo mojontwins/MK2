@@ -24,7 +24,7 @@ void enems_kill (unsigned char amount) {
 	// Play sound								
 #ifdef MODE_128K
 			en_an_state [enit] = GENERAL_DYING;
-			en_an_count [enit] = 8;
+			en_an_count [enit] = ENEMS_DYING_FRAMES;
 			_AY_PL_SND (SFX_KILL_ENEMY);
 #else
 			//sp_MoveSprAbs (sp_moviles [enit], spritesClip, en_an_n_f [enit] - en_an_c_f [enit], VIEWPORT_Y + (_en_y >> 3), VIEWPORT_X + (_en_x >> 3), _en_x & 7, _en_y & 7);

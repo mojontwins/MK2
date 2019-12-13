@@ -39,6 +39,17 @@ extern unsigned char sprite_18_a [];
 	#endif
 #endif
 
+#asm
+        defb 85, 170
+        defb 85, 170
+        defb 85, 170
+        defb 85, 170
+        defb 85, 170
+        defb 85, 170
+        defb 85, 170
+        defb 85, 170
+#endasm
+
 #if defined (PLAYER_CAN_FIRE) || defined (PLAYER_KILLS_ENEMIES) || defined (ENABLE_PURSUERS) || defined (MODE_128K) || defined (PLAYER_CAN_PUNCH) || defined (CARRIABLE_BOXES_THROWABLE) || defined (PLAYER_HAZ_SWORD) || defined (PLAYER_HAZ_WHIP) || defined (PLAYER_SIMPLE_BOMBS)
 	#asm
 	    ._sprite_17_a

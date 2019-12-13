@@ -10,23 +10,22 @@
 	possee = ((at1 & 12) || (at2 & 12)) && (gpy & 15) < 8;
 
 	#if defined (DIE_AND_RESPAWN) && !defined DISABLE_AUTO_SAFE_SPOT
-
 		// Store a "safe spot" to be respawned to if we die after the next jump.
 		// Works a threat and it's pretty simple :)
 		#ifdef SWITCHABLE_ENGINES
 			if (p_engine != SENG_SWIM)
 		#endif
-				if (possee) {
-		#ifdef ENABLE_FLOATING_OBJECTS
-					// This prevents floating objects from being considered "safe spots"
-					if (0 == ((at1 & 128) || (at2 & 128))) {
-		#else
-					{
-		#endif
-					p_safe_pant = n_pant;
-					p_safe_x = gpxx;
-					p_safe_y = gpyy;
-				}
-			}			
+		
+		if (possee) {
+			#ifdef ENABLE_FLOATING_OBJECTS
+				// This prevents floating objects from being considered "safe spots"
+				if (0 == ((at1 & 128) || (at2 & 128)))
+			#endif
+			{
+				p_safe_pant = n_pant;
+				p_safe_x = gpxx;
+				p_safe_y = gpyy;
+			}
+		}			
 	#endif
 #endif

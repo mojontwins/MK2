@@ -52,6 +52,7 @@ extern unsigned char sprite_16_b [];
 extern unsigned char sprite_16_c []; 
  
 #asm
+    ._spriteset
         defb 85, 170
         defb 85, 170
         defb 85, 170

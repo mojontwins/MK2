@@ -83,16 +83,16 @@ void flick_screen (void) {
 #else
 	// Momentum engine edge screen detection
 	if (p_x == 0 && p_vx < 0 MAP_BOUNDARY_LEFT) {
-		n_pant = SCREEN_LEFT; p_x = 14336; gpx = 224;
-	} else if (p_x == 14336 && p_vx > 0 MAP_BOUNDARY_RIGHT) {
+		n_pant = SCREEN_LEFT; p_x = 224 << FIXBITS; gpx = 224;
+	} else if (p_x == 224 << FIXBITS && p_vx > 0 MAP_BOUNDARY_RIGHT) {
 		n_pant = SCREEN_RIGHT; p_x = gpx = 0;		
 	}
 	if (p_y == 0 && p_vy < 0 MAP_BOUNDARY_TOP) {
-		n_pant = SCREEN_UP; p_y = 9216; gpy = 144;
+		n_pant = SCREEN_UP; p_y = 144 << FIXBITS; gpy = 144;
 		#ifdef PLAYER_BOOST_WHEN_GOING_UP
 			if (p_vy > -PLAYER_JMP_VY_MAX) p_vy = -PLAYER_JMP_VY_MAX;
 		#endif
-	} else if (p_y == 9216 && p_vy > 0 MAP_BOUNDARY_BOTTOM) {
+	} else if (p_y == 144 << FIXBITS && p_vy > 0 MAP_BOUNDARY_BOTTOM) {
 		n_pant = SCREEN_DOWN; p_y = gpy = 0;
 		//if (p_vy > 256) {sp_Border (2); p_vy = 256; }
 	}

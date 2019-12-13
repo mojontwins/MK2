@@ -30,8 +30,10 @@
 			ld  (_p_gotten), a
 
 			ld  a, (__en_mx)
-			sla a
-			sla a
+			#if FIXBITS == 6
+				sla a
+				sla a
+			#endif
 			sla a
 			sla a
 			sla a
@@ -39,8 +41,10 @@
 			ld  (_ptgmx), a
 
 			ld  a, (__en_my)
-			sla a
-			sla a
+			#if FIXBITS == 6
+				sla a
+				sla a
+			#endif
 			sla a
 			sla a
 			sla a

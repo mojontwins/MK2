@@ -15,10 +15,10 @@
 
 #include "engine/enemmods/helper_funcs.h"
 
-#if WAYS_TO_DIE == 1
-	#include "engine/enemmods/kill_enemy.h"
-#elif WAYS_TO_DIE > 1
+#if WAYS_TO_DIE > 1
 	#include "engine/enemmods/kill_enemy_multiple.h"
+#elif defined ENEMS_MAY_DIE
+	#include "engine/enemmods/kill_enemy.h"
 #endif
 
 void enems_init (void) {
@@ -289,19 +289,22 @@ void enems_move (void) {
 
 		if (_en_t == 0) {
 			en_an_n_f [enit] = sprite_18_a;
-		} else if (en_an_state [enit] == GENERAL_DYING) {
-			if (en_an_count [enit]) {
-				-- en_an_count [enit];
-				en_an_n_f [enit] = sprite_17_a;
-			} else {
-				#ifndef MODE_128K
-					beep_fx (SFX_KILL_ENEMY);
-				#endif
-				en_an_state [enit] = 0;
-				en_an_n_f [enit] = sprite_18_a;
-			}
-			
-		} else {
+		} 
+		#ifdef ENEMS_MAY_DIE
+			else if (en_an_state [enit] == GENERAL_DYING) {
+				if (en_an_count [enit]) {
+					-- en_an_count [enit];
+					en_an_n_f [enit] = sprite_17_a;
+				} else {
+					#ifndef MODE_128K
+						beep_fx (SFX_KILL_ENEMY);
+					#endif
+					en_an_state [enit] = 0;
+					en_an_n_f [enit] = sprite_18_a;
+				}	
+			} 
+		#endif
+		else {
 
 			#if defined (ENABLE_SHOOTERS) || defined (ENABLE_ARROWS)
 				if (_en_t & 4) {
@@ -542,10 +545,10 @@ void enems_move (void) {
 
 						#else
 							if (_en_mx) {
-								p_vx = addsign (gpx - _en_x, abs (_en_mx) << 8);
+								p_vx = addsign (gpx - _en_x, abs (_en_mx) << (2+FIXBITS));
 							}
 							if (_en_my) {
-								p_vy = addsign (gpy - _en_y, abs (_en_my) << 8);
+								p_vy = addsign (gpy - _en_y, abs (_en_my) << (2+FIXBITS));
 							}
 						#endif
 					#endif

@@ -149,7 +149,7 @@ int p_x, p_y;
 #elif defined (HANNA_ENGINE)
 	char p_v;
 #else
-	int p_vx, p_vy, ptgmx, ptgmy;
+	char p_vx, p_vy, ptgmx, ptgmy;
 #endif
 #if defined (PLAYER_GENITAL) && defined (PLAYER_HAS_JUMP)
 	int p_z, p_vz;
@@ -181,8 +181,9 @@ unsigned char p_disparando;
 	unsigned char p_up; 
 #endif
 unsigned char p_facing_v, p_facing_h;
+unsigned char p_killme;
 #ifdef DIE_AND_RESPAWN
-	unsigned char p_killme, p_safe_pant, p_safe_x, p_safe_y;
+	unsigned char p_safe_pant, p_safe_x, p_safe_y;
 #endif
 #ifdef MAX_AMMO
 	unsigned char p_ammo;
@@ -418,4 +419,3 @@ unsigned char pad0;
 #ifdef CUSTOM_HIT
 	unsigned char was_hit_by_type;
 #endif
-	

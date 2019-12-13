@@ -1,51 +1,46 @@
 //
 
-void enemy_kill (unsigned char amount) {
-	baddies [enoffsmasi].x = gpen_x;
-	baddies [enoffsmasi].y = gpen_y;
-
+void enems_kill (unsigned char amount) {
 	if (amount > 0) {
-		en_an_n_f [gpit] = sprite_17_a;
-		//en_an_morido [gpit] = 1;							
-
+		
 // Trajectory modification?
 #ifdef ENABLE_FANTIES
 	if (gpt == 2) {
-		en_an_vx [gpit] += -en_an_vx [gpit];
-		en_an_x [gpit] += en_an_vx [gpit];
+		en_an_vx [enit] += -en_an_vx [enit];
+		en_an_x [enit] += en_an_vx [enit];
 	}
 #endif
 
 #if ENEMS_LIFE_GAUGE > 1 || FANTIES_LIFE_GAUGE > 1
 	// Lose life
-		if (killable) baddies [enoffsmasi].life -= amount;
+		if (killable) _en_life -= amount;
 	
 	// No life left?
-		if (baddies [enoffsmasi].life == 0) {
+		if (_en_life == 0) {
 #else
 		if (killable) {
 #endif								
 
 	// Play sound								
 #ifdef MODE_128K
-			en_an_state [gpit] = GENERAL_DYING;
-			en_an_count [gpit] = 8;
+			en_an_state [enit] = GENERAL_DYING;
+			en_an_count [enit] = ENEMS_DYING_FRAMES;
 			_AY_PL_SND (SFX_KILL_ENEMY);
 #else
-			//sp_MoveSprAbs (sp_moviles [gpit], spritesClip, en_an_n_f [gpit] - en_an_c_f [gpit], VIEWPORT_Y + (gpen_cy >> 3), VIEWPORT_X + (gpen_cx >> 3), gpen_cx & 7, gpen_cy & 7);
-			// en_an_c_f [gpit] = en_an_n_f [gpit];
-			enem_move_spr_abs ();
+			//sp_MoveSprAbs (sp_moviles [enit], spritesClip, en_an_n_f [enit] - en_an_c_f [enit], VIEWPORT_Y + (_en_y >> 3), VIEWPORT_X + (_en_x >> 3), _en_x & 7, _en_y & 7);
+			// en_an_c_f [enit] = en_an_n_f [enit];
+			enems_move_spr_abs ();
 
 			sp_UpdateNow ();
 			beep_fx (SFX_KILL_ENEMY);
-			en_an_n_f [gpit] = sprite_18_a;
+			en_an_n_f [enit] = sprite_18_a;
 #endif								
 		
 // Mark as enemy dead																
 #ifdef ENABLE_PURSUERS
-			if (gpt != 7) baddies [enoffsmasi].t |= 128;
+			if (gpt != 7) _en_t |= 128;
 #else
-			baddies [enoffsmasi].t |= 128;
+			_en_t |= 128;
 #endif
 
 // Count kills								
@@ -57,8 +52,8 @@ void enemy_kill (unsigned char amount) {
 
 // Special for pursuers...	
 #ifdef ENABLE_PURSUERS
-			en_an_alive [gpit] = 0;
-			en_an_dead_row [gpit] = DEATH_COUNT_EXPRESSION;
+			en_an_alive [enit] = 0;
+			en_an_dead_row [enit] = DEATH_COUNT_EXPRESSION;
 #endif
 
 // Run script on kill
@@ -70,8 +65,8 @@ void enemy_kill (unsigned char amount) {
 
 #if ENEMS_LIFE_GAUGE > 1 || FANTIES_LIFE_GAUGE > 1
 		} else {
-			baddies [enoffsmasi].mx = -baddies [enoffsmasi].mx;
-			baddies [enoffsmasi].my = -baddies [enoffsmasi].my;
+			_en_mx = -_en_mx;
+			_en_my = -_en_my;
 		}
 #else
 		}
@@ -82,13 +77,13 @@ void enemy_kill (unsigned char amount) {
 // Trajectory modification?
 #ifdef ENABLE_FANTIES
 		if (gpt == 2) {
-			en_an_vx [gpit] =- en_an_vx [gpit];
+			en_an_vx [enit] =- en_an_vx [enit];
 		}
 #endif
 
 #ifdef ENABLE_PATROLLERS
-		baddies [enoffsmasi].mx = -baddies [enoffsmasi].mx;
-		baddies [enoffsmasi].my = -baddies [enoffsmasi].my;
+		_en_mx = -_en_mx;
+		_en_my = -_en_my;
 #endif
 
 // Play sound

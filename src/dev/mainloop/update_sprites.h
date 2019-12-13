@@ -1,6 +1,6 @@
 
 #if defined (PLAYER_GENITAL) && defined (PLAYER_HAS_JUMP)	
-	if (0 == p_killme && ( !(p_state & EST_PARP) || half_life == 0) ) {
+	if ( (p_state & EST_PARP) == 0 || half_life == 0 ) {
 		//sp_MoveSprAbs (sp_shadow, spritesClip, 0, VIEWPORT_Y + (gpy >> 3) + 1, VIEWPORT_X + (gpx >> 3), gpx & 7, gpy & 7);
 		#asm
 				ld  ix, (_sp_shadow)
@@ -32,7 +32,7 @@
 
 				call SPMoveSprAbs
 		#endasm
-		gpz = gpy - ((-p_z) >> 6);
+		gpz = gpy - ((-p_z) >> FIXBITS);
 		//sp_MoveSprAbs (sp_player, spritesClip, p_n_f - p_c_f, VIEWPORT_Y + (gpz >> 3), VIEWPORT_X + (gpx >> 3), gpx & 7, gpz & 7);
 		#asm
 				ld  ix, (_sp_player)
@@ -98,12 +98,7 @@
 		#endasm
 		}
 #else
-	#ifdef DIE_AND_RESPAWN
-		if (0 == p_killme && ( !(p_state & EST_PARP) || half_life == 0) ) 
-	#else
-		if (!(p_state & EST_PARP) || half_life == 0)				
-	#endif				
-	{
+	if ( (p_state & EST_PARP) == 0 || half_life == 0 ) {
 		//sp_MoveSprAbs (sp_player, spritesClip, p_n_f - p_c_f, VIEWPORT_Y + (gpy >> 3), VIEWPORT_X + (gpx >> 3), gpx & 7, gpy & 7);
 		#asm
 				ld  ix, (_sp_player)

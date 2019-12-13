@@ -1,5 +1,5 @@
 #if defined (PLAYER_PUSH_BOXES) || !defined (DEACTIVATE_KEYS)
-	gpx = p_x >> 6;
+	gpx = p_x >> FIXBITS;
 	cx1 = (gpx + 8) >> 4;
 	cy1 = (gpy + 8) >> 4;
 	#ifdef PLAYER_GENITAL

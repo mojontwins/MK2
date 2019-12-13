@@ -79,8 +79,8 @@ void player_init (void) {
 	#ifdef DIE_AND_RESPAWN
 		p_killme = 0;
 		p_safe_pant = n_pant;
-		p_safe_x = p_x >> 10;
-		p_safe_y = p_y >> 10;
+		p_safe_x = p_x >> 4;
+		p_safe_y = p_y >> 4;
 	#endif
 
 	#if defined (BREAKABLE_WALLS) || defined (BREAKABLE_WALLS_SIMPLE)
@@ -449,15 +449,18 @@ keepontruckin:
 #ifndef DEACTIVATE_EVIL_TILE	
 	// Killing tile
 	if (attr () & 1) {
-		kill_player (SFX_PLAYER_DEATH_SPIKE);
+		p_killme = SFX_PLAYER_DEATH_SPIKE;
 	}
 #endif
 
 	// Tile get
 #ifdef TILE_GET
 	if (qtile () == TILE_GET) {
-		_x = gpxx; _y = gpyy; _t = TILE_GET_REPLACE; _n = behs [TILE_GET_REPLACE];
+		_x = cx1; _y = cy1; _t = TILE_GET_REPLACE; _n = behs [TILE_GET_REPLACE];
 		update_tile ();
+		#if defined (PLAYER_SHOW_FLAG) && PLAYER_SHOW_FLAG == TILE_GET_FLAG
+			if (flags [TILE_GET_FLAG] < 99)
+		#endif
 		flags [TILE_GET_FLAG] ++;
 #ifdef MODE_128K
 			_AY_PL_SND (SFX_TILE_GET);

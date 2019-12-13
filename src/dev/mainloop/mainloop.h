@@ -27,8 +27,6 @@ void main (void) {
 	// SYSTEM INITIALIZATION
 	// *********************
 
-	cortina ();
-
 	#asm
 		di
 	#endasm
@@ -44,6 +42,8 @@ void main (void) {
 			ei
 		#endasm
 	#endif
+
+	cortina ();
 
 	#ifdef MODE_128K
 		// Music player initialization
@@ -131,7 +131,7 @@ void main (void) {
 				gpy = p_y;
 			#endif
 			// Move enemies
-			mueve_bicharracos ();
+			enems_move ();
 			#ifdef CARRIABLE_BOXES_THROWABLE
 				if (n_pant != o_pant) continue;
 			#endif
@@ -180,7 +180,7 @@ void main (void) {
 			#ifdef ENABLE_LAVA
 				if (flags [LAVA_FLAG] == 1) {
 					if (do_lava ()) {
-						kill_player (SFX_PLAYER_DEATH_LAVA);
+						p_killme = SFX_PLAYER_DEATH_LAVA;
 						success = 2;	// repeat
 						playing = 0;
 						//continue;
@@ -234,10 +234,10 @@ void main (void) {
 				}
 			#endif
 			
-			// Respawn
-			#ifdef DIE_AND_RESPAWN
-				#include "mainloop/die_and_respawn.h"
-			#endif
+			if (p_killme) {
+				player_kill ();
+				p_killme = 0;
+			}
 
 			// Flick screen
 			#ifndef PLAYER_CANNOT_FLICK_SCREEN

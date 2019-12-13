@@ -32,7 +32,7 @@
 
 				call SPMoveSprAbs
 		#endasm
-		gpz = gpy - ((-p_z) >> 6);
+		gpz = gpy - ((-p_z) >> FIXBITS);
 		//sp_MoveSprAbs (sp_player, spritesClip, p_n_f - p_c_f, VIEWPORT_Y + (gpz >> 3), VIEWPORT_X + (gpx >> 3), gpx & 7, gpz & 7);
 		#asm
 				ld  ix, (_sp_player)

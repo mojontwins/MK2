@@ -227,7 +227,7 @@ extern unsigned char behs [0];
 		 
 		// Fase 12: Tutorial
 		{MAPDC_BIN, TS1C_BIN, SS1C_BIN, ENEMSDC_BIN, HOTSPOTSDC_BIN, BEHS1C_BIN, 19,
-		 0, 4, 2, 99, 12, 1, 1, 1, 0, SENG_JUMP, 1,
+		 5, 4, 2, 99, 12, 1, 1, 1, 0, SENG_JUMP, 1,
 		 1, SCRIPT_INIT + LEVEL_TUTORIAL},
 		 
 		// Fase 13: Lava

@@ -6,7 +6,7 @@
 
 // Your main binary may run from 24000 to 61439 (37440 bytes max.)
 
-#define FIXBITS 6
+#define FIXBITS 4
 #include <spritepack.h>
 //#define DEBUG
 
@@ -32,6 +32,15 @@
 61949 - 61951 Free (3 bytes)
 61952 - 65535 Horizontal Rotation Tables
 */
+
+// If you use a frame limiter you need the isrc counter
+#define ISRC_ADDRESS 		23296
+
+// For two integers & one char which are never paged out (reserve 5 bytes)
+#define SAFE_INT_ADDRESS 	23297
+
+// Safe memory pool (use it carefully)
+#define SAFE_MEMORY_POOL 	23302
 
 // Free space in the splib2 area we can use
 #define FREEPOOL 61697

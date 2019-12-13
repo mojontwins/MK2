@@ -117,8 +117,8 @@ void player_init (void) {
 	#ifdef DIE_AND_RESPAWN
 		p_killme = 0;
 		p_safe_pant = n_pant;
-		p_safe_x = p_x >> 10;
-		p_safe_y = p_y >> 10;
+		p_safe_x = gpx >> 4;
+		p_safe_y = gpy >> 4;
 	#endif
 
 	#if defined (BREAKABLE_WALLS) || defined (BREAKABLE_WALLS_SIMPLE)
@@ -487,7 +487,7 @@ unsigned char player_move (void) {
 	// **********
 
 	#ifdef ENABLE_HOLES
-		gpx = p_x >> 6;
+		gpx = p_x >> FIXBITS;
 		cy1 = cy2 = (gpy + 15) >> 4;
 		cx1 = (gpx + 4) >> 4;
 		cx2 = (gpx + 12) >> 4;
@@ -602,7 +602,13 @@ unsigned char player_move (void) {
 			if (hit_v) {
 				p_vy = addsign (-p_vy, PLAYER_V_BOUNCE);
 				// CUSTOM {
-					p_y = (p_y >> 10) << 10;
+					//p_y = (p_y >> 10) << 10;
+					#if FIXBITS == 6
+						p_y &= 0xfc00; 
+					#else
+						p_y &= 0xff00; 
+					#endif
+					gpy &= 0xf0;
 				// } END_OF_CUSTOM
 				#ifdef PLAYER_FLICKERS
 					if (p_life > 0 && p_state == EST_NORMAL)

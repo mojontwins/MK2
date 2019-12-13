@@ -25,7 +25,7 @@ void enems_kill (unsigned char amount) {
 		{
 			en_an_state [enit] = GENERAL_DYING;
 			#ifdef MODE_128K
-				en_an_count [enit] = 16;
+				en_an_count [enit] = ENEMS_DYING_FRAMES;
 				_AY_PL_SND (SFX_KILL_ENEMY);
 			#else
 				en_an_count [enit] = 1;

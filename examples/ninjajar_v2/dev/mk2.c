@@ -6,7 +6,7 @@
 
 // Your main binary may run from 24000 to 61439 (37440 bytes max.)
 
-#define FIXBITS 6
+#define FIXBITS 4
 #include <spritepack.h>
 //#define DEBUG
 

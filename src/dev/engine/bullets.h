@@ -25,9 +25,9 @@ void fire_bullet (void) {
 					bullets_y [gpit] = p_y + PLAYER_BULLET_Y_OFFSET;
 					bullets_my [gpit] = 0;
 #else
-					bullets_x [gpit] = (p_x >> 6) - 4;
+					bullets_x [gpit] = (p_x >> FIXBITS) - 4;
 					bullets_mx [gpit] = -PLAYER_BULLET_SPEED;
-					bullets_y [gpit] = (p_y >> 6) + PLAYER_BULLET_Y_OFFSET;
+					bullets_y [gpit] = (p_y >> FIXBITS) + PLAYER_BULLET_Y_OFFSET;
 					bullets_my [gpit] = 0;
 #endif
 					break;
@@ -38,9 +38,9 @@ void fire_bullet (void) {
 					bullets_y [gpit] = p_y + PLAYER_BULLET_Y_OFFSET;
 					bullets_my [gpit] = 0;
 #else
-					bullets_x [gpit] = (p_x >> 6) + 12;
+					bullets_x [gpit] = (p_x >> FIXBITS) + 12;
 					bullets_mx [gpit] = PLAYER_BULLET_SPEED;
-					bullets_y [gpit] = (p_y >> 6) + PLAYER_BULLET_Y_OFFSET;
+					bullets_y [gpit] = (p_y >> FIXBITS) + PLAYER_BULLET_Y_OFFSET;
 					bullets_my [gpit] = 0;
 #endif
 					break;
@@ -51,8 +51,8 @@ void fire_bullet (void) {
 					bullets_my [gpit] = PLAYER_BULLET_SPEED;
 					bullets_mx [gpit] = 0;
 #else
-					bullets_x [gpit] = (p_x >> 6) + PLAYER_BULLET_X_OFFSET;
-					bullets_y [gpit] = (p_y >> 6) + 12;
+					bullets_x [gpit] = (p_x >> FIXBITS) + PLAYER_BULLET_X_OFFSET;
+					bullets_y [gpit] = (p_y >> FIXBITS) + 12;
 					bullets_my [gpit] = PLAYER_BULLET_SPEED;
 					bullets_mx [gpit] = 0;
 #endif
@@ -64,8 +64,8 @@ void fire_bullet (void) {
 					bullets_my [gpit] = -PLAYER_BULLET_SPEED;
 					bullets_mx [gpit] = 0;
 #else
-					bullets_x [gpit] = (p_x >> 6) + 8 - PLAYER_BULLET_X_OFFSET;
-					bullets_y [gpit] = (p_y >> 6) - 4;
+					bullets_x [gpit] = (p_x >> FIXBITS) + 8 - PLAYER_BULLET_X_OFFSET;
+					bullets_y [gpit] = (p_y >> FIXBITS) - 4;
 					bullets_my [gpit] = -PLAYER_BULLET_SPEED;
 					bullets_mx [gpit] = 0;
 #endif
@@ -78,14 +78,14 @@ void fire_bullet (void) {
 #if defined (PHANTOMAS_ENGINE) || defined (HANNA_ENGINE)
 				bullets_y [gpit] = p_y;
 #else
-				bullets_y [gpit] = (p_y >> 6);
+				bullets_y [gpit] = (p_y >> FIXBITS);
 #endif
 				bullets_my [gpit] = -PLAYER_BULLET_SPEED;
 			} else if (!(pad0 & sp_DOWN)) {
 #if defined (PHANTOMAS_ENGINE) || defined (HANNA_ENGINE)
 				bullets_y [gpit] = 8 + p_y;
 #else
-				bullets_y [gpit] = 8 + (p_y >> 6);
+				bullets_y [gpit] = 8 + (p_y >> FIXBITS);
 #endif
 				bullets_my [gpit] = PLAYER_BULLET_SPEED;		
 			} else {
@@ -93,7 +93,7 @@ void fire_bullet (void) {
 #if defined (PHANTOMAS_ENGINE) || defined (HANNA_ENGINE)
 				bullets_y [gpit] = p_y + PLAYER_BULLET_Y_OFFSET;
 #else
-				bullets_y [gpit] = (p_y >> 6) + PLAYER_BULLET_Y_OFFSET;
+				bullets_y [gpit] = (p_y >> FIXBITS) + PLAYER_BULLET_Y_OFFSET;
 #endif
 				bullets_my [gpit] = 0;
 #ifdef CAN_FIRE_UP			
@@ -107,14 +107,14 @@ void fire_bullet (void) {
 #if defined (PHANTOMAS_ENGINE) || defined (HANNA_ENGINE)
 					bullets_x [gpit] = p_x - 4;
 #else
-					bullets_x [gpit] = (p_x >> 6) - 4;
+					bullets_x [gpit] = (p_x >> FIXBITS) - 4;
 #endif
 					bullets_mx [gpit] = -PLAYER_BULLET_SPEED;
 				} else {
 #if defined (PHANTOMAS_ENGINE) || defined (HANNA_ENGINE)
 					bullets_x [gpit] = p_x + 12;
 #else
-					bullets_x [gpit] = (p_x >> 6) + 12;
+					bullets_x [gpit] = (p_x >> FIXBITS) + 12;
 #endif
 					bullets_mx [gpit] = PLAYER_BULLET_SPEED;
 				}
@@ -123,12 +123,12 @@ void fire_bullet (void) {
 #if defined (PHANTOMAS_ENGINE) || defined (HANNA_ENGINE)
 				bullets_x [gpit] = p_x + 4;
 #else
-				bullets_x [gpit] = (p_x >> 6) + 4;
+				bullets_x [gpit] = (p_x >> FIXBITS) + 4;
 #endif
 				bullets_mx [gpit] = 0;
 			}
 #endif			
-#endif
+#endif 
 #ifdef MODE_128K
 			_AY_PL_SND (SFX_SHOOT);
 #else

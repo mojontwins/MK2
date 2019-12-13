@@ -45,8 +45,8 @@
 #endif
 				p_killme = SFX_PLAYER_DEATH_TIME;
 #if defined (TIMER_WARP_TO_X) && defined (TIMER_WARP_TO_Y)
-				p_x = TIMER_WARP_TO_X << 10;
-				p_y = TIMER_WARP_TO_Y << 10;
+				gpx = TIMER_WARP_TO_X << 4; p_x = gpx << FIXBITS;
+				gpy = TIMER_WARP_TO_Y << 4; p_y = gpy << FIXBITS;
 #endif
 #ifdef TIMER_WARP_TO
 				n_pant = TIMER_WARP_TO;

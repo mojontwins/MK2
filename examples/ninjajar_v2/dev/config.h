@@ -34,7 +34,7 @@
 // In this section we define map dimmensions, initial and authomatic ending conditions, etc.
 
 #define MAP_W					3		//
-#define MAP_H					7		// Map dimmensions in screens
+#define MAP_H					7		// Map dimensions in screens
 //#define ENABLE_CUSTOM_CONNECTIONS 	// Custom connections array. MAP_W/MAP_H just define how many screens
 //#define SCR_INI				99		//  Initial screen
 //#define PLAYER_INI_X			99		//
@@ -168,6 +168,7 @@
 
 #define ENABLE_PATROLLERS				// Yeah, you can now deactivate good ol' patrollers...
 //#define PATROLLERS_HIT			9 	// If defined, patrollers take THIS life, otherwise 1
+#define ENEMS_DYING_FRAMES 			12	// Show explosion for # frames
 
 #define ENABLE_FANTIES					// If defined, add code for flying enemies.
 #define FANTIES_SIGHT_DISTANCE	96		// If defined, used in our type 6 enemies.
@@ -184,7 +185,7 @@
 
 //#define ENABLE_SIMPLE_PURSUERS		// Simpler type 7s [NOT YET]
 
-#define MAX_COCOS 			3			// Max # of cocos.
+#define MAX_COCOS 				3		// Max # of cocos.
 // #define COCOS_COLLIDE				// Cocos will die with beh 8
 
 #define ENABLE_SHOOTERS					// Activate this if your raise bit 4 in any enemies.
@@ -290,7 +291,6 @@
 #define INITIAL_AMMO			0		// If defined, ammo = X when entering game.
 */
 
-
 // Breakable walls
 // ---------------
 
@@ -373,7 +373,7 @@
 // Lava:
 // -----
 // Experimental & custom. Use @ your own risk. Not supported __AT ALL__
-// Only 128K/Multilevel/Enhaced levels.
+// Only 128K/Multilevel/Enhaced levels. This was custom for Ninjajar! - I wonder why it's still here
 
 #define ENABLE_LAVA
 #define LAVA_FLAG			30
@@ -434,7 +434,7 @@
 //#define PLAYER_BOOTEE 				// Always jumping engine. Don't forget to disable "HAS_JUMP" and "HAS_JETPAC"!!!
 //#define PLAYER_BOUNCE_WITH_WALLS		// Bounce when hitting a wall. Only really useful in MOGGY_STYLE mode
 //#define PLAYER_CUMULATIVE_JUMP		// Keep pressing JUMP to JUMP higher in several bounces
-//#define PLAYER_BOOST_WHEN_GOING_UP	// Boost pvy when jumping to the screen above.
+#define PLAYER_BOOST_WHEN_GOING_UP		// Boost pvy when jumping to the screen above.
 
 //#define PLAYER_HAS_JETPAC 			// If defined, player can thrust a vertical jetpac
 //#define JETPAC_DEPLETES			4	// If defined, jetpac depletes each # frames.
@@ -530,31 +530,31 @@
 
 // IV.1. Vertical movement. Only for side-view.
 
-#define PLAYER_FALL_VY_MAX		512 	// Max falling speed (512/64 = 8 pixels/frame)
-#define PLAYER_G				48		// Gravity acceleration (32/64 = 0.5 pixels/frame^2)
+#define PLAYER_FALL_VY_MAX		127 	// Max falling speed 
+#define PLAYER_G				12		// Gravity acceleration
 
-#define PLAYER_JMP_VY_INITIAL	96		// Initial junp velocity (64/64 = 1 pixel/frame)
-#define PLAYER_JMP_VY_MAX		312 	// Max jump velocity (320/64 = 5 pixels/frame)
-#define PLAYER_JMP_VY_INCR		48		// acceleration while JUMP is pressed (48/64 = 0.75 pixels/frame^2)
+#define PLAYER_JMP_VY_INITIAL	24		// Initial junp velocity
+#define PLAYER_JMP_VY_MAX		78	 	// Max jump velocity 
+#define PLAYER_JMP_VY_INCR		12		// acceleration while JUMP is pressed 
 
-//#define PLAYER_JETPAC_VY_INCR	32		// Vertical jetpac gauge
-//#define PLAYER_JETPAC_VY_MAX	256 	// Max vertical jetpac speed
+//#define PLAYER_JETPAC_VY_INCR	8		// Vertical jetpac gauge
+//#define PLAYER_JETPAC_VY_MAX	64  	// Max vertical jetpac speed
 
 // IV.2. Horizontal (side view) or general (top view) movement.
 
-#define PLAYER_VX_MAX			256 	// Max velocity (192/64 = 3 pixels/frame)
-#define PLAYER_AX				64		// Acceleration (24/64 = 0,375 pixels/frame^2)
-#define PLAYER_RX				96		// Friction (32/64 = 0,5 pixels/frame^2)
+#define PLAYER_VX_MAX			64  	// Max velocity (192/64 = 3 pixels/frame)
+#define PLAYER_AX				16		// Acceleration (24/64 = 0,375 pixels/frame^2)
+#define PLAYER_RX				24		// Friction (32/64 = 0,5 pixels/frame^2)
 
 //#define PLAYER_AX_ALT			8 		// Acceleration (alternate) when stepping on tile w/beh. 64
 //#define PLAYER_RX_ALT			8 		// Friction (alternate) when stepping on tile w/beh. 64
 
-#define PLAYER_V_BOUNCE			320		// Bouncing speed
+#define PLAYER_V_BOUNCE			100		// Bouncing speed
 
 // IV.3. Swimming
 
-#define PLAYER_MAX_VSWIM		128
-#define PLAYER_ASWIM			32
+#define PLAYER_MAX_VSWIM		32
+#define PLAYER_ASWIM			8
 
 // ============================================================================
 // V. Tile behaviour
@@ -696,5 +696,9 @@ unsigned char behs [] = {
 #define NEED_RAMN_OFFSETS
 #endif
 
-// END OF WARNING.
+// Enems may die
+#if defined (PLAYER_CAN_FIRE) || defined (PLAYER_KILLS_ENEMIES) || defined (ENABLE_PURSUERS) || defined (MODE_128K) || defined (PLAYER_CAN_PUNCH) || defined (CARRIABLE_BOXES_THROWABLE) || defined (PLAYER_HAZ_SWORD) || defined (PLAYER_HAZ_WHIP) || defined (PLAYER_SIMPLE_BOMBS)
+	#define ENEMS_MAY_DIE
+#endif
 
+// END OF WARNING.

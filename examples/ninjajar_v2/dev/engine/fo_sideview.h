@@ -125,7 +125,7 @@ void FO_do (void) {
 							if (p_facing) fo_x --; else fo_x ++;
 						}
 						f_o_y [p_hasbox] = fo_y - 1;
-						p_y = (fo_y - 2) << 10;
+						gpx = (fo_y - 2) << 4; p_y = gpx << FIXBITS;
 						f_o_x [p_hasbox] = fo_x;
 						FO_paint (p_hasbox);
 						p_hasbox = 99;

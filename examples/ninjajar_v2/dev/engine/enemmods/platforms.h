@@ -31,7 +31,7 @@
 
 		// Horizontal moving platforms
 		if (_en_mx) {
-			if (gpy + 17 >= _en_y && gpy + 10 <= _en_y) {
+			if (gpy + 16 >= _en_y && gpy + 10 <= _en_y) {
 				p_gotten = 1;
 				ptgmx = _en_mx << FIXBITS;
 				gpy = (_en_y - 16); p_y = gpy << FIXBITS;
@@ -51,12 +51,14 @@
 	}
 	*/
 	
-
 	#asm
 			ld  a, (_gpt)
 			cp  8
 			jp  nz, _enems_platforms_done
 
+			ld  a, (_p_jmp_on)
+			or  a
+			jp  nz, _enems_platforms_done
 
 			ld  a, (_pregotten)
 			or  a
@@ -72,11 +74,11 @@
 			or  a
 			jr  z, _enems_plats_horz_done
 
-			// gpy + 17 >= _en_y
+			// gpy + 16 >= _en_y
 			ld  a, (__en_y)
 			ld  c, a
 			ld  a, (_gpy)
-			add 17
+			add 16
 			cp  c
 			jr  c, _enems_plats_horz_done
 
@@ -92,8 +94,10 @@
 			ld  a, 1
 			ld  (_p_gotten), a
 			ld  a, (__en_mx)
-			sla a
-			sla a
+			#if FIXBITS == 6
+				sla a
+				sla a
+			#endif
 			sla a
 			sla a
 			sla a
@@ -134,11 +138,11 @@
 			bit 7, a
 			jr  z, _enems_plats_vert_check_2 	; _en_my is positive 
 
-			// gpy + 18 >= _en_y
+			// gpy + 17 >= _en_y
 			ld  a, (__en_y)
 			ld  c, a
 			ld  a, (_gpy)
-			add 18
+			add 17
 			cp  c
 			jr  nc, _enems_plats_vert_do
 
@@ -162,8 +166,10 @@
 			ld  a, 1
 			ld  (_p_gotten), a
 			ld  a, (__en_my)
-			sla a
-			sla a
+			#if FIXBITS == 6
+				sla a
+				sla a
+			#endif
 			sla a
 			sla a
 			sla a
