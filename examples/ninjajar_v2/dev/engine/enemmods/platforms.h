@@ -58,7 +58,7 @@
 
 			ld  a, (_p_jmp_on)
 			or  a
-			jp  nz, _enems_platforms_done
+			jp  nz, _enems_collision_skip
 
 			ld  a, (_pregotten)
 			or  a

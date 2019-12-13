@@ -40,14 +40,21 @@ Otherwise it reappears in bad places sometimes. Could [re]apply a simple fix. Go
 
 #### [X] `drawscr` in `PACKED` / `UNPACKED` mode - rewrite in assembly
 
-#### [ ] Moving platforms kill
+#### [X] Moving platforms kill
 
 What's up with that `else` which should invalidate the collision check?
 
-#### [ ] Fix different animation for fanties
+#### [X] Fix different animation for fanties
 
-I mean, Ninjajar's should not animate but face left / right.
+I mean, Ninjajar's should not animate but face left / right. Added `FANTIES_WITH_FACING`.
 
-#### [ ] Fanties don't respawn!
+#### [X] Fanties don't respawn!
+
+I had broken respawning code for all enemies, but still...
+
+#### [ ] Fanties don't reposition!
+
+When reentering they don't seem to be in their original position (if they were killed ?).
 
 #### [ ] You can leave "jump" pressed
+

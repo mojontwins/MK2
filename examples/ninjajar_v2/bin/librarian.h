@@ -88,38 +88,38 @@ RESOURCE resources [] = {
    {4, 56166},   // 77: tsAc.bin
    {4, 57137},   // 78: mapDc.bin
    {4, 57522},   // 79: enemsDc.bin
-   {4, 57621},   // 80: hotspotsDc.bin
-   {4, 57632},   // 81: mapCc.bin
-   {4, 57947},   // 82: tsCc.bin
-   {4, 58650},   // 83: enemsCc.bin
-   {4, 58758},   // 84: hotspotsCc.bin
-   {4, 58767},   // 85: behsCc.bin
-   {4, 58789},   // 86: mapEc.bin
-   {4, 59335},   // 87: enemsEc.bin
-   {4, 59614},   // 88: hotspotsEc.bin
-   {4, 59635},   // 89: mapFc.bin
-   {4, 60218},   // 90: enemsFc.bin
-   {4, 60384},   // 91: hotspotsFc.bin
-   {4, 60399},   // 92: boltsFc.bin
-   {4, 60399},   // 93: mapZc.bin
-   {4, 61048},   // 94: boltsZc.bin
-   {4, 61048},   // 95: ending1.bin
-   {4, 62316},   // 96: enemsZc.bin
-   {4, 62528},   // 97: hotspotsZc.bin
-   {4, 62542},   // 98: behsZc.bin
-   {4, 62573},   // 99: mapYc.bin
-   {4, 63233},   // 100: boltsYc.bin
-   {4, 63233},   // 101: tsYc.bin
-   {4, 63845},   // 102: enemsYc.bin
-   {4, 64134},   // 103: hotspotsYc.bin
-   {4, 64157},   // 104: behsYc.bin
-   {4, 64175},   // 105: mapXc.bin
-   {4, 64240},   // 106: boltsXc.bin
-   {4, 64240},   // 107: ending4.bin
-   {4, 64570},   // 108: enemsXc.bin
-   {4, 64580},   // 109: hotspotsXc.bin
-   {4, 64588},   // 110: behsXc.bin
-   {4, 64602},   // 111: dedicado.bin
+   {4, 57629},   // 80: hotspotsDc.bin
+   {4, 57640},   // 81: mapCc.bin
+   {4, 57955},   // 82: tsCc.bin
+   {4, 58658},   // 83: enemsCc.bin
+   {4, 58766},   // 84: hotspotsCc.bin
+   {4, 58775},   // 85: behsCc.bin
+   {4, 58797},   // 86: mapEc.bin
+   {4, 59343},   // 87: enemsEc.bin
+   {4, 59622},   // 88: hotspotsEc.bin
+   {4, 59643},   // 89: mapFc.bin
+   {4, 60226},   // 90: enemsFc.bin
+   {4, 60392},   // 91: hotspotsFc.bin
+   {4, 60407},   // 92: boltsFc.bin
+   {4, 60407},   // 93: mapZc.bin
+   {4, 61056},   // 94: boltsZc.bin
+   {4, 61056},   // 95: ending1.bin
+   {4, 62324},   // 96: enemsZc.bin
+   {4, 62536},   // 97: hotspotsZc.bin
+   {4, 62550},   // 98: behsZc.bin
+   {4, 62581},   // 99: mapYc.bin
+   {4, 63241},   // 100: boltsYc.bin
+   {4, 63241},   // 101: tsYc.bin
+   {4, 63853},   // 102: enemsYc.bin
+   {4, 64142},   // 103: hotspotsYc.bin
+   {4, 64165},   // 104: behsYc.bin
+   {4, 64183},   // 105: mapXc.bin
+   {4, 64248},   // 106: boltsXc.bin
+   {4, 64248},   // 107: ending4.bin
+   {4, 64578},   // 108: enemsXc.bin
+   {4, 64588},   // 109: hotspotsXc.bin
+   {4, 64596},   // 110: behsXc.bin
+   {4, 64610},   // 111: dedicado.bin
    {6, 61213},   // 112: tsZc.bin
    {6, 62377},   // 113: level.bin
    {6, 65229},   // 114: credits.bin

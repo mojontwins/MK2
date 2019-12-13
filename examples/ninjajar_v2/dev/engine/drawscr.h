@@ -584,10 +584,10 @@ void draw_scr (void) {
 
 	enems_init ();
 
-	#ifndef RESPAWN_ON_REENTER
+	#ifdef RESPAWN_ON_ENTER
 		do_respawn = 1;
 	#endif
-
+	
 	#ifdef ENABLE_FLOATING_OBJECTS
 		FO_clear ();
 	#endif

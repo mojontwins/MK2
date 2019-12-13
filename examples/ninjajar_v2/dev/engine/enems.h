@@ -50,11 +50,11 @@ void enems_init (void) {
 
 		#ifdef RESPAWN_ON_ENTER
 			// Back to life!
-			#ifndef RESPAWN_ON_ENTER
-					if (do_respawn)
+			#ifndef RESPAWN_ON_REENTER
+				if (do_respawn)
 			#endif
 			{		
-				_en_t &= 0x7f;
+				baddies [enoffsmasi].t &= 0x7f;
 				en_an_state [gpit] = 0;
 				#if defined (PLAYER_CAN_FIRE) || defined (PLAYER_CAN_PUNCH) || defined (PLAYER_HAZ_SWORD)
 					#ifdef COMPRESSED_LEVELS
@@ -79,11 +79,13 @@ void enems_init (void) {
 				#ifdef ENABLE_FANTIES
 					case 2:
 						// Flying
-						#ifdef FANTIES_FIXED_SPRITE
-							en_an_base_frame [gpit] = FANTIES_FIXED_SPRITE << 1;
+						#ifdef FANTIES_FIXED_CELL
+							en_an_base_frame [gpit] = FANTIES_FIXED_CELL << 1;
 						#endif
-						en_an_x [gpit] = baddies [enoffsmasi].x << FIXBITS;
-						en_an_y [gpit] = baddies [enoffsmasi].y << FIXBITS;
+						en_an_x [gpit] = baddies [enoffsmasi].x1 << FIXBITS;
+						baddies [enoffsmasi].x = baddies [enoffsmasi].x1;
+						en_an_y [gpit] = baddies [enoffsmasi].y1 << FIXBITS;
+						baddies [enoffsmasi].y = baddies [enoffsmasi].y1;
 						en_an_vx [gpit] = en_an_vy [gpit] = 0;
 						#ifdef FANTIES_SIGHT_DISTANCE					
 							en_an_state [gpit] = FANTIES_IDLE;
@@ -473,7 +475,14 @@ void enems_move (void) {
 
 			if (active) {
 				if (animate) {
-					gpjt = _en_mx ? ((_en_x + 4) >> 3) & 1 : ((_en_y + 4) >> 3) & 1;
+					#ifdef FANTIES_WITH_FACING
+						if (gpt == 2) {
+							gpjt = (gpx > _en_x);
+						} else
+					#endif
+					{
+						gpjt = _en_mx ? ((_en_x + 4) >> 3) & 1 : ((_en_y + 4) >> 3) & 1;
+					}
 					en_an_n_f [enit] = enem_frames [en_an_base_frame [enit] + gpjt];
 				}
 
