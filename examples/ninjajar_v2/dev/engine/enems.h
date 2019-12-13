@@ -227,20 +227,16 @@ void enems_move (void) {
 				// Those values are stores in this order:
 				// x, y, x1, y1, x2, y2, mx, my, t, life
 				// Point HL to baddies [enoffsmasi]. The struct is 10 bytes long
-				// so this is baddies + enoffsmasi*9, or...
-				// enoffsmasi is, at maximum, ((MAP_W*MAP_H)-1)*3+2, or 47.
-				// We can keep the multiplications 8-bit as long as possible
-				ld 	a, (_enoffsmasi) 	// Max 47
-				sla a 					// Max 94  (x2)
-				ld  b, a 				// B = A*2
-				sla a 					// Max 188 (x4)
-				ld  l, a
+				// so this is baddies + enoffsmasi*10
+				ld 	hl, (_enoffsmasi)
 				ld  h, 0
-				add hl, hl 				// HL = x8
+				add hl, hl 				// x2
+				ld  d, h
+				ld  e, l 				// DE = x2
+				add hl, hl 				// x4
+				add hl, hl 				// x8
 				
-				ld  e, b 
-				ld  d, 0                // DE = x2
-				add hl, de 				// HL = x10
+				add hl, de 				// HL = x8 + x2 = x10
 
 				ld  de, _baddies
 				add hl, de

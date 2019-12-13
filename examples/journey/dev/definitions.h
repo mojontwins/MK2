@@ -93,8 +93,9 @@
 
 // General externs
 
-unsigned int asm_int;
-unsigned int asm_int_2;
+unsigned int asm_int 	@ SAFE_INT_ADDRESS;
+unsigned int asm_int_2 	@ SAFE_INT_ADDRESS + 2;
+unsigned int safe_byte 	@ SAFE_INT_ADDRESS + 4;
 
 // Gigaglobals
 
@@ -142,24 +143,22 @@ unsigned char enoffs;
 unsigned char half_life = 0;
 
 // Player
-int p_x, p_y;
-#if defined (PHANTOMAS_ENGINE)
-	char p_vx, p_vy, ptgmx, ptgmy;
-#elif defined (HANNA_ENGINE)
-	char p_v;
+signed int p_x, p_y;
+#if defined (HANNA_ENGINE)
+	signed char p_v;
 #else
-	int p_vx, p_vy, ptgmx, ptgmy;
+	signed char p_vx, p_vy, ptgmx, ptgmy;
 #endif
 #if defined (PLAYER_GENITAL) && defined (PLAYER_HAS_JUMP)
-	int p_z, p_vz;
+	signed int p_z, p_vz;
 	unsigned char p_jmp_facing, gpz;
 #endif
-char p_g;
+signed char p_g;
 #if defined (PLAYER_NEW_GENITAL) && defined (ENABLE_BEH_64) 
-	char p_ax, p_rx;
+	signed char p_ax, p_rx;
 #endif
 #ifdef PLAYER_GENITAL
-	char p_thrust;
+	signed char p_thrust;
 #endif
 unsigned char p_jmp_ct;
 unsigned char *p_c_f, *p_n_f;
@@ -180,8 +179,9 @@ unsigned char p_disparando;
 	unsigned char p_up; 
 #endif
 unsigned char p_facing_v, p_facing_h;
+unsigned char p_killme;
 #ifdef DIE_AND_RESPAWN
-	unsigned char p_killme, p_safe_pant, p_safe_x, p_safe_y;
+	unsigned char p_safe_pant, p_safe_x, p_safe_y;
 #endif
 #ifdef MAX_AMMO
 	unsigned char p_ammo;
@@ -207,7 +207,7 @@ unsigned char ptx1, pty1, ptx2, pty2;
 // Make some player values variable. Preliminary, just the maximum jump speed...
 
 #ifdef PLAYER_VARIABLE_JUMP
-	int PLAYER_JMP_VY_MAX;
+	signed int PLAYER_JMP_VY_MAX;
 #endif
 
 // Enems on screen
@@ -227,10 +227,10 @@ unsigned char en_an_state [3];
 #endif
 
 #if defined (RANDOM_RESPAWN) || defined (ENABLE_CUSTOM_FANTIES)
-	int en_an_x [3];
-	int en_an_y [3];
-	int en_an_vx [3];
-	int en_an_vy [3];
+	signed int en_an_x [3];
+	signed int en_an_y [3];
+	signed char en_an_vx [3];
+	signed char en_an_vy [3];
 	#ifdef RANDOM_RESPAWN
 		unsigned char en_an_fanty_activo [3];
 	#endif
@@ -244,6 +244,12 @@ unsigned char en_an_state [3];
 
 #ifdef ENABLE_HANNA_MONSTERS_11
 	unsigned char en_an_dir [3];
+	unsigned char _en_cx, _en_cy;
+#endif
+	
+unsigned char pregotten;
+#if defined (ENABLE_SHOOTERS) || defined (ENABLE_ARROWS)
+	unsigned char enemy_shoots;
 #endif
 
 // Bullets
@@ -333,7 +339,7 @@ unsigned char maincounter;
 #endif
 
 #ifdef USE_TWO_BUTTONS
-	int key_jump, key_fire;
+	signed int key_jump, key_fire;
 #endif
 
 #if defined (ENABLE_SIM)
@@ -366,10 +372,14 @@ unsigned char enoffsmasi;
 unsigned char gpx, gpy, gpd, gpc, gpt, gps, rdx, rdy, rda, rdb;
 unsigned char gpxx, gpyy, gpcx, gpcy;
 unsigned char possee, hit_v, hit_h, hit, wall_h, wall_v;
-unsigned char gpen_x, gpen_y, gpen_cx, gpen_cy, gpen_xx, gpen_yy, gpaux;
+unsigned char gpaux;
+unsigned char _en_x, _en_y, _en_x1, _en_y1, _en_x2, _en_y2, _en_t, _en_life;
+signed char _en_mx, _en_my;
+unsigned char *_baddies_pointer;
 unsigned char tocado, active, killable, animate;
 unsigned char gpit, gpjt;
 unsigned char *map_pointer;
+unsigned char enit;
 
 #if defined USE_AUTO_TILE_SHADOWS || defined USE_AUTO_SHADOWS	
 	unsigned char c1, c2, c3, c4;
@@ -400,7 +410,10 @@ unsigned char *gp_gen;
 #endif
 
 #ifdef MIN_FAPS_PER_FRAME
-	unsigned char isrc;
+	unsigned char isrc @ ISRC_ADDRESS;
 #endif
 
 unsigned char pad0;
+#ifdef CUSTOM_HIT
+	unsigned char was_hit_by_type;
+#endif

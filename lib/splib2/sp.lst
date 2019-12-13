@@ -120,6 +120,7 @@ cwrapper\sp_Swap
 cwrapper\sp_SwapEndian
 cwrapper\sp_TileArray
 cwrapper\sp_UpdateNow
+cwrapper\sp_UpdateNowEx
 cwrapper\sp_Validate
 cwrapper\sp_Wait
 cwrapper\sp_WaitForKey

@@ -9,7 +9,11 @@ extern unsigned char map [0];
 
 #asm
 	._map
-		BINARY "../bin/map.bin"
+		#ifdef RLE_MAP
+			BINARY "../bin/map.map.bin"
+		#else
+			BINARY "../bin/map.bin"
+		#endif
 #endasm
 
 #ifndef COMPRESSED_LEVELS
@@ -23,7 +27,11 @@ extern unsigned char map [0];
 	extern BOLTS bolts [0];
 	#asm
 		._bolts
-			BINARY "../bin/bolts.bin"
+			#ifdef RLE_MAP
+				BINARY "../bin/map.locks.bin"
+			#else
+				BINARY "../bin/bolts.bin"
+			#endif
 	#endasm
 #else
 	#define MAX_BOLTS 0

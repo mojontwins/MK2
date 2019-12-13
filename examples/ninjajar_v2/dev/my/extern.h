@@ -16,7 +16,7 @@ void do_extern_action (unsigned char n) {
 	gpt = n;
 	if (gpt == 0) {
 		// Cortina
-		hide_sprites (0);
+		
 		for (exti = 0; exti < 10; exti ++) {
 			for (extx = exti; extx < 30 - exti; extx ++) {
 				#asm
@@ -68,7 +68,7 @@ void do_extern_action (unsigned char n) {
 			#asm
 				halt
 			#endasm
-			sp_UpdateNow ();
+			sp_UpdateNowEx (0);
 		}
 		return;
 	}
@@ -165,9 +165,7 @@ void do_extern_action (unsigned char n) {
 		exti = textbuff [0] - 64;
 		
 		// Draw empty frame
-		extx = 3 + exti + exti;
-		exti = !((VIEWPORT_Y + (p_y >> 9)) < extx);	
-		hide_sprites (exti);
+		extx = 3 + exti + exti;		
 	
 		_x = 3; _y = 3; _t = 1; gp_gen = "#$$$$$$$$$$$$$$$$$$$$$$$$%"; print_str ();
 		_x = 3; _t = 1; gp_gen = "&                        '";
@@ -212,7 +210,7 @@ void do_extern_action (unsigned char n) {
 				halt
 				halt
 			#endasm
-			sp_UpdateNow ();
+			sp_UpdateNowEx (0);
 		}
 		
 		if (button_pressed ()) {
@@ -224,7 +222,7 @@ void do_extern_action (unsigned char n) {
 		}
 	}
 
-	sp_UpdateNow ();
+	sp_UpdateNowEx (0);
 	sp_WaitForNoKey ();
 	while (button_pressed ());
 	active_sleep (5000);

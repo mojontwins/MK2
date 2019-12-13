@@ -267,9 +267,9 @@ void run_script (unsigned char whichs) {
                         // SETY sc_y
                         // Opcode: 6B sc_y
 #if defined (PHANTOMAS_ENGINE) || defined (HANNA_ENGINE)
-                        p_y = read_vbyte () << 4;
+                        gpy = p_y = read_vbyte () << 4;
 #else
-                        p_y = read_vbyte () << 10;
+                        gpy = read_vbyte () << 4; p_y = gpy << FIXBITS;
                         stop_player ();
 #endif
                         break;
@@ -277,9 +277,9 @@ void run_script (unsigned char whichs) {
                         // SETX sc_x
                         // Opcode: 6B sc_x
 #if defined (PHANTOMAS_ENGINE) || defined (HANNA_ENGINE)
-                        p_x = read_vbyte () << 4;
+                        gpx = p_x = read_vbyte () << 4;
 #else
-                        p_x = read_vbyte () << 10;
+                        gpx = read_vbyte () << 4; p_x = gpx << FIXBITS;
                         stop_player ();
 #endif
                         break;

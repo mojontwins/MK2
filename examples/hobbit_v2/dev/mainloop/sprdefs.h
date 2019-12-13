@@ -9,7 +9,7 @@
 		sp_moviles [gpit] = sp_CreateSpr(sp_OR_SPRITE, 3, sprite_9_a, 1, TRANSPARENT);
 		sp_AddColSpr (sp_moviles [gpit], sprite_9_b, TRANSPARENT);
 		sp_AddColSpr (sp_moviles [gpit], sprite_9_c, TRANSPARENT);
-		en_an_c_f [gpit] = sprite_9_a;
+		en_an_c_f [gpit] = en_an_n_f [gpit] = sprite_9_a;
 	}
 #else
 	sp_player = sp_CreateSpr (sp_MASK_SPRITE, 3, sprite_2_a, 1, TRANSPARENT);

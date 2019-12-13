@@ -5,7 +5,7 @@
 			level_data->activate_scripting && 
 		#endif
 		#ifdef SCRIPTING_KEY_M
-			sp_KeyPressed (key_m)
+			sp_KeyPressed (KEY_M)
 		#endif
 		#ifdef SCRIPTING_DOWN
 			(pad0 & sp_DOWN) == 0

@@ -32,8 +32,3 @@ extern unsigned char *script;
 #define LEVEL_ENDING_GOOD 0x2483
 #define LEVEL_CLUB 0x26D7
 #define SCRIPT_INIT 49152 
-#define SCRIPT_INIT 49152 
-#define SCRIPT_INIT 49152 
-#define SCRIPT_INIT 49152 
-#define SCRIPT_INIT 49152 
-#define SCRIPT_INIT 49152 

@@ -33,7 +33,7 @@
 ;
 ; * SPECIFY SCREEN DRAW METHODS & VARIABLES
 ;
-    DEFC NOFLICKER   = 0
+    DEFC NOFLICKER   = 1
 ;     for no-flicker mode where a character is completely drawn
 ;     in a buffer before being copied to the screen
 ;

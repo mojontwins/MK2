@@ -15,6 +15,7 @@ void sp_UpdateNow(void)
 {
 #asm
    LIB SPUpdateNow
+   ld  a, 1
    call SPUpdateNow
 #endasm
 }

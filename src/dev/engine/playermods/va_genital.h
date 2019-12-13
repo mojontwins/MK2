@@ -1,4 +1,4 @@
-#ifdef PLAYER_HAS_JUMP
+
 	rda = ((pad0 & sp_UP) == 0 || (pad0 & sp_DOWN) == 0);
 
 	if ( 
@@ -35,5 +35,3 @@
 		p_thrust = 1;
 		if (p_vy < PLAYER_VX_MAX) p_vy += AXVAL;
 	}
-#endif
-	

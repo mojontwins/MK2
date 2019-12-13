@@ -524,7 +524,20 @@ void draw_invalidate_coloured_tile_gamearea (void) {
 
 void draw_coloured_tile_gamearea (void) {
 	#ifdef ENABLE_TILANIMS
-		if (IS_TILANIM (_t)) tilanims_add (); 
+		if (IS_TILANIM (_t)) {
+			#asm				
+				ld  a, (__x)
+				sla a
+				sla a
+				sla a
+				sla a
+				ld  c, a
+				ld  a, (__y)
+				add c
+				ld  (__n), a
+			#endasm
+			tilanims_add (); 
+		}
 	#endif	
 	_x = VIEWPORT_X + (_x << 1); _y = VIEWPORT_Y + (_y << 1); draw_coloured_tile ();
 }

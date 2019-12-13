@@ -26,7 +26,7 @@
 	void shoot_coco (void) {
 		coco_x0 = _en_x + 4;
 		#ifdef SHOOTER_FIRE_ONE
-			coco_it = gpit;	
+			coco_it = enit;	
 		#else
 			for (coco_it = 0; coco_it < MAX_COCOS; coco_it ++) 
 		#endif
@@ -62,7 +62,7 @@
 				if (p_state == EST_NORMAL) {
 					if (collide_pixel (ctx, cty, gpx, gpy)) {
 						coco_s [coco_it] = 0;
-						kill_player (SFX_PLAYER_DEATH_COCO);
+						p_killme = SFX_PLAYER_DEATH_COCO;
 					}
 				}
 				// Collide cocos
@@ -112,6 +112,8 @@
 
 	unsigned char mons_col_sc_y (void) {
 		cy1 = cy2 = (_en_my > 0 ? _en_y + 15 : _en_y) >> 4;
+		cx1 = _en_x >> 4; cx2 = (_en_x + 15) >> 4;
+		cm_two_points ();
 		#ifdef EVERYTHING_IS_A_WALL
 			return (at1 || at2);
 		#else

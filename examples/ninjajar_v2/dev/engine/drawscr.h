@@ -6,6 +6,13 @@
 
 void advance_worm (void) {
 	#asm
+		#ifdef ALT_TILE
+			call _rand 
+			ld   a, l
+			and  15
+			ld   (_gpjt), a
+		#endif
+
 			ld  bc, (_gpit)
 			ld  b, 0
 
@@ -27,12 +34,55 @@ void advance_worm (void) {
 			ld  (hl), a
 
 			ld  a, (_gpd)
+			#ifdef ALT_TILE
+				ld  d, a
+				or  a
+				jr  nz, _draw_scr_alt_tile_skip
+
+				ld  a, (_gpjt)
+				cp   1
+				jr  nz, _draw_scr_alt_tile_skip
+
+				ld  a, ALT_TILE				
+				jr _draw_scr_alt_tile_done
+
+			._draw_scr_alt_tile_skip
+				ld  a, d
+
+			._draw_scr_alt_tile_done
+			#endif
+
 			ld  hl, _map_buff
 			add hl, bc
 			ld  (hl), a
 
 			ld  (__t), a
 			call _draw_coloured_tile
+
+	#ifdef ENABLE_TILANIMS
+		#endasm
+			
+		if (IS_TILANIM (_t)) { 
+				
+			#asm
+					ld  a, (__x)
+					sub VIEWPORT_X
+					;and 0xfe	; _x is always even!
+					sla a
+					sla a
+					sla a
+					ld  c, a
+					ld  a, (__y)
+					sub VIEWPORT_Y
+					srl a
+					add c
+					ld  (__n), a
+					call _tilanims_add
+			#endasm
+		}
+
+		#asm
+	#endif
 
 			ld  a, (__x)
 			add 2
@@ -171,20 +221,6 @@ void draw_scr_background (void) {
 				ld  (_gpt), a
 				ld  (_gpd), a				
 
-			#ifndef NO_ALT_TILE
-				or  a
-				jr  nz, _draw_scr_alt_tile_skip
-
-				call _rand 
-				ld   a, l
-				and  15
-				cp   1
-				jr  nz, _draw_scr_alt_tile_skip
-
-				ld  a, 19
-				ld  (_gpd), a
-			._draw_scr_alt_tile_skip
-			#endif
 		#endif
 				call _advance_worm
 

@@ -93,7 +93,7 @@ void bomb_run (void) {
 				// W/player-> here
 				if (gpx + 15 >= bomb_px && gpx <= bomb_px + 47 &&
 					gpy + 15 >= bomb_py && gpy <= bomb_py + 47) {
-					kill_player (SFX_PLAYER_DEATH_BOMB);
+					p_killme = SFX_PLAYER_DEATH_BOMB;
 				}
 				// W/enemies-> enems.h
 			}

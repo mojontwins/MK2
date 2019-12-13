@@ -474,7 +474,8 @@ extern uint __LIB__  sp_BlockCount(uchar queue);
 extern void __LIB__  sp_Invalidate(struct sp_Rect *area, struct sp_Rect *clip);
 extern void __LIB__  sp_Validate(struct sp_Rect *area, struct sp_Rect *clip);
 extern void __LIB__  sp_ClearRect(struct sp_Rect *area, uchar colour, uchar udg, uchar flags);
-extern void __LIB__  sp_UpdateNow();
+extern void __LIB__  sp_UpdateNow(void);
+extern void __LIB__  sp_UpdateNowEx(unsigned char doSprites);
 extern void __LIB__ *sp_CompDListAddr(uchar row, uchar col);
 extern void __LIB__ *sp_CompDirtyAddr(uchar row, uchar col, uchar *mask);
 

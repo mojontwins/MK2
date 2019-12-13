@@ -89,11 +89,15 @@ XDEF update_attrs
    defb 0
 ENDIF
 
+.dosprites
+   defb 1
+
 ;
 ; The screen draw subroutine.
 ;
 
 .SPUpdateNow
+   ld (dosprites), a
    ld de,$4000 + (256 * (SP_ROWSTART ~ $18)) + (32 * (SP_ROWSTART ~ 7))   ; de = screen address
 IF DISP_TMXDUAL
    ld a,(SPScreen)
@@ -548,6 +552,7 @@ ENDIF
 ENDIF
 
 .spriteloop
+
 IF NOFLICKER
    ld de,tempgraphic
 ELSE
@@ -575,6 +580,11 @@ ENDIF
    inc hl
    ld b,(hl)                     ; bc = sprite graphic
    inc hl
+
+   ld a, (dosprites)
+   or a
+   jp z, skip_sprite_update
+
 
    push hl                       ; save char struct + 9
    ld h,(hl)                     ; h = msb of horizontal rotation table to use
@@ -1156,6 +1166,7 @@ ELSE                             ; not DISP_HICOLOUR
 
 .coloursprite
    pop hl                        ; hl = char struct + 9
+.skip_sprite_update   
    inc hl
 IF DISP_SPECTRUM
 ;; na_th_an

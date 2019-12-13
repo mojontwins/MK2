@@ -53,10 +53,8 @@ gpy = p_y >> FIXBITS;
 #endif	
 
 // Jumping Jack!
-#ifdef PLAYER_HAS_JUMP
-	#ifdef PLAYER_GENITAL
-		#include "engine/playermods/jump_genital.h"
-	#else
-		#include "engine/playermods/jump_sideview.h"
-	#endif
+#ifdef PLAYER_GENITAL
+	#include "engine/playermods/jump_genital.h"	
+#else
+	#include "engine/playermods/jump_sideview.h"	
 #endif

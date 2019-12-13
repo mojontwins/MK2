@@ -6,9 +6,6 @@
 
 // This is the level manager used in Ninjajar!
 
-// This can be considered completely custom but also can be reused/refined.
-// I will probably come with something more simple for future games.
-
 // Right away, the levelset is containted in two structures, the
 // levels [] array, which has an entry for each unique level, and the
 // level_sequence [] array, which defines an order for the levels
@@ -43,7 +40,7 @@ typedef struct {
 } BOLTS;
 
 typedef struct {
-	int x, y;
+	unsigned char x, y;
 	unsigned char x1, y1, x2, y2;
 	char mx, my;
 	unsigned char t, life;
@@ -58,7 +55,9 @@ typedef struct {
 typedef struct {
 #ifdef EXTENDED_LEVELS
 	unsigned char map_res;
-	unsigned char bolts_res;
+	#ifndef DEACTIVATE_KEYS
+		unsigned char bolts_res;
+	#endif
 	unsigned char ts_res;
 	unsigned char ss_res;
 	unsigned char enems_res;
@@ -125,7 +124,11 @@ extern unsigned char map [0];
 
 extern unsigned char tileset [0];
 #asm
-	._tileset BINARY "../bin/basicts.bin"
+	._tileset 
+	._font
+		BINARY "../bin/font.bin"
+	._metatileset
+		defs 192*8+256
 #endasm
 
 extern unsigned char spriteset [0];
@@ -178,14 +181,6 @@ unsigned char level_sequence [] = {
 #else
 LEVEL levels [] = {
 	{LEVEL0C_BIN, 0, SCRIPT_INIT + LEVEL_0},
-	{0, 0, 0},
-	{0, 0, 0},
-	{0, 0, 0},
-	{0, 0, 0},
-	{LEVEL5C_BIN, 4, SCRIPT_INIT + LEVEL_5},
-	{LEVEL6C_BIN, 5, SCRIPT_INIT + LEVEL_6},
-	{0, 0, 0},
-	{0, 0, 0},
-	{LEVELTC_BIN, 5, SCRIPT_INIT + LEVEL_TARDIS}
+	// etc
 };
 #endif

@@ -3,7 +3,7 @@
 ;
 ;	Reconstructed for z80 Module Assembler
 ;
-;	Module compile time: Fri Dec 13 09:09:44 2019
+;	Module compile time: Fri Dec 13 13:55:57 2019
 
 
 
@@ -1794,6 +1794,14 @@
 	._baddies defs 3 * 7 * 3 * 12
 	._hotspots defs 3 * 7 * 3
 	._behs defs 48
+	defb 85, 170
+	defb 85, 170
+	defb 85, 170
+	defb 85, 170
+	defb 85, 170
+	defb 85, 170
+	defb 85, 170
+	defb 85, 170
 	._sprite_17_a
 	defb 0, 128, 56, 0, 117, 0, 123, 0, 127, 0, 57, 0, 0, 0, 96, 0, 238, 0, 95, 0, 31, 0, 62, 0, 53, 128, 42, 128, 20, 128, 0, 192, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255
 	._sprite_17_b
@@ -2093,7 +2101,7 @@
 	defb	80
 	defb	16
 	defb	19
-	defb	5
+	defb	0
 	defb	4
 	defb	2
 	defb	99
@@ -2751,10 +2759,6 @@
 	and	a
 	jp	nz,i_23
 	ld	hl,0 % 256	;const
-	push	hl
-	call	_hide_sprites
-	pop	bc
-	ld	hl,0 % 256	;const
 	ld	a,l
 	ld	(_exti),a
 	jp	i_26
@@ -2837,7 +2841,10 @@
 	jp	i_27
 .i_28
 	halt
-	call	sp_UpdateNow
+	ld	hl,0 % 256	;const
+	push	hl
+	call	sp_UpdateNowEx
+	pop	bc
 	jp	i_24
 .i_25
 	ret
@@ -2934,27 +2941,6 @@
 	ld	h,0
 	ld	a,l
 	ld	(_extx),a
-	ld	hl,(_p_y)
-	ex	de,hl
-	ld	l,#(9 % 256)
-	call	l_asr
-	ld	de,2
-	add	hl,de
-	ex	de,hl
-	ld	hl,(_extx)
-	ld	h,0
-	call	l_lt
-	ccf
-	ld	hl,0	;const
-	rl	l
-	ld	h,0
-	ld	a,l
-	ld	(_exti),a
-	ld	hl,(_exti)
-	ld	h,0
-	push	hl
-	call	_hide_sprites
-	pop	bc
 	ld	a,#(3 % 256 % 256)
 	ld	(__x),a
 	ld	a,#(3 % 256 % 256)
@@ -3093,7 +3079,10 @@
 .i_42
 	halt
 	halt
-	call	sp_UpdateNow
+	ld	hl,0 % 256	;const
+	push	hl
+	call	sp_UpdateNowEx
+	pop	bc
 .i_41
 	call	_button_pressed
 	ld	a,h
@@ -3114,7 +3103,10 @@
 .i_47
 	jp	i_36
 .i_37
-	call	sp_UpdateNow
+	ld	hl,0 % 256	;const
+	push	hl
+	call	sp_UpdateNowEx
+	pop	bc
 	call	sp_WaitForNoKey
 .i_48
 	call	_button_pressed
@@ -3747,7 +3739,14 @@
 .i_87
 	call	_read_vbyte
 	ex	de,hl
-	ld	l,#(10 % 256)
+	ld	l,#(4 % 256)
+	call	l_asl
+	ld	h,0
+	ld	a,l
+	ld	(_gpy),a
+	ld	e,a
+	ld	d,0
+	ld	l,#(4 % 256)
 	call	l_asl
 	ld	(_p_y),hl
 	call	_stop_player
@@ -3755,7 +3754,14 @@
 .i_88
 	call	_read_vbyte
 	ex	de,hl
-	ld	l,#(10 % 256)
+	ld	l,#(4 % 256)
+	call	l_asl
+	ld	h,0
+	ld	a,l
+	ld	(_gpx),a
+	ld	e,a
+	ld	d,0
+	ld	l,#(4 % 256)
 	call	l_asl
 	ld	(_p_x),hl
 	call	_stop_player
@@ -7606,26 +7612,27 @@
 	call	l_asl
 	pop	de
 	call	l_pint
-	ld	hl,_en_an_vx
-	push	hl
+	ld	de,_en_an_vx
 	ld	hl,(_gpit)
 	ld	h,0
-	add	hl,hl
-	pop	de
 	add	hl,de
 	push	hl
-	ld	hl,_en_an_vy
-	push	hl
+	ld	de,_en_an_vy
 	ld	hl,(_gpit)
 	ld	h,0
-	add	hl,hl
-	pop	de
 	add	hl,de
-	ld	de,0	;const
-	ex	de,hl
-	call	l_pint
+	push	hl
+	ld	hl,0	;const
+	ld	a,l
+	call	l_sxt
 	pop	de
-	call	l_pint
+	ld	a,l
+	ld	(de),a
+	ld	a,l
+	call	l_sxt
+	pop	de
+	ld	a,l
+	ld	(de),a
 	ld	de,_en_an_state
 	ld	hl,(_gpit)
 	ld	h,0
@@ -7757,15 +7764,13 @@
 	ld	h,0
 	ld	a,l
 	ld	(_enoffsmasi),a
-	ld a, (_enoffsmasi)
-	sla a
-	ld b, a
-	sla a
-	ld l, a
+	ld hl, (_enoffsmasi)
 	ld h, 0
 	add hl, hl
-	ld e, b
-	ld d, 0
+	ld d, h
+	ld e, l
+	add hl, hl
+	add hl, hl
 	add hl, de
 	ld de, _baddies
 	add hl, de
@@ -8129,25 +8134,17 @@
 	ld	h,0
 	jp	i_337
 .i_336
-	ld	hl,_en_an_vx
-	push	hl
+	ld	de,_en_an_vx
 	ld	hl,(_enit)
 	ld	h,0
-	add	hl,hl
-	pop	de
 	add	hl,de
 	push	hl
-	ld	hl,_en_an_vx
-	push	hl
+	ld	de,_en_an_vx
 	ld	hl,(_enit)
 	ld	h,0
-	add	hl,hl
-	pop	de
 	add	hl,de
-	ld	e,(hl)
-	inc	hl
-	ld	d,(hl)
-	push	de
+	call	l_gchar
+	push	hl
 	ld	hl,(_p_x)
 	push	hl
 	ld	hl,_en_an_x
@@ -8163,7 +8160,7 @@
 	and	a
 	sbc	hl,de
 	push	hl
-	ld	hl,16	;const
+	ld	hl,4	;const
 	push	hl
 	call	_addsign
 	pop	bc
@@ -8171,35 +8168,30 @@
 	pop	de
 	add	hl,de
 	push	hl
-	ld	hl,65280	;const
+	ld	hl,65472	;const
 	push	hl
-	ld	hl,256	;const
+	ld	hl,64	;const
 	push	hl
 	call	_limit
 	pop	bc
 	pop	bc
 	pop	bc
+	ld	a,l
+	call	l_sxt
 	pop	de
-	call	l_pint
-	ld	hl,_en_an_vy
-	push	hl
+	ld	a,l
+	ld	(de),a
+	ld	de,_en_an_vy
 	ld	hl,(_enit)
 	ld	h,0
-	add	hl,hl
-	pop	de
 	add	hl,de
 	push	hl
-	ld	hl,_en_an_vy
-	push	hl
+	ld	de,_en_an_vy
 	ld	hl,(_enit)
 	ld	h,0
-	add	hl,hl
-	pop	de
 	add	hl,de
-	ld	e,(hl)
-	inc	hl
-	ld	d,(hl)
-	push	de
+	call	l_gchar
+	push	hl
 	ld	hl,(_p_y)
 	push	hl
 	ld	hl,_en_an_y
@@ -8215,7 +8207,7 @@
 	and	a
 	sbc	hl,de
 	push	hl
-	ld	hl,16	;const
+	ld	hl,4	;const
 	push	hl
 	call	_addsign
 	pop	bc
@@ -8223,16 +8215,19 @@
 	pop	de
 	add	hl,de
 	push	hl
-	ld	hl,65280	;const
+	ld	hl,65472	;const
 	push	hl
-	ld	hl,256	;const
+	ld	hl,64	;const
 	push	hl
 	call	_limit
 	pop	bc
 	pop	bc
 	pop	bc
+	ld	a,l
+	call	l_sxt
 	pop	de
-	call	l_pint
+	ld	a,l
+	ld	(de),a
 	ld	hl,_en_an_x
 	push	hl
 	ld	hl,(_enit)
@@ -8252,14 +8247,11 @@
 	inc	hl
 	ld	d,(hl)
 	push	de
-	ld	hl,_en_an_vx
-	push	hl
+	ld	de,_en_an_vx
 	ld	hl,(_enit)
 	ld	h,0
-	add	hl,hl
-	pop	de
 	add	hl,de
-	call	l_gint	;
+	call	l_gchar
 	pop	de
 	add	hl,de
 	push	hl
@@ -8292,14 +8284,11 @@
 	inc	hl
 	ld	d,(hl)
 	push	de
-	ld	hl,_en_an_vy
-	push	hl
+	ld	de,_en_an_vy
 	ld	hl,(_enit)
 	ld	h,0
-	add	hl,hl
-	pop	de
 	add	hl,de
-	call	l_gint	;
+	call	l_gchar
 	pop	de
 	add	hl,de
 	push	hl
@@ -8787,6 +8776,10 @@
 
 
 ._advance_worm
+	call _rand
+	ld a, l
+	and 15
+	ld (_gpjt), a
 	ld bc, (_gpit)
 	ld b, 0
 	ld de, (_gpt)
@@ -8798,6 +8791,17 @@
 	add hl, bc
 	ld (hl), a
 	ld a, (_gpd)
+	ld d, a
+	or a
+	jr nz, _draw_scr_alt_tile_skip
+	ld a, (_gpjt)
+	cp 1
+	jr nz, _draw_scr_alt_tile_skip
+	ld a, 19
+	jr _draw_scr_alt_tile_done
+	._draw_scr_alt_tile_skip
+	ld a, d
+	._draw_scr_alt_tile_done
 	ld hl, _map_buff
 	add hl, bc
 	ld (hl), a
@@ -8885,16 +8889,6 @@
 	.draw_scr_background_set_t
 	ld (_gpt), a
 	ld (_gpd), a
-	or a
-	jr nz, _draw_scr_alt_tile_skip
-	call _rand
-	ld a, l
-	and 15
-	cp 1
-	jr nz, _draw_scr_alt_tile_skip
-	ld a, 19
-	ld (_gpd), a
-	._draw_scr_alt_tile_skip
 	call _advance_worm
 	ld a, (_gpit)
 	cp 150
@@ -10055,9 +10049,11 @@
 	pop	bc
 	ld	a,#(0 % 256 % 256)
 	ld	(_script_result),a
-	ld	hl,0 % 256	;const
-	ld	a,l
+	ld	a,#(0 % 256 % 256)
 	ld	(_p_killme),a
+	ld	hl,1 % 256	;const
+	ld	a,l
+	ld	(_level),a
 .i_430
 	ld	hl,(_mlplaying)
 	ld	h,0
@@ -10945,9 +10941,9 @@
 ._fzy2	defs	1
 ._gpcy	defs	1
 ._gpit	defs	1
-._en_an_vx	defs	6
+._en_an_vx	defs	3
 ._p_keys	defs	1
-._en_an_vy	defs	6
+._en_an_vy	defs	3
 ._gpjt	defs	1
 ._sc_c	defs	1
 ._main_script_offset	defs	2
@@ -11169,6 +11165,7 @@
 	LIB	sp_FreeBlock
 	XDEF	_coco_s
 	LIB	sp_PrintAtDiff
+	LIB	sp_UpdateNowEx
 	XDEF	_run_fire_script
 	XDEF	_coco_x
 	XDEF	_coco_y

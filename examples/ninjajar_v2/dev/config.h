@@ -510,7 +510,7 @@
 //#define IS_TILANIM(t) 	((t)==20)	// Condition to detect if a tile is animated										
 #define PAUSE_ABORT						// Add h=PAUSE, y=ABORT
 //#define GET_X_MORE					// Shows "get X more" when getting an object
-//#define NO_ALT_TILE 					// No alternate automatic tile 19 for tile 0.
+#define ALT_TILE 				19 		// If defined, automatic random tile # for tile 0 (was fixed to 19)
 //#define TWO_SETS						// If defined, use two 16 sets in one (just ask)
 //#define TWO_SETS_SEL (n_pant>8?32:0)	// This expresion must equal 0 for set 1 to be used, or 32 for set 2 to be used (just ask)
 //#define TWO_SETS_MAPPED					// Two sets, but which set to use is mapped after map data (1 byte per screen)

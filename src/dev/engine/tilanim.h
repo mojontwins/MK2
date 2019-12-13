@@ -22,14 +22,7 @@ void tilanims_add (void) {
 			ld  de, (_max_tilanims)
 			ld  d, 0
 
-			ld  a, (__x)
-			sla a
-			sla a
-			sla a
-			sla a
-			ld  c, a
-			ld  a, (__y)
-			add c
+			ld  a, (__n)			
 			ld  hl, _tilanims_xy
 			add hl, de
 			ld  (hl), a

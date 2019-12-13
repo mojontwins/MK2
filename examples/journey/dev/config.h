@@ -18,12 +18,13 @@
 //#define USE_ARKOS						// Just comment this to use the default WYZ player.
 //#define ARKOS_SFX_CHANNEL		1		// SFX Channel (0-2)
 //#define NO_SOUND						// Durante el desarrollo, no llama al player.
+//#define PLAY_SAMPLE_ON_DEATH 	0 		// Ninjajar!
 
 // Multi-level support
 
 #define COMPRESSED_LEVELS 				// use levels.h/levels128.h instead of mapa.h and enems.h (!)
-//#define EXTENDED_LEVELS				// Experimental!
-//#define LEVEL_SEQUENCE				// Experimental!
+//#define EXTENDED_LEVELS				// Ninjajar! style full-featured levelset
+//#define LEVEL_SEQUENCE				// Ninjajar! style level sequence array
 //#define SCRIPTED_GAME_ENDING			// Game ending is triggered from the script
 //#define SIMPLE_LEVEL_MANAGER			// Custom level manager "simple" <- UNFINISHED. DON'T USE!
 
@@ -33,7 +34,7 @@
 // In this section we define map dimensions, initial and authomatic ending conditions, etc.
 
 #define MAP_W					4		//
-#define MAP_H					7		// Map dimmensions in screens
+#define MAP_H					7		// Map dimensions in screens
 //#define ENABLE_CUSTOM_CONNECTIONS 	// Custom connections array. MAP_W/MAP_H just define how many screens
 //#define SCR_INI				1		//  Initial screen
 //#define PLAYER_INI_X			5		//
@@ -167,6 +168,7 @@
 
 #define ENABLE_PATROLLERS				// Yeah, you can now deactivate good ol' patrollers...
 //#define PATROLLERS_HIT			9 	// If defined, patrollers take THIS life, otherwise 1
+#define ENEMS_DYING_FRAMES 			12	// Show explosion for # frames
 
 //#define ENABLE_FANTIES				// If defined, add code for flying enemies.
 //#define FANTIES_SIGHT_DISTANCE	96	// If defined, used in our type 6 enemies.
@@ -196,6 +198,9 @@
 
 //#define ENABLE_DROPS					// Enemy type 9 = drops
 //#define ENABLE_ARROWS					// Enemy type 10 = arrows
+
+// Extra engine configuration
+// --------------------------
 
 //#define USE_TWO_BUTTONS 				// Alternate keyboard scheme for two-buttons games
 //#define USE_HOTSPOTS_TYPE_3 			// Alternate logic for recharges.
@@ -286,23 +291,21 @@
 #define AMMO_REFILL				5		// ammo refill, using tile 20 (hotspot #4)
 #define INITIAL_AMMO			0		// If defined, ammo = X when entering game.
 */
-/*
 
 // Breakable walls
 // ---------------
 
-#define BREAKABLE_WALLS_SIMPLE
+//#define BREAKABLE_WALLS_SIMPLE
 
-#define BREAKABLE_ANIM					// If defined, breakable tiles look "broken"
+//#define BREAKABLE_ANIM				// If defined, breakable tiles look "broken"
 #define BREAKABLE_TILE			43		// "broken tile"
 #define MAX_BREAKABLE			7		// Max tiles showing "breaking"
 #define MAX_BREAKABLE_FRAMES	4		// Frames to show "breaking"
-*/
-/*
-#define BREAKABLE_TILE_GET		12		// If defined, tile "TILE GET" may appear when breaking tile #
+
+//#define BREAKABLE_TILE_GET	12		// If defined, tile "TILE GET" may appear when breaking tile #
 #define BREAKABLE_TILE_FREQ 	3		// Breakable tile frequency (AND)
 #define BREAKABLE_TILE_FREQ_T	2		// <= this value = true.
-*/
+
 //#define PERSISTENT_BREAKABLE			// Only works with compressed levels/128K games.
 
 // Kill slowly (Ramiro)
@@ -371,7 +374,7 @@
 // Lava:
 // -----
 // Experimental & custom. Use @ your own risk. Not supported __AT ALL__
-// Only 128K/Multilevel/Enhaced levels.
+// Only 128K/Multilevel/Enhaced levels. This was custom for Ninjajar! - I wonder why it's still here
 /*
 #define ENABLE_LAVA
 #define LAVA_FLAG			30
@@ -447,15 +450,16 @@
 //#define PLAYER_KILLS_ENEMIES			// If defined, stepping on enemies kills them
 //#define PLAYER_CAN_KILL_FLAG		1	// If defined, player can only kill when flag # is "1"
 //#define PLAYER_MIN_KILLABLE	  	3 	// Only kill enemies with id >= PLAYER_MIN_KILLABLE
-/*
-#define PLAYER_HAS_SWIM 				// If defined, player is able to swim
-#define SWITCHABLE_ENGINES				// WIP! VERY, VERY, VERY WIP! See Sir Ababol DX or Ninjajar!
-*/
+
+//#define PLAYER_HAS_SWIM 				// If defined, player is able to swim
+//#define SWITCHABLE_ENGINES			// WIP! VERY, VERY, VERY WIP! See Sir Ababol DX or Ninjajar!
+
 // ============================================================================
 // III. Screen configuration
 // ============================================================================
 
 // This sections defines how stuff is rendered, where to show counters, etcetera
+// If you have a counter activated you don't have to show, define its X coord. as 99
 
 #define VIEWPORT_X				1		//
 #define VIEWPORT_Y				2		// Viewport character coordinates
@@ -470,22 +474,18 @@
 #define KEYS_Y					0		// Keys counter character coordinates
 #define KILLED_X				99		//
 #define KILLED_Y				99		// Kills counter character coordinates
-//#define PLAYER_SHOW_KILLS 			// If defined, show kill counter.
 #define AMMO_X					99		//
 #define AMMO_Y					99		// Ammo counter character coordinates
 #define TIMER_X 				99		//
 #define TIMER_Y 				99		// Timer counter coordinates
-//#define PLAYER_SHOW_TIMER 			// If defined, show timer counter
 #define FLAG_X					99		//
 #define FLAG_Y					99		// Custom flag character coordinates
 //#define PLAYER_SHOW_FLAG		1		// If defined, show flag #
 #define FUEL_X					99		//
 #define FUEL_Y					99		// Fuel counter in bla bla bla
-//#define PLAYER_SHOW_FUEL				// If defined, show fuel counter.
 
 #define KILL_SLOWLY_GAUGE_X		99		// For evil zone counters
 #define KILL_SLOWLY_GAUGE_Y		99		//
-//#define PLAYER_SHOW_KILL_SLOWLY_GAUGE	// Follow the leader.
 
 // Text
 //#define LINE_OF_TEXT			22		// If defined, scripts can show text @ Y = #
@@ -512,7 +512,7 @@
 //#define IS_TILANIM(t) 	((t)==20)	// Condition to detect if a tile is animated										
 //#define PAUSE_ABORT					// Add h=PAUSE, y=ABORT
 //#define GET_X_MORE					// Shows "get X more" when getting an object
-//#define NO_ALT_TILE 					// No alternate automatic tile 19 for tile 0.
+#define ALT_TILE 				19 		// If defined, automatic random tile # for tile 0 (was fixed to 19)
 //#define TWO_SETS						// If defined, use two 16 sets in one (just ask)
 //#define TWO_SETS_SEL (n_pant>8?32:0)	// This expresion must equal 0 for set 1 to be used, or 32 for set 2 to be used (just ask)
 // #define TWO_SETS_MAPPED					// Two sets, but which set to use is mapped after map data (1 byte per screen)
@@ -532,31 +532,31 @@
 
 // IV.1. Vertical movement. Only for side-view.
 
-#define PLAYER_FALL_VY_MAX		512 	// Max falling speed (512/64 = 8 pixels/frame)
-#define PLAYER_G				24		// Gravity acceleration (32/64 = 0.5 pixels/frame^2)
+#define PLAYER_FALL_VY_MAX		127 	// Max falling speed (512/64 = 8 pixels/frame)
+#define PLAYER_G				6		// Gravity acceleration (32/64 = 0.5 pixels/frame^2)
 
-#define PLAYER_JMP_VY_INITIAL	64		// Initial junp velocity (64/64 = 1 pixel/frame)
-#define PLAYER_JMP_VY_MAX		320 	// Max jump velocity (320/64 = 5 pixels/frame)
-#define PLAYER_JMP_VY_INCR		16		// acceleration while JUMP is pressed (48/64 = 0.75 pixels/frame^2)
+#define PLAYER_JMP_VY_INITIAL	16		// Initial junp velocity (64/64 = 1 pixel/frame)
+#define PLAYER_JMP_VY_MAX		80 		// Max jump velocity (320/64 = 5 pixels/frame)
+#define PLAYER_JMP_VY_INCR		4		// acceleration while JUMP is pressed (48/64 = 0.75 pixels/frame^2)
 
-//#define PLAYER_JETPAC_VY_INCR	32		// Vertical jetpac gauge
-//#define PLAYER_JETPAC_VY_MAX	256 	// Max vertical jetpac speed
+//#define PLAYER_JETPAC_VY_INCR	8		// Vertical jetpac gauge
+//#define PLAYER_JETPAC_VY_MAX	64	 	// Max vertical jetpac speed
 
 // IV.2. Horizontal (side view) or general (top view) movement.
 
-#define PLAYER_VX_MAX			192 	// Max velocity (192/64 = 3 pixels/frame)
-#define PLAYER_AX				24		// Acceleration (24/64 = 0,375 pixels/frame^2)
-#define PLAYER_RX				16		// Friction (32/64 = 0,5 pixels/frame^2)
+#define PLAYER_VX_MAX			48	 	// Max velocity (192/64 = 3 pixels/frame)
+#define PLAYER_AX				6		// Acceleration (24/64 = 0,375 pixels/frame^2)
+#define PLAYER_RX				4		// Friction (32/64 = 0,5 pixels/frame^2)
 
 //#define PLAYER_AX_ALT			8 		// Acceleration (alternate) when stepping on tile w/beh. 64
 //#define PLAYER_RX_ALT			8 		// Friction (alternate) when stepping on tile w/beh. 64
 
-#define PLAYER_V_BOUNCE			320		// Bouncing speed
+#define PLAYER_V_BOUNCE			100		// Bouncing speed
 
 // IV.3. Swimming
 
-//#define PLAYER_MAX_VSWIM		128
-//#define PLAYER_ASWIM			32
+//#define PLAYER_MAX_VSWIM		32
+//#define PLAYER_ASWIM			8
 
 // ============================================================================
 // V. Tile behaviour
@@ -630,21 +630,19 @@ unsigned char behs [] = {
 // Sound driver macro
 
 #ifdef MODE_128K
-#ifdef NO_SOUND
-	#define _AY_PL_SND nosound_play_sound
-	#define _AY_PL_MUS nosound_play_music
-	#define _AY_ST_ALL nosound_stop_sound
-#else
-#ifdef USE_ARKOS
-	#define _AY_PL_SND arkos_play_sound
-	#define _AY_PL_MUS arkos_play_music
-	#define _AY_ST_ALL arkos_stop_sound
-#else
-	#define _AY_PL_SND wyz_play_sound
-	#define _AY_PL_MUS wyz_play_music
-	#define _AY_ST_ALL wyz_stop_sound
-#endif
-#endif
+	#ifdef NO_SOUND
+		#define _AY_PL_SND nosound_play_sound
+		#define _AY_PL_MUS nosound_play_music
+		#define _AY_ST_ALL nosound_stop_sound
+	#elif defined USE_ARKOS
+		#define _AY_PL_SND arkos_play_sound
+		#define _AY_PL_MUS arkos_play_music
+		#define _AY_ST_ALL arkos_stop_sound
+	#else
+		#define _AY_PL_SND wyz_play_sound
+		#define _AY_PL_MUS wyz_play_music
+		#define _AY_ST_ALL wyz_stop_sound
+	#endif
 #else
 	#define _AY_PL_SND beep_fx
 #endif
@@ -700,5 +698,9 @@ unsigned char behs [] = {
 #define NEED_RAMN_OFFSETS
 #endif
 
-// END OF WARNING.
+// Enems may die
+#if defined (PLAYER_CAN_FIRE) || defined (PLAYER_KILLS_ENEMIES) || defined (ENABLE_PURSUERS) || defined (MODE_128K) || defined (PLAYER_CAN_PUNCH) || defined (CARRIABLE_BOXES_THROWABLE) || defined (PLAYER_HAZ_SWORD) || defined (PLAYER_HAZ_WHIP) || defined (PLAYER_SIMPLE_BOMBS)
+	#define ENEMS_MAY_DIE
+#endif
 
+// END OF WARNING.

@@ -31,7 +31,7 @@
 #define MIN_FAPS_PER_FRAME 		2		// Experimental. Adds an ISR even in 48K mode.
 										// Limits the max. speed to 50/N fps.
 
-// In this section we define map dimmensions, initial and authomatic ending conditions, etc.
+// In this section we define map dimensions, initial and authomatic ending conditions, etc.
 
 #define MAP_W					10		//
 #define MAP_H					2		// Map dimensions in screens
@@ -142,8 +142,8 @@
 //#define DEACTIVATE_OBJECTS			// If defined, objects are not present.
 //#define DEACTIVATE_REFILLS
 //#define ONLY_ONE_OBJECT				// If defined, only one object can be carried at a time.
-//#define OBJECT_COUNT			1		// Defines which FLAG will be used to store the object count.
-//#define OBJECTS_COLLECTABLE_IF	2 		// If defined, Objs. can be collected if FLAG # == 1
+//#define OBJECT_COUNT				1	// Defines which FLAG will be used to store the object count.
+//#define OBJECTS_COLLECTABLE_IF	2 	// If defined, Objs. can be collected if FLAG # == 1
 //#define DEACTIVATE_EVIL_TILE			// If defined, no killing tiles (behaviour 1) are detected.
 //#define FULL_BOUNCE 					// If defined, evil tile bounces equal MAX_VX, otherwise v/2
 //#define PLAYER_BOUNCES				// If defined, collisions make player bounce
@@ -156,10 +156,10 @@
 //#define EVERYTHING_IS_A_WALL			// If defined, any tile <> type 0 is a wall, otherwise just 8.
 //#define COUNT_SCR_ENEMS_ON_FLAG 1		// If defined, count # of enems on screen and store in flag #
 //#define SHOW_LEVEL_ON_SCREEN			// If defined, show level # whenever we enter a new screen
-//#define CUSTOM_HIT						// If defined, different agents take different amounts of life (needs to be refined, don't use)
+//#define CUSTOM_HIT					// If defined, different agents take different amounts of life (needs to be refined, don't use)
 //#define CUSTOM_HIT_DEFAULT		10
 #define IS_EVIL ==1 					// ==1 or &1, depending on what you need.
-// #define ONLY_VERTICAL_EVIL_TILE			// Does as it suggests.
+// #define ONLY_VERTICAL_EVIL_TILE		// Does as it suggests.
 
 // Enemy engine
 // ------------
@@ -167,7 +167,7 @@
 // General directives
 
 #define ENABLE_PATROLLERS				// Yeah, you can now deactivate good ol' patrollers...
-//#define PATROLLERS_HIT			9 		// If defined, patrollers take THIS life, otherwise 1
+//#define PATROLLERS_HIT			9 	// If defined, patrollers take THIS life, otherwise 1
 #define ENEMS_DYING_FRAMES 			12	// Show explosion for # frames
 
 #define ENABLE_FANTIES					// If defined, add code for flying enemies.
@@ -486,7 +486,6 @@
 
 #define KILL_SLOWLY_GAUGE_X		21		// For evil zone counters
 #define KILL_SLOWLY_GAUGE_Y		23		//
-#define PLAYER_SHOW_KILL_SLOWLY_GAUGE	// Follow the leader.
 
 // Text
 //#define LINE_OF_TEXT			22		// If defined, scripts can show text @ Y = #
@@ -513,7 +512,7 @@
 #define IS_TILANIM(t) 		((t)==20)	// Condition to detect if a tile is animated										
 //#define PAUSE_ABORT					// Add h=PAUSE, y=ABORT
 //#define GET_X_MORE					// Shows "get X more" when getting an object
-#define NO_ALT_TILE 					// No alternate automatic tile 19 for tile 0.
+#define ALT_TILE 				19 		// If defined, automatic random tile # for tile 0 (was fixed to 19)
 //#define TWO_SETS						// If defined, use two 16 sets in one (just ask)
 //#define TWO_SETS_SEL (n_pant>8?32:0)	// This expresion must equal 0 for set 1 to be used, or 32 for set 2 to be used (just ask)
 // #define TWO_SETS_MAPPED					// Two sets, but which set to use is mapped after map data (1 byte per screen)
@@ -545,7 +544,7 @@
 
 // IV.2. Horizontal (side view) or general (top view) movement.
 
-#define PLAYER_VX_MAX			64 	// Max velocity
+#define PLAYER_VX_MAX			64 		// Max velocity
 #define PLAYER_AX				16		// Acceleration
 #define PLAYER_RX				24		// Friction
 

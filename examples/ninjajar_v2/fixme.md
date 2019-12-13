@@ -38,5 +38,5 @@ Otherwise it reappears in bad places sometimes. Could [re]apply a simple fix. Go
 
 `p_vx` and `p_vy` are 16 bit integer. No good. Time to change to FIXBITS = 4 and use signed chars. Do this next.
 
-#### [ ] `drawscr` in `PACKED` / `UNPACKED` mode - rewrite in assembly
+#### [X] `drawscr` in `PACKED` / `UNPACKED` mode - rewrite in assembly
 

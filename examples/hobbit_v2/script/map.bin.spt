@@ -1,3 +1,0 @@
- 
-// If you use extraprints.h, trim this bit and use it!
-const unsigned char *prints [] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };

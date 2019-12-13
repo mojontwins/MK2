@@ -32,11 +32,13 @@
 			if (script_result != 3) {
 				n_pant = levels [level_ac].scr_ini;
 				#ifdef PHANTOMAS_ENGINE
-					p_x = levels [level_ac].ini_x << 4;
-					p_y = levels [level_ac].ini_y << 4;
-				#else			
-					p_x = levels [level_ac].ini_x << 10;
-					p_y = levels [level_ac].ini_y << 10;
+					gpx = p_x = levels [level_ac].ini_x << 4;
+					gpy = p_y = levels [level_ac].ini_y << 4;
+				#else	
+					gpx = levels [level_ac].ini_x << 4;
+					gpy = levels [level_ac].ini_y << 4;
+					p_x = gpx << FIXBITS;
+					p_y = gpy << FIXBITS;
 				#endif		
 				p_facing = levels [level_ac].facing;
 			}
@@ -66,11 +68,13 @@
 			#endif	
 			n_pant = level_data.scr_ini;
 			#ifdef PHANTOMAS_ENGINE
-				p_x = level_data->ini_x << 4;
-				p_y = level_data->ini_y << 4;
+				gpx = p_x = levels [level].ini_x << 4;
+				gpy = p_y = levels [level].ini_y << 4;
 			#else	
-				p_x = level_data->ini_x << 10;
-				p_y = level_data->ini_y << 10;
+				gpx = levels [level].ini_x << 4;
+				gpy = levels [level].ini_y << 4;
+				p_x = gpx << FIXBITS;
+				p_y = gpy << FIXBITS;
 			#endif	
 			
 			main_script_offset = levels [level].script_offset;
@@ -99,7 +103,14 @@
 		level_data->win_condition = levels [level].win_condition;
 
 		n_pant = levels [level].scr_ini;
-		p_x = levels [level].ini_x << (4+FIXBITS);
-		p_y = levels [level].ini_y << (4+FIXBITS);		
+		#ifdef PHANTOMAS_ENGINE
+			gpx = p_x = levels [level].ini_x << 4;
+			gpy = p_y = levels [level].ini_y << 4;
+		#else	
+			gpx = levels [level].ini_x << 4;
+			gpy = levels [level].ini_y << 4;
+			p_x = gpx << FIXBITS;
+			p_y = gpy << FIXBITS;
+		#endif	
 	}
 #endif
