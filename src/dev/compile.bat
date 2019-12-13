@@ -24,7 +24,7 @@ rem Custom: subtileset with objects
 rem ..\utils\mksubts.exe ..\gfx\items.png 0 ..\gfx\items.beh ..\bin\itemsts.bin
 
 rem but for 48K/single level games... 
-rem echo ### MAKING MAPS ###
+echo ### MAKING MAPS ###
 
 rem the "Force" parameter is to force 16 tiles maps even if the actual map data
 rem has more tan 16 tiles. Extra tiles are written to extra.spt. We have to move
@@ -33,38 +33,36 @@ rem that file to the script folder.
 rem the "TwoTS" parameter is to force 16 tiles maps for games which use two
 rem tilesets. Check on whatsnew.txt for directions.
 
-..\utils\map2bin.exe ..\map\mapa.map 10 2 99 ..\bin\map.bin ..\bin\bolts.bin force
-move ..\bin\map.bin.spt ..\script
+..\utils\map2bin.exe ..\map\mapa.map 10 2 99 ..\bin\map.bin ..\bin\bolts.bin force > nul
+move ..\bin\map.bin.spt ..\script > nul
 
 echo ### MAKING ENEMS ###
-..\utils\ene2bin.exe 10 2 1 ..\enems\enems.ene ..\bin\enems.bin ..\bin\hotspots.bin
+..\utils\ene2bin.exe 10 2 1 ..\enems\enems.ene ..\bin\enems.bin ..\bin\hotspots.bin > nul
 
 echo ### MAKING TILESET ###
-..\utils\ts2bin.exe ..\gfx\font.png ..\gfx\work.png ..\bin\ts.bin forcezero
+..\utils\ts2bin.exe ..\gfx\font.png ..\gfx\work.png ..\bin\ts.bin forcezero > nul
 
 echo ### MAKING SPRITESET ###
-..\utils\sprcnv.exe ..\gfx\sprites.png assets\sprites.h 18
-
-:skiplevels
+..\utils\sprcnv.exe ..\gfx\sprites.png assets\sprites.h 18 > nul
 
 rem If you use arrows and/or drops this will make the sprites binary:
 
 rem ..\utils\spg2bin.exe ..\gfx\drop.png spdrop.bin
-..\utils\spg2bin.exe ..\gfx\arrow.png ..\bin\sparrow.bin
+..\utils\spg2bin.exe ..\gfx\arrow.png ..\bin\sparrow.bin > nul
 
 rem ###########################################################################
 rem ## FIXED SCREENS
 rem ###########################################################################
 
 echo ### MAKING FIXED ###
-..\utils\png2scr.exe ..\gfx\title.png ..\gfx\title.scr
-..\utils\apack.exe ..\gfx\title.scr ..\bin\title.bin
-..\utils\png2scr.exe ..\gfx\ending.png ..\gfx\ending.scr
-..\utils\apack.exe ..\gfx\ending.scr ..\bin\ending.bin
-del ..\gfx\*.scr
+..\utils\png2scr.exe ..\gfx\title.png ..\gfx\title.scr > nul
+..\utils\apack.exe ..\gfx\title.scr ..\bin\title.bin > nul
+..\utils\png2scr.exe ..\gfx\ending.png ..\gfx\ending.scr > nul
+..\utils\apack.exe ..\gfx\ending.scr ..\bin\ending.bin > nul
+del ..\gfx\*.scr > nul
 
 echo ### MAKING LOADING ###
-..\utils\png2scr.exe ..\gfx\loading.png work\loading.bin
+..\utils\png2scr.exe ..\gfx\loading.png work\loading.bin > nul
 
 rem ###########################################################################
 rem ## GAME TEXT
@@ -99,7 +97,7 @@ rem i.e. "msc3_mk2_1.exe ninjajar.spt 21 rampage"
 
 echo ### MAKING SCRIPT ###
 cd ..\script
-..\utils\msc3_mk2_1.exe script.spt 20
+..\utils\msc3_mk2_1.exe script.spt 20 > nul
 
 rem If scripts and texts are going to share the same RAM page, use this line
 rem (for 128K games)
@@ -109,10 +107,10 @@ rem ..\utils\sizeof.exe ..\bin\texts.bin 49152 "#define SCRIPT_INIT" >> msc-conf
 rem Otherwise use this one:
 rem echo #define SCRIPT_INIT 49152 >> msc-config.h
 
-copy msc.h ..\dev\my
-copy msc-config.h ..\dev\my
+copy msc.h ..\dev\my > nul
+copy msc-config.h ..\dev\my > nul
 rem copy scripts.bin ..\bin\preload7.bin
-copy scripts.bin ..\bin\
+copy scripts.bin ..\bin\ > nul
 cd ..\dev
 
 rem For 128K games with text + script sharing the same page, use this to
@@ -155,25 +153,24 @@ rem ###########################################################################
 :compilestage
 
 echo ### COMPILING ###
-zcc +zx -vn -m mk2.c -o work\%game%.bin -lsplib2_mk2 -zorg=24200
-REM zcc +zx -vn %game%e.c -o work\%game%e.bin -lsplib2_mk2 -zorg=24200
+zcc +zx -vn -m mk2.c -o work\%game%.bin -lsplib2_mk2 -zorg=24200 > nul
 
 echo ### MAKING TAPS ###
-..\utils\bas2tap -a10 -sFINAL loader\loader.bas work\loader.tap
-..\utils\bin2tap -o work\loading.tap -a 16384 work\loading.bin
-..\utils\bin2tap -o work\main.tap -a 24200 work\%game%.bin
-REM ..\utils\bin2tap -o work\maine.tap -a 24200 work\%game%e.bin
-copy /b work\loader.tap + work\loading.tap + work\main.tap %game%.tap
-REM copy /b work\loader.tap + work\loading.tap + work\maine.tap %game%e.tap
+..\utils\bas2tap -a10 -sFINAL loader\loader.bas work\loader.tap  > nul
+..\utils\bin2tap -o work\loading.tap -a 16384 work\loading.bin  > nul
+..\utils\bin2tap -o work\main.tap -a 24200 work\%game%.bin  > nul
+REM ..\utils\bin2tap -o work\maine.tap -a 24200 work\%game%e.bin  > nul
+copy /b work\loader.tap + work\loading.tap + work\main.tap %game%.tap  > nul
+REM copy /b work\loader.tap + work\loading.tap + work\maine.tap %game%e.tap  > nul
 
 rem Example for 128K games:
-rem ..\utils\bas2tap -a10 -sFINAL loader\loader128.bas work\loader.tap
-rem ..\utils\bin2tap -o work\loading.tap -a 16384 work\loading.bin
-rem ..\utils\bin2tap -o work\reubica.tap -a 25000 loader\reubica.bin
-rem ..\utils\bin2tap -o work\RAM1.tap -a 25000 work\ram1.bin
-rem ..\utils\bin2tap -o work\RAM3.tap -a 25000 work\ram3.bin
-rem ..\utils\bin2tap -o work\RAM4.tap -a 25000 work\ram4.bin
-rem ..\utils\bin2tap -o work\RAM6.tap -a 25000 work\ram6.bin
-rem ..\utils\bin2tap -o work\RAM7.tap -a 25000 work\ram7.bin
-rem ..\utils\bin2tap -o work\main.tap -a 24200 work\%game%.bin
-rem copy /b work\loader.tap + work\loading.tap + work\reubica.bin + work\ram1.tap + work\ram3.tap + work\ram4.tap + work\ram6.tap + work\ram7.tap + work\main.tap %game%.tap
+rem ..\utils\bas2tap -a10 -sFINAL loader\loader128.bas work\loader.tap  > nul
+rem ..\utils\bin2tap -o work\loading.tap -a 16384 work\loading.bin  > nul
+rem ..\utils\bin2tap -o work\reubica.tap -a 25000 loader\reubica.bin  > nul
+rem ..\utils\bin2tap -o work\RAM1.tap -a 25000 work\ram1.bin  > nul
+rem ..\utils\bin2tap -o work\RAM3.tap -a 25000 work\ram3.bin  > nul
+rem ..\utils\bin2tap -o work\RAM4.tap -a 25000 work\ram4.bin  > nul
+rem ..\utils\bin2tap -o work\RAM6.tap -a 25000 work\ram6.bin  > nul
+rem ..\utils\bin2tap -o work\RAM7.tap -a 25000 work\ram7.bin  > nul
+rem ..\utils\bin2tap -o work\main.tap -a 24200 work\%game%.bin  > nul
+rem copy /b work\loader.tap + work\loading.tap + work\reubica.bin + work\ram1.tap + work\ram3.tap + work\ram4.tap + work\ram6.tap + work\ram7.tap + work\main.tap %game%.tap > nul

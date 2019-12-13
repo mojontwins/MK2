@@ -173,8 +173,8 @@
 #define FANTIES_SIGHT_DISTANCE	96		// If defined, used in our type 6 enemies.
 //#define FANTIES_KILL_ON_TOUCH			// If defined, enemy also dies when collision happens
 // #define FANTIES_NUMB_ON_FLAG	31		// If defined, flag = 0 makes them not move.
-#define FANTIES_MAX_V 			128 	// Flying enemies max speed (also for custom type 6 if you want)
-#define FANTIES_A 				16		// Flying enemies acceleration.
+#define FANTIES_MAX_V 			32	 	// Flying enemies max speed (also for custom type 6 if you want)
+#define FANTIES_A 				4		// Flying enemies acceleration.
 #define FANTIES_LIFE_GAUGE		1		// Amount of shots needed to kill flying enemies.
 #define FANTIES_HIT 			12 		// If defined, fanties take THIS life, otherwise 1
 

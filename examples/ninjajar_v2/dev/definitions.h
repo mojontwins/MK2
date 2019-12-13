@@ -143,24 +143,22 @@ unsigned char enoffs;
 unsigned char half_life = 0;
 
 // Player
-int p_x, p_y;
-#if defined (PHANTOMAS_ENGINE)
-	char p_vx, p_vy, ptgmx, ptgmy;
-#elif defined (HANNA_ENGINE)
-	char p_v;
+signed int p_x, p_y;
+#if defined (HANNA_ENGINE)
+	signed char p_v;
 #else
-	char p_vx, p_vy, ptgmx, ptgmy;
+	signed char p_vx, p_vy, ptgmx, ptgmy;
 #endif
 #if defined (PLAYER_GENITAL) && defined (PLAYER_HAS_JUMP)
-	int p_z, p_vz;
+	signed int p_z, p_vz;
 	unsigned char p_jmp_facing, gpz;
 #endif
-char p_g;
+signed char p_g;
 #if defined (PLAYER_NEW_GENITAL) && defined (ENABLE_BEH_64) 
-	char p_ax, p_rx;
+	signed char p_ax, p_rx;
 #endif
 #ifdef PLAYER_GENITAL
-	char p_thrust;
+	signed char p_thrust;
 #endif
 unsigned char p_jmp_ct;
 unsigned char *p_c_f, *p_n_f;
@@ -209,7 +207,7 @@ unsigned char ptx1, pty1, ptx2, pty2;
 // Make some player values variable. Preliminary, just the maximum jump speed...
 
 #ifdef PLAYER_VARIABLE_JUMP
-	int PLAYER_JMP_VY_MAX;
+	signed int PLAYER_JMP_VY_MAX;
 #endif
 
 // Enems on screen
@@ -229,10 +227,10 @@ unsigned char en_an_state [3];
 #endif
 
 #if defined (RANDOM_RESPAWN) || defined (ENABLE_CUSTOM_FANTIES)
-	int en_an_x [3];
-	int en_an_y [3];
-	int en_an_vx [3];
-	int en_an_vy [3];
+	signed int en_an_x [3];
+	signed int en_an_y [3];
+	signed char en_an_vx [3];
+	signed char en_an_vy [3];
 	#ifdef RANDOM_RESPAWN
 		unsigned char en_an_fanty_activo [3];
 	#endif
@@ -341,7 +339,7 @@ unsigned char maincounter;
 #endif
 
 #ifdef USE_TWO_BUTTONS
-	int key_jump, key_fire;
+	signed int key_jump, key_fire;
 #endif
 
 #if defined (ENABLE_SIM)
