@@ -412,8 +412,21 @@ unsigned char *gp_gen;
 	unsigned char isrc @ ISRC_ADDRESS;
 #endif
 
-unsigned char pad0;
+unsigned char pad0, pad_this_frame;
 
 #ifdef CUSTOM_HIT
 	unsigned char was_hit_by_type;
 #endif
+
+unsigned char action_pressed;
+
+#ifdef GET_X_MORE
+	unsigned char *getxmore = " GET X MORE ";
+#endif
+
+#ifdef COMPRESSED_LEVELS
+	unsigned char mlplaying;
+#endif
+
+unsigned char success;
+unsigned char playing;

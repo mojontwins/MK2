@@ -256,11 +256,10 @@
 //#define BULLETS_BREAK_WALLS			// If defined, bullets break breakable walls.
 //#define BULLETS_DONT_COLLIDE_PLATFORMS	// Bullets and platforms don't collide
 
-/*
-#define LIMITED_BULLETS 				// If defined, bullets die after N frames
-#define LB_FRAMES				4		// If defined, defines the # of frames bullets live (fixed)
-#define LB_FRAMES_FLAG			2		// If defined, defines which flag determines the # of frames
-*/
+//#define LIMITED_BULLETS 				// If defined, bullets die after N frames
+//#define LB_FRAMES					4	// If defined, defines the # of frames bullets live (fixed)
+//#define LB_FRAMES_FLAG			2	// If defined, defines which flag determines the # of frames
+
 
 // Hitter. Define only *ONE* of these. More to come.
 // -------------------------------------------------
@@ -269,29 +268,26 @@
 //#define PLAYER_HAZ_SWORD				// Player haz sword. (Espadewr (side))
 //#define PLAYER_HAZ_WHIP				// Player haz whip. (Nicanor (side) / Key to time (top-down))
 
-//#define PLAYER_HITTER_INV		46		// If defined, player can use hitter only if item # is selected!
-#define PLAYER_HITTER_STRENGTH	1		// Hitter strength. 0 = just makes monsters turn around.
+//#define PLAYER_HITTER_INV			46	// If defined, player can use hitter only if item # is selected!
+#define PLAYER_HITTER_STRENGTH		1	// Hitter strength. 0 = just makes monsters turn around.
 #define HITTER_BREAKS_WALLS				// If defined, hitter breaks breakable walls.
 
-/*
-#define PLAYER_SIMPLE_BOMBS				// If defined, bombs-s.h module is enabled (Nicanor)
-#define PLAYER_BOMBS_STRENGTH	1		// Amount of life bombs take from baddies.
-#define BOMBS_EXPLOSION_TILE	42		// Tile # for explosion.
-#define BOMBS_BREAK_WALLS				// If defined, bombs break breakable walls.
-#define PLAYER_BOMBS_TILE		44		// ... You know the drill...
-//#define PLAYER_BOMBS_INV		44		// If defined, player can use bombs only if item # is selected!
+//#define PLAYER_SIMPLE_BOMBS			// If defined, bombs-s.h module is enabled (Nicanor)
+//#define PLAYER_BOMBS_STRENGTH		1	// Amount of life bombs take from baddies.
+//#define BOMBS_EXPLOSION_TILE		42	// Tile # for explosion.
+//#define BOMBS_BREAK_WALLS				// If defined, bombs break breakable walls.
+//#define PLAYER_BOMBS_TILE			44	// ... You know the drill...
+//#define PLAYER_BOMBS_INV			44	// If defined, player can use bombs only if item # is selected!
 										// NOTE! As of 0.89, this is the only option implemented! 
-*/
 
 #define ENEMS_LIFE_GAUGE	1			// Amount of shots/hits needed to kill enemies.
 #define RESPAWN_ON_ENTER				// Enemies respawn when entering screen
 //#define RESPAWN_ON_REENTER			// Respawn even on a REENTER in the script (by default REENTER doesn't respawn enemies!)
-//#define FIRE_MIN_KILLABLE 	3		// If defined, only enemies >= N can be killed.
-/*
-#define MAX_AMMO				5		// If defined, ammo is not infinite!
-#define AMMO_REFILL				5		// ammo refill, using tile 20 (hotspot #4)
-#define INITIAL_AMMO			0		// If defined, ammo = X when entering game.
-*/
+//#define FIRE_MIN_KILLABLE 		3	// If defined, only enemies >= N can be killed.
+
+//#define MAX_AMMO					5	// If defined, ammo is not infinite!
+//#define AMMO_REFILL				5	// ammo refill, using tile 20 (hotspot #4)
+//#define INITIAL_AMMO				0	// If defined, ammo = X when entering game.
 
 // Breakable walls
 // ---------------
@@ -299,13 +295,13 @@
 #define BREAKABLE_WALLS_SIMPLE
 
 #define BREAKABLE_ANIM					// If defined, breakable tiles look "broken"
-#define BREAKABLE_TILE			31		// "broken tile"
-#define MAX_BREAKABLE			3		// Max tiles showing "breaking"
-#define MAX_BREAKABLE_FRAMES	4		// Frames to show "breaking"
+#define BREAKABLE_TILE				31	// "broken tile"
+#define MAX_BREAKABLE				3	// Max tiles showing "breaking"
+#define MAX_BREAKABLE_FRAMES		4	// Frames to show "breaking"
 
-#define BREAKABLE_TILE_GET		12		// If defined, tile "TILE GET" may appear when breaking tile #
-#define BREAKABLE_TILE_FREQ 	3		// Breakable tile frequency (AND)
-#define BREAKABLE_TILE_FREQ_T	2		// <= this value = true.
+#define BREAKABLE_TILE_GET			12	// If defined, tile "TILE GET" may appear when breaking tile #
+#define BREAKABLE_TILE_FREQ 		3	// Breakable tile frequency (AND)
+#define BREAKABLE_TILE_FREQ_T		2	// <= this value = true.
 
 #define PERSISTENT_BREAKABLE			// Only works with compressed levels/128K games.
 
@@ -313,22 +309,22 @@
 // --------------------
 
 //#define ENABLE_KILL_SLOWLY			// Beh 3 kills slowly
-// #define KILL_SLOWLY_ON_FLAG		30 		// If defined, flag controls behaviour. If 0,beh 1.
-// #define KILL_SLOWLY_GAUGE		32 		// # of ticks before kill
-// #define KILL_SLOWLY_FRAMES		8 		// # of frames per tick
+//#define KILL_SLOWLY_ON_FLAG		30 	// If defined, flag controls behaviour. If 0,beh 1.
+//#define KILL_SLOWLY_GAUGE			32 	// # of ticks before kill
+//#define KILL_SLOWLY_FRAMES		8 	// # of frames per tick
 
 // Scripting
 // ---------
 
-#define ACTIVATE_SCRIPTING			// Activates msc3 scripting and flag related stuff.
-#define SCRIPT_PAGE		7			// Which RAM page holds the script (128)
-//#define CLEAR_FLAGS				// If defined, clear flags each level/beginning.
-#define SCRIPTING_DOWN				// Use DOWN as the action key.
-//#define SCRIPTING_KEY_M			// Use M as the action key instead.
-//#define SCRIPTING_KEY_FIRE		// User FIRE as the action key instead.
-#define ENABLE_EXTERN_CODE			// Enables custom code to be run from the script using EXTERN n
-//#define EXTERN_E					// Uncomment this as well if you use EXTERN_E in your script
-#define ENABLE_FIRE_ZONE			// Allows to define a zone which auto-triggers "FIRE"
+#define ACTIVATE_SCRIPTING				// Activates msc3 scripting and flag related stuff.
+#define SCRIPT_PAGE					7	// Which RAM page holds the script (128)
+//#define CLEAR_FLAGS					// If defined, clear flags each level/beginning.
+#define SCRIPTING_DOWN					// Use DOWN as the action key.
+//#define SCRIPTING_KEY_M				// Use M as the action key instead.
+//#define SCRIPTING_KEY_FIRE			// User FIRE as the action key instead.
+#define ENABLE_EXTERN_CODE				// Enables custom code to be run from the script using EXTERN n
+//#define EXTERN_E						// Uncomment this as well if you use EXTERN_E in your script
+#define ENABLE_FIRE_ZONE				// Allows to define a zone which auto-triggers "FIRE"
 
 // Simple Item Manager
 // -------------------
@@ -336,38 +332,35 @@
 //#define ENABLE_SIM
 
 // General
-//#define SIM_MAXCONTAINERS 	6
+//#define SIM_MAXCONTAINERS 		6
 //#define SIM_DOWN
 //#define SIM_KEY_M
 //#define SIM_KEY_FIRE
 
 // Display:
-/*
-#define SIM_DISPLAY_HORIZONTAL
-#define SIM_DISPLAY_MAXITEMS	2
-#define SIM_DISPLAY_X			24
-#define SIM_DISPLAY_Y			21
-#define SIM_DISPLAY_ITEM_EMPTY	31
-#define SIM_DISPLAY_ITEM_STEP	3
-#define SIM_DISPLAY_SEL_C		66
-#define SIM_DISPLAY_SEL_CHAR1	62
-#define SIM_DISPLAY_SEL_CHAR2	63
-*/
+//#define SIM_DISPLAY_HORIZONTAL
+//#define SIM_DISPLAY_MAXITEMS		2
+//#define SIM_DISPLAY_X				24
+//#define SIM_DISPLAY_Y				21
+//#define SIM_DISPLAY_ITEM_EMPTY	31
+//#define SIM_DISPLAY_ITEM_STEP		3
+//#define SIM_DISPLAY_SEL_C			66
+//#define SIM_DISPLAY_SEL_CHAR1		62
+//#define SIM_DISPLAY_SEL_CHAR2		63
 
 // Timer
 // -----
-/*
-#define TIMER_ENABLE					// Enable timer
-#define TIMER_INITIAL		99			// For unscripted games, initial value.
-#define TIMER_REFILL		30			// Timer refill, using tile 21 (hotspot #5)
-#define TIMER_LAPSE 		32			// # of frames between decrements
+//#define TIMER_ENABLE					// Enable timer
+//#define TIMER_INITIAL				99	// For unscripted games, initial value.
+//#define TIMER_REFILL				30	// Timer refill, using tile 21 (hotspot #5)
+//#define TIMER_LAPSE 				32	// # of frames between decrements
 //#define TIMER_START 					// If defined, start timer from the beginning
-#define TIMER_SCRIPT_0					// If defined, timer = 0 runs "ON_TIMER_OFF" in the script
+//#define TIMER_SCRIPT_0				// If defined, timer = 0 runs "ON_TIMER_OFF" in the script
 //#define TIMER_GAMEOVER_0				// If defined, timer = 0 causes "game over"
 //#define TIMER_KILL_0					// If defined, timer = 0 causes "one life less".
 //#define TIMER_WARP_TO 0				// If defined, warp to screen X after "one life less".
-//#define TIMER_WARP_TO_X	1			//
-//#define TIMER_WARP_TO_Y	1			// "warp to" coordinates.
+//#define TIMER_WARP_TO_X			1	//
+//#define TIMER_WARP_TO_Y			1	// "warp to" coordinates.
 //#define TIMER_AUTO_RESET				// If defined, timer resets after "one life less"
 //#define SHOW_TIMER_OVER				// If defined, "TIME OVER" shows when time is up.
 */
@@ -378,11 +371,11 @@
 // Only 128K/Multilevel/Enhaced levels. This was custom for Ninjajar! - I wonder why it's still here
 
 #define ENABLE_LAVA
-#define LAVA_FLAG			30
-#define LAVA_PERIOD 		7
-#define LAVA_X1 			2
-#define LAVA_X2 			28			// LAVA_X1 <= x < LAVA_X2
-#define LAVA_T				18
+#define LAVA_FLAG					30
+#define LAVA_PERIOD 				7
+#define LAVA_X1 					2
+#define LAVA_X2 					28	// LAVA_X1 <= x < LAVA_X2
+#define LAVA_T						18
 
 // Floating objects:
 // -----------------

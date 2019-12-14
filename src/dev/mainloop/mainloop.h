@@ -7,19 +7,6 @@
 
 #include "mainloop/hide_sprites.h"
 
-unsigned char action_pressed;
-
-#ifdef GET_X_MORE
-	unsigned char *getxmore = " GET X MORE ";
-#endif
-
-#ifdef COMPRESSED_LEVELS
-	unsigned char mlplaying;
-#endif
-
-unsigned char success;
-unsigned char playing;
-
 // Main loop
 
 void main (void) {
@@ -74,7 +61,7 @@ void main (void) {
 		// *******************
 
 		#include "mainloop/game_init.h"
-	
+level=1;	
 		#ifdef COMPRESSED_LEVELS
 			while (mlplaying) {
 				prepare_level ();
@@ -98,7 +85,7 @@ void main (void) {
 
 		while (playing) {
 			// Read controllers
-			pad0 = (joyfunc) (&keys);
+			read_controller ();
 
 			// Timer stuff
 			#include "mainloop/timer.h"
@@ -207,7 +194,9 @@ void main (void) {
 			#endif
 
 			// Scripting related stuff
-			#include "mainloop/scripting.h"
+			#ifdef ACTIVATE_SCRIPTING
+				do_ingame_scripting ();
+			#endif
 
 			// Interact w/floating objects
 			#ifdef ENABLE_FLOATING_OBJECTS

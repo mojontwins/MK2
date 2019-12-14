@@ -276,14 +276,6 @@ extern unsigned char behs [0];
 #else
 	LEVEL levels [] = {
 		{LEVEL0C_BIN, 0, SCRIPT_INIT + LEVEL_0},
-		{0, 0, 0},
-		{0, 0, 0},
-		{0, 0, 0},
-		{0, 0, 0},
-		{LEVEL5C_BIN, 4, SCRIPT_INIT + LEVEL_5},
-		{LEVEL6C_BIN, 5, SCRIPT_INIT + LEVEL_6},
-		{0, 0, 0},
-		{0, 0, 0},
-		{LEVELTC_BIN, 5, SCRIPT_INIT + LEVEL_TARDIS}
+	// etc
 	};
 #endif

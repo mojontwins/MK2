@@ -266,6 +266,6 @@ unsigned char AD_FREE [NUMBLOCKS * 15];
 #include "mainloop/mainloop.h"
 
 #ifndef MODE_128K
-// From beepola. Phaser engine by Shiru.
-#include "sound/music.h"
+	// From beepola. Phaser engine by Shiru.
+	#include "sound/music.h"
 #endif
