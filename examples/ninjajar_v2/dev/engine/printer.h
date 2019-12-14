@@ -776,10 +776,6 @@ void print_message (void) {
 	sp_WaitForNoKey ();
 }
 
-unsigned char button_pressed (void) {
-	return (sp_GetKey () || ((((joyfunc) (&keys)) & sp_FIRE) == 0));
-}
-
 #if defined (ENABLE_HOLES)
 	void main_spr_frame (unsigned char x, unsigned char y) {
 		gpx = x; gpy = y;

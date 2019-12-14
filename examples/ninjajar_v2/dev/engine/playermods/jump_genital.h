@@ -1,7 +1,7 @@
 #ifdef PLAYER_HAS_JUMP	
 	// Very preliminary version!
 
-	if (BUTTON_JUMP && p_jmp_on == 0 && (possee || p_gotten)) {
+	if (BUTTON_JUMP_START && p_jmp_on == 0 && (possee || p_gotten)) {
 		p_jmp_on = 1;
 		p_jmp_ct = 0;
 		p_jmp_facing = p_facing;

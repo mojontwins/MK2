@@ -2,20 +2,23 @@
 // Copyleft 2016 the Mojon Twins
 
 // playermove.h
-// Player movement v5.0 : half-box/point collision
+// Player movement v5.1 : half-box/point collision
 // Copyleft 2013 by The Mojon Twins
 
 // Predefine button detection
 #ifdef USE_TWO_BUTTONS
-	#define BUTTON_FIRE	((pad0 & sp_FIRE) == 0 || sp_KeyPressed (key_fire))
-	#define BUTTON_JUMP	(sp_KeyPressed (key_jump))
+	#define BUTTON_FIRE			((pad0 & sp_FIRE) == 0 || sp_KeyPressed (key_fire))
+	#define BUTTON_JUMP 		(sp_KeyPressed (key_jump))
+	#define BUTTON_JUMP_START	(sp_KeyPressed (key_jump))
 #else
 	#if defined (PLAYER_CAN_FIRE) || defined (PLAYER_CAN_PUNCH) || defined (PLAYER_HAZ_SWORD) || defined (CARRIABLE_BOXES_THROWABLE)
-		#define BUTTON_FIRE	((pad0 & sp_FIRE) == 0)
-		#define BUTTON_JUMP	((pad0 & sp_UP) == 0)
+		#define BUTTON_FIRE			((pad0 & sp_FIRE) == 0)
+		#define BUTTON_JUMP			((pad0 & sp_UP) == 0)
+		#define BUTTON_JUMP_START	((pad_this_frame & sp_UP) == 0)
 	#else
-		#define BUTTON_FIRE	(0)
-		#define BUTTON_JUMP	((pad0 & sp_FIRE) == 0)
+		#define BUTTON_FIRE			(0)
+		#define BUTTON_JUMP			((pad0 & sp_FIRE) == 0)
+		#define BUTTON_JUMP_START	((pad_this_frame & sp_FIRE) == 0)
 	#endif
 #endif
 

@@ -41,18 +41,17 @@ void enems_init (void) {
 		flags [COUNT_SCR_ENEMS_ON_FLAG]	= 0;
 	#endif
 
+	#ifndef RESPAWN_ON_REENTER
+		if (do_respawn)
+	#endif
 	for (gpit = 0; gpit < 3; gpit ++) {
 		//en_an_frame [gpit] = 0;
 		en_an_count [gpit] = 3;
 		en_an_state [gpit] = 0;
 		enoffsmasi = enoffs + gpit;
-		_en_t = baddies [enoffsmasi].t;
-
+		
 		#ifdef RESPAWN_ON_ENTER
 			// Back to life!
-			#ifndef RESPAWN_ON_REENTER
-				if (do_respawn)
-			#endif
 			{		
 				baddies [enoffsmasi].t &= 0x7f;
 				en_an_state [gpit] = 0;
@@ -71,6 +70,7 @@ void enems_init (void) {
 		// - Init coordinates for flying people
 		// Remember XTTTTDNN, TTTT = type, D = fires balls, NN = sprite number
 
+		_en_t = baddies [enoffsmasi].t;
 		gpt = _en_t >> 3;
 		if (gpt && gpt < 16) {
 			en_an_base_frame [gpit] = (_en_t & 3) << 1;
@@ -86,6 +86,7 @@ void enems_init (void) {
 						baddies [enoffsmasi].x = baddies [enoffsmasi].x1;
 						en_an_y [gpit] = baddies [enoffsmasi].y1 << FIXBITS;
 						baddies [enoffsmasi].y = baddies [enoffsmasi].y1;
+						
 						en_an_vx [gpit] = en_an_vy [gpit] = 0;
 						#ifdef FANTIES_SIGHT_DISTANCE					
 							en_an_state [gpit] = FANTIES_IDLE;
@@ -516,11 +517,71 @@ void enems_move (void) {
 						#include "engine/enemmods/platforms.h"
 					#endif
 				#endif 	// ends with  } else
-				if ((tocado == 0) && collide (gpx, gpy, _en_x, _en_y) && p_state == EST_NORMAL) {
+				//if ((tocado == 0) && collide (gpx, gpy, _en_x, _en_y) && p_state == EST_NORMAL) 
+				#asm
+					ld  a, (_tocado)
+					or  a
+					jr  nz, _enems_collision_skip
+
+					ld  a, (_p_state)
+					or  a
+					jr  nz, _enems_collision_skip
+
+					// (gpx + 8 >= _en_x && gpx <= _en_x + 8 && gpy + 8 >= _en_y && gpy <= _en_y + 8)
+
+					// gpx + 8 >= _en_x
+					ld  a, (__en_x)
+					ld  c, a
+					ld  a, (_gpx)
+					#ifdef SMALL_COLLISION
+						add 8
+					#else
+						add 12
+					#endif
+					cp  c
+					jr  c, _enems_collision_skip
+
+					// gpx <= _en_x + 8; _en_x + 8 >= gpx
+					ld  a, (_gpx)
+					ld  c, a
+					ld  a, (__en_x)
+					#ifdef SMALL_COLLISION
+						add 8
+					#else
+						add 12
+					#endif
+					cp  c
+					jr  c, _enems_collision_skip
+
+					// gpy + 8 >= _en_y
+					ld  a, (__en_y)
+					ld  c, a
+					ld  a, (_gpy)
+					#ifdef SMALL_COLLISION
+						add 8
+					#else
+						add 12
+					#endif
+					cp  c
+					jr  c, _enems_collision_skip
+
+					// gpy <= _en_y + 8; _en_y + 8 >= gpy
+					ld  a, (_gpy)
+					ld  c, a
+					ld  a, (__en_y)
+					#ifdef SMALL_COLLISION
+						add 8
+					#else
+						add 12
+					#endif
+					cp  c
+					jr  c, _enems_collision_skip			
+				#endasm
+				{
 					#ifdef PLAYER_KILLS_ENEMIES
 						#include "engine/enemmods/step_on.h"
 					#endif
-					if (p_life > 0) {
+					if (p_life) {
 						tocado = 1;
 					}
 

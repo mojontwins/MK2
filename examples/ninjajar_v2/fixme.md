@@ -28,7 +28,7 @@ Needed to define `PERSISTENT_BREAKABLE`
 
 #### [X] Safe spot should be pixel perfect!
 
-Otherwise it reappears in bad places sometimes. Could [re]apply a simple fix. Gotta think about it.
+Otherwise it reappears in bad places sometimes. Could [re]apply a simple fix. Gotta think about it. Did it but did it better
 
 #### [X] TILE_GET is bugged, infinite get!
 
@@ -52,9 +52,17 @@ I mean, Ninjajar's should not animate but face left / right. Added `FANTIES_WITH
 
 I had broken respawning code for all enemies, but still...
 
-#### [ ] Fanties don't reposition!
+#### [X] Fanties don't reposition!
 
 When reentering they don't seem to be in their original position (if they were killed ?).
 
-#### [ ] You can leave "jump" pressed
+#### [X] You can leave "jump" pressed
+
+Implement "pad_this_frame" as in MK3
+
+#### [X] Fanties (enemies?) are repositioned after showing text in the cave and other places.
+
+Study why this happens and how to fix it. I think it has to do with "REENTER".
+
+
 

@@ -43,7 +43,7 @@
 #define SAFE_MEMORY_POOL 	23302
 
 // Free space in the splib2 area we can use
-#define FREEPOOL 61697
+#define FREEPOOL 			61697
 
 // Define where to store and how many sprite descriptors are needed.
 // This game = 4*10 = 40 blocks
@@ -142,23 +142,127 @@ unsigned char AD_FREE [NUMBLOCKS * 15];
 
 #include "engine/printer.h"
 
+#include "engine/general.h"
+
 #ifdef ACTIVATE_SCRIPTING
 	#ifdef ENABLE_EXTERN_CODE
-	#ifdef EXTERN_E
-		#include "my/extern_e.h"
-	#else
-		#include "my/extern.h"
-	#endif
+		#ifdef EXTERN_E
+			#include "my/extern_e.h"
+		#else
+			#include "my/extern.h"
+		#endif
 	#endif
 	#include "my/msc.h"
 #endif
 
-#include "engine/engine.h"
+#ifdef ACTIVATE_SCRIPTING
+	#include "engine/scripting.h"
+#endif
+
+// Animation frames
+#include "engine/frames.h"
+
+// Prepare level (compressed levels)
+#if defined (SIMPLE_LEVEL_MANAGER)
+	#include "engine/clevels-s.h"
+#elif defined (COMPRESSED_LEVELS)
+	#include "engine/clevels.h"
+#endif
+
+// Collision
+#include "engine/collision.h"
+
+// Random
+#include "engine/random.h"
+
+// Messages
+#include "engine/messages.h"
+
+
+// Floating objects
+#if defined (ENABLE_FLOATING_OBJECTS) || defined (ENABLE_SIM)
+	#ifdef PLAYER_GENITAL
+		#include "engine/fo_genital.h"
+	#else
+		#include "engine/fo_sideview.h"
+	#endif
+	#ifdef ENABLE_SIM
+		#include "engine/sim.h"
+	#endif
+#endif
+
+// Animated tiles
+#ifdef ENABLE_TILANIMS
+	#include "engine/tilanim.h"
+#endif
+
+// Breakable tiles helper functions
+#ifdef BREAKABLE_WALLS
+	#include "engine/breakable.h"
+#endif
+
+#ifdef BREAKABLE_WALLS_SIMPLE
+	#include "engine/breakable-s.h"
+#endif
+
+// Initialization functions
+#include "engine/inits.h"
+
+// Hitter (punch/sword) helper functions
+#if defined (PLAYER_CAN_PUNCH) || defined (PLAYER_HAZ_SWORD) || defined (PLAYER_HAZ_WHIP)
+	#include "engine/hitter.h"
+#endif
+
+// Bullets helper functions
+#ifdef PLAYER_CAN_FIRE
+	#include "engine/bullets.h"
+#endif
+
+// Simple bomb helper functions
+#ifdef PLAYER_SIMPLE_BOMBS
+	#include "engine/bombs-s.h"
+#endif
+
+// Block processing
+#include "engine/blocks.h"
+
+// Main player movement
+#if defined (PHANTOMAS_ENGINE)
+	#include "engine/phantomas.h"
+#else
+	#include "engine/player.h"
+#endif
+
+// Extra prints (screen drawing helpers)
+#ifdef ENABLE_EXTRA_PRINTS
+	#include "engine/extraprints.h"
+#endif
+
+// Level names (screen drawing helpers)
+#ifdef ENABLE_LEVEL_NAMES
+	#include "engine/levelnames.h"
+#endif
+
+// Enemies
+#include "engine/enems.h"
+
+// Screen drawing
+#include "engine/drawscr.h"
+
+// Hud
+#include "engine/hud.h"
+
+// Experimental
+#ifdef ENABLE_LAVA
+	#include "engine/lava.h"
+#endif
+
 #ifndef PLAYER_CANNOT_FLICK_SCREEN
 	#include "engine/flickscreen.h"
 #elif defined (PLAYER_WRAP_AROUND)
 	#include "engine/wraparound.h"	
 #endif
+
 #include "mainloop/mainloop.h"
 
 #ifndef MODE_128K
