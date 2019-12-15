@@ -53,7 +53,7 @@
 ;     multiple of $1000; actual memory occupied is SProtatetbl+$200
 ;     to SProtatetbl+$fff
 ;
-    DEFC USEPLANES   = 1
+    DEFC USEPLANES   = 0
 ;     If set, use sprite planes.
 ;
 ;

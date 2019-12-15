@@ -64,5 +64,7 @@ Implement "pad_this_frame" as in MK3
 
 Study why this happens and how to fix it. I think it has to do with "REENTER".
 
+#### [X] Killing tiles not working
 
+I just changed the collision detection, so I must've messed it somehow.
 
