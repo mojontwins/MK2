@@ -387,7 +387,6 @@ unsigned char enit;
 	unsigned char nocast, _ta;
 	unsigned char xx, yy;
 #endif
-
 #ifdef USE_AUTO_TILE_SHADOWS
 	unsigned a1, a2, a3;
 	unsigned char *gen_pt_alt;
@@ -413,7 +412,21 @@ unsigned char *gp_gen;
 	unsigned char isrc @ ISRC_ADDRESS;
 #endif
 
-unsigned char pad0;
+unsigned char pad0, pad_this_frame;
+
 #ifdef CUSTOM_HIT
 	unsigned char was_hit_by_type;
 #endif
+
+unsigned char action_pressed;
+
+#ifdef GET_X_MORE
+	unsigned char *getxmore = " GET X MORE ";
+#endif
+
+#ifdef COMPRESSED_LEVELS
+	unsigned char mlplaying;
+#endif
+
+unsigned char success;
+unsigned char playing;

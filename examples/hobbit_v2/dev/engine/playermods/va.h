@@ -44,7 +44,7 @@ gpy = p_y >> FIXBITS;
 	// "New genital" top-down games need slightly different vertical collision
 	#include "engine/playermods/va_collision_25d.h"
 #else
-	#include "engine/playermods/va_collision.h"
+	#include "engine/playermods/va_collision_asm.h"
 #endif
 
 // Possee - player is on solid floor.

@@ -2,23 +2,30 @@
 
 if (hitter_on && killable && hitter_hit == 0) {
 	#if defined (PLAYER_CAN_PUNCH)
+		cx1 = hitter_x + (p_facing ? 6 : 1); cy1 = hitter_y + 3;
+		cx2 = _en_x; cy2 = _en_y;
 		if (
 			hitter_frame <= 3 && 
-			collide_pixel (hitter_x + (p_facing ? 6 : 1), hitter_y + 3, _en_x, _en_y)
+			collide_pixel ()
 		) 
 	#elif defined (PLAYER_HAZ_SWORD)
+		if (p_up) {
+			cx1 = hitter_x + 4; cy1 = hitter_y;
+		} else {
+			cx1 = hitter_x + (p_facing ? 6 : 1); cy1 = hitter_y + 3;
+		}
+		cx2 = _en_x; cy2 = _en_y;
 		if (
 			hitter_frame > 2 && 
 			hitter_frame < 7 &&
-			(
-				(p_up == 0 && collide_pixel (hitter_x + (p_facing ? 6 : 1), hitter_y + 3, _en_x, _en_y)) ||
-				(p_up && collide_pixel (hitter_x + 4, hitter_y, _en_x, _en_y))
-			)
+			collide_pixel ()
 		) 
 	#elif defined (PLAYER_HAZ_WHIP)
+		cx1 = hitter_x + (p_facing ? 14 : 1); cy1 = hitter_y + 3;
+		cx2 = _en_x; cy2 = _en_y;
 		if (
 			hitter_frame < 5 &&
-			collide_pixel (hitter_x + (p_facing ? 14 : 1), hitter_y + 3, _en_x, _en_y)
+			collide_pixel ()
 		) 
 	#endif
 	{

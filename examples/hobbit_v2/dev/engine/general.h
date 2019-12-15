@@ -8,24 +8,20 @@
 #define PLAYER_MIN_KILLABLE 0
 #endif
 
-// Animation frames
-#include "engine/frames.h"
+void read_controller (void) {
+	// Thanks for this, Nicole & nesdev!
+	// https://forums.nesdev.com/viewtopic.php?p=179315#p179315
+	// This version is the same but with negative logic
+	// as splib2's functions are active low
+	pad_this_frame = pad0;
+	pad0 = ((joyfunc) (&keys));			// Read pads here.
+	pad_this_frame = ((~(pad_this_frame ^ pad0)) | pad0) | 0x70;
+}
 
-// Prepare level (compressed levels)
-#if defined (SIMPLE_LEVEL_MANAGER)
-#include "engine/clevels-s.h"
-#elif defined (COMPRESSED_LEVELS)
-#include "engine/clevels.h"
-#endif
-
-// Collision
-#include "engine/collision.h"
-
-// Random
-#include "engine/random.h"
-
-// Messages
-#include "engine/messages.h"
+unsigned char button_pressed (void) {
+	//return (sp_GetKey () || ((((joyfunc) (&keys)) & sp_FIRE) == 0));
+	read_controller (); return (pad_this_frame != 0xff);
+}
 
 #ifdef PLAYER_STEP_SOUND
 void step (void) {
@@ -105,126 +101,6 @@ unsigned int abs (int n) {
 		return (unsigned int) n;
 }
 
-// Floating objects
-#if defined (ENABLE_FLOATING_OBJECTS) || defined (ENABLE_SIM)
-#ifdef PLAYER_GENITAL
-#include "engine/fo_genital.h"
-#else
-#include "engine/fo_sideview.h"
-#endif
-#ifdef ENABLE_SIM
-#include "engine/sim.h"
-#endif
-#endif
-
-// Animated tiles
-#ifdef ENABLE_TILANIMS
-#include "engine/tilanim.h"
-#endif
-
-// Breakable tiles helper functions
-#ifdef BREAKABLE_WALLS
-#include "engine/breakable.h"
-#endif
-
-#ifdef BREAKABLE_WALLS_SIMPLE
-#include "engine/breakable-s.h"
-#endif
-
-// Initialization functions
-#include "engine/inits.h"
-
-// Hitter (punch/sword) helper functions
-#if defined (PLAYER_CAN_PUNCH) || defined (PLAYER_HAZ_SWORD) || defined (PLAYER_HAZ_WHIP)
-#include "engine/hitter.h"
-#endif
-
-// Bullets helper functions
-#ifdef PLAYER_CAN_FIRE
-#include "engine/bullets.h"
-#endif
-
-// Simple bomb helper functions
-#ifdef PLAYER_SIMPLE_BOMBS
-#include "engine/bombs-s.h"
-#endif
-
-// Block processing
-#include "engine/blocks.h"
-
-// Main player movement
-#if defined (PHANTOMAS_ENGINE)
-#include "engine/phantomas.h"
-#else
-#include "engine/player.h"
-#endif
-
-#ifdef ACTIVATE_SCRIPTING
-	void run_entering_script (void) {
-		#ifdef EXTENDED_LEVELS
-			if (level_data->activate_scripting) 
-		#endif
-		{
-			#ifdef LINE_OF_TEXT
-				#ifdef LINE_OF_TEXT_SUBSTR
-					#asm
-							ld  a, 32 - LINE_OF_TEXT_SUBSTR
-							ld  (_gpit), a
-							ld  a, LINE_OF_TEXT_X
-							ld  (__x), a
-						._line_of_text_loop
-							ld  hl, _gpit
-							dec (hl)
-
-							; enter:  A = row position (0..23)
-							;         C = col position (0..31/63)
-							;         D = pallette #
-							;         E = graphic #
-
-							ld hl, __x
-							ld  a, (hl)
-							ld  c, a
-							inc (hl)
-
-							ld  a, LINE_OF_TEXT
-
-							ld  d, LINE_OF_TEXT_ATTR
-							ld  e, 0
-
-							call SPPrintAtInv
-
-							ld  a, (_gpit)
-							or  a
-							jr  z, _line_of_text_loop
-					#endasm
-				#else
-					_x = LINE_OF_TEXT_X; _y = LINE_OF_TEXT; _t = LINE_OF_TEXT_ATTR; gp_gen = "                              ";
-					print_str ();
-				#endif
-			#endif
-			// Ejecutamos los scripts de entrar en pantalla:
-			run_script (2 * MAP_W * MAP_H + 1);
-			run_script (n_pant + n_pant);
-		}
-	}
-#endif
-
-// Extra prints (screen drawing helpers)
-#ifdef ENABLE_EXTRA_PRINTS
-	#include "engine/extraprints.h"
-#endif
-
-// Level names (screen drawing helpers)
-#ifdef ENABLE_LEVEL_NAMES
-	#include "engine/levelnames.h"
-#endif
-
-// Enemies
-#include "engine/enems.h"
-
-// Screen drawing
-#include "engine/drawscr.h"
-
 void active_sleep (int espera) {
 	do {
 		#ifndef MODE_128K
@@ -242,13 +118,6 @@ void active_sleep (int espera) {
 	} while (--espera);
 	sp_Border (0);
 }
-
-#ifdef ACTIVATE_SCRIPTING
-	void run_fire_script (void) {
-		run_script (2 * MAP_W * MAP_H + 2);	// Press fire at any
-		run_script (n_pant + n_pant + 1);	// Press fire at n_pant
-	}
-#endif
 
 void select_joyfunc (void) {
 #ifdef PHANTOMAS_ENGINE
@@ -307,11 +176,3 @@ void select_joyfunc (void) {
 	#endif
 #endif
 }
-
-// Hud
-#include "engine/hud.h"
-
-// Experimental
-#ifdef ENABLE_LAVA
-#include "engine/lava.h"
-#endif

@@ -48,9 +48,9 @@
 
 		ld  a, (_at2)
 		and 8
-		jr  z, _va_collision_checkevil
+		jr  z, _ha_collision_checkevil
 
-	._va_col_vx_neg_do
+	._ha_col_vx_neg_do
 
 		#ifdef PLAYER_BOUNCE_WITH_WALLS
 			ld  a, (_p_vx)
@@ -84,7 +84,7 @@
 		ld  a, WLEFT
 		ld  (_wall_h), a
 
-		jr  _va_collision_checkevil
+		jr  _ha_collision_checkevil
 
 	._ha_collision_vx_positive
 
@@ -101,9 +101,9 @@
 
 		ld  a, (_at2)
 		and 8
-		jr  z, _va_collision_checkevil
+		jr  z, _ha_collision_checkevil
 
-	._va_col_vx_pos_do
+	._ha_col_vx_pos_do
 
 		#ifdef PLAYER_BOUNCE_WITH_WALLS
 			ld  a, (_p_vx)
@@ -139,7 +139,7 @@
 
 	._ha_collision_checkevil
 
-		#ifdef DEACTIVATE_EVIL_TILE
+		#ifdef DEACTIhaTE_EVIL_TILE
 			#ifndef ONLY_VERTICAL_EVIL_TILE
 				#endasm
 					hit_h = ((at1 IS_EVIL) || (at2 IS_EVIL));
@@ -149,4 +149,3 @@
 
 	._ha_collision_done
 #endasm
-	

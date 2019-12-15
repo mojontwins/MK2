@@ -260,7 +260,6 @@
 //#define LB_FRAMES					4	// If defined, defines the # of frames bullets live (fixed)
 //#define LB_FRAMES_FLAG			2	// If defined, defines which flag determines the # of frames
 
-
 // Hitter. Define only *ONE* of these. More to come.
 // -------------------------------------------------
 
@@ -363,49 +362,45 @@
 //#define TIMER_WARP_TO_Y			1	// "warp to" coordinates.
 //#define TIMER_AUTO_RESET				// If defined, timer resets after "one life less"
 //#define SHOW_TIMER_OVER				// If defined, "TIME OVER" shows when time is up.
-*/
 
 // Lava:
 // -----
 // Experimental & custom. Use @ your own risk. Not supported __AT ALL__
 // Only 128K/Multilevel/Enhaced levels. This was custom for Ninjajar! - I wonder why it's still here
-/*
-#define ENABLE_LAVA
-#define LAVA_FLAG					30
-#define LAVA_PERIOD 				7
-#define LAVA_X1 					2
-#define LAVA_X2 					28	// LAVA_X1 <= x < LAVA_X2
-#define LAVA_T						18
-*/
+
+//#define ENABLE_LAVA
+//#define LAVA_FLAG					30
+//#define LAVA_PERIOD 				7
+//#define LAVA_X1 					2
+//#define LAVA_X2 					28	// LAVA_X1 <= x < LAVA_X2
+//#define LAVA_T					18
 
 // Floating objects:
 // -----------------
 
 //#define ENABLE_FLOATING_OBJECTS		// Activate this for floating objects support
-/*
-#define FO_GRAVITY						// If defined, floating objects are affected by gravity
-#define FO_SOLID_FLOOR					// If defined, floating objects won't fall off the screen
-*/
+
+//#define FO_GRAVITY					// If defined, floating objects are affected by gravity
+//#define FO_SOLID_FLOOR				// If defined, floating objects won't fall off the screen
+
 //#define FO_DETECT_INTERACTION_CENTER	// If defined, "active" hotspot is @ player center
 										// Otherwise it's on the floor, depending where he's facing.
 										// Just for side-view. 
 
-/*
-#define ENABLE_FO_CARRIABLE_BOXES		// Boxes the player can carry/place elsewhere.
-#define FT_CARRIABLE_BOXES			17	// Tile for carriable boxes.
-#define CARRIABLE_BOXES_ALTER_JUMP 180	// You jump less if defined. Modifies "PLAYER_JMP_VY_MAX"
+//#define ENABLE_FO_CARRIABLE_BOXES		// Boxes the player can carry/place elsewhere.
+//#define FT_CARRIABLE_BOXES		17	// Tile for carriable boxes.
+//#define CARRIABLE_BOXES_ALTER_JUMP 180// You jump less if defined. Modifies "PLAYER_JMP_VY_MAX"
 //#define CARRIABLE_BOXES_THROWABLE 	// If defined, carriable boxes are throwable!
 //#define CARRIABLE_BOXES_COUNT_KILLS 2 // If defined, count # of kills and store in flag N.
-#define CARRIABLE_BOXES_DRAIN		7	// Boxes drain life if held every N+1 frames (power of two minus 1!)
-#define CARRIABLE_BOXES_CORCHONETA		// Corchonetas de sartar!
-#define CARRIABLE_BOXES_MAX_C_VY	1024	// Max vertical velocity
-*/
-/*
-#define ENABLE_FO_SCRIPTING 			// Anytime a FO falls, PRESS_FIRE script is ran
-#define FO_X_FLAG					1
-#define FO_Y_FLAG					2
-#define FO_T_FLAG					3	// Flags to store X, Y, and Type of object which just fell.
-*/
+//#define CARRIABLE_BOXES_DRAIN		7	// Boxes drain life if held every N+1 frames (power of two minus 1!)
+//#define CARRIABLE_BOXES_CORCHONETA	// Corchonetas de sartar!
+//#define CARRIABLE_BOXES_MAX_C_VY	1024// Max vertical velocity
+
+//#define ENABLE_FO_SCRIPTING 			// Anytime a FO falls, PRESS_FIRE script is ran
+//#define FO_X_FLAG					1
+//#define FO_Y_FLAG					2
+//#define FO_T_FLAG					3	// Flags to store X, Y, and Type of object which just fell.
+
 //#define ENABLE_FO_OBJECT_CONTAINERS 	// Use with scripting. Helps to manage item collecting
 //#define SHOW_EMPTY_CONTAINER			// If defined, show empty container tile
 
@@ -485,7 +480,7 @@
 //#define LINE_OF_TEXT			22		// If defined, scripts can show text @ Y = #
 //#define LINE_OF_TEXT_X		1		// X coordinate.
 //#define LINE_OF_TEXT_ATTR 	71		// Attribute
-//#define LINE_OF_TEXT_SUBSTR		4 		// Line of text is max. 32-# characters
+//#define LINE_OF_TEXT_SUBSTR	4 		// Line of text is max. 32-# characters
 
 // Map data format. Choose one:
 
@@ -529,7 +524,7 @@
 #define PLAYER_FALL_VY_MAX		127 	// Max falling speed
 #define PLAYER_G				8		// Gravity acceleration
 
-#define PLAYER_JMP_VY_INITIAL	32		// Initial junp velocity
+#define PLAYER_JMP_VY_INITIAL	32		// Initial jump velocity
 #define PLAYER_JMP_VY_MAX		64	 	// Max jump velocity
 #define PLAYER_JMP_VY_INCR		24		// acceleration while JUMP is pressed
 

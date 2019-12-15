@@ -24,5 +24,5 @@ gpx = p_x >> FIXBITS;
 	// "New genital" top-down games need slightly different vertical collision
 	#include "engine/playermods/ha_collision_25d.h"
 #else
-	#include "engine/playermods/ha_collision.h"
+	#include "engine/playermods/ha_collision_asm.h"
 #endif

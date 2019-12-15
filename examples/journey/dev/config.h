@@ -178,23 +178,24 @@
 //#define FANTIES_A 				16	// Flying enemies acceleration.
 //#define FANTIES_LIFE_GAUGE		1	// Amount of shots needed to kill flying enemies.
 //#define FANTIES_HIT 				12 	// If defined, fanties take THIS life, otherwise 1
+//#define FANTIES_FIXED_CELL 		2	// Always use this
+//#define FANTIES_WITH_FACING 			// If defined, 0 = facing left, 1 = facing right
 
 //#define ENABLE_PURSUE_ENEMIES 		// If defined, type 7 enemies are active
 //#define DEATH_COUNT_EXPRESSION	20+(rand()&15)
 //#define TYPE_7_FIXED_SPRITE	4		// If defined, type 7 enemies are always #
 
 //#define ENABLE_SIMPLE_PURSUERS		// Simpler type 7s [NOT YET]
-/*
-#define MAX_COCOS 				1		// Max # of cocos.
-// #define COCOS_COLLIDE				// Cocos will die with beh 8
 
-#define ENABLE_SHOOTERS					// Activate this if your raise bit 4 in any enemies.
+//#define MAX_COCOS 				1	// Max # of cocos.
+//#define COCOS_COLLIDE					// Cocos will die with beh 8
 
-#define SHOOTER_SHOOT_FREQ		63		// Shoot frequency (2^n-1)
-#define SHOOTER_SAFE_DISTANCE	64		// if closer won't shoot
-#define SHOOTER_FIRE_ONE 				// If defined, just fire one coco per enemy
-#define ENEMY_SHOOT_SPEED		4		// pixels per frame
-*/
+//#define ENABLE_SHOOTERS				// Activate this if your raise bit 4 in any enemies.
+
+//#define SHOOTER_SHOOT_FREQ		63	// Shoot frequency (2^n-1)
+//#define SHOOTER_SAFE_DISTANCE		64	// if closer won't shoot
+//#define SHOOTER_FIRE_ONE 				// If defined, just fire one coco per enemy
+//#define ENEMY_SHOOT_SPEED			4	// pixels per frame
 
 //#define ENABLE_DROPS					// Enemy type 9 = drops
 //#define ENABLE_ARROWS					// Enemy type 10 = arrows
@@ -255,11 +256,9 @@
 //#define BULLETS_BREAK_WALLS			// If defined, bullets break breakable walls.
 //#define BULLETS_DONT_COLLIDE_PLATFORMS	// Bullets and platforms don't collide
 
-/*
-#define LIMITED_BULLETS 				// If defined, bullets die after N frames
-#define LB_FRAMES				4		// If defined, defines the # of frames bullets live (fixed)
-#define LB_FRAMES_FLAG			2		// If defined, defines which flag determines the # of frames
-*/
+//#define LIMITED_BULLETS 				// If defined, bullets die after N frames
+//#define LB_FRAMES					4	// If defined, defines the # of frames bullets live (fixed)
+//#define LB_FRAMES_FLAG			2	// If defined, defines which flag determines the # of frames
 
 // Hitter. Define only *ONE* of these. More to come.
 // -------------------------------------------------
@@ -272,25 +271,22 @@
 //#define PLAYER_HITTER_STRENGTH	0	// Hitter strength. 0 = just makes monsters turn around.
 //#define HITTER_BREAKS_WALLS			// If defined, hitter breaks breakable walls.
 
-/*
-#define PLAYER_SIMPLE_BOMBS				// If defined, bombs-s.h module is enabled (Nicanor)
-#define PLAYER_BOMBS_STRENGTH	1		// Amount of life bombs take from baddies.
-#define BOMBS_EXPLOSION_TILE	42		// Tile # for explosion.
-#define BOMBS_BREAK_WALLS				// If defined, bombs break breakable walls.
-#define PLAYER_BOMBS_TILE		44		// ... You know the drill...
-//#define PLAYER_BOMBS_INV		44		// If defined, player can use bombs only if item # is selected!
+//#define PLAYER_SIMPLE_BOMBS			// If defined, bombs-s.h module is enabled (Nicanor)
+//#define PLAYER_BOMBS_STRENGTH	1		// Amount of life bombs take from baddies.
+//#define BOMBS_EXPLOSION_TILE		42	// Tile # for explosion.
+//#define BOMBS_BREAK_WALLS				// If defined, bombs break breakable walls.
+//#define PLAYER_BOMBS_TILE			44	// ... You know the drill...
+//#define PLAYER_BOMBS_INV			44	// If defined, player can use bombs only if item # is selected!
 										// NOTE! As of 0.89, this is the only option implemented! 
-*/
 
 #define ENEMS_LIFE_GAUGE		1		// Amount of shots/hits needed to kill enemies.
 //#define RESPAWN_ON_ENTER				// Enemies respawn when entering screen
 //#define RESPAWN_ON_REENTER			// Respawn even on a REENTER in the script (by default REENTER doesn't respawn enemies!)
 //#define FIRE_MIN_KILLABLE 	3		// If defined, only enemies >= N can be killed.
-/*
-#define MAX_AMMO				5		// If defined, ammo is not infinite!
-#define AMMO_REFILL				5		// ammo refill, using tile 20 (hotspot #4)
-#define INITIAL_AMMO			0		// If defined, ammo = X when entering game.
-*/
+
+//#define MAX_AMMO					5	// If defined, ammo is not infinite!
+//#define AMMO_REFILL				5	// ammo refill, using tile 20 (hotspot #4)
+//#define INITIAL_AMMO				0	// If defined, ammo = X when entering game.
 
 // Breakable walls
 // ---------------
@@ -341,27 +337,24 @@
 //#define SIM_KEY_FIRE
 
 // Display:
-/*
-#define SIM_DISPLAY_HORIZONTAL
-#define SIM_DISPLAY_MAXITEMS	2
-#define SIM_DISPLAY_X			24
-#define SIM_DISPLAY_Y			21
-#define SIM_DISPLAY_ITEM_EMPTY	31
-#define SIM_DISPLAY_ITEM_STEP	3
-#define SIM_DISPLAY_SEL_C		66
-#define SIM_DISPLAY_SEL_CHAR1	62
-#define SIM_DISPLAY_SEL_CHAR2	63
-*/
+//#define SIM_DISPLAY_HORIZONTAL
+//#define SIM_DISPLAY_MAXITEMS		2
+//#define SIM_DISPLAY_X				24
+//#define SIM_DISPLAY_Y				21
+//#define SIM_DISPLAY_ITEM_EMPTY	31
+//#define SIM_DISPLAY_ITEM_STEP		3
+//#define SIM_DISPLAY_SEL_C			66
+//#define SIM_DISPLAY_SEL_CHAR1		62
+//#define SIM_DISPLAY_SEL_CHAR2		63
 
 // Timer
 // -----
-/*
-#define TIMER_ENABLE					// Enable timer
-#define TIMER_INITIAL		99			// For unscripted games, initial value.
-#define TIMER_REFILL		30			// Timer refill, using tile 21 (hotspot #5)
-#define TIMER_LAPSE 		32			// # of frames between decrements
+//#define TIMER_ENABLE					// Enable timer
+//#define TIMER_INITIAL				99	// For unscripted games, initial value.
+//#define TIMER_REFILL				30	// Timer refill, using tile 21 (hotspot #5)
+//#define TIMER_LAPSE 				32	// # of frames between decrements
 //#define TIMER_START 					// If defined, start timer from the beginning
-#define TIMER_SCRIPT_0					// If defined, timer = 0 runs "ON_TIMER_OFF" in the script
+//#define TIMER_SCRIPT_0				// If defined, timer = 0 runs "ON_TIMER_OFF" in the script
 //#define TIMER_GAMEOVER_0				// If defined, timer = 0 causes "game over"
 //#define TIMER_KILL_0					// If defined, timer = 0 causes "one life less".
 //#define TIMER_WARP_TO 0				// If defined, warp to screen X after "one life less".
@@ -369,49 +362,45 @@
 //#define TIMER_WARP_TO_Y	1			// "warp to" coordinates.
 //#define TIMER_AUTO_RESET				// If defined, timer resets after "one life less"
 //#define SHOW_TIMER_OVER				// If defined, "TIME OVER" shows when time is up.
-*/
 
 // Lava:
 // -----
 // Experimental & custom. Use @ your own risk. Not supported __AT ALL__
 // Only 128K/Multilevel/Enhaced levels. This was custom for Ninjajar! - I wonder why it's still here
-/*
-#define ENABLE_LAVA
-#define LAVA_FLAG			30
-#define LAVA_PERIOD 		7
-#define LAVA_X1 			2
-#define LAVA_X2 			28			// LAVA_X1 <= x < LAVA_X2
-#define LAVA_T				18
-*/
+
+//#define ENABLE_LAVA
+//#define LAVA_FLAG					30
+//#define LAVA_PERIOD 				7
+//#define LAVA_X1 					2
+//#define LAVA_X2 					28	// LAVA_X1 <= x < LAVA_X2
+//#define LAVA_T					18
 
 // Floating objects:
 // -----------------
 
 //#define ENABLE_FLOATING_OBJECTS		// Activate this for floating objects support
-/*
-#define FO_GRAVITY						// If defined, floating objects are affected by gravity
-#define FO_SOLID_FLOOR					// If defined, floating objects won't fall off the screen
-*/
+
+//#define FO_GRAVITY					// If defined, floating objects are affected by gravity
+//#define FO_SOLID_FLOOR				// If defined, floating objects won't fall off the screen
+
 //#define FO_DETECT_INTERACTION_CENTER	// If defined, "active" hotspot is @ player center
 										// Otherwise it's on the floor, depending where he's facing.
 										// Just for side-view. 
 
-/*
-#define ENABLE_FO_CARRIABLE_BOXES		// Boxes the player can carry/place elsewhere.
-#define FT_CARRIABLE_BOXES			17	// Tile for carriable boxes.
-#define CARRIABLE_BOXES_ALTER_JUMP 180	// You jump less if defined. Modifies "PLAYER_JMP_VY_MAX"
+//#define ENABLE_FO_CARRIABLE_BOXES		// Boxes the player can carry/place elsewhere.
+//#define FT_CARRIABLE_BOXES		17	// Tile for carriable boxes.
+//#define CARRIABLE_BOXES_ALTER_JUMP 180// You jump less if defined. Modifies "PLAYER_JMP_VY_MAX"
 //#define CARRIABLE_BOXES_THROWABLE 	// If defined, carriable boxes are throwable!
 //#define CARRIABLE_BOXES_COUNT_KILLS 2 // If defined, count # of kills and store in flag N.
-#define CARRIABLE_BOXES_DRAIN		7	// Boxes drain life if held every N+1 frames (power of two minus 1!)
-#define CARRIABLE_BOXES_CORCHONETA		// Corchonetas de sartar!
-#define CARRIABLE_BOXES_MAX_C_VY	1024	// Max vertical velocity
-*/
-/*
-#define ENABLE_FO_SCRIPTING 			// Anytime a FO falls, PRESS_FIRE script is ran
-#define FO_X_FLAG					1
-#define FO_Y_FLAG					2
-#define FO_T_FLAG					3	// Flags to store X, Y, and Type of object which just fell.
-*/
+//#define CARRIABLE_BOXES_DRAIN		7	// Boxes drain life if held every N+1 frames (power of two minus 1!)
+//#define CARRIABLE_BOXES_CORCHONETA	// Corchonetas de sartar!
+//#define CARRIABLE_BOXES_MAX_C_VY	1024// Max vertical velocity
+
+//#define ENABLE_FO_SCRIPTING 			// Anytime a FO falls, PRESS_FIRE script is ran
+//#define FO_X_FLAG					1
+//#define FO_Y_FLAG					2
+//#define FO_T_FLAG					3	// Flags to store X, Y, and Type of object which just fell.
+
 //#define ENABLE_FO_OBJECT_CONTAINERS 	// Use with scripting. Helps to manage item collecting
 //#define SHOW_EMPTY_CONTAINER			// If defined, show empty container tile
 
@@ -532,21 +521,21 @@
 
 // IV.1. Vertical movement. Only for side-view.
 
-#define PLAYER_FALL_VY_MAX		127 	// Max falling speed (512/64 = 8 pixels/frame)
-#define PLAYER_G				6		// Gravity acceleration (32/64 = 0.5 pixels/frame^2)
+#define PLAYER_FALL_VY_MAX		127 	// Max falling speed
+#define PLAYER_G				6		// Gravity acceleration
 
-#define PLAYER_JMP_VY_INITIAL	16		// Initial junp velocity (64/64 = 1 pixel/frame)
-#define PLAYER_JMP_VY_MAX		80 		// Max jump velocity (320/64 = 5 pixels/frame)
-#define PLAYER_JMP_VY_INCR		4		// acceleration while JUMP is pressed (48/64 = 0.75 pixels/frame^2)
+#define PLAYER_JMP_VY_INITIAL	16		// Initial junp velocity
+#define PLAYER_JMP_VY_MAX		80 		// Max jump velocity
+#define PLAYER_JMP_VY_INCR		4		// acceleration while JUMP is pressed
 
 //#define PLAYER_JETPAC_VY_INCR	8		// Vertical jetpac gauge
 //#define PLAYER_JETPAC_VY_MAX	64	 	// Max vertical jetpac speed
 
 // IV.2. Horizontal (side view) or general (top view) movement.
 
-#define PLAYER_VX_MAX			48	 	// Max velocity (192/64 = 3 pixels/frame)
-#define PLAYER_AX				6		// Acceleration (24/64 = 0,375 pixels/frame^2)
-#define PLAYER_RX				4		// Friction (32/64 = 0,5 pixels/frame^2)
+#define PLAYER_VX_MAX			48	 	// Max velocity
+#define PLAYER_AX				6		// Acceleration
+#define PLAYER_RX				4		// Friction
 
 //#define PLAYER_AX_ALT			8 		// Acceleration (alternate) when stepping on tile w/beh. 64
 //#define PLAYER_RX_ALT			8 		// Friction (alternate) when stepping on tile w/beh. 64

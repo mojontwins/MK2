@@ -88,8 +88,7 @@ void wyz_stop_sound (void) {
 	#endasm
 }
 
-// CUSTOM
-/*
+#ifdef PLAY_SAMPLE_ON_DEATH
 void __FASTCALL__ wyz_play_sample (unsigned char sample_number) {
 	#asm
 		di
@@ -103,4 +102,4 @@ void __FASTCALL__ wyz_play_sample (unsigned char sample_number) {
 		ei
 	#endasm
 }
-*/
+#endif

@@ -363,7 +363,6 @@
 //#define TIMER_WARP_TO_Y			1	// "warp to" coordinates.
 //#define TIMER_AUTO_RESET				// If defined, timer resets after "one life less"
 //#define SHOW_TIMER_OVER				// If defined, "TIME OVER" shows when time is up.
-*/
 
 // Lava:
 // -----
@@ -381,30 +380,28 @@
 // -----------------
 
 //#define ENABLE_FLOATING_OBJECTS		// Activate this for floating objects support
-/*
-#define FO_GRAVITY						// If defined, floating objects are affected by gravity
-#define FO_SOLID_FLOOR					// If defined, floating objects won't fall off the screen
-*/
+
+//#define FO_GRAVITY					// If defined, floating objects are affected by gravity
+//#define FO_SOLID_FLOOR				// If defined, floating objects won't fall off the screen
+
 //#define FO_DETECT_INTERACTION_CENTER	// If defined, "active" hotspot is @ player center
 										// Otherwise it's on the floor, depending where he's facing.
 										// Just for side-view. 
 
-/*
-#define ENABLE_FO_CARRIABLE_BOXES		// Boxes the player can carry/place elsewhere.
-#define FT_CARRIABLE_BOXES			17	// Tile for carriable boxes.
-#define CARRIABLE_BOXES_ALTER_JUMP 180	// You jump less if defined. Modifies "PLAYER_JMP_VY_MAX"
+//#define ENABLE_FO_CARRIABLE_BOXES		// Boxes the player can carry/place elsewhere.
+//#define FT_CARRIABLE_BOXES		17	// Tile for carriable boxes.
+//#define CARRIABLE_BOXES_ALTER_JUMP 180// You jump less if defined. Modifies "PLAYER_JMP_VY_MAX"
 //#define CARRIABLE_BOXES_THROWABLE 	// If defined, carriable boxes are throwable!
 //#define CARRIABLE_BOXES_COUNT_KILLS 2 // If defined, count # of kills and store in flag N.
-#define CARRIABLE_BOXES_DRAIN		7	// Boxes drain life if held every N+1 frames (power of two minus 1!)
-#define CARRIABLE_BOXES_CORCHONETA		// Corchonetas de sartar!
-#define CARRIABLE_BOXES_MAX_C_VY	1024	// Max vertical velocity
-*/
-/*
-#define ENABLE_FO_SCRIPTING 			// Anytime a FO falls, PRESS_FIRE script is ran
-#define FO_X_FLAG					1
-#define FO_Y_FLAG					2
-#define FO_T_FLAG					3	// Flags to store X, Y, and Type of object which just fell.
-*/
+//#define CARRIABLE_BOXES_DRAIN		7	// Boxes drain life if held every N+1 frames (power of two minus 1!)
+//#define CARRIABLE_BOXES_CORCHONETA	// Corchonetas de sartar!
+//#define CARRIABLE_BOXES_MAX_C_VY	1024// Max vertical velocity
+
+//#define ENABLE_FO_SCRIPTING 			// Anytime a FO falls, PRESS_FIRE script is ran
+//#define FO_X_FLAG					1
+//#define FO_Y_FLAG					2
+//#define FO_T_FLAG					3	// Flags to store X, Y, and Type of object which just fell.
+
 //#define ENABLE_FO_OBJECT_CONTAINERS 	// Use with scripting. Helps to manage item collecting
 //#define SHOW_EMPTY_CONTAINER			// If defined, show empty container tile
 
@@ -528,7 +525,7 @@
 #define PLAYER_FALL_VY_MAX		127 	// Max falling speed 
 #define PLAYER_G				12		// Gravity acceleration
 
-#define PLAYER_JMP_VY_INITIAL	24		// Initial junp velocity
+#define PLAYER_JMP_VY_INITIAL	24		// Initial jump velocity
 #define PLAYER_JMP_VY_MAX		78	 	// Max jump velocity 
 #define PLAYER_JMP_VY_INCR		12		// acceleration while JUMP is pressed 
 
@@ -537,9 +534,9 @@
 
 // IV.2. Horizontal (side view) or general (top view) movement.
 
-#define PLAYER_VX_MAX			64  	// Max velocity (192/64 = 3 pixels/frame)
-#define PLAYER_AX				16		// Acceleration (24/64 = 0,375 pixels/frame^2)
-#define PLAYER_RX				24		// Friction (32/64 = 0,5 pixels/frame^2)
+#define PLAYER_VX_MAX			64  	// Max velocity
+#define PLAYER_AX				16		// Acceleration
+#define PLAYER_RX				24		// Friction
 
 //#define PLAYER_AX_ALT			8 		// Acceleration (alternate) when stepping on tile w/beh. 64
 //#define PLAYER_RX_ALT			8 		// Friction (alternate) when stepping on tile w/beh. 64

@@ -7,11 +7,14 @@
 #ifdef ENEMS_MAY_DIE
 extern unsigned char sprite_17_a []; 
 #endif
+
 extern unsigned char sprite_18_a []; 
+
 #if defined (PLAYER_CAN_FIRE) || defined (MODE_128K) || defined (ENABLE_SHOOTERS)
 extern unsigned char sprite_19_a [];
 extern unsigned char sprite_19_b [];
 #endif
+
 #if defined (PLAYER_CAN_PUNCH)
 extern unsigned char sprite_20_a [];
 extern unsigned char sprite_21_a [];
@@ -22,6 +25,7 @@ extern unsigned char sprite_sword_u [];
 #elif defined (PLAYER_HAZ_WHIP)
 extern unsigned char sprite_whip [];
 #endif 
+
 #if defined (PLAYER_GENITAL) && defined (PLAYER_HAS_JUMP)
 extern unsigned char sprite_shadow [];
 #endif
@@ -36,14 +40,14 @@ extern unsigned char carriable_c [];
 #endif
 
 #asm
-        defb 85, 170
-        defb 85, 170
-        defb 85, 170
-        defb 85, 170
-        defb 85, 170
-        defb 85, 170
-        defb 85, 170
-        defb 85, 170
+        defb 0, 255
+        defb 0, 255
+        defb 0, 255
+        defb 0, 255
+        defb 0, 255
+        defb 0, 255
+        defb 0, 255
+        defb 0, 255
 #endasm
 
 #ifdef ENEMS_MAY_DIE

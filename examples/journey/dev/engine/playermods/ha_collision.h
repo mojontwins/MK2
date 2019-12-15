@@ -1,6 +1,11 @@
 	// half-box collision. Check for tile behaviour in two points.
 	// Which points? It depends on the type of collision configured:
 
+	// NOTICE: This is the original version written in C
+	// which is not used anymore! 
+
+	// check ha_collision_asm.h
+
 	player_calc_bounding_box ();
 
 	#ifndef ONLY_VERTICAL_EVIL_TILE

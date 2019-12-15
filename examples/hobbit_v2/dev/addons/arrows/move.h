@@ -28,5 +28,5 @@
 		_en_x = _en_x1;
 		_AY_PL_SND (7);
 	}
-
+	
 	active = 1;

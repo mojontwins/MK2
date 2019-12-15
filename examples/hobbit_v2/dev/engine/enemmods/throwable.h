@@ -1,7 +1,6 @@
 // Collide with thrownable
 
 if (fo_fly && killable) {
-	//if (collide (f_o_xp, f_o_yp, _en_x, _en_y)) {
 	if (f_o_xp + 15 >= _en_x && f_o_xp <= _en_x + 15 &&
 		f_o_yp + 15 >= _en_y && f_o_yp <= _en_y + 15) {
 		en_an_n_f [enit] = sprite_17_a;

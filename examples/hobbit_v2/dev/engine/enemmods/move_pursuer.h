@@ -18,8 +18,8 @@
 						break;
 					case 1:
 						if (en_an_dead_row [enit] == 0) {
-#ifdef TYPE_7_FIXED_SPRITE
-							en_an_base_frame [enit] = (TYPE_7_FIXED_SPRITE - 1) << 1;
+#ifdef TYPE_7_FIXED_CELL
+							en_an_base_frame [enit] = (TYPE_7_FIXED_CELL - 1) << 1;
 #else
 							en_an_base_frame [enit] = (rand () & 3) << 1;
 #endif

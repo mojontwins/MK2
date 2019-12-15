@@ -4,7 +4,59 @@
 // AGAIN; FUCKING REWRITE THIS PIECE OF SHIT!!!
 
 // Hotspot interaction.
-if (collide (gpx, gpy, hotspot_x, hotspot_y)) {
+//if (collide (gpx, gpy, hotspot_x, hotspot_y)) 
+#asm
+		// (gpx + 8 >= hotspot_x && gpx <= hotspot_x + 8 && gpy + 8 >= hotspot_y && gpy <= hotspot_y + 8)
+
+		// gpx + 8 >= hotspot_x
+		ld  a, (_hotspot_x)
+		ld  c, a
+		ld  a, (_gpx)
+		#ifdef SMALL_COLLISION
+			add 8
+		#else
+			add 12
+		#endif
+		cp  c
+		jp  c, _hotspots_skip
+
+		// gpx <= hotspot_x + 8; hotspot_x + 8 >= gpx
+		ld  a, (_gpx)
+		ld  c, a
+		ld  a, (_hotspot_x)
+		#ifdef SMALL_COLLISION
+			add 8
+		#else
+			add 12
+		#endif
+		cp  c
+		jp  c, _hotspots_skip
+
+		// gpy + 8 >= hotspot_y
+		ld  a, (_hotspot_y)
+		ld  c, a
+		ld  a, (_gpy)
+		#ifdef SMALL_COLLISION
+			add 8
+		#else
+			add 12
+		#endif
+		cp  c
+		jp  c, _hotspots_skip
+
+		// gpy <= hotspot_y + 8; hotspot_y + 8 >= gpy
+		ld  a, (_gpy)
+		ld  c, a
+		ld  a, (_hotspot_y)
+		#ifdef SMALL_COLLISION
+			add 8
+		#else
+			add 12
+		#endif
+		cp  c
+		jp  c, _hotspots_skip			
+#endasm
+{
 	gpit = 0;
 	#ifndef USE_HOTSPOTS_TYPE_3
 		// Was it an object, key or life boost?
@@ -270,3 +322,7 @@ if (collide (gpx, gpy, hotspot_x, hotspot_y)) {
 	}
 	hotspot_y = 240;
 }
+
+#asm
+	._hotspots_skip
+#endasm

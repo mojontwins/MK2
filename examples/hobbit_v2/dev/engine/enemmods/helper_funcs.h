@@ -60,7 +60,8 @@
 				ctx = coco_x [coco_it] + 3;
 				cty = coco_y [coco_it] + 3;
 				if (p_state == EST_NORMAL) {
-					if (collide_pixel (ctx, cty, gpx, gpy)) {
+					cx1 = ctx; cy1 = cty; cx2 = gpx; cy2 = gpy;
+					if (collide_pixel ()) {
 						coco_s [coco_it] = 0;
 						p_killme = SFX_PLAYER_DEATH_COCO;
 					}

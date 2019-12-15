@@ -4,9 +4,9 @@
 	#endif
 	{
 		#ifdef PLAYER_CUMULATIVE_JUMP
-			if (BUTTON_JUMP && (possee || p_gotten)) 
+			if (BUTTON_JUMP_START && (possee || p_gotten)) 
 		#else
-			if (BUTTON_JUMP && p_jmp_on == 0 && (possee || p_gotten)) 
+			if (BUTTON_JUMP_START && p_jmp_on == 0 && (possee || p_gotten)) 
 		#endif
 		{
 			#ifdef PLAYER_CUMULATIVE_JUMP
