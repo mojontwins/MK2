@@ -53,6 +53,9 @@
 ;     multiple of $1000; actual memory occupied is SProtatetbl+$200
 ;     to SProtatetbl+$fff
 ;
+    DEFC USEPLANES   = 1
+;     If set, use sprite planes.
+;
 ;
 ; * IM2 INTERRUPT VECTOR TABLE
 ;

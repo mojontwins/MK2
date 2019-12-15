@@ -122,7 +122,7 @@ void enems_init (void) {
 
 void enems_move_spr_abs (void) {
 	//sp_MoveSprAbs (sp_moviles [enit], spritesClip, en_an_n_f [enit] - en_an_c_f [enit], VIEWPORT_Y + (_en_y >> 3), VIEWPORT_X + (_en_x >> 3), _en_x & 7, _en_y & 7);
-	
+	sp_Border (1+enit);
 	#asm
 		; enter: IX = sprite structure address 
 		;        IY = clipping rectangle, set it to "ClipStruct" for full screen 
@@ -211,6 +211,7 @@ void enems_move_spr_abs (void) {
 		ldi
 		ldi
 	#endasm
+	sp_Border (0);
 }
 
 void enems_move (void) {

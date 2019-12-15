@@ -206,10 +206,12 @@ ENDIF
    inc hl
    ld l,(hl)
    ld h,a               ; hl = next char struct + 4
+IF USEPLANES
    ld a,(hl)
    and $3f              ;  a = sprite plane
    cp (ix+12)
    jp nc,pdloop         ; if the next char struct is lower priority
+ENDIF
 
 .puthere
    pop hl               ; de = previous char struct + 11

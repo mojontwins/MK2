@@ -3,7 +3,7 @@
 ;
 ;	Reconstructed for z80 Module Assembler
 ;
-;	Module compile time: Sat Dec 14 21:38:16 2019
+;	Module compile time: Sun Dec 15 11:09:17 2019
 
 
 
@@ -7769,6 +7769,14 @@
 
 
 ._enems_move_spr_abs
+	ld	hl,(_enit)
+	ld	h,0
+	ld	de,1
+	add	hl,de
+	ld	h,0
+	push	hl
+	call	sp_Border
+	pop	bc
 	; enter: IX = sprite structure address
 	; IY = clipping rectangle, set it to "ClipStruct" for full screen
 	; BC = animate bitdef displacement (0 for no animation)
@@ -7831,6 +7839,10 @@
 	add hl, bc
 	ldi
 	ldi
+	ld	hl,0 % 256	;const
+	push	hl
+	call	sp_Border
+	pop	bc
 	ret
 
 
