@@ -61,7 +61,7 @@ void main (void) {
 		// *******************
 
 		#include "mainloop/game_init.h"
-level=3;	
+
 		#ifdef COMPRESSED_LEVELS
 			while (mlplaying) {
 				prepare_level ();
@@ -82,7 +82,7 @@ level=3;
 		// *********
 		// MAIN LOOP
 		// *********
-
+n_pant = 4;
 		while (playing) {
 			// Read controllers
 			read_controller ();
@@ -111,7 +111,7 @@ level=3;
 
 			// Move hitter
 			#if defined (PLAYER_CAN_PUNCH) || defined (PLAYER_HAZ_SWORD) || defined (PLAYER_HAZ_WHIP)
-				if (hitter_on) render_hitter ();
+				if (hitter_on) hitter_render ();
 			#endif
 			#if defined (PHANTOMAS_ENGINE) || defined (HANNA_ENGINE)
 				gpx = p_x;

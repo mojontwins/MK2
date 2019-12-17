@@ -122,7 +122,6 @@ void draw_scr_background (void) {
 	#if defined PACKED_MAP || defined UNPACKED_MAP
 
 		#ifdef UNPACKED_MAP
-			//map_pointer = map + (n_pant * 150);
 			map_pointer = map + (n_pant << 7) + (n_pant << 4) + (n_pant << 2) + (n_pant << 1);
 		#else
 			map_pointer = map + (n_pant << 6) + (n_pant << 3) + (n_pant << 1) + (n_pant);

@@ -53,11 +53,25 @@ void bomb_racime (unsigned char cmd) {
 					draw_coloured_tile_gamearea (); 
 					break;
 				case CMD_FINISH:
-					_t = map_buff [gpxx + (gpyy << 4) - gpyy];
-					draw_coloured_tile_gamearea ();
 					#ifdef BREAKABLE_WALLS
-						break_wall (gpxx, gpyy);
+						break_wall ();
 					#endif
+					// gpaux = (_y << 4) - _y + _x;
+					#asm
+							ld  a, (__y)
+							ld  c, a
+							sla a
+							sla a
+							sla a
+							sla a
+							sub c
+							ld  c, a
+							ld  a, (__x)
+							add c
+							ld  (_gpaux), a
+					#endasm
+					_t = map_buff [gpaux];
+					draw_coloured_tile_gamearea ();					
 			}
 			invalidate_tile ();
 			gpxx ++;
