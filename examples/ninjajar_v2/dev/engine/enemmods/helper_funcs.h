@@ -1,4 +1,4 @@
-#if defined (ENABLE_FANTIES) || defined (ENABLE_SHOOTERS) || defined (ENABLE_HANNA_MONSTERS_11)
+#if defined (ENABLE_FANTIES) || defined (ENABLE_SHOOTERS) || defined (ENABLE_HANNA_MONSTERS_11) || defined (ENABLE_CLOUDS)
 	unsigned char distance (unsigned char x1, unsigned char y1, unsigned char x2, unsigned char y2) {
 		unsigned char dx = abs (x2 - x1);
 		unsigned char dy = abs (y2 - y1);
@@ -14,15 +14,11 @@
 	}
 #endif
 
-#ifdef ENABLE_SHOOTERS
-	unsigned char coco_x [MAX_COCOS], coco_y [MAX_COCOS], coco_s [MAX_COCOS], ctx, cty;
-	signed char coco_vx [MAX_COCOS], coco_vy [MAX_COCOS];
-	
+#if defined (ENABLE_SHOOTERS) || defined (ENABLE_CLOUDS)	
 	void init_cocos (void) {
 		for (gpit = 0; gpit < MAX_COCOS;) coco_s [gpit++] = 0;
 	}
 
-	unsigned char coco_it, coco_d, coco_x0;
 	void shoot_coco (void) {
 		coco_x0 = _en_x + 4;
 		#ifdef SHOOTER_FIRE_ONE
@@ -42,8 +38,16 @@
 					coco_x [coco_it] = coco_x0;
 					coco_y [coco_it] = _en_y;
 
-					coco_vx [coco_it] = (ENEMY_SHOOT_SPEED * (gpx - coco_x0) / coco_d);
-					coco_vy [coco_it] = (ENEMY_SHOOT_SPEED * (gpy - _en_y) / coco_d);
+					#ifdef ENABLE_CLOUDS
+						if (gpt == 4) {
+							coco_vx [coco_it] = 0;
+							coco_vy [coco_it] = CLOUD_SHOOT_SPEED;
+						} else
+					#endif
+					{
+						coco_vx [coco_it] = (ENEMY_SHOOT_SPEED * (gpx - coco_x0) / coco_d);
+						coco_vy [coco_it] = (ENEMY_SHOOT_SPEED * (gpy - _en_y) / coco_d);
+					}
 				}
 			}
 		}
@@ -52,15 +56,13 @@
 	void move_cocos (void) {
 		for (coco_it = 0; coco_it < MAX_COCOS; coco_it ++) {
 			if (coco_s [coco_it]) {
-				coco_x [coco_it] += coco_vx [coco_it];
-				coco_y [coco_it] += coco_vy [coco_it];
+				ctx = coco_x [coco_it] + coco_vx [coco_it];
+				cty = coco_y [coco_it] + coco_vy [coco_it];
 
-				if (coco_x [coco_it] >= 240 || coco_y [coco_it] >= 160) coco_s [coco_it] = 0;
+				if (ctx >= 240 || cty >= 160) coco_s [coco_it] = 0;
 				// Collide player
-				ctx = coco_x [coco_it] + 3;
-				cty = coco_y [coco_it] + 3;
 				if (p_state == EST_NORMAL) {
-					cx1 = ctx; cy1 = cty; cx2 = gpx; cy2 = gpy;
+					ctx = cx1 = ctx + 3; cty = cy1 = cty + 3; cx2 = gpx; cy2 = gpy;
 					if (collide_pixel ()) {
 						coco_s [coco_it] = 0;
 						p_killme = SFX_PLAYER_DEATH_COCO;
@@ -71,6 +73,9 @@
 					cx1 = ctx >> 4; cy1 = cty >> 4;
 					if (attr () > 7) coco_s [coco_it] = 0;
 				#endif			
+
+				coco_x [coco_it] = ctx;
+				coco_y [coco_it] = cty;
 			}
 		}
 	}
@@ -125,18 +130,4 @@
 
 #if defined (SLOW_DRAIN) && defined (PLAYER_BOUNCES)
 	unsigned char lasttimehit;
-#endif
-
-#if defined (ENABLE_FANTIES) || defined (ENABLE_RANDOM_RESPAWN)
-	/*
-	int limit (int val, int min, int max) {
-		if (val < min) return min;
-		if (val > max) return max;
-		return val;
-	}
-	*/
-	void limit (void) {
-		if (_val < _min) _val = _min;
-		if (_val > _max) _val = _max;
-	}
 #endif

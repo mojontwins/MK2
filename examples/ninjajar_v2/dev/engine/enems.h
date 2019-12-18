@@ -100,6 +100,12 @@ void enems_init (void) {
 						en_an_dead_row [gpit] = 0;//DEATH_COUNT_EXPRESSION;
 						break;
 				#endif
+				#ifdef ENABLE_CLOUDS
+					case 4:
+						// Make sure mx is positive!
+						baddies [enoffsmasi].mx = abs (baddies [enoffsmasi].mx);
+						break;
+				#endif
 				#ifdef ENABLE_HANNA_MONSTERS_11
 					case 11:
 						en_an_state [gpit] = 0;
@@ -453,6 +459,11 @@ void enems_move (void) {
 				#ifdef ENABLE_PURSUERS
 					case 3:			// pursuers
 						#include "engine/enemmods/move_pursuers.h"
+						break;
+				#endif
+				#ifdef ENABLE_CLOUDS
+					case 4:
+						#include "engine/enemmods/move_clouds.h"
 						break;
 				#endif
 				#ifdef ENABLE_DROPS

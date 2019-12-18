@@ -1,6 +1,6 @@
 Things not working properly:
 
-#### [X] defining MIN_FAPS_PER_FRAME makes the game behave weirdly (and too slow). Check ISRC. Let's use the NO_SOUND engine.
+#### [X] defining `MIN_FAPS_PER_FRAME` makes the game behave weirdly (and too slow). Check ISRC. Let's use the `NO_SOUND` engine.
 
 It's odd. It doens't work at all in 128K mode no matter which ISR I'm using. When I play a bit it seems to start working after a while. Maybe a buffer overrun? 
 
@@ -10,7 +10,7 @@ I'm gonna try to force it existing lower in mem to see what happens.
 
 Yup - that was it. It seems that I forgot a DI when some page was paged in. I could track it down or I could just put the isrc variable in a fixed position such as 23296 and that's what I will do.
 
-#### [X] when WALLS_STOP_ENEMIES enemies seem to change direction based upon main player position (!). - a `cm_two_points` call was missing1
+#### [X] when `WALLS_STOP_ENEMIES` enemies seem to change direction based upon main player position (!). - a `cm_two_points` call was missing1
 
 #### [ ] Clouds are not implemented!
 
@@ -68,3 +68,30 @@ Study why this happens and how to fix it. I think it has to do with "REENTER".
 
 I just changed the collision detection, so I must've messed it somehow.
 
+#### [ ] Faster fanties in assembly
+
+Not that they should move faster, but take less cycles to update. Will be performed in two stages:
+[X] Rehash the code and extract copies of array values to plain vars.
+[ ] Translate into assembly.
+
+Remember how you quickly add an 8 bit number to a 16 bit number (dumb mode on)
+
+```
+	ld  hl, (_var16)
+	ld  bc, (_var8)
+	ld  b, 0
+	add hl, bc
+	ld  (_result), hl
+```
+
+To compare two 16 bits numbers you can just do a 16 bit substraction and check the carry flag
+
+```c
+	ld  hl, (_A)
+	ld  bc, (_B)
+	sbc hl, bc
+	jr  nc, A_was_bigger_or_equal_than_B
+	jr  c, A_was_smaller_than_B
+```
+
+I always say I prefer the 6502, but this is one of the situations Z80s are actually more powerful.

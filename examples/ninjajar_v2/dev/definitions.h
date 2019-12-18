@@ -249,6 +249,12 @@ unsigned char en_an_state [3];
 	unsigned char en_an_dir [3];
 	unsigned char _en_cx, _en_cy;
 #endif
+
+#if defined (ENABLE_SHOOTERS) || defined (ENABLE_CLOUDS)
+	unsigned char coco_x [MAX_COCOS], coco_y [MAX_COCOS], coco_s [MAX_COCOS], ctx, cty;
+	signed char coco_vx [MAX_COCOS], coco_vy [MAX_COCOS];
+	unsigned char coco_it, coco_d, coco_x0;
+#endif
 	
 unsigned char pregotten;
 #if defined (ENABLE_SHOOTERS) || defined (ENABLE_ARROWS)

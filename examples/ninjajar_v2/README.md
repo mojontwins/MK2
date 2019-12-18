@@ -938,6 +938,75 @@ And now we have all the pieces of the puzzle, we have to build the tape using An
 
 And now - fingers crossed :D
 
+## Reimplementing clounds
+
+I removed clouds for some reason, now I'm adding them back to the engine. Of course as you read this document, clouds are already in and working, but I'm leaving this paragraph as a post-mortem in case you are interested.
+
+Not really reimplementing. Let's just get the old code into the engine again, and probably revamp it a bit. First of all we'll assign a free enemy type to encode clouds. Enemies' 't' byte encodes stuff using this format: `XTTTTDNN`. To make thing simple, we'll just choose a value for `TTTT` which is not being used such as `0100` (4). In ponedor we'll just use `00100000`, or `0x20`. After modifying (by hand, using `ponedor.exe`) `enems4.ene`, `enems7.ene`, etc.
+
+Restore the configuration for clouds to `config.h`:
+
+```c
+    #define ENABLE_CLOUDS                   // If defined, type 4 enemies are active
+    #define CLOUDS_SHOOT_FREQ       31      // Shoot frequency (2^n-1)
+    #define CLOUDS_FIXED_SPRITE     0       // Type 8 enemies are always # - 1
+    #define CLOUDS_SAFE_DISTANCE    48      // if closer won't shoot
+    #define CLOUDS_FIRE_ONE                 // If defined, just fire one coco per enemy
+    #define COCO_SPEED_9            8       // pixels per frame
+```
+
+Then add the hook in `engine/enems.h`:
+
+```c
+    switch (gpt) {
+        
+        [...]
+
+        #ifdef ENABLE_CLOUDS
+            case 4:
+                #include "engine/enemmods/move_clouds.h"
+                break;
+        #endif
+
+        [...]
+    }
+```
+
+`engine/enemmods/move_clouds.h` has always been there but needs some revamp. This is the result:
+
+```c
+    // Move Clouds
+
+    active = 1;
+    if (gpx != _en_x) {
+        _en_x += addsign (gpx - _en_x, _en_mx);
+    }
+
+    // Shoot a coco
+    if ((rand () & CLOUDS_SHOOT_FREQ) == 1) {
+        shoot_coco ();
+    }
+```
+
+A tiny special case for clouds needed to be added in `shoot_coco`:
+
+```c
+    [...]
+
+    #ifdef ENABLE_CLOUDS
+        if (gpt == 4) {
+            coco_vx [coco_it] = 0;
+            coco_vy [coco_it] = CLOUD_SHOOT_SPEED;
+        } else
+    #endif
+    {
+        coco_vx [coco_it] = (ENEMY_SHOOT_SPEED * (gpx - coco_x0) / coco_d);
+        coco_vy [coco_it] = (ENEMY_SHOOT_SPEED * (gpy - _en_y) / coco_d);
+    }
+
+    [...]
+```
+
 ## Building
 
 Run these commands to completely rebuild Ninjajar! v2

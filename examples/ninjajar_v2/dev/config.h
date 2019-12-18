@@ -200,6 +200,13 @@
 //#define ENABLE_DROPS					// Enemy type 9 = drops
 //#define ENABLE_ARROWS					// Enemy type 10 = arrows
 
+#define ENABLE_CLOUDS					// If defined, type 4 enemies are active
+#define CLOUDS_SHOOT_FREQ		31		// Shoot frequency (2^n-1)
+#define CLOUDS_FIXED_SPRITE		0		// Type 8 enemies are always # - 1
+#define CLOUDS_SAFE_DISTANCE	48		// if closer won't shoot
+#define CLOUDS_FIRE_ONE					// If defined, just fire one coco per enemy
+#define CLOUD_SHOOT_SPEED		8		// pixels per frame
+
 // Extra engine configuration
 // --------------------------
 

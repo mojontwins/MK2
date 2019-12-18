@@ -65,18 +65,18 @@ active = killable = animate = 1;
 
 				_en_an_x += _en_an_vx;
 				if (_en_an_x < 0) _en_an_x = 0;
-				if (_en_an_x > (224 << FIXBITS)) _en_an_x = (224 << FIXBITS);
+				else if (_en_an_x > (224 << FIXBITS)) _en_an_x = (224 << FIXBITS);
 
 				if (gpy < _en_y) rds = -FANTIES_A;
 				else rds = FANTIES_A;
 				
 				if (_en_an_vy += rds);
-				if (_en_an_vy < -FANTIES_MAX_V) _en_an_vx = -FANTIES_MAX_V;
-				else if (_en_an_vy > FANTIES_MAX_V) _en_an_vx = FANTIES_MAX_V;
+				if (_en_an_vy < -FANTIES_MAX_V) _en_an_vy = -FANTIES_MAX_V;
+				else if (_en_an_vy > FANTIES_MAX_V) _en_an_vy = FANTIES_MAX_V;
 
 				_en_an_y += _en_an_vy;
 				if (_en_an_y < 0) _en_an_y = 0;
-				if (_en_an_y > (144 << FIXBITS)) _en_an_y = (144 << FIXBITS);
+				else if (_en_an_y > (144 << FIXBITS)) _en_an_y = (144 << FIXBITS);
 			}
 			break;
 			
