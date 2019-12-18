@@ -1,6 +1,39 @@
 // Move Fanty
 active = killable = animate = 1;
 
+// Copy arrays as fast as you can
+#asm
+		ld  bc, (_enit)
+		ld  b, 0
+
+		ld  hl, _en_an_vx
+		add hl, bc
+		ld  a, (hl)
+		ld  (__en_an_vx), a
+
+		ld  hl, _en_an_vy
+		add hl, bc
+		ld  a, (hl)
+		ld  (__en_an_vy), a
+
+		ld  hl, _en_an_x
+		add hl, bc
+		add hl, bc
+		ld  e, (hl)
+		inc hl
+		ld  d, (hl)
+		ld  (__en_an_x), de
+
+		ld  hl, _en_an_y
+		add hl, bc
+		add hl, bc
+		ld  e, (hl)
+		inc hl
+		ld  d, (hl)
+		ld  (__en_an_y), de		
+#endasm
+
+
 #ifdef FANTIES_SIGHT_DISTANCE
 	// Complex fanties
 
@@ -26,30 +59,30 @@ active = killable = animate = 1;
 				if (gpx < _en_x) rds = -FANTIES_A;
 				else rds = FANTIES_A;
 				
-				if (en_an_vx [enit] += rds);
-				if (en_an_vx [enit] < -FANTIES_MAX_V) en_an_vx [enit] = -FANTIES_MAX_V;
-				else if (en_an_vx [enit] > FANTIES_MAX_V) en_an_vx [enit] = FANTIES_MAX_V;
+				if (_en_an_vx += rds);
+				if (_en_an_vx < -FANTIES_MAX_V) _en_an_vx = -FANTIES_MAX_V;
+				else if (_en_an_vx > FANTIES_MAX_V) _en_an_vx = FANTIES_MAX_V;
 
-				en_an_x [enit] += en_an_vx [enit];
-				if (en_an_x [enit] < 0) en_an_x [enit] = 0;
-				if (en_an_x [enit] > (224 << FIXBITS)) en_an_x [enit] = (224 << FIXBITS);
+				_en_an_x += _en_an_vx;
+				if (_en_an_x < 0) _en_an_x = 0;
+				if (_en_an_x > (224 << FIXBITS)) _en_an_x = (224 << FIXBITS);
 
 				if (gpy < _en_y) rds = -FANTIES_A;
 				else rds = FANTIES_A;
 				
-				if (en_an_vy [enit] += rds);
-				if (en_an_vy [enit] < -FANTIES_MAX_V) en_an_vx [enit] = -FANTIES_MAX_V;
-				else if (en_an_vy [enit] > FANTIES_MAX_V) en_an_vx [enit] = FANTIES_MAX_V;
+				if (_en_an_vy += rds);
+				if (_en_an_vy < -FANTIES_MAX_V) _en_an_vx = -FANTIES_MAX_V;
+				else if (_en_an_vy > FANTIES_MAX_V) _en_an_vx = FANTIES_MAX_V;
 
-				en_an_y [enit] += en_an_vy [enit];
-				if (en_an_y [enit] < 0) en_an_y [enit] = 0;
-				if (en_an_y [enit] > (144 << FIXBITS)) en_an_y [enit] = (144 << FIXBITS);
+				_en_an_y += _en_an_vy;
+				if (_en_an_y < 0) _en_an_y = 0;
+				if (_en_an_y > (144 << FIXBITS)) _en_an_y = (144 << FIXBITS);
 			}
 			break;
 			
 		case FANTIES_RETREATING:
-			en_an_x [enit] += addsign (_en_x1 - _en_x, 1 << FIXBITS);
-			en_an_y [enit] += addsign (_en_y1 - _en_y, 1 << FIXBITS);
+			_en_an_x += addsign (_en_x1 - _en_x, 1 << FIXBITS);
+			_en_an_y += addsign (_en_y1 - _en_y, 1 << FIXBITS);
 
 			#ifdef FANTIES_NUMB_ON_FLAG
 				if (flags [FANTIES_NUMB_ON_FLAG])
@@ -60,8 +93,8 @@ active = killable = animate = 1;
 			break;
 	}
 	
-	_en_x = en_an_x [enit] >> FIXBITS;
-	_en_y = en_an_y [enit] >> FIXBITS;
+	_en_x = _en_an_x >> FIXBITS;
+	_en_y = _en_an_y >> FIXBITS;
 	
 	if (
 		en_an_state [enit] == FANTIES_RETREATING &&
@@ -73,30 +106,62 @@ active = killable = animate = 1;
 	if (gpx < _en_x) rds = -FANTIES_A;
 	else rds = FANTIES_A;
 	
-	if (en_an_vx [enit] += rds);
-	if (en_an_vx [enit] < -FANTIES_MAX_V) en_an_vx [enit] = -FANTIES_MAX_V;
-	else if (en_an_vx [enit] > FANTIES_MAX_V) en_an_vx [enit] = FANTIES_MAX_V;
+	if (_en_an_vx += rds);
+	if (_en_an_vx < -FANTIES_MAX_V) _en_an_vx = -FANTIES_MAX_V;
+	else if (_en_an_vx > FANTIES_MAX_V) _en_an_vx = FANTIES_MAX_V;
 
 	if (gpy < _en_y) rds = -FANTIES_A;
 	else rds = FANTIES_A;
 	
-	if (en_an_vy [enit] += rds);
-	if (en_an_vy [enit] < -FANTIES_MAX_V) en_an_vx [enit] = -FANTIES_MAX_V;
-	else if (en_an_vy [enit] > FANTIES_MAX_V) en_an_vx [enit] = FANTIES_MAX_V;
+	if (_en_an_vy += rds);
+	if (_en_an_vy < -FANTIES_MAX_V) _en_an_vx = -FANTIES_MAX_V;
+	else if (_en_an_vy > FANTIES_MAX_V) _en_an_vx = FANTIES_MAX_V;
 
 	#ifdef FANTIES_NUMB_ON_FLAG
 		if (flags [FANTIES_NUMB_ON_FLAG])
 	#endif				
 	{
-		en_an_x [enit] += en_an_vx [enit];
-		if (en_an_x [enit] < 0) en_an_x [enit] = 0;
-		if (en_an_x [enit] > (224 << FIXBITS)) en_an_x [enit] = (224 << FIXBITS);
+		_en_an_x += _en_an_vx;
+		if (_en_an_x < 0) _en_an_x = 0;
+		if (_en_an_x > (224 << FIXBITS)) _en_an_x = (224 << FIXBITS);
 
-		en_an_y [enit] += en_an_vy [enit];
-		if (en_an_y [enit] < 0) en_an_y [enit] = 0;
-		if (en_an_y [enit] > (144 << FIXBITS)) en_an_y [enit] = (144 << FIXBITS);
+		_en_an_y += _en_an_vy;
+		if (_en_an_y < 0) _en_an_y = 0;
+		if (_en_an_y > (144 << FIXBITS)) _en_an_y = (144 << FIXBITS);
 	}
 	
-	_en_x = en_an_x [enit] >> FIXBITS;
-	_en_y = en_an_y [enit] >> FIXBITS;
+	_en_x = _en_an_x >> FIXBITS;
+	_en_y = _en_an_y >> FIXBITS;
 #endif
+
+// Update arrays as fast as you can
+#asm
+		ld  bc, (_enit)
+		ld  b, 0
+
+		ld  hl, _en_an_vx
+		add hl, bc
+		ld  a, (__en_an_vx)
+		ld  (hl), a
+
+		ld  hl, _en_an_vy
+		add hl, bc
+		ld  a, (__en_an_vy)
+		ld  (hl), a
+
+		ld  hl, _en_an_x
+		add hl, bc
+		add hl, bc
+		ld  de, (__en_an_x)
+		ld  (hl), e 
+		inc hl
+		ld  (hl), d
+
+		ld  hl, _en_an_y
+		add hl, bc
+		add hl, bc
+		ld  de, (__en_an_y)
+		ld  (hl), e 
+		inc hl
+		ld  (hl), d
+#endasm

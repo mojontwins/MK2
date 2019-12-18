@@ -3,7 +3,7 @@
 ;
 ;	Reconstructed for z80 Module Assembler
 ;
-;	Module compile time: Wed Dec 18 14:11:07 2019
+;	Module compile time: Wed Dec 18 14:31:08 2019
 
 
 
@@ -7990,6 +7990,30 @@
 	ld	h,0
 	ld	a,l
 	ld	(_active),a
+	ld bc, (_enit)
+	ld b, 0
+	ld hl, _en_an_vx
+	add hl, bc
+	ld a, (hl)
+	ld (__en_an_vx), a
+	ld hl, _en_an_vy
+	add hl, bc
+	ld a, (hl)
+	ld (__en_an_vy), a
+	ld hl, _en_an_x
+	add hl, bc
+	add hl, bc
+	ld e, (hl)
+	inc hl
+	ld d, (hl)
+	ld (__en_an_x), de
+	ld hl, _en_an_y
+	add hl, bc
+	add hl, bc
+	ld e, (hl)
+	inc hl
+	ld d, (hl)
+	ld (__en_an_y), de
 	ld	de,_en_an_state
 	ld	hl,(_enit)
 	ld	h,0
@@ -8087,11 +8111,7 @@
 	ld	a,l
 	ld	(_rds),a
 .i_314
-	ld	de,_en_an_vx
-	ld	hl,(_enit)
-	ld	h,0
-	add	hl,de
-	push	hl
+	ld	hl,__en_an_vx
 	call	l_gchar
 	push	hl
 	ld	hl,_rds
@@ -8100,122 +8120,58 @@
 	add	hl,de
 	ld	a,l
 	call	l_sxt
-	pop	de
 	ld	a,l
-	ld	(de),a
-	and	a
+	ld	(__en_an_vx),a
+	ld	a,h
+	or	l
 	jp	z,i_315
 .i_315
-	ld	de,_en_an_vx
-	ld	hl,(_enit)
-	ld	h,0
-	add	hl,de
+	ld	hl,__en_an_vx
 	call	l_gchar
 	ld	de,65472	;const
 	ex	de,hl
 	call	l_lt
 	jp	nc,i_316
-	ld	de,_en_an_vx
-	ld	hl,(_enit)
-	ld	h,0
-	add	hl,de
-	push	hl
 	ld	hl,65472	;const
 	ld	a,l
 	call	l_sxt
-	pop	de
 	ld	a,l
-	ld	(de),a
+	ld	(__en_an_vx),a
 	jp	i_317
 .i_316
-	ld	de,_en_an_vx
-	ld	hl,(_enit)
-	ld	h,0
-	add	hl,de
+	ld	hl,__en_an_vx
 	call	l_gchar
-	ld	de,65472	;const
+	ld	de,64	;const
 	ex	de,hl
 	call	l_gt
 	jp	nc,i_318
-	ld	de,_en_an_vx
-	ld	hl,(_enit)
-	ld	h,0
-	add	hl,de
-	push	hl
 	ld	hl,64	;const
 	ld	a,l
 	call	l_sxt
-	pop	de
 	ld	a,l
-	ld	(de),a
+	ld	(__en_an_vx),a
 .i_318
 .i_317
-	ld	hl,_en_an_x
+	ld	hl,(__en_an_x)
 	push	hl
-	ld	hl,(_enit)
-	ld	h,0
-	add	hl,hl
-	pop	de
-	add	hl,de
-	push	hl
-	ld	e,(hl)
-	inc	hl
-	ld	d,(hl)
-	push	de
-	ld	de,_en_an_vx
-	ld	hl,(_enit)
-	ld	h,0
-	add	hl,de
+	ld	hl,__en_an_vx
 	call	l_gchar
 	pop	de
 	add	hl,de
-	pop	de
-	call	l_pint
-	ld	hl,_en_an_x
-	push	hl
-	ld	hl,(_enit)
-	ld	h,0
-	add	hl,hl
-	pop	de
-	add	hl,de
-	call	l_gint	;
+	ld	(__en_an_x),hl
 	xor	a
 	or	h
 	jp	p,i_319
-	ld	hl,_en_an_x
-	push	hl
-	ld	hl,(_enit)
-	ld	h,0
-	add	hl,hl
-	pop	de
-	add	hl,de
-	ld	de,0	;const
-	ex	de,hl
-	call	l_pint
+	ld	hl,0	;const
+	ld	(__en_an_x),hl
 .i_319
-	ld	hl,_en_an_x
-	push	hl
-	ld	hl,(_enit)
-	ld	h,0
-	add	hl,hl
-	pop	de
-	add	hl,de
-	ld	e,(hl)
-	inc	hl
-	ld	d,(hl)
-	ld	hl,3584	;const
-	call	l_gt
-	jp	nc,i_320
-	ld	hl,_en_an_x
-	push	hl
-	ld	hl,(_enit)
-	ld	h,0
-	add	hl,hl
-	pop	de
-	add	hl,de
+	ld	hl,(__en_an_x)
 	ld	de,3584	;const
 	ex	de,hl
-	call	l_pint
+	call	l_gt
+	jp	nc,i_320
+	ld	hl,3584	;const
+	ld	(__en_an_x),hl
 .i_320
 	ld	hl,(_gpy)
 	ld	h,0
@@ -8237,11 +8193,7 @@
 	ld	a,l
 	ld	(_rds),a
 .i_322
-	ld	de,_en_an_vy
-	ld	hl,(_enit)
-	ld	h,0
-	add	hl,de
-	push	hl
+	ld	hl,__en_an_vy
 	call	l_gchar
 	push	hl
 	ld	hl,_rds
@@ -8250,138 +8202,64 @@
 	add	hl,de
 	ld	a,l
 	call	l_sxt
-	pop	de
 	ld	a,l
-	ld	(de),a
-	and	a
+	ld	(__en_an_vy),a
+	ld	a,h
+	or	l
 	jp	z,i_323
 .i_323
-	ld	de,_en_an_vy
-	ld	hl,(_enit)
-	ld	h,0
-	add	hl,de
+	ld	hl,__en_an_vy
 	call	l_gchar
 	ld	de,65472	;const
 	ex	de,hl
 	call	l_lt
 	jp	nc,i_324
-	ld	de,_en_an_vx
-	ld	hl,(_enit)
-	ld	h,0
-	add	hl,de
-	push	hl
 	ld	hl,65472	;const
 	ld	a,l
 	call	l_sxt
-	pop	de
 	ld	a,l
-	ld	(de),a
+	ld	(__en_an_vx),a
 	jp	i_325
 .i_324
-	ld	de,_en_an_vy
-	ld	hl,(_enit)
-	ld	h,0
-	add	hl,de
+	ld	hl,__en_an_vy
 	call	l_gchar
-	ld	de,65472	;const
+	ld	de,64	;const
 	ex	de,hl
 	call	l_gt
 	jp	nc,i_326
-	ld	de,_en_an_vx
-	ld	hl,(_enit)
-	ld	h,0
-	add	hl,de
-	push	hl
 	ld	hl,64	;const
 	ld	a,l
 	call	l_sxt
-	pop	de
 	ld	a,l
-	ld	(de),a
+	ld	(__en_an_vx),a
 .i_326
 .i_325
-	ld	hl,_en_an_y
+	ld	hl,(__en_an_y)
 	push	hl
-	ld	hl,(_enit)
-	ld	h,0
-	add	hl,hl
-	pop	de
-	add	hl,de
-	push	hl
-	ld	e,(hl)
-	inc	hl
-	ld	d,(hl)
-	push	de
-	ld	de,_en_an_vy
-	ld	hl,(_enit)
-	ld	h,0
-	add	hl,de
+	ld	hl,__en_an_vy
 	call	l_gchar
 	pop	de
 	add	hl,de
-	pop	de
-	call	l_pint
-	ld	hl,_en_an_y
-	push	hl
-	ld	hl,(_enit)
-	ld	h,0
-	add	hl,hl
-	pop	de
-	add	hl,de
-	call	l_gint	;
+	ld	(__en_an_y),hl
 	xor	a
 	or	h
 	jp	p,i_327
-	ld	hl,_en_an_y
-	push	hl
-	ld	hl,(_enit)
-	ld	h,0
-	add	hl,hl
-	pop	de
-	add	hl,de
-	ld	de,0	;const
-	ex	de,hl
-	call	l_pint
+	ld	hl,0	;const
+	ld	(__en_an_y),hl
 .i_327
-	ld	hl,_en_an_y
-	push	hl
-	ld	hl,(_enit)
-	ld	h,0
-	add	hl,hl
-	pop	de
-	add	hl,de
-	ld	e,(hl)
-	inc	hl
-	ld	d,(hl)
-	ld	hl,2304	;const
-	call	l_gt
-	jp	nc,i_328
-	ld	hl,_en_an_y
-	push	hl
-	ld	hl,(_enit)
-	ld	h,0
-	add	hl,hl
-	pop	de
-	add	hl,de
+	ld	hl,(__en_an_y)
 	ld	de,2304	;const
 	ex	de,hl
-	call	l_pint
+	call	l_gt
+	jp	nc,i_328
+	ld	hl,2304	;const
+	ld	(__en_an_y),hl
 .i_328
 .i_312
 	jp	i_306
 .i_329
-	ld	hl,_en_an_x
+	ld	hl,(__en_an_x)
 	push	hl
-	ld	hl,(_enit)
-	ld	h,0
-	add	hl,hl
-	pop	de
-	add	hl,de
-	push	hl
-	ld	e,(hl)
-	inc	hl
-	ld	d,(hl)
-	push	de
 	ld	hl,(__en_x1)
 	ld	h,0
 	ex	de,hl
@@ -8398,20 +8276,9 @@
 	pop	bc
 	pop	de
 	add	hl,de
-	pop	de
-	call	l_pint
-	ld	hl,_en_an_y
+	ld	(__en_an_x),hl
+	ld	hl,(__en_an_y)
 	push	hl
-	ld	hl,(_enit)
-	ld	h,0
-	add	hl,hl
-	pop	de
-	add	hl,de
-	push	hl
-	ld	e,(hl)
-	inc	hl
-	ld	d,(hl)
-	push	de
 	ld	hl,(__en_y1)
 	ld	h,0
 	ex	de,hl
@@ -8428,8 +8295,7 @@
 	pop	bc
 	pop	de
 	add	hl,de
-	pop	de
-	call	l_pint
+	ld	(__en_an_y),hl
 	ld	hl,(_gpx)
 	ld	h,0
 	push	hl
@@ -8460,31 +8326,15 @@
 	ld	h,0
 .i_330
 .i_306
-	ld	hl,_en_an_x
-	push	hl
-	ld	hl,(_enit)
-	ld	h,0
-	add	hl,hl
-	pop	de
-	add	hl,de
-	ld	e,(hl)
-	inc	hl
-	ld	d,(hl)
+	ld	hl,(__en_an_x)
+	ex	de,hl
 	ld	l,#(4 % 256)
 	call	l_asr
 	ld	h,0
 	ld	a,l
 	ld	(__en_x),a
-	ld	hl,_en_an_y
-	push	hl
-	ld	hl,(_enit)
-	ld	h,0
-	add	hl,hl
-	pop	de
-	add	hl,de
-	ld	e,(hl)
-	inc	hl
-	ld	d,(hl)
+	ld	hl,(__en_an_y)
+	ex	de,hl
 	ld	l,#(4 % 256)
 	call	l_asr
 	ld	h,0
@@ -8522,6 +8372,30 @@
 	ld	l,(hl)
 	ld	h,0
 .i_331
+	ld bc, (_enit)
+	ld b, 0
+	ld hl, _en_an_vx
+	add hl, bc
+	ld a, (__en_an_vx)
+	ld (hl), a
+	ld hl, _en_an_vy
+	add hl, bc
+	ld a, (__en_an_vy)
+	ld (hl), a
+	ld hl, _en_an_x
+	add hl, bc
+	add hl, bc
+	ld de, (__en_an_x)
+	ld (hl), e
+	inc hl
+	ld (hl), d
+	ld hl, _en_an_y
+	add hl, bc
+	add hl, bc
+	ld de, (__en_an_y)
+	ld (hl), e
+	inc hl
+	ld (hl), d
 	jp	i_297
 .i_334
 	ld	hl,_en_an_n_f
@@ -10729,6 +10603,8 @@
 .__x	defs	1
 .__y	defs	1
 ._mlplaying	defs	1
+.__en_an_vx	defs	1
+.__en_an_vy	defs	1
 ._life_old	defs	1
 ._coco_d	defs	1
 ._coco_s	defs	3
@@ -10798,6 +10674,8 @@
 ._gpxx	defs	1
 ._gpyy	defs	1
 ._objs_old	defs	1
+.__en_an_x	defs	2
+.__en_an_y	defs	2
 ._extx	defs	1
 ._exty	defs	1
 ._maincounter	defs	1
@@ -10997,8 +10875,10 @@
 	XDEF	_player_init
 	XDEF	_level_sequence
 	XDEF	_mlplaying
-	XDEF	_life_old
+	XDEF	__en_an_vx
 	LIB	sp_Invalidate
+	XDEF	__en_an_vy
+	XDEF	_life_old
 	LIB	sp_CreateGenericISR
 	LIB	sp_JoyKeyboard
 	XDEF	_coco_d
@@ -11166,6 +11046,8 @@
 	XDEF	_gpxx
 	XDEF	_gpyy
 	XDEF	_objs_old
+	XDEF	__en_an_x
+	XDEF	__en_an_y
 	LIB	sp_ListPrev
 	XDEF	_extx
 	XDEF	_exty

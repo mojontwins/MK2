@@ -234,6 +234,9 @@ unsigned char en_an_state [3];
 	#ifdef RANDOM_RESPAWN
 		unsigned char en_an_fanty_activo [3];
 	#endif
+
+	signed int _en_an_x, _en_an_y;
+	signed char _en_an_vx, _en_an_vy;
 #endif
 
 #ifdef ENABLE_PURSUERS
