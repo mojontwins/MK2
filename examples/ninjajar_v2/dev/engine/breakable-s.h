@@ -136,31 +136,32 @@ void wall_broken (void) {
 }
 
 #ifdef BREAKABLE_ANIM
-void process_breakable (void) {
-	unsigned char brkit;
+	void process_breakable (void) {
+		unsigned char brkit;
 
-	do_process_breakable = 0;
+		do_process_breakable = 0;
 
-	for (brkit = 0; brkit < MAX_BREAKABLE; brkit ++) {
-		if (breaking_f [brkit]) {
-			if (! --breaking_f [brkit]) {
-				#ifdef MODE_128K
-					_AY_PL_SND (SFX_BREAK_WALL_ANIM);
-				#endif
-				_x = breaking_x [brkit]; _y = breaking_y [brkit]; wall_broken ();
-			} else {
-				do_process_breakable = 1;
+		for (brkit = 0; brkit < MAX_BREAKABLE; brkit ++) {
+			if (breaking_f [brkit]) {
+				if (! --breaking_f [brkit]) {
+					#ifdef MODE_128K
+						_AY_PL_SND (SFX_BREAK_WALL_ANIM);
+					#endif
+					_x = breaking_x [brkit]; _y = breaking_y [brkit]; wall_broken ();
+				} else {
+					do_process_breakable = 1;
+				}
 			}
 		}
 	}
-}
 #endif
 
 void break_wall (void) {
 	cx1 = _x; cy1 = _y; if (attr () & 16) {
-
-		// gpaux = (_y << 4) - _y + _x;
+		
 		#asm
+				// gpaux = (_y << 4) - _y + _x;
+
 				ld  a, (__y)
 				ld  c, a
 				sla a
@@ -171,19 +172,63 @@ void break_wall (void) {
 				ld  c, a
 				ld  a, (__x)
 				add c
-				ld  (_gpaux), a
+				
+				// map_attr [gpaux] &= 0xEF; // 11101111, remove "breakable" bit.
+				ld  b, 0
+				ld  c, a
+				ld  hl, _map_attr
+				add hl, bc
+				ld  a, (hl)
+				and 0xEF
+				ld  (hl), a
 		#endasm
-
-		map_attr [gpaux] &= 0xEF; // 11101111, remove "breakable" bit.
 
 		#ifdef BREAKABLE_ANIM
 			// add this block to the "breaking" tile list
-			breaking_f [breaking_idx] = MAX_BREAKABLE_FRAMES;
-			breaking_x [breaking_idx] = _x;
-			breaking_y [breaking_idx] = _y;
-			_t = BREAKABLE_TILE; draw_invalidate_coloured_tile_gamearea ();
-			breaking_idx ++; if (breaking_idx == MAX_BREAKABLE) breaking_idx = 0;
-			do_process_breakable = 1;
+			
+			#asm
+					ld  bc, (_breaking_idx)
+					ld  b, 0
+					
+					ld  hl, _breaking_f
+					add hl, bc
+					ld  a, MAX_BREAKABLE_FRAMES
+					ld  (hl), a
+
+					ld  hl, _breaking_x
+					add hl, bc
+					ld  a, (__x)
+					ld  (hl), a
+
+					ld  hl, _breaking_y
+					add hl, bc
+					ld  a, (__y)
+					ld  (hl), a
+
+					ld  a, BREAKABLE_TILE
+					ld  (__t), a
+					
+					// This identifier is too long for z88dk 1.10 XD
+					// call _draw_invalidate_coloured_tile_gamearea
+			#endasm
+
+			draw_invalidate_coloured_tile_gamearea ();
+
+			#asm
+					ld  a, (_breaking_idx)
+					inc a
+					cp  MAX_BREAKABLE
+					jr  nz, _break_wall_anim_prep_set
+
+					xor a
+
+				._break_wall_anim_prep_set
+					ld  (_breaking_idx), a
+
+					ld  a, 1
+					ld  (_do_process_breakable), a
+		
+			#endasm
 		#else
 			// break this block.
 			wall_broken ();
