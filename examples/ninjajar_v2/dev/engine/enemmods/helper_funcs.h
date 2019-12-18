@@ -128,9 +128,15 @@
 #endif
 
 #if defined (ENABLE_FANTIES) || defined (ENABLE_RANDOM_RESPAWN)
+	/*
 	int limit (int val, int min, int max) {
 		if (val < min) return min;
 		if (val > max) return max;
 		return val;
+	}
+	*/
+	void limit (void) {
+		if (_val < _min) _val = _min;
+		if (_val > _max) _val = _max;
 	}
 #endif

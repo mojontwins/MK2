@@ -22,16 +22,28 @@ active = killable = animate = 1;
 			
 			if (distance (gpx, gpy, _en_x, _en_y) > FANTIES_SIGHT_DISTANCE) {
 				en_an_state [enit] = FANTIES_RETREATING;
-			} else {				
-				en_an_vx [enit] = limit (
-					en_an_vx [enit] + addsign (p_x - en_an_x [enit], FANTIES_A),
-					-FANTIES_MAX_V, FANTIES_MAX_V);
-				en_an_vy [enit] = limit (
-					en_an_vy [enit] + addsign (p_y - en_an_y [enit], FANTIES_A),
-					-FANTIES_MAX_V, FANTIES_MAX_V);
-			
-				en_an_x [enit] = limit (en_an_x [enit] + en_an_vx [enit], 0, 224 << FIXBITS);
-				en_an_y [enit] = limit (en_an_y [enit] + en_an_vy [enit], 0, 144 << FIXBITS);
+			} else {
+				if (gpx < _en_x) rds = -FANTIES_A;
+				else rds = FANTIES_A;
+				
+				if (en_an_vx [enit] += rds);
+				if (en_an_vx [enit] < -FANTIES_MAX_V) en_an_vx [enit] = -FANTIES_MAX_V;
+				else if (en_an_vx [enit] > FANTIES_MAX_V) en_an_vx [enit] = FANTIES_MAX_V;
+
+				en_an_x [enit] += en_an_vx [enit];
+				if (en_an_x [enit] < 0) en_an_x [enit] = 0;
+				if (en_an_x [enit] > (224 << FIXBITS)) en_an_x [enit] = (224 << FIXBITS);
+
+				if (gpy < _en_y) rds = -FANTIES_A;
+				else rds = FANTIES_A;
+				
+				if (en_an_vy [enit] += rds);
+				if (en_an_vy [enit] < -FANTIES_MAX_V) en_an_vx [enit] = -FANTIES_MAX_V;
+				else if (en_an_vy [enit] > FANTIES_MAX_V) en_an_vx [enit] = FANTIES_MAX_V;
+
+				en_an_y [enit] += en_an_vy [enit];
+				if (en_an_y [enit] < 0) en_an_y [enit] = 0;
+				if (en_an_y [enit] > (144 << FIXBITS)) en_an_y [enit] = (144 << FIXBITS);
 			}
 			break;
 			
@@ -58,19 +70,31 @@ active = killable = animate = 1;
 	) en_an_state [enit] = FANTIES_IDLE;
 #else
 	// Plain fanties
-	en_an_vx [enit] = limit (
-		en_an_vx [enit] + addsign (p_x - en_an_x [enit], FANTIES_A),
-		-FANTIES_MAX_V, FANTIES_MAX_V);
-	en_an_vy [enit] = limit (
-		en_an_vy [enit] + addsign (p_y - en_an_y [enit], FANTIES_A),
-		-FANTIES_MAX_V, FANTIES_MAX_V);
+	if (gpx < _en_x) rds = -FANTIES_A;
+	else rds = FANTIES_A;
+	
+	if (en_an_vx [enit] += rds);
+	if (en_an_vx [enit] < -FANTIES_MAX_V) en_an_vx [enit] = -FANTIES_MAX_V;
+	else if (en_an_vx [enit] > FANTIES_MAX_V) en_an_vx [enit] = FANTIES_MAX_V;
+
+	if (gpy < _en_y) rds = -FANTIES_A;
+	else rds = FANTIES_A;
+	
+	if (en_an_vy [enit] += rds);
+	if (en_an_vy [enit] < -FANTIES_MAX_V) en_an_vx [enit] = -FANTIES_MAX_V;
+	else if (en_an_vy [enit] > FANTIES_MAX_V) en_an_vx [enit] = FANTIES_MAX_V;
 
 	#ifdef FANTIES_NUMB_ON_FLAG
 		if (flags [FANTIES_NUMB_ON_FLAG])
 	#endif				
 	{
-		en_an_x [enit] = limit (en_an_x [enit] + en_an_vx [enit], 0, 224 << FIXBITS);
-		en_an_y [enit] = limit (en_an_y [enit] + en_an_vy [enit], 0, 144 << FIXBITS);
+		en_an_x [enit] += en_an_vx [enit];
+		if (en_an_x [enit] < 0) en_an_x [enit] = 0;
+		if (en_an_x [enit] > (224 << FIXBITS)) en_an_x [enit] = (224 << FIXBITS);
+
+		en_an_y [enit] += en_an_vy [enit];
+		if (en_an_y [enit] < 0) en_an_y [enit] = 0;
+		if (en_an_y [enit] > (144 << FIXBITS)) en_an_y [enit] = (144 << FIXBITS);
 	}
 	
 	_en_x = en_an_x [enit] >> FIXBITS;

@@ -370,6 +370,7 @@ unsigned char enoffsmasi;
 // Engine globals (for speed) & size!
 
 unsigned char gpx, gpy, gpd, gpc, gpt, gps, rdx, rdy, rda, rdb;
+signed char rds;
 unsigned char gpxx, gpyy, gpcx, gpcy;
 unsigned char possee, hit_v, hit_h, hit, wall_h, wall_v;
 unsigned char gpaux;
@@ -380,6 +381,7 @@ unsigned char tocado, active, killable, animate;
 unsigned char gpit, gpjt;
 unsigned char *map_pointer;
 unsigned char enit;
+signed int _val, _min, _max;
 
 #if defined USE_AUTO_TILE_SHADOWS || defined USE_AUTO_SHADOWS
 	unsigned char c1, c2, c3, c4;

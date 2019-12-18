@@ -82,7 +82,7 @@ void main (void) {
 		// *********
 		// MAIN LOOP
 		// *********
-n_pant = 4;
+
 		while (playing) {
 			// Read controllers
 			read_controller ();
