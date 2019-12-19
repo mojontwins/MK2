@@ -3,7 +3,7 @@
 ;
 ;	Reconstructed for z80 Module Assembler
 ;
-;	Module compile time: Thu Dec 19 10:50:09 2019
+;	Module compile time: Thu Dec 19 18:34:10 2019
 
 
 
@@ -8067,6 +8067,8 @@
 	call _distance
 	ld a, l
 	ld (_rda), a
+	ld bc, (_enit)
+	ld b, 0
 	ld hl, _en_an_state
 	add hl, bc
 	ld a, (hl)
@@ -8101,18 +8103,19 @@
 	._move_fanty_ax_pos
 	ld a, 4
 	._move_fanty_ax_set
-	ld (_rds), a
 	ld c, a
-	ld a, (_en_an_vx)
+	ld a, (__en_an_vx)
 	add c
 	bit 7, a
 	jr nz, _move_fanty_vx_limit_neg
 	._move_fanty_vx_limit_pos
+	ld b, 0
 	cp 64
 	jr c, _move_fanty_vx_limit_set
 	ld a, 64
 	jr _move_fanty_vx_limit_set
 	._move_fanty_vx_limit_neg
+	ld b, 0xff
 	neg a
 	cp 64
 	jr c, _move_fanty_vx_limit_neg_ok
@@ -8121,9 +8124,8 @@
 	._move_fanty_vx_limit_neg_ok
 	neg a
 	._move_fanty_vx_limit_set
-	ld (_en_an_vx), a
-	ld hl, (_en_an_x)
-	ld b, 0
+	ld (__en_an_vx), a
+	ld hl, (__en_an_x)
 	ld c, a
 	add hl, bc
 	bit 7, h
@@ -8142,7 +8144,7 @@
 	._move_fanty_x_limit_224
 	ld hl, 3584
 	._move_fanty_x_set
-	ld (_en_an_x), hl
+	ld (__en_an_x), hl
 	ld a, (__en_y)
 	ld c, a
 	ld a, (_gpy)
@@ -8154,18 +8156,19 @@
 	._move_fanty_ay_pos
 	ld a, 4
 	._move_fanty_ay_set
-	ld (_rds), a
 	ld c, a
-	ld a, (_en_an_vy)
+	ld a, (__en_an_vy)
 	add c
 	bit 7, a
 	jr nz, _move_fanty_vy_limit_neg
 	._move_fanty_vy_limit_pos
+	ld b, 0
 	cp 64
 	jr c, _move_fanty_vy_limit_set
 	ld a, 64
 	jr _move_fanty_vy_limit_set
 	._move_fanty_vy_limit_neg
+	ld b, 0xff
 	neg a
 	cp 64
 	jr c, _move_fanty_vy_limit_neg_ok
@@ -8174,9 +8177,8 @@
 	._move_fanty_vy_limit_neg_ok
 	neg a
 	._move_fanty_vy_limit_set
-	ld (_en_an_vy), a
-	ld hl, (_en_an_y)
-	ld b, 0
+	ld (__en_an_vy), a
+	ld hl, (__en_an_y)
 	ld c, a
 	add hl, bc
 	bit 7, h
@@ -8195,7 +8197,7 @@
 	._move_fanty_y_limit_144
 	ld hl, 2304
 	._move_fanty_y_set
-	ld (_en_an_y), hl
+	ld (__en_an_y), hl
 	jp _move_fanty_state_done
 	._move_fanty_retreating
 	ld hl, (__en_an_x)
@@ -8250,6 +8252,8 @@
 	ld a, 1
 	ld (_rdb), a
 	._move_fanty_state_done
+	ld bc, (_enit)
+	ld b, 0
 	ld a, (_rdb)
 	ld hl, _en_an_state
 	add hl, bc
@@ -8292,6 +8296,19 @@
 	ld (hl), e
 	inc hl
 	ld (hl), d
+	ld	a,#(0 % 256 % 256)
+	ld	(__x),a
+	ld	a,#(1 % 256 % 256)
+	ld	(__y),a
+	ld	hl,__en_an_vx
+	call	l_gchar
+	push	hl
+	call	_abs
+	pop	bc
+	ld	h,0
+	ld	a,l
+	ld	(__t),a
+	call	_print_number2
 	jp	i_298
 .i_306
 	ld	a,#(1 % 256 % 256)

@@ -67,6 +67,9 @@
 
 		// Check state
 
+		ld  bc, (_enit)
+		ld  b, 0
+
 		ld  hl, _en_an_state
 		add hl, bc
 		ld  a, (hl)
@@ -117,11 +120,10 @@
 	._move_fanty_ax_pos
 		ld  a, FANTIES_A
 	._move_fanty_ax_set
-		ld  (_rds), a
-
+		
 		// Modify velocity 
 		ld  c, a
-		ld  a, (_en_an_vx)
+		ld  a, (__en_an_vx)
 		add c
 		
 		// Enforce limits: Positive or negative?
@@ -129,6 +131,8 @@
 		jr  nz, _move_fanty_vx_limit_neg
 
 	._move_fanty_vx_limit_pos
+		ld  b, 0 	// Positive sign extension
+		
 		cp 	FANTIES_MAX_V
 		jr  c, _move_fanty_vx_limit_set
 
@@ -136,6 +140,8 @@
 		jr _move_fanty_vx_limit_set
 
 	._move_fanty_vx_limit_neg
+		ld  b, 0xff // Negative sign extension
+		
 		neg a
 		cp 	FANTIES_MAX_V
 		jr  c, _move_fanty_vx_limit_neg_ok
@@ -147,11 +153,11 @@
 		neg a
 
 	._move_fanty_vx_limit_set
-		ld  (_en_an_vx), a
+		ld  (__en_an_vx), a
 
 		// Move X
-		ld  hl, (_en_an_x)
-		ld  b, 0
+		ld  hl, (__en_an_x)
+
 		ld  c, a
 		add hl, bc
 
@@ -179,7 +185,7 @@
 		ld  hl, 3584 // 224<<FIXBITS
 
 	._move_fanty_x_set
-		ld  (_en_an_x), hl
+		ld  (__en_an_x), hl
 
 		// Vertical axis
 		// -------------
@@ -196,11 +202,10 @@
 	._move_fanty_ay_pos
 		ld  a, FANTIES_A
 	._move_fanty_ay_set
-		ld  (_rds), a
-
+		
 		// Modify velocity 
 		ld  c, a
-		ld  a, (_en_an_vy)
+		ld  a, (__en_an_vy)
 		add c
 		
 		// Enforce limits: Positive or negative?
@@ -208,6 +213,7 @@
 		jr  nz, _move_fanty_vy_limit_neg
 
 	._move_fanty_vy_limit_pos
+		ld  b, 0		// Positive sign extension
 		cp 	FANTIES_MAX_V
 		jr  c, _move_fanty_vy_limit_set
 
@@ -215,6 +221,7 @@
 		jr _move_fanty_vy_limit_set
 
 	._move_fanty_vy_limit_neg
+		ld  b, 0xff		// Negative sign extension
 		neg a
 		cp 	FANTIES_MAX_V
 		jr  c, _move_fanty_vy_limit_neg_ok
@@ -226,11 +233,10 @@
 		neg a
 
 	._move_fanty_vy_limit_set
-		ld  (_en_an_vy), a
+		ld  (__en_an_vy), a
 
 		// Move Y
-		ld  hl, (_en_an_y)
-		ld  b, 0
+		ld  hl, (__en_an_y)
 		ld  c, a
 		add hl, bc
 
@@ -258,7 +264,7 @@
 		ld  hl, 2304 // 144<<FIXBITS
 
 	._move_fanty_y_set
-		ld  (_en_an_y), hl
+		ld  (__en_an_y), hl
 
 		jp  _move_fanty_state_done
 
@@ -352,6 +358,8 @@
 
 		// Update new state
 
+		ld  bc, (_enit)
+		ld  b, 0
 		ld  a, (_rdb)
 		ld  hl, _en_an_state
 		add hl, bc
@@ -361,8 +369,6 @@
 		_en_x = _en_an_x >> FIXBITS;
 		_en_y = _en_an_y >> FIXBITS;
 		#asm
-
-
 
 	#else
 
@@ -401,3 +407,4 @@
 		ld  (hl), d		
 
 #endasm
+_x=0;_y=1;_t=abs(_en_an_vx);print_number2 ();
