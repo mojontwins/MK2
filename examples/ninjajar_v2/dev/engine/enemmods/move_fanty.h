@@ -60,7 +60,7 @@ active = killable = animate = 1;
 				if (gpx < _en_x) rds = -FANTIES_A;
 				else rds = FANTIES_A;
 				
-				if (_en_an_vx += rds);
+				_en_an_vx += rds;
 				if (_en_an_vx < -FANTIES_MAX_V) _en_an_vx = -FANTIES_MAX_V;
 				else if (_en_an_vx > FANTIES_MAX_V) _en_an_vx = FANTIES_MAX_V;
 
@@ -71,7 +71,7 @@ active = killable = animate = 1;
 				if (gpy < _en_y) rds = -FANTIES_A;
 				else rds = FANTIES_A;
 				
-				if (_en_an_vy += rds);
+				_en_an_vy += rds;
 				if (_en_an_vy < -FANTIES_MAX_V) _en_an_vy = -FANTIES_MAX_V;
 				else if (_en_an_vy > FANTIES_MAX_V) _en_an_vy = FANTIES_MAX_V;
 

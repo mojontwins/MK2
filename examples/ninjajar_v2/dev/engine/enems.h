@@ -453,7 +453,7 @@ void enems_move (void) {
 				#endif
 				#ifdef ENABLE_FANTIES
 					case 2:			// flying
-						#include "engine/enemmods/move_fanty.h"
+						#include "engine/enemmods/move_fanty_asm.h"
 						break;
 				#endif
 				#ifdef ENABLE_PURSUERS
