@@ -33,9 +33,10 @@ active = killable = animate = 1;
 		ld  (__en_an_y), de		
 #endasm
 
-
 #ifdef FANTIES_SIGHT_DISTANCE
 	// Complex fanties
+
+	cx1 = gpx; cy1 = gpy; cx2 = _en_x; cy2 = _en_y; rda = distance ();
 
 	switch (en_an_state [enit]) {
 		case FANTIES_IDLE:
@@ -43,7 +44,7 @@ active = killable = animate = 1;
 				if (flags [FANTIES_NUMB_ON_FLAG])
 			#endif
 			
-			if (distance (gpx, gpy, _en_x, _en_y) <= FANTIES_SIGHT_DISTANCE)
+			if (rda <= FANTIES_SIGHT_DISTANCE)
 				en_an_state [enit] = FANTIES_PURSUING;
 			
 			break;
@@ -53,7 +54,7 @@ active = killable = animate = 1;
 				if (0 == flags [FANTIES_NUMB_ON_FLAG]) en_an_state [enit] = FANTIES_RETREATING;
 			#endif				
 			
-			if (distance (gpx, gpy, _en_x, _en_y) > FANTIES_SIGHT_DISTANCE) {
+			if (rda > FANTIES_SIGHT_DISTANCE) {
 				en_an_state [enit] = FANTIES_RETREATING;
 			} else {
 				if (gpx < _en_x) rds = -FANTIES_A;
@@ -87,7 +88,7 @@ active = killable = animate = 1;
 			#ifdef FANTIES_NUMB_ON_FLAG
 				if (flags [FANTIES_NUMB_ON_FLAG])
 			#endif
-				if (distance (gpx, gpy, _en_x, _en_y) <= FANTIES_SIGHT_DISTANCE)
+				if (rda <= FANTIES_SIGHT_DISTANCE)
 					en_an_state [enit] = FANTIES_PURSUING;
 			
 			break;

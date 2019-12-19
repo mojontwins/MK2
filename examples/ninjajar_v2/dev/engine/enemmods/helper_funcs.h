@@ -1,7 +1,7 @@
 #if defined (ENABLE_FANTIES) || defined (ENABLE_SHOOTERS) || defined (ENABLE_HANNA_MONSTERS_11) || defined (ENABLE_CLOUDS)
-	unsigned char distance (unsigned char x1, unsigned char y1, unsigned char x2, unsigned char y2) {
-		unsigned char dx = abs (x2 - x1);
-		unsigned char dy = abs (y2 - y1);
+	unsigned char distance (void) {
+		unsigned char dx = abs (cx2 - cx1);
+		unsigned char dy = abs (cy2 - cy1);
 		unsigned char mn = dx < dy ? dx : dy;
 		return (dx + dy - (mn >> 1) - (mn >> 2) + (mn >> 4));
 	}
@@ -10,7 +10,8 @@
 #if defined (ENABLE_HANNA_MONSTERS_11)
 	// TODO: add light/torch stuff here!
 	unsigned char i_can_see_you (void) {
-		return (distance (gpx, gpy, _en_x, _en_y) <= HANNA_MONSTERS_11_SIGHT);
+		cx1 = gpx; cy1 = gpy; cx2 = _en_x; cy2 = _en_y;
+		return (distance () <= HANNA_MONSTERS_11_SIGHT);
 	}
 #endif
 
@@ -28,7 +29,8 @@
 		#endif
 		{
 			if (coco_s [coco_it] == 0) {
-				coco_d = distance (coco_x0, _en_y, gpx, gpy);
+				cx1 = coco_x0; cy1 = _en_y; cx2 = gpx; cy2 = gpy;
+				coco_d = distance ();
 				if (coco_d >= SHOOTER_SAFE_DISTANCE) {
 					#ifdef MODE_128K
 						_AY_PL_SND (3);
