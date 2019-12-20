@@ -1,9 +1,69 @@
 #if defined (ENABLE_FANTIES) || defined (ENABLE_SHOOTERS) || defined (ENABLE_HANNA_MONSTERS_11) || defined (ENABLE_CLOUDS)
 	unsigned char distance (void) {
+		/*
 		unsigned char dx = abs (cx2 - cx1);
 		unsigned char dy = abs (cy2 - cy1);
 		unsigned char mn = dx < dy ? dx : dy;
 		return (dx + dy - (mn >> 1) - (mn >> 2) + (mn >> 4));
+		*/
+		#asm
+				// Calculate dx
+				ld  a, (_cx1)
+				ld  c, a
+				ld  a, (_cx2)
+				sub c
+				bit 7, a 	// Negative?
+				jr  z, _distance_dx_set
+				neg
+			._distance_dx_set
+				ld  (__x), a
+
+				// Calculate dy
+				ld  a, (_cy1)
+				ld  c, a
+				ld  a, (_cy2)
+				sub c
+				bit 7, a 	// Negative?
+				jr  z, _distance_dy_set
+				neg
+			._distance_dy_set
+				ld  (__y), a
+
+				// Calculate mn
+				ld  c, a
+				ld  a, (__x)
+				cp  c
+				jr  c, _distance_mn_set
+			._distance_dy_min
+				ld  a, (__y)
+			._distance_mn_set
+				ld  (__n), a
+
+				// Calculate distance
+				// return (dx + dy - (mn >> 1) - (mn >> 2) + (mn >> 4));
+				ld  a, (__x)
+				ld  c, a
+				ld  a, (__y)
+				add c
+				ld  b, a 	// dx + dy
+
+				ld  a, (__n)
+				srl a
+				ld  c, a
+				srl a
+				ld  d, a
+				srl a
+				srl a
+				ld  e, a
+
+				ld  a, b 	// dx + dy
+				sub c  		// dx + dy - (mn >> 1)
+				sub d 		// dx + dy - (mn >> 1) - (mn >> 2)
+				add e 		// dx + dy - (mn >> 1) - (mn >> 2) + (mn >> 4)
+
+				ld  l, a
+				ld  h, 0
+		#endasm
 	}
 #endif
 

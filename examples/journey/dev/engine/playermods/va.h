@@ -5,7 +5,7 @@
 
 // Gravity
 #if defined (PLAYER_HAS_JUMP) || defined (PLAYER_HAS_JETPAC) || defined (PLAYER_BOOTEE) || defined (PLAYER_CUMULATIVE_JUMP)
-	#include "engine/playermods/va_gravity.h"
+	#include "engine/playermods/va_gravity_asm.h"
 #endif
 
 // Jetpac boost

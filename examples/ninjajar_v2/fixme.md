@@ -84,6 +84,16 @@ Remember how you quickly add an 8 bit number to a 16 bit number (dumb mode on)
 	ld  (_result), hl
 ```
 
+Signed:
+
+```
+	ld  e, a
+	add a, a ; Carry if A < 0
+	sbc a    ; Set all bits to C
+	ld  d, a
+	add hl, de
+```
+
 To compare two 16 bits numbers you can just do a 16 bit substraction and check the carry flag
 
 ```c
@@ -94,4 +104,19 @@ To compare two 16 bits numbers you can just do a 16 bit substraction and check t
 	jr  c, A_was_smaller_than_B
 ```
 
+Or
+
+```c
+	or  a
+	sbc hl, bc 	; Sets C 
+	add hl, bc  ; Restore hl
+	jr  nc, HL_was_bigger_or_equal_than_BC
+	jr  c, HL_was_smaller_than_BC
+```
+
 I always say I prefer the 6502, but this is one of the situations Z80s are actually more powerful.
+
+#### [ ] Rewrite `distance` in assembly, 
+
+Undo `abs` calls maybe.
+

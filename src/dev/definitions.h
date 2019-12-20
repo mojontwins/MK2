@@ -234,6 +234,9 @@ unsigned char en_an_state [3];
 	#ifdef RANDOM_RESPAWN
 		unsigned char en_an_fanty_activo [3];
 	#endif
+
+	signed int _en_an_x, _en_an_y;
+	signed char _en_an_vx, _en_an_vy;
 #endif
 
 #ifdef ENABLE_PURSUERS
@@ -245,6 +248,12 @@ unsigned char en_an_state [3];
 #ifdef ENABLE_HANNA_MONSTERS_11
 	unsigned char en_an_dir [3];
 	unsigned char _en_cx, _en_cy;
+#endif
+	
+#if defined (ENABLE_SHOOTERS) || defined (ENABLE_CLOUDS)
+	unsigned char coco_x [MAX_COCOS], coco_y [MAX_COCOS], coco_s [MAX_COCOS], ctx, cty;
+	signed char coco_vx [MAX_COCOS], coco_vy [MAX_COCOS];
+	unsigned char coco_it, coco_d, coco_x0;
 #endif
 	
 unsigned char pregotten;
@@ -370,6 +379,7 @@ unsigned char enoffsmasi;
 // Engine globals (for speed) & size!
 
 unsigned char gpx, gpy, gpd, gpc, gpt, gps, rdx, rdy, rda, rdb;
+signed char rds;
 unsigned char gpxx, gpyy, gpcx, gpcy;
 unsigned char possee, hit_v, hit_h, hit, wall_h, wall_v;
 unsigned char gpaux;
@@ -380,6 +390,7 @@ unsigned char tocado, active, killable, animate;
 unsigned char gpit, gpjt;
 unsigned char *map_pointer;
 unsigned char enit;
+signed int _val, _min, _max;
 
 #if defined USE_AUTO_TILE_SHADOWS || defined USE_AUTO_SHADOWS
 	unsigned char c1, c2, c3, c4;

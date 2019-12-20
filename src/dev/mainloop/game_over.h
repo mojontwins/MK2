@@ -1,4 +1,4 @@
-			if (p_life == 0
+			if ((p_life == 0 && p_killme)
 #ifdef ACTIVATE_SCRIPTING
 				|| script_result == 2
 #endif

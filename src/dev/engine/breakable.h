@@ -5,14 +5,29 @@
 // Breakable tiles helper functions
 // Somewhat broken?
 
-void wall_broken (unsigned char x, unsigned char y) {
+void wall_broken (void) {
 	gpd = 0;
-	gpaux = (y << 4) - y + x;
+	
+	// gpaux = (_y << 4) - _y + _x;
+	#asm
+			ld  a, (__y)
+			ld  c, a
+			sla a
+			sla a
+			sla a
+			sla a
+			sub c
+			ld  c, a
+			ld  a, (__x)
+			add c
+			ld  (_gpaux), a
+	#endasm
+
 	#ifdef BREAKABLE_TILE_GET
 		if (map_buff [gpaux] == BREAKABLE_TILE_GET &&
 			(rand () & BREAKABLE_TILE_FREQ) == 0) gpd = TILE_GET;
 	#endif
-	_x = x; _y = y; _n = 0; _t = gpd; update_tile ();
+	_n = 0; _t = gpd; update_tile ();
 
 	// Persistent maps:
 	#ifdef PERSISTENT_BREAKABLE
@@ -31,7 +46,7 @@ void wall_broken (unsigned char x, unsigned char y) {
 }
 
 #ifdef BREAKABLE_ANIM
-void process_breakable () {
+void process_breakable (void) {
 	unsigned char brkit;
 
 	do_process_breakable = 0;
@@ -43,7 +58,7 @@ void process_breakable () {
 				#ifdef MODE_128K
 					_AY_PL_SND (3);
 				#endif
-				wall_broken (breaking_x [brkit], breaking_y [brkit]);
+				_x = breaking_x [brkit]; _y = breaking_y [brkit]; wall_broken ();
 			} else {
 				do_process_breakable = 1;
 			}
@@ -51,19 +66,33 @@ void process_breakable () {
 	}
 }
 
-void add_to_breakable (unsigned char x, unsigned char y) {
+void add_to_breakable (void) {
 	breaking_f [breaking_idx] = MAX_BREAKABLE_FRAMES;
-	breaking_x [breaking_idx] = x;
-	breaking_y [breaking_idx] = y;
-	_x = x; _y = y; _t = BREAKABLE_TILE;
-	draw_invalidate_coloured_tile_gamearea ();
+	breaking_x [breaking_idx] = _x;
+	breaking_y [breaking_idx] = _y;
+	_t = BREAKABLE_TILE; draw_invalidate_coloured_tile_gamearea ();
 	breaking_idx ++; if (breaking_idx == MAX_BREAKABLE) breaking_idx = 0;
 	do_process_breakable = 1;
 }
 #endif
 
-void break_wall (unsigned char x, unsigned char y) {
-	gpaux = (y << 4) - y + x;
+void break_wall (void) {
+	
+	// gpaux = (_y << 4) - _y + _x;
+	#asm
+			ld  a, (__y)
+			ld  c, a
+			sla a
+			sla a
+			sla a
+			sla a
+			sub c
+			ld  c, a
+			ld  a, (__x)
+			add c
+			ld  (_gpaux), a
+	#endasm
+	
 	// Increment buffer
 	brk_buff [gpaux] ++;
 	if (brk_buff [gpaux] < BREAKABLE_WALLS_LIFE) {
@@ -74,10 +103,10 @@ void break_wall (unsigned char x, unsigned char y) {
 
 		#ifdef BREAKABLE_ANIM
 			// add this block to the "breaking" tile list
-			add_to_breakable (x, y);
+			add_to_breakable ();
 		#else
 			// break this block.
-			wall_broken (x, y);
+			wall_broken ();
 		#endif
 
 		// Play this sound

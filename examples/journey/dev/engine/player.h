@@ -625,14 +625,14 @@ unsigned char player_move (void) {
 		#else
 			// hit_v tiene preferencia sobre hit_h
 			hit = 0;
-			if (hit_v == TILE_EVIL) {
+			if (hit_v) {
 				hit = 1;
 				#ifdef FULL_BOUNCE
 					p_vy = addsign (-p_vy, PLAYER_V_BOUNCE);
 				#else
 					p_vy = -p_vy;
 				#endif
-			} else if (hit_h == TILE_EVIL) {
+			} else if (hit_h) {
 				hit = 1;
 				#ifdef FULL_BOUNCE
 					p_vx = addsign (-p_vx, PLAYER_V_BOUNCE);

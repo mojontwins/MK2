@@ -210,7 +210,7 @@ unsigned char AD_FREE [NUMBLOCKS * 15];
 
 // Hitter (punch/sword) helper functions
 #if defined (PLAYER_CAN_PUNCH) || defined (PLAYER_HAZ_SWORD) || defined (PLAYER_HAZ_WHIP)
-	#include "engine/hitter.h"
+	#include "engine/hitter_asm.h"
 #endif
 
 // Bullets helper functions

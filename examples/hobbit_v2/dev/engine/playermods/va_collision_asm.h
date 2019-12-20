@@ -183,7 +183,7 @@
 
 	._va_collision_checkevil
 
-		#ifdef DEACTIVATE_EVIL_TILE
+		#ifndef DEACTIVATE_EVIL_TILE
 			#endasm
 				hit_v = ((at1 IS_EVIL) || (at2 IS_EVIL));
 			#asm

@@ -111,7 +111,7 @@ void main (void) {
 
 			// Move hitter
 			#if defined (PLAYER_CAN_PUNCH) || defined (PLAYER_HAZ_SWORD) || defined (PLAYER_HAZ_WHIP)
-				if (hitter_on) render_hitter ();
+				if (hitter_on) hitter_render ();
 			#endif
 			#if defined (PHANTOMAS_ENGINE) || defined (HANNA_ENGINE)
 				gpx = p_x;

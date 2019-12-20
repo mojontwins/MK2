@@ -1,28 +1,85 @@
-#if defined (ENABLE_FANTIES) || defined (ENABLE_SHOOTERS) || defined (ENABLE_HANNA_MONSTERS_11)
-	unsigned char distance (unsigned char x1, unsigned char y1, unsigned char x2, unsigned char y2) {
-		unsigned char dx = abs (x2 - x1);
-		unsigned char dy = abs (y2 - y1);
+#if defined (ENABLE_FANTIES) || defined (ENABLE_SHOOTERS) || defined (ENABLE_HANNA_MONSTERS_11) || defined (ENABLE_CLOUDS)
+	unsigned char distance (void) {
+		/*
+		unsigned char dx = abs (cx2 - cx1);
+		unsigned char dy = abs (cy2 - cy1);
 		unsigned char mn = dx < dy ? dx : dy;
 		return (dx + dy - (mn >> 1) - (mn >> 2) + (mn >> 4));
+		*/
+		#asm
+				// Calculate dx
+				ld  a, (_cx1)
+				ld  c, a
+				ld  a, (_cx2)
+				sub c
+				bit 7, a 	// Negative?
+				jr  z, _distance_dx_set
+				neg
+			._distance_dx_set
+				ld  (__x), a
+
+				// Calculate dy
+				ld  a, (_cy1)
+				ld  c, a
+				ld  a, (_cy2)
+				sub c
+				bit 7, a 	// Negative?
+				jr  z, _distance_dy_set
+				neg
+			._distance_dy_set
+				ld  (__y), a
+
+				// Calculate mn
+				ld  c, a
+				ld  a, (__x)
+				cp  c
+				jr  c, _distance_mn_set
+			._distance_dy_min
+				ld  a, (__y)
+			._distance_mn_set
+				ld  (__n), a
+
+				// Calculate distance
+				// return (dx + dy - (mn >> 1) - (mn >> 2) + (mn >> 4));
+				ld  a, (__x)
+				ld  c, a
+				ld  a, (__y)
+				add c
+				ld  b, a 	// dx + dy
+
+				ld  a, (__n)
+				srl a
+				ld  c, a
+				srl a
+				ld  d, a
+				srl a
+				srl a
+				ld  e, a
+
+				ld  a, b 	// dx + dy
+				sub c  		// dx + dy - (mn >> 1)
+				sub d 		// dx + dy - (mn >> 1) - (mn >> 2)
+				add e 		// dx + dy - (mn >> 1) - (mn >> 2) + (mn >> 4)
+
+				ld  l, a
+				ld  h, 0
+		#endasm
 	}
 #endif
 
 #if defined (ENABLE_HANNA_MONSTERS_11)
 	// TODO: add light/torch stuff here!
 	unsigned char i_can_see_you (void) {
-		return (distance (gpx, gpy, _en_x, _en_y) <= HANNA_MONSTERS_11_SIGHT);
+		cx1 = gpx; cy1 = gpy; cx2 = _en_x; cy2 = _en_y;
+		return (distance () <= HANNA_MONSTERS_11_SIGHT);
 	}
 #endif
 
-#ifdef ENABLE_SHOOTERS
-	unsigned char coco_x [MAX_COCOS], coco_y [MAX_COCOS], coco_s [MAX_COCOS], ctx, cty;
-	signed char coco_vx [MAX_COCOS], coco_vy [MAX_COCOS];
-	
+#if defined (ENABLE_SHOOTERS) || defined (ENABLE_CLOUDS)	
 	void init_cocos (void) {
 		for (gpit = 0; gpit < MAX_COCOS;) coco_s [gpit++] = 0;
 	}
 
-	unsigned char coco_it, coco_d, coco_x0;
 	void shoot_coco (void) {
 		coco_x0 = _en_x + 4;
 		#ifdef SHOOTER_FIRE_ONE
@@ -32,7 +89,8 @@
 		#endif
 		{
 			if (coco_s [coco_it] == 0) {
-				coco_d = distance (coco_x0, _en_y, gpx, gpy);
+				cx1 = coco_x0; cy1 = _en_y; cx2 = gpx; cy2 = gpy;
+				coco_d = distance ();
 				if (coco_d >= SHOOTER_SAFE_DISTANCE) {
 					#ifdef MODE_128K
 						_AY_PL_SND (3);
@@ -42,8 +100,16 @@
 					coco_x [coco_it] = coco_x0;
 					coco_y [coco_it] = _en_y;
 
-					coco_vx [coco_it] = (ENEMY_SHOOT_SPEED * (gpx - coco_x0) / coco_d);
-					coco_vy [coco_it] = (ENEMY_SHOOT_SPEED * (gpy - _en_y) / coco_d);
+					#ifdef ENABLE_CLOUDS
+						if (gpt == 4) {
+							coco_vx [coco_it] = 0;
+							coco_vy [coco_it] = CLOUD_SHOOT_SPEED;
+						} else
+					#endif
+					{
+						coco_vx [coco_it] = (ENEMY_SHOOT_SPEED * (gpx - coco_x0) / coco_d);
+						coco_vy [coco_it] = (ENEMY_SHOOT_SPEED * (gpy - _en_y) / coco_d);
+					}
 				}
 			}
 		}
@@ -52,15 +118,13 @@
 	void move_cocos (void) {
 		for (coco_it = 0; coco_it < MAX_COCOS; coco_it ++) {
 			if (coco_s [coco_it]) {
-				coco_x [coco_it] += coco_vx [coco_it];
-				coco_y [coco_it] += coco_vy [coco_it];
+				ctx = coco_x [coco_it] + coco_vx [coco_it];
+				cty = coco_y [coco_it] + coco_vy [coco_it];
 
-				if (coco_x [coco_it] >= 240 || coco_y [coco_it] >= 160) coco_s [coco_it] = 0;
+				if (ctx >= 240 || cty >= 160) coco_s [coco_it] = 0;
 				// Collide player
-				ctx = coco_x [coco_it] + 3;
-				cty = coco_y [coco_it] + 3;
 				if (p_state == EST_NORMAL) {
-					cx1 = ctx; cy1 = cty; cx2 = gpx; cy2 = gpy;
+					ctx = cx1 = ctx + 3; cty = cy1 = cty + 3; cx2 = gpx; cy2 = gpy;
 					if (collide_pixel ()) {
 						coco_s [coco_it] = 0;
 						p_killme = SFX_PLAYER_DEATH_COCO;
@@ -71,6 +135,9 @@
 					cx1 = ctx >> 4; cy1 = cty >> 4;
 					if (attr () > 7) coco_s [coco_it] = 0;
 				#endif			
+
+				coco_x [coco_it] = ctx;
+				coco_y [coco_it] = cty;
 			}
 		}
 	}
@@ -125,12 +192,4 @@
 
 #if defined (SLOW_DRAIN) && defined (PLAYER_BOUNCES)
 	unsigned char lasttimehit;
-#endif
-
-#if defined (ENABLE_FANTIES) || defined (ENABLE_RANDOM_RESPAWN)
-	int limit (int val, int min, int max) {
-		if (val < min) return min;
-		if (val > max) return max;
-		return val;
-	}
 #endif
