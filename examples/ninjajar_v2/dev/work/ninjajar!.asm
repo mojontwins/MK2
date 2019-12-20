@@ -3,7 +3,7 @@
 ;
 ;	Reconstructed for z80 Module Assembler
 ;
-;	Module compile time: Fri Dec 20 10:21:43 2019
+;	Module compile time: Fri Dec 20 14:04:08 2019
 
 
 
@@ -9153,16 +9153,17 @@
 
 
 ._flick_screen
-	ld	hl,(_p_x)
-	ld	de,0	;const
-	call	l_eq
-	jp	nc,i_350
+	ld	a,(_gpx)
+	cp	#(0 % 256)
+	jp	nz,i_350
 	ld	hl,_p_vx
 	call	l_gchar
-	ld	de,0	;const
+	ld	de,128	;const
 	ex	de,hl
-	call	l_lt
-	jp	nc,i_350
+	call	l_and
+	ld	a,h
+	or	l
+	jp	z,i_350
 	ld	a,(_x_pant)
 	cp	#(0 % 256)
 	jp	z,i_350
@@ -9184,10 +9185,9 @@
 	ld	(_gpx),a
 	jp	i_352
 .i_349
-	ld	hl,(_p_x)
-	ld	de,3584	;const
-	call	l_eq
-	jp	nc,i_354
+	ld	a,(_gpx)
+	cp	#(224 % 256)
+	jp	nz,i_354
 	ld	hl,_p_vx
 	call	l_gchar
 	ld	de,0	;const
@@ -9218,15 +9218,22 @@
 	ld	(_p_x),hl
 .i_353
 .i_352
-	ld	hl,(_p_y)
-	ld	de,0	;const
-	call	l_eq
-	jp	nc,i_357
+	ld	a,(_gpy)
+	cp	#(0 % 256)
+	jp	nz,i_357
 	ld	hl,_p_vy
 	call	l_gchar
+	ld	a,h
+	or	l
+	jp	z,i_357
+	ld	hl,_p_vx
+	call	l_gchar
+	ld	de,128	;const
+	ex	de,hl
+	call	l_and
 	ld	de,0	;const
 	ex	de,hl
-	call	l_lt
+	call	l_eq
 	jp	nc,i_357
 	ld	a,(_y_pant)
 	cp	#(0 % 256)
@@ -9265,10 +9272,9 @@
 .i_359
 	jp	i_360
 .i_356
-	ld	hl,(_p_y)
-	ld	de,2304	;const
-	call	l_eq
-	jp	nc,i_362
+	ld	a,(_gpy)
+	cp	#(144 % 256)
+	jp	nz,i_362
 	ld	hl,_p_vy
 	call	l_gchar
 	ld	de,0	;const
