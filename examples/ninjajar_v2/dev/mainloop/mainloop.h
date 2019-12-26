@@ -61,7 +61,7 @@ void main (void) {
 		// *******************
 
 		#include "mainloop/game_init.h"
-
+level=3;
 		#ifdef COMPRESSED_LEVELS
 			while (mlplaying) {
 				prepare_level ();

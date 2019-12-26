@@ -43,7 +43,7 @@
 #define SAFE_MEMORY_POOL 	23302
 
 // Free space in the splib2 area we can use
-#define FREEPOOL 61697
+#define FREEPOOL 			61697
 
 // Define where to store and how many sprite descriptors are needed.
 // This game = 4*10 = 40 blocks
@@ -146,11 +146,11 @@ unsigned char AD_FREE [NUMBLOCKS * 15];
 
 #ifdef ACTIVATE_SCRIPTING
 	#ifdef ENABLE_EXTERN_CODE
-	#ifdef EXTERN_E
-		#include "my/extern_e.h"
-	#else
-		#include "my/extern.h"
-	#endif
+		#ifdef EXTERN_E
+			#include "my/extern_e.h"
+		#else
+			#include "my/extern.h"
+		#endif
 	#endif
 	#include "my/msc.h"
 #endif

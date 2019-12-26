@@ -89,17 +89,17 @@ void wyz_stop_sound (void) {
 }
 
 #ifdef PLAY_SAMPLE_ON_DEATH
-void __FASTCALL__ wyz_play_sample (unsigned char sample_number) {
-	#asm
-		di
-		ld b, 1
-		call SetRAMBank
-		; __FASTCALL__ -> sample_number is in l!
-		ld a, l
-		call PLAY_SAMPLE
-		ld b, 0
-		call SetRAMBank
-		ei
-	#endasm
-}
+	void __FASTCALL__ wyz_play_sample (unsigned char sample_number) {
+		#asm
+			di
+			ld b, 1
+			call SetRAMBank
+			; __FASTCALL__ -> sample_number is in l!
+			ld a, l
+			call PLAY_SAMPLE
+			ld b, 0
+			call SetRAMBank
+			ei
+		#endasm
+	}
 #endif

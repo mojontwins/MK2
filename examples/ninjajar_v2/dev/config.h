@@ -193,7 +193,7 @@
 #define ENABLE_SHOOTERS					// Activate this if your raise bit 4 in any enemies.
 
 #define SHOOTER_SHOOT_FREQ		63		// Shoot frequency (2^n-1)
-#define SHOOTER_SAFE_DISTANCE	64		// if closer won't shoot
+#define SHOOTER_SAFE_DISTANCE	48		// if closer won't shoot
 #define SHOOTER_FIRE_ONE 				// If defined, just fire one coco per enemy
 #define ENEMY_SHOOT_SPEED		6		// pixels per frame
 
