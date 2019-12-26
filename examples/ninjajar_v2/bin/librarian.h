@@ -30,52 +30,52 @@ RESOURCE resources [] = {
    {3, 56793},   // 19: ts2c.bin
    {3, 57619},   // 20: ss2c.bin
    {3, 58170},   // 21: enems2c.bin
-   {3, 58304},   // 22: hotspots2c.bin
-   {3, 58320},   // 23: behs2c.bin
-   {3, 58338},   // 24: map3c.bin
-   {3, 59090},   // 25: bolts3c.bin
-   {3, 59090},   // 26: ts3c.bin
-   {3, 59653},   // 27: enems3c.bin
-   {3, 59842},   // 28: hotspots3c.bin
-   {3, 59852},   // 29: behs3c.bin
-   {3, 59871},   // 30: map4c.bin
-   {3, 60313},   // 31: bolts4c.bin
-   {3, 60313},   // 32: ts4c.bin
-   {3, 61249},   // 33: ss4c.bin
-   {3, 61847},   // 34: enems4c.bin
-   {3, 61993},   // 35: hotspots4c.bin
-   {3, 62010},   // 36: behs4c.bin
-   {3, 62030},   // 37: map5c.bin
-   {3, 62697},   // 38: bolts5c.bin
-   {3, 62697},   // 39: ts5c.bin
-   {3, 63907},   // 40: enems5c.bin
-   {3, 64100},   // 41: hotspots5c.bin
-   {3, 64113},   // 42: behs5c.bin
-   {3, 64137},   // 43: bolts8c.bin
-   {3, 64137},   // 44: enems8c.bin
-   {3, 64371},   // 45: hotspots8c.bin
-   {3, 64385},   // 46: behs8c.bin
-   {3, 64412},   // 47: enems6c.bin
-   {3, 64644},   // 48: hotspots6c.bin
-   {3, 64654},   // 49: bolts6c.bin
-   {3, 64654},   // 50: bolts9c.bin
-   {3, 64654},   // 51: boltsBc.bin
-   {3, 64654},   // 52: bolts7c.bin
-   {3, 64654},   // 53: boltsAc.bin
-   {3, 64654},   // 54: boltsDc.bin
-   {3, 64654},   // 55: boltsCc.bin
-   {3, 64654},   // 56: boltsEc.bin
-   {3, 64654},   // 57: enems9c.bin
-   {3, 64826},   // 58: hotspots9c.bin
-   {3, 64838},   // 59: behs9c.bin
-   {3, 64868},   // 60: enemsBc.bin
-   {3, 64886},   // 61: hotspotsBc.bin
-   {3, 64893},   // 62: behsBc.bin
-   {3, 64914},   // 63: enems7c.bin
-   {3, 65163},   // 64: hotspots7c.bin
-   {3, 65185},   // 65: enemsAc.bin
-   {3, 65414},   // 66: hotspotsAc.bin
-   {3, 65431},   // 67: behsAc.bin
+   {3, 58303},   // 22: hotspots2c.bin
+   {3, 58319},   // 23: behs2c.bin
+   {3, 58337},   // 24: map3c.bin
+   {3, 59089},   // 25: bolts3c.bin
+   {3, 59089},   // 26: ts3c.bin
+   {3, 59652},   // 27: enems3c.bin
+   {3, 59841},   // 28: hotspots3c.bin
+   {3, 59851},   // 29: behs3c.bin
+   {3, 59870},   // 30: map4c.bin
+   {3, 60312},   // 31: bolts4c.bin
+   {3, 60312},   // 32: ts4c.bin
+   {3, 61248},   // 33: ss4c.bin
+   {3, 61846},   // 34: enems4c.bin
+   {3, 61992},   // 35: hotspots4c.bin
+   {3, 62009},   // 36: behs4c.bin
+   {3, 62029},   // 37: map5c.bin
+   {3, 62696},   // 38: bolts5c.bin
+   {3, 62696},   // 39: ts5c.bin
+   {3, 63906},   // 40: enems5c.bin
+   {3, 64099},   // 41: hotspots5c.bin
+   {3, 64112},   // 42: behs5c.bin
+   {3, 64136},   // 43: bolts8c.bin
+   {3, 64136},   // 44: enems8c.bin
+   {3, 64370},   // 45: hotspots8c.bin
+   {3, 64384},   // 46: behs8c.bin
+   {3, 64411},   // 47: enems6c.bin
+   {3, 64643},   // 48: hotspots6c.bin
+   {3, 64653},   // 49: bolts6c.bin
+   {3, 64653},   // 50: bolts9c.bin
+   {3, 64653},   // 51: boltsBc.bin
+   {3, 64653},   // 52: bolts7c.bin
+   {3, 64653},   // 53: boltsAc.bin
+   {3, 64653},   // 54: boltsDc.bin
+   {3, 64653},   // 55: boltsCc.bin
+   {3, 64653},   // 56: boltsEc.bin
+   {3, 64653},   // 57: enems9c.bin
+   {3, 64825},   // 58: hotspots9c.bin
+   {3, 64837},   // 59: behs9c.bin
+   {3, 64867},   // 60: enemsBc.bin
+   {3, 64885},   // 61: hotspotsBc.bin
+   {3, 64892},   // 62: behsBc.bin
+   {3, 64913},   // 63: enems7c.bin
+   {3, 65162},   // 64: hotspots7c.bin
+   {3, 65184},   // 65: enemsAc.bin
+   {3, 65413},   // 66: hotspotsAc.bin
+   {3, 65430},   // 67: behsAc.bin
    {4, 49152},   // 68: ts8c.bin
    {4, 50394},   // 69: map8c.bin
    {4, 51144},   // 70: map6c.bin
@@ -123,9 +123,9 @@ RESOURCE resources [] = {
    {6, 61213},   // 112: tsZc.bin
    {6, 62377},   // 113: level.bin
    {6, 65229},   // 114: credits.bin
-   {7, 59265},   // 115: ending3.bin
-   {7, 60453},   // 116: ending2.bin
-   {7, 61684}    // 117: tsXc.bin
+   {7, 59270},   // 115: ending3.bin
+   {7, 60458},   // 116: ending2.bin
+   {7, 61689}    // 117: tsXc.bin
 };
  
 void get_resource (unsigned char res, unsigned int dest) {

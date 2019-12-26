@@ -197,20 +197,46 @@ void run_script (unsigned char whichs) {
                     case 0x01:
                         // SET FLAG sc_x = sc_n
                         // Opcode: 01 sc_x sc_n
-                        readxy ();
-                        flags [sc_x] = sc_y;
+                        #asm
+                                call _readxy
+                                ld  de, (_sc_x)
+                                ld  d, 0
+                                ld  hl, _flags
+                                add hl, de
+                                ld  a, (_sc_y)
+                                ld  (hl), a
+                        #endasm
                         break;
                     case 0x10:
                         // INC FLAG sc_x, sc_n
                         // Opcode: 10 sc_x sc_n
-                        readxy ();
-                        flags [sc_x] += sc_y;
+                        #asm
+                                call _readxy
+                                ld  de, (_sc_x)
+                                ld  d, 0
+                                ld  hl, _flags
+                                add hl, de
+                                ld  c, (hl)
+                                ld  a, (_sc_y)
+                                add c
+                                ld  (hl), a
+                        #endasm
                         break;
                     case 0x11:
                         // DEC FLAG sc_x, sc_n
                         // Opcode: 11 sc_x sc_n
-                        readxy ();
-                        flags [sc_x] -= sc_y;
+                        #asm
+                                call _readxy
+                                ld  de, (_sc_x)
+                                ld  d, 0
+                                ld  hl, _flags
+                                add hl, de
+                                ld  a, (_sc_y)
+                                ld  c, a
+                                ld  a, (hl)
+                                sub c
+                                ld  (hl), a
+                        #endasm
                         break;
                     case 0x15:
                         // FLIPFLOP sc_x
@@ -282,14 +308,6 @@ void run_script (unsigned char whichs) {
                         gpx = read_vbyte () << 4; p_x = gpx << FIXBITS;
                         stop_player ();
 #endif
-                        break;
-                    case 0x6C:
-                        // REPOSTN sc_x sc_y
-                        // Opcode: 6C sc_x sc_y
-                        do_respawn = 0;
-                        reloc_player ();
-                        o_pant = 99;
-                        sc_terminado = 1;
                         break;
                     case 0x6D:
                         // WARP_TO sc_n

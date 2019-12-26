@@ -68,11 +68,11 @@ Study why this happens and how to fix it. I think it has to do with "REENTER".
 
 I just changed the collision detection, so I must've messed it somehow.
 
-#### [ ] Faster fanties in assembly
+#### [X] Faster fanties in assembly
 
 Not that they should move faster, but take less cycles to update. Will be performed in two stages:
 [X] Rehash the code and extract copies of array values to plain vars.
-[ ] Translate into assembly.
+[X] Translate into assembly.
 
 Remember how you quickly add an 8 bit number to a 16 bit number (dumb mode on)
 
@@ -116,7 +116,57 @@ Or
 
 I always say I prefer the 6502, but this is one of the situations Z80s are actually more powerful.
 
-#### [ ] Rewrite `distance` in assembly, 
+#### [X] Rewrite `distance` in assembly, 
 
 Undo `abs` calls maybe.
+
+#### [X] game almost freezes after exiting shops
+
+Maybe it got stuck in an (unattended) fire zone? All main screens (0, 2, 4, 6, 8) define a fire zone at 224, 0, 239, 159, which is the right side of the screen, to trigger the level exit.
+
+There's a strange scripting related to flag 6, which is noted in the comments as "Entering/exitting shop cheat". Maybe there was a cheat where you could get infinite lives? I can't remember, of course.
+
+On entering screen 0 there's a `REPOSTN 8, 7` if `FLAG 6 = 1`. Flag 6 is set to 1 as soon as you enter the shop, but it's reset if you read any sign.
+
+I bet there's something which is not being parsed quite right in this script which causes this endless loop.
+
+The slowness is 'cause the game is reentering the screen continuously. `run_fire_script` is not being executed so I guess it doesn't have anything to do with the fire zone. Maybe the `WARP` is broken?
+
+`WARP` sets `n_pant` to the value read in the script and `o_pant` to 99 (which should be unnecessary?), then relocates player and `return`s, which effectively ends the script.
+
+At the moment the screen is about to be drawn, `n_pant = 0` (which is correct), `o_pant = 99`. So somebody is acting boldly.
+
+Let's see what this does upon entering screen. Maybe the `run_entering_script` is in charge? First it calls `run_script` with 0x2B as a parameter, which happens to be 2*21+1, this is, `ENTERING ANY`. After this, `n_pant` and `o_pant` are still 0. So it's not there.
+
+Then it calls again with 0x00, which happens to be `n_pant + n_pant` (`ENTERING SCREEN 0`). After this, `o_pant` = 99! WTF?
+
+So there is something wrong with the scripting parsing as obviously there's nothing wrong with `ENTERING SCREEN 0`, at least nothing which should set `o_pant` to 99. There's a `script overflow` which is making this run into the `PRESS_FIRE AT SCREEN 0` script, hitting the `IF PLAYER_TOUCHES 8,7`. So let's debug `msc` *once again*.
+
+But everything seems correct? Maybe the `msc.h` parser is wrong? Let's check `REPOSTN`.
+
+```c
+    case 0x6C:
+        // REPOSTN sc_x sc_y
+        // Opcode: 6C sc_x sc_y
+        do_respawn = 0;
+        reloc_player ();
+        o_pant = 99;
+        sc_terminado = 1;
+        break;
+```
+
+WTF? Why does `REPOSTN` force a reenter?! Obviously this behaviour was added after `Ninjajar!`. Let's check what the docs have to say about `REPOSTN`...
+
+No mention to `REPOSTN` in the docs. I guess I repurposed the command while making Leovigildo or whatever. Let's examine the script and change for `SETX`/`SETY`.
+
+#### [X] No sprite for clouds (but they work)
+
+#### [ ] Make cocos collision with bg selectable as per coco basis
+
+So I can have monococos having laser cocos but nubes having solid cocos so you can take cover.
+
+#### [ ] Why doesn't `cocos_destroy` clear the coco sprite?
+
+
+
 

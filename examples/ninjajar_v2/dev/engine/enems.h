@@ -104,6 +104,9 @@ void enems_init (void) {
 					case 4:
 						// Make sure mx is positive!
 						baddies [enoffsmasi].mx = abs (baddies [enoffsmasi].mx);
+						#ifdef CLOUDS_FIXED_CELL
+							en_an_base_frame [gpit] = CLOUDS_FIXED_CELL << 1; 
+						#endif
 						break;
 				#endif
 				#ifdef ENABLE_HANNA_MONSTERS_11

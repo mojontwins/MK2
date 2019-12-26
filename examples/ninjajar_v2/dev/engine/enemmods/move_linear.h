@@ -87,5 +87,5 @@ _en_y += _en_my;
 
 #ifdef ENABLE_SHOOTERS
 	// Shoot a coco
-	if (enemy_shoots && (rand () & SHOOTER_SHOOT_FREQ) == 1) shoot_coco ();
+	if (enemy_shoots && (rand () & SHOOTER_SHOOT_FREQ) == 1) cocos_shoot ();
 #endif

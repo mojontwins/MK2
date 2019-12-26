@@ -104,7 +104,7 @@ void advance_worm (void) {
 }
 
 #ifdef ENABLE_SHOOTERS
-	void init_cocos (void);
+	void cocos_init (void);
 #endif
 
 #if defined (TWO_SETS) || defined (TWO_SETS_MAPPED)
@@ -612,7 +612,7 @@ void draw_scr (void) {
 	#endif
 
 	#ifdef ENABLE_SHOOTERS
-		init_cocos ();
+		cocos_init ();
 	#endif
 
 	#if defined (PLAYER_CHECK_MAP_BOUNDARIES) || defined (PLAYER_CYCLIC_MAP)

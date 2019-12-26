@@ -36,7 +36,7 @@
 	#endif
 
 	#ifdef ENABLE_SHOOTERS
-		init_cocos ();
+		cocos_init ();
 	#endif
 
 	#ifndef COMPRESSED_LEVELS

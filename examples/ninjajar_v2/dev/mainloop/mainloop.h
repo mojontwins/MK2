@@ -61,7 +61,7 @@ void main (void) {
 		// *******************
 
 		#include "mainloop/game_init.h"
-level=3;
+level=5;
 		#ifdef COMPRESSED_LEVELS
 			while (mlplaying) {
 				prepare_level ();
@@ -124,7 +124,7 @@ level=3;
 			#endif
 
 			#ifdef ENABLE_SHOOTERS
-				move_cocos ();
+				cocos_move ();
 			#endif
 
 			#if defined (BREAKABLE_WALLS) || defined (BREAKABLE_WALLS_SIMPLE)

@@ -828,6 +828,7 @@ inFileName = command (1)
 maxidx = 2 * pval (command (2))
 maxScr = val (Command (2)) - 1
 If command (3) = "rampage" then rampage = -1 Else rampage = 0
+If command (3) = "debug" Or command (4) = "debug" Then debuggingThisShit = -1
 
 if command (1) = "" or  maxidx = 0 then
 	print "MojonTwins Scripts Compiler v3.97 20191202"
@@ -1557,17 +1558,33 @@ if actionsUsed (&H1) Then
 	print #f3, "                    case 0x01:"
 	print #f3, "                        // SET FLAG sc_x = sc_n"
 	print #f3, "                        // Opcode: 01 sc_x sc_n"
-	print #f3, "                        readxy ();"
-	print #f3, "                        flags [sc_x] = sc_y;"
-	print #f3, "                        break;"
+	print #f3, "                        #asm"
+	print #f3, "                                call _readxy"
+	print #f3, "                                ld  de, (_sc_x)"
+	print #f3, "                                ld  d, 0"
+	print #f3, "                                ld  hl, _flags"
+	print #f3, "                                add hl, de"
+	print #f3, "                                ld  a, (_sc_y)"
+	print #f3, "                                ld  (hl), a"
+	print #f3, "                        #endasm"
+	print #f3, "                        break;"	
 End If
 
 if actionsUsed (&H10) Then
 	print #f3, "                    case 0x10:"
 	print #f3, "                        // INC FLAG sc_x, sc_n"
 	print #f3, "                        // Opcode: 10 sc_x sc_n"
-	print #f3, "                        readxy ();"
-	print #f3, "                        flags [sc_x] += sc_y;"
+	print #f3, "                        #asm"
+	print #f3, "                                call _readxy"
+	print #f3, "                                ld  de, (_sc_x)"
+	print #f3, "                                ld  d, 0"
+	print #f3, "                                ld  hl, _flags"
+	print #f3, "                                add hl, de"
+	print #f3, "                                ld  c, (hl)"
+	print #f3, "                                ld  a, (_sc_y)"
+	print #f3, "                                add c"
+	print #f3, "                                ld  (hl), a"
+	print #f3, "                        #endasm"	
 	print #f3, "                        break;"
 End If
 
@@ -1575,8 +1592,18 @@ if actionsUsed (&H11) Then
 	print #f3, "                    case 0x11:"
 	print #f3, "                        // DEC FLAG sc_x, sc_n"
 	print #f3, "                        // Opcode: 11 sc_x sc_n"
-	print #f3, "                        readxy ();"
-	print #f3, "                        flags [sc_x] -= sc_y;"
+	print #f3, "                        #asm"
+	print #f3, "                                call _readxy"
+	print #f3, "                                ld  de, (_sc_x)"
+	print #f3, "                                ld  d, 0"
+	print #f3, "                                ld  hl, _flags"
+	print #f3, "                                add hl, de"
+	print #f3, "                                ld  a, (_sc_y)"
+	print #f3, "                                ld  c, a"
+	print #f3, "                                ld  a, (hl)"
+	print #f3, "                                sub c"
+	print #f3, "                                ld  (hl), a"
+	print #f3, "                        #endasm"
 	print #f3, "                        break;"
 End If
 
