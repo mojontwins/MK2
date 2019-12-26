@@ -68,11 +68,11 @@
 			#endif	
 			n_pant = level_data.scr_ini;
 			#ifdef PHANTOMAS_ENGINE
-				gpx = p_x = levels [level].ini_x << 4;
-				gpy = p_y = levels [level].ini_y << 4;
+				gpx = p_x = level_data->ini_x << 4;
+				gpy = p_y = level_data->ini_y << 4;
 			#else	
-				gpx = levels [level].ini_x << 4;
-				gpy = levels [level].ini_y << 4;
+				gpx = level_data->ini_x << 4;
+				gpy = level_data->ini_y << 4;
 				p_x = gpx << FIXBITS;
 				p_y = gpy << FIXBITS;
 			#endif	

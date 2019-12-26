@@ -39,8 +39,13 @@ move ..\bin\map.bin.spt ..\script > nul
 echo ### MAKING ENEMS ###
 ..\utils\ene2bin.exe 10 2 1 ..\enems\enems.ene ..\bin\enems.bin ..\bin\hotspots.bin > nul
 
+
 echo ### MAKING TILESET ###
+rem use this for 48K games:
 ..\utils\ts2bin.exe ..\gfx\font.png ..\gfx\work.png ..\bin\ts.bin forcezero > nul
+
+rem use this for 128K games:
+rem ..\utils\ts2bin.exe ..\gfx\font.png notiles ..\bin\font.bin forcezero > nul
 
 echo ### MAKING SPRITESET ###
 ..\utils\sprcnv.exe ..\gfx\sprites.png assets\sprites.h 18 > nul
@@ -125,7 +130,7 @@ rem echo ### BUILDING RAMS ###
 rem cd ..\bin
 rem ..\utils\librarian.exe
 rem copy ram?.bin ..\dev\work
-rem copy librarian.h ..\dev\assets\
+rem copy librarian.h ..\dev\my\
 rem cd ..\dev
 
 rem ###########################################################################
