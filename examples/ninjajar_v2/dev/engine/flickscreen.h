@@ -94,7 +94,6 @@ void flick_screen (void) {
 		#endif
 	} else if (gpy == 144 && p_vy > 0 MAP_BOUNDARY_BOTTOM) {
 		n_pant = SCREEN_DOWN; p_y = gpy = 0;
-		//if (p_vy > 256) {sp_Border (2); p_vy = 256; }
 	}
 #endif	
 }
