@@ -111,6 +111,7 @@ void enems_init (void) {
 						en_an_state [gpit] = 0;
 						break;
 				#endif
+				#include "my/extra_enems_init.h"
 				default:
 					break;
 			}
@@ -481,6 +482,7 @@ void enems_move (void) {
 						#include "engine/enemmods/move_hanna_11.h"
 						break;
 				#endif
+				#include "my/extra_enems_move.h"
 				default:
 					en_an_n_f [enit] = sprite_18_a;
 			}

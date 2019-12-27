@@ -11,3 +11,10 @@ Cosas que he hecho:
 5. Por alguna razón `buildtzx` termina su ejecución con "Cannot read file", pero parece funcionar (?)
 
 6. A `msc` hay que decirle `rampage` para que genere código preparado para RAM extendida: `..\..\..\src\utils\msc3_mk2_1.exe script.spt 20 rampage > nul`.
+
+7. TODO - Empezar a añadir puntos de inyección de código para todos los customs!
+
+	- [X] Hay un mensaje al comenzar el juego y luego se establece `silent_level` para todos los niveles. Se puede sustituir por un custom level screen o algo así.
+
+	- [X] Tipos de enemigos
+

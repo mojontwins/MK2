@@ -20,12 +20,13 @@ extern unsigned char *script;
     ._script defw 0
 #endasm
 
-#define SCRIPT_0 0x0000
-#define SCRIPT_1 0x0646
-#define SCRIPT_2 0x0A6A
-#define SCRIPT_3 0x0D37
-#define SCRIPT_4 0x125B
-#define SCRIPT_5 0x15C4
-#define SCRIPT_6 0x1DC5
-#define SCRIPT_7 0x2401
-#define SCRIPT_8 0x2CF8
+#define LEVEL_0 0x0000
+#define LEVEL_1 0x0646
+#define LEVEL_2 0x0A6A
+#define LEVEL_3 0x0D37
+#define LEVEL_4 0x125B
+#define LEVEL_5 0x15C4
+#define LEVEL_6 0x1DC5
+#define LEVEL_7 0x2401
+#define LEVEL_8 0x2CF8
+#define SCRIPT_INIT 52704

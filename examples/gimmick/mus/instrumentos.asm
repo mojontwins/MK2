@@ -1,35 +1,35 @@
 
 ; Tabla de instrumentos
-TABLA_PAUTAS: DW PAUTA_0,0,0,0,PAUTA_4,0,PAUTA_6,PAUTA_7,PAUTA_8,PAUTA_9,0,0,0,0,0,0,0,0,PAUTA_18
+TABLA_PAUTAS: DW PAUTA_0,PAUTA_1,0,0,0,0,PAUTA_6,PAUTA_7,PAUTA_8,0,PAUTA_10,PAUTA_11
 
 ; Tabla de efectos
 TABLA_SONIDOS: DW SONIDO0,SONIDO1,SONIDO2,SONIDO3
 
 ;Pautas (instrumentos)
 ;Instrumento 'Piano'
-PAUTA_0:	DB	12,0,11,0,10,0,8,0,129
-;Instrumento 'Steel vol2'
-PAUTA_7:	DB	75,0,41,0,7,0,5,0,4,0,129
-;Instrumento 'Steel vol1'
-PAUTA_8:	DB	78,0,44,0,10,0,8,0,7,0,129
-;Instrumento 'vibratore'
-PAUTA_4:	DB	9,5,9,-5,8,5,8,-5,132
-;Instrumento 'Techno +1'
-PAUTA_6:	DB	77,0,12,0,10,0,10,0,11,0,11,0,10,0,10,0,129
+PAUTA_0:	DB	12,0,11,0,10,0,9,0,129
 ;Instrumento 'Techno -vol'
-PAUTA_9:	DB	74,0,9,0,8,0,8,0,9,0,9,0,8,0,8,0,129
-;Instrumento 'Techno -2vol'
-PAUTA_18:	DB	70,0,5,0,4,0,4,0,5,0,5,0,4,0,4,0,129
+PAUTA_8:	DB	72,0,7,0,6,0,6,0,7,0,7,0,6,0,6,0,129
+;Instrumento 'Trompeta'
+PAUTA_7:	DB	10,0,11,0,11,0,12,0,12,0,11,0,10,0,8,0,7,0,7,0,7,0,129
+;Instrumento 'Techno +1'
+PAUTA_6:	DB	74,0,9,0,8,0,8,0,9,0,9,0,8,0,8,0,129
+;Instrumento 'piano vol-'
+PAUTA_10:	DB	10,0,9,0,8,0,7,0,129
+;Instrumento 'piano--'
+PAUTA_11:	DB	7,0,6,0,5,0,5,0,129
+;Instrumento 'blip'
+PAUTA_1:	DB	11,0,8,0,9,0,7,0,5,0,0,129
 
 ;Efectos
 ;Efecto 'bass drum'
-SONIDO0:	DB	209,63,0,209,78,0,69,109,0,255
+SONIDO0:	DB	184,109,0,140,104,0,0,6,0,202,32,0,69,64,0,255
 ;Efecto 'drum'
-SONIDO1:	DB	69,47,0,232,44,5,0,57,2,255
-;Efecto 'drum'
-SONIDO2:	DB	173,47,0,232,44,5,0,57,2,255
-;Efecto 'drum'
-SONIDO3:	DB	107,63,0,232,44,5,0,57,2,255
+SONIDO1:	DB	209,60,20,13,41,11,13,38,9,255
+;Efecto 'ggdrum'
+SONIDO2:	DB	209,60,20,13,41,11,13,38,9,255
+;Efecto 'castlev'
+SONIDO3:	DB	24,105,8,0,6,9,255
 
 ;Frecuencias para las notas
 DATOS_NOTAS: DW 0,0

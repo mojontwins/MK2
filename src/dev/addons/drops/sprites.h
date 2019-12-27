@@ -15,5 +15,5 @@ extern unsigned char drop_sprites [0];
 	defb 0, 255
 	defb 0, 255
 ._drop_sprites
-	BINARY "spdrop.bin"
+	BINARY "../bin/spdrop.bin"
 #endasm

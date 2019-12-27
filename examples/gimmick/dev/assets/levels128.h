@@ -180,15 +180,15 @@ unsigned char level_sequence [] = {
 
 #else
 LEVEL levels [] = {
-	{LEVEL0C_BIN, 1,SCRIPT_INIT + SCRIPT_0}, /*Pueblo*/
-	{LEVEL1C_BIN, 2,SCRIPT_INIT + SCRIPT_1}, /*Sonic*/
-	{LEVEL2C_BIN, 7,SCRIPT_INIT + SCRIPT_2}, /*Mario*/
-	{LEVEL3C_BIN, 4,SCRIPT_INIT + SCRIPT_3}, /*Castlevania*/
-	{LEVEL4C_BIN, 14,SCRIPT_INIT + SCRIPT_4}, /*Wonder Boy3*/
-	{LEVEL5C_BIN, 9,SCRIPT_INIT + SCRIPT_5}, /*Shinobi*/
-	{LEVEL6C_BIN, 8,SCRIPT_INIT + SCRIPT_6}, /*Rooms and Bosses*/
-	{LEVEL7C_BIN, 11,SCRIPT_INIT + SCRIPT_7}, /*Ghouls and Goblins*/
-	{LEVEL8C_BIN, 13,SCRIPT_INIT + SCRIPT_8} /*WB 1 + surprise*/	
+	{LEVEL0C_BIN, 1,SCRIPT_INIT + LEVEL_0}, /*Pueblo*/
+	{LEVEL1C_BIN, 2,SCRIPT_INIT + LEVEL_1}, /*Sonic*/
+	{LEVEL2C_BIN, 7,SCRIPT_INIT + LEVEL_2}, /*Mario*/
+	{LEVEL3C_BIN, 4,SCRIPT_INIT + LEVEL_3}, /*Castlevania*/
+	{LEVEL4C_BIN, 14,SCRIPT_INIT + LEVEL_4}, /*Wonder Boy3*/
+	{LEVEL5C_BIN, 9,SCRIPT_INIT + LEVEL_5}, /*Shinobi*/
+	{LEVEL6C_BIN, 8,SCRIPT_INIT + LEVEL_6}, /*Rooms and Bosses*/
+	{LEVEL7C_BIN, 11,SCRIPT_INIT + LEVEL_7}, /*Ghouls and Goblins*/
+	{LEVEL8C_BIN, 13,SCRIPT_INIT + LEVEL_8} /*WB 1 + surprise*/	
 	// etc
 };
 #endif

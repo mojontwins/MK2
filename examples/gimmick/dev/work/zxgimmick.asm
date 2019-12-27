@@ -3,7 +3,7 @@
 ;
 ;	Reconstructed for z80 Module Assembler
 ;
-;	Module compile time: Fri Dec 27 04:48:15 2019
+;	Module compile time: Fri Dec 27 09:40:39 2019
 
 
 
@@ -1607,31 +1607,31 @@
 ._levels
 	defb	3
 	defb	1
-	defw	49152
+	defw	52704
 	defb	4
 	defb	2
-	defw	50758
+	defw	54310
 	defb	5
 	defb	7
-	defw	51818
+	defw	55370
 	defb	6
 	defb	4
-	defw	52535
+	defw	56087
 	defb	7
 	defb	14
-	defw	53851
+	defw	57403
 	defb	8
 	defb	9
-	defw	54724
+	defw	58276
 	defb	9
 	defb	8
-	defw	56773
+	defw	60325
 	defb	10
 	defb	11
-	defw	58369
+	defw	61921
 	defb	11
 	defb	13
-	defw	60664
+	defw	64216
 
 ;	SECTION	code
 
@@ -8285,35 +8285,37 @@
 	call	l_lneg
 	jp	nc,i_352
 	call	_blackout_area
-	ld	a,#(12 % 256 % 256)
+	ld	a,#(5 % 256 % 256)
 	ld	(__x),a
-	ld	a,#(12 % 256 % 256)
+	ld	a,#(5 % 256 % 256)
 	ld	(__y),a
 	ld	a,#(71 % 256 % 256)
 	ld	(__t),a
 	ld	hl,i_1+134
 	ld	(_gp_gen),hl
 	call	_print_str
-	ld	a,#(18 % 256 % 256)
-	ld	(__x),a
-	ld	a,#(12 % 256 % 256)
-	ld	(__y),a
-	ld	hl,(_level)
-	ld	h,0
-	inc	hl
-	ld	h,0
-	ld	a,l
-	ld	(__t),a
-	call	_print_number2
 	call	sp_UpdateNow
-	ld	hl,8 % 256	;const
-	call	_wyz_play_sound
+	ld	hl,150	;const
+	push	hl
+	call	_active_sleep
+	pop	bc
+	call	_blackout_area
+	ld	a,#(6 % 256 % 256)
+	ld	(__x),a
+	ld	a,#(11 % 256 % 256)
+	ld	(__y),a
+	ld	a,#(71 % 256 % 256)
+	ld	(__t),a
+	ld	hl,i_1+159
+	ld	(_gp_gen),hl
+	call	_print_str
+	call	sp_UpdateNow
 	ld	hl,250	;const
 	push	hl
 	call	_active_sleep
 	pop	bc
 .i_352
-	ld	a,#(0 % 256 % 256)
+	ld	a,#(1 % 256 % 256)
 	ld	(_silent_level),a
 	ld	hl,1 % 256	;const
 	ld	a,l
@@ -8750,7 +8752,7 @@
 	pop	bc
 	jp	i_391
 .i_394
-	ld	hl,i_1+140
+	ld	hl,i_1+180
 	ld	(_gp_gen),hl
 	call	_print_message
 	ld	hl,_level
@@ -8819,7 +8821,10 @@
 	defm	" GAME OVER! "
 	defb	0
 
-	defm	"LEVEL"
+	defm	"GRACIAS ANDY Y NATHAN ;_"
+	defb	0
+
+	defm	"LA AVENTURA COMIENZA"
 	defb	0
 
 	defm	" ZONE CLEAR "

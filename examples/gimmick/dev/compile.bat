@@ -1,6 +1,7 @@
 @echo off
 
 SET game=zxgimmick
+SET lang=es
 
 echo ------------------------------------------------------------------------------
 echo    BUILDING %game%
@@ -18,9 +19,9 @@ echo ### MAKING SPRITESET ###
 echo ### MAKING TEXTS ###
 cd ..\texts
 ..\..\..\src\utils\textstuffer2.exe texts_es.bin textfile=texts_es.txt mode=simple wordwrap=24  > nul
-copy texts_es.bin ..\bin\texts_es.bin > nul
 ..\..\..\src\utils\textstuffer2.exe texts_en.bin textfile=texts_en.txt mode=simple wordwrap=24  > nul
-copy texts_en.bin ..\bin\texts_en.bin > nul
+
+copy texts_%lang%.bin ..\bin\texts.bin > nul
 
 echo ### MAKING SCRIPT ###
 cd ..\script
@@ -48,7 +49,7 @@ echo ### BUILDING RAMS ###
 cd ..\bin
 ..\..\..\src\utils\librarian.exe > nul
 copy ram?.bin ..\dev\work > nul
-copy librarian.h ..\dev\assets\ > nul
+copy librarian.h ..\dev\my\ > nul
 cd ..\dev
 
 echo ### BUILDING WYZ PLAYER ###
@@ -106,7 +107,7 @@ rem Example for 128K games:
 ..\..\..\src\utils\bin2tap -o work\RAM6.tap -a 25000 work\ram6.bin  > nul
 ..\..\..\src\utils\bin2tap -o work\RAM7.tap -a 25000 work\ram7.bin  > nul
 ..\..\..\src\utils\bin2tap -o work\main.tap -a 24200 work\%game%.bin  > nul
-copy /b work\loader.tap + work\loading.tap + work\reubica.bin + work\ram1.tap + work\ram3.tap + work\ram4.tap + work\ram6.tap + work\ram7.tap + work\main.tap %game%.tap > nul
+copy /b work\loader.tap + work\loading.tap + work\reubica.bin + work\ram1.tap + work\ram3.tap + work\ram4.tap + work\ram6.tap + work\ram7.tap + work\main.tap %game%-%lang%.tap > nul
 del /a /s work\*.tap > nul
 
 copy work\%game%.bin ..\tzx
@@ -120,5 +121,5 @@ copy work\ram*.bin ..\tzx\ > nul
 copy work\zxgimmick.bin ..\tzx\ > nul
 
 cd ..\tzx
-buildtzx -l 1 -i template.txt -o gimmick.tzx -n Gimmick > nul
+buildtzx -l 1 -i template.txt -o %game%-%lang%.tzx -n Gimmick > nul
 cd ..\dev

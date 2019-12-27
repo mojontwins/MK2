@@ -70,7 +70,7 @@ void main (void) {
 				// NEW LEVEL SCREEN
 				// ****************
 
-				#include "mainloop/new_level.h"
+				#include "my/new_level.h"
 		#endif
 
 		// ********************

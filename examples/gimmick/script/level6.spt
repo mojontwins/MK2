@@ -6,6 +6,7 @@
 # COMO NºNIVEL*10 + Nº PUERTA. EJEMPLO: PUERTA 2 DEL NIVEL 3 SERÍA "32" (3*10 + 2)
 #
 ##############################################################################
+LEVELID LEVEL_6
 INC_DECORATIONS decorations6.spt
 
 ENTERING GAME

@@ -59,6 +59,7 @@ END
 ##############################################################################
 # LEVEL 0 PUEBLO
 ##############################################################################
+LEVELID LEVEL_0
 INC_DECORATIONS decorations0.spt
 
 ENTERING GAME
@@ -818,6 +819,7 @@ END_OF_LEVEL
 ##############################################################################
 # LEVEL 1 SONIC GREEN HILL
 ##############################################################################
+LEVELID LEVEL_1
 INC_DECORATIONS decorations1.spt
 
 ENTERING GAME
@@ -1068,6 +1070,7 @@ END_OF_LEVEL
 ##############################################################################
 # LEVEL 2 MARIO 
 ##############################################################################
+LEVELID LEVEL_2
 INC_DECORATIONS decorations2.spt
 
 ENTERING GAME
@@ -1247,6 +1250,7 @@ END_OF_LEVEL
 ##############################################################################
 # LEVEL 3 CASTLEVANIA
 ##############################################################################
+LEVELID LEVEL_3
 INC_DECORATIONS decorations3.spt
 
 ENTERING GAME
@@ -1802,6 +1806,7 @@ END_OF_LEVEL
 ##############################################################################
 # LEVEL 4 WONDERBOY3
 ##############################################################################
+LEVELID LEVEL_4
 INC_DECORATIONS decorations4.spt
 
 ENTERING GAME
@@ -2198,6 +2203,7 @@ END_OF_LEVEL
 ##############################################################################
 # LEVEL 5 SHINOBI
 ##############################################################################
+LEVELID LEVEL_5
 INC_DECORATIONS decorations5.spt
 
 ENTERING GAME
@@ -2459,6 +2465,7 @@ END_OF_LEVEL
 # COMO NºNIVEL*10 + Nº PUERTA. EJEMPLO: PUERTA 2 DEL NIVEL 3 SERÍA "32" (3*10 + 2)
 #
 ##############################################################################
+LEVELID LEVEL_6
 INC_DECORATIONS decorations6.spt
 
 ENTERING GAME
@@ -3212,6 +3219,7 @@ END_OF_LEVEL
 ##############################################################################
 # LEVEL 7 GHOULS AND GOBLINS
 ##############################################################################
+LEVELID LEVEL_7
 INC_DECORATIONS decorations7.spt
 
 ENTERING GAME
@@ -3841,6 +3849,7 @@ END_OF_LEVEL
 ##############################################################################
 # LEVEL 8 WONDER BOY 1 & GRADIUS
 ##############################################################################
+LEVELID LEVEL_8
 INC_DECORATIONS decorations8.spt
 
 ENTERING GAME

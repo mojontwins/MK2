@@ -90,7 +90,7 @@ unsigned char AD_FREE [NUMBLOCKS * 15];
 #include "assets/pantallas.h"
 
 #ifdef MODE_128K
-	#include "assets/librarian.h"
+	#include "my/librarian.h"
 
 	#if defined (COMPRESSED_LEVELS)
 		#include "assets/levels128.h"
