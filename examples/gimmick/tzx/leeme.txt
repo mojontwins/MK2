@@ -1,0 +1,15 @@
+Como ejemplo tenemos el BeTiled!. Para generar un par de TZX:
+
+buildtzx -l 1 -i template.txt -o betiled_rom.tzx -n BeTiled!   (carga normal)
+buildtzx -l 3 -i template.txt -o betiled_turbo.tzx -n BeTiled! (carga turbo)
+
+Happy coding!
+
+
+ESTE ES EL QUE HE HECHO PARA Ninjakul2:
+
+buildtzx -l 3 -i template.txt -o ninjkul_turbo.tzx -n Ninjakul2
+
+
+*** Solo he tenido que copiar los exe apppack (renombrarlo asi porque daba error si no) y el contenido de la carpeta bin en esta carpeta testninja
+

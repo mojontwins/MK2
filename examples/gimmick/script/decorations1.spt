@@ -1,0 +1,398 @@
+ENTERING SCREEN 0
+	IF TRUE
+	THEN
+		DECORATIONS
+			11, 5, 25
+			12, 5, 23
+			13, 5, 26
+			3, 6, 29
+			9, 6, 20
+			12, 6, 24
+			1, 7, 22
+			3, 7, 28
+			9, 7, 19
+			12, 7, 23
+		END
+	END
+END
+ 
+ENTERING SCREEN 1
+	IF TRUE
+	THEN
+		DECORATIONS
+			1, 6, 29
+			1, 7, 28
+			8, 7, 30
+			2, 8, 30
+			8, 8, 27
+			2, 9, 27
+			6, 9, 21
+			7, 9, 21
+			8, 9, 27
+			12, 9, 21
+			13, 9, 21
+			14, 9, 21
+		END
+	END
+END
+ 
+ENTERING SCREEN 2
+	IF TRUE
+	THEN
+		DECORATIONS
+			2, 6, 30
+			4, 6, 29
+			2, 7, 27
+			4, 7, 28
+			2, 8, 27
+			0, 9, 21
+			1, 9, 21
+			2, 9, 27
+		END
+	END
+END
+ 
+ENTERING SCREEN 3
+	IF TRUE
+	THEN
+		DECORATIONS
+			11, 2, 21
+			1, 6, 29
+			1, 7, 28
+			7, 7, 21
+		END
+	END
+END
+ 
+ENTERING SCREEN 4
+	IF TRUE
+	THEN
+		DECORATIONS
+			1, 0, 19
+			1, 1, 19
+			1, 2, 19
+			2, 3, 20
+			10, 3, 20
+			2, 4, 19
+			10, 4, 19
+			2, 5, 19
+			10, 5, 19
+			2, 6, 19
+			5, 6, 29
+			10, 6, 19
+			2, 7, 19
+			5, 7, 28
+			10, 7, 19
+		END
+	END
+END
+ 
+ENTERING SCREEN 5
+	IF TRUE
+	THEN
+		DECORATIONS
+			5, 0, 19
+			5, 1, 19
+			4, 2, 21
+			5, 2, 19
+			6, 3, 30
+			6, 4, 19
+			10, 5, 20
+			10, 6, 19
+			10, 7, 19
+		END
+	END
+END
+ 
+ENTERING SCREEN 6
+	IF TRUE
+	THEN
+		DECORATIONS
+			4, 5, 25
+			5, 5, 23
+			6, 5, 26
+			5, 6, 24
+			14, 6, 29
+			5, 7, 23
+			14, 7, 28
+		END
+	END
+END
+ 
+ENTERING SCREEN 7
+	IF TRUE
+	THEN
+		DECORATIONS
+			0, 8, 20
+			7, 8, 20
+			0, 9, 19
+			13, 9, 20
+		END
+	END
+END
+ 
+ENTERING SCREEN 8
+	IF TRUE
+	THEN
+		DECORATIONS
+			2, 4, 20
+			5, 4, 20
+			8, 4, 20
+			11, 4, 20
+			14, 5, 21
+			1, 6, 20
+			14, 7, 21
+			14, 8, 30
+			14, 9, 27
+		END
+	END
+END
+ 
+ENTERING SCREEN 9
+	IF TRUE
+	THEN
+		DECORATIONS
+			4, 0, 19
+			4, 1, 19
+			4, 2, 19
+			7, 2, 20
+			11, 2, 20
+			4, 3, 20
+			1, 4, 30
+			4, 4, 19
+			1, 5, 27
+			4, 5, 19
+			1, 6, 27
+			4, 6, 19
+			0, 7, 21
+			1, 7, 27
+			4, 7, 19
+			1, 8, 20
+			4, 8, 19
+			1, 9, 27
+			2, 9, 21
+			3, 9, 21
+			4, 9, 21
+			13, 9, 21
+			14, 9, 21
+		END
+	END
+END
+ 
+ENTERING SCREEN 10
+	IF TRUE
+	THEN
+		DECORATIONS
+			13, 0, 19
+			13, 1, 19
+			7, 2, 20
+			10, 2, 20
+			13, 2, 19
+			14, 3, 20
+			1, 4, 30
+			6, 4, 20
+			14, 4, 21
+			1, 5, 27
+			14, 5, 20
+			1, 6, 27
+			3, 6, 20
+			7, 6, 20
+			14, 6, 19
+			1, 7, 27
+			14, 7, 19
+			1, 8, 27
+			4, 8, 20
+			6, 8, 20
+			10, 8, 20
+			0, 9, 21
+			1, 9, 27
+			2, 9, 21
+			3, 9, 21
+			4, 9, 21
+			5, 9, 21
+			6, 9, 21
+			7, 9, 21
+			8, 9, 21
+			9, 9, 21
+			10, 9, 21
+			11, 9, 21
+			12, 9, 21
+			13, 9, 21
+			14, 9, 21
+		END
+	END
+END
+ 
+ENTERING SCREEN 11
+	IF TRUE
+	THEN
+		DECORATIONS
+			5, 3, 25
+			6, 3, 23
+			7, 3, 26
+			6, 4, 24
+			5, 5, 25
+			6, 5, 23
+			7, 5, 26
+			11, 5, 31
+			1, 6, 29
+			6, 6, 24
+			1, 7, 28
+			6, 7, 23
+			10, 8, 20
+			10, 9, 19
+		END
+	END
+END
+ 
+ENTERING SCREEN 12
+	IF TRUE
+	THEN
+		DECORATIONS
+			7, 1, 31
+			10, 1, 31
+			7, 2, 31
+			10, 2, 31
+			4, 3, 31
+			7, 3, 31
+			10, 3, 31
+			2, 5, 31
+		END
+	END
+END
+ 
+ENTERING SCREEN 13
+	IF TRUE
+	THEN
+		DECORATIONS
+			2, 3, 31
+			3, 3, 31
+			2, 5, 31
+			3, 5, 31
+			11, 5, 31
+			14, 5, 31
+			2, 6, 31
+			3, 6, 31
+			2, 7, 31
+		END
+	END
+END
+ 
+ENTERING SCREEN 14
+	IF TRUE
+	THEN
+		DECORATIONS
+			10, 3, 31
+			0, 5, 31
+			2, 5, 31
+			8, 5, 31
+			10, 5, 31
+			8, 7, 31
+			13, 7, 31
+			8, 8, 31
+			13, 8, 31
+		END
+	END
+END
+ 
+ENTERING SCREEN 15
+	IF TRUE
+	THEN
+		DECORATIONS
+			3, 6, 31
+			3, 7, 31
+		END
+	END
+END
+ 
+ENTERING SCREEN 16
+	IF TRUE
+	THEN
+		DECORATIONS
+		END
+	END
+END
+ 
+ENTERING SCREEN 17
+	IF TRUE
+	THEN
+		DECORATIONS
+			14, 5, 30
+			14, 6, 27
+			14, 7, 27
+			14, 8, 27
+			13, 9, 21
+			14, 9, 27
+		END
+	END
+END
+ 
+ENTERING SCREEN 18
+	IF TRUE
+	THEN
+		DECORATIONS
+			4, 5, 30
+			12, 5, 29
+			4, 6, 19
+			7, 6, 30
+			10, 6, 22
+			12, 6, 28
+			4, 7, 19
+			7, 7, 19
+			13, 7, 30
+			4, 8, 19
+			7, 8, 19
+			13, 8, 19
+			4, 9, 19
+			7, 9, 19
+			13, 9, 19
+		END
+	END
+END
+ 
+ENTERING SCREEN 19
+	IF TRUE
+	THEN
+		DECORATIONS
+			0, 0, 27
+			0, 1, 27
+			0, 2, 27
+			0, 3, 27
+			10, 3, 32
+			11, 3, 33
+			12, 3, 34
+			0, 4, 27
+			10, 4, 37
+			11, 4, 38
+			12, 4, 39
+			0, 5, 27
+			0, 6, 27
+			4, 6, 20
+			0, 7, 27
+			4, 7, 19
+		END
+	END
+END
+ 
+ 
+// If you use extraprints.h, trim this bit and use it!
+const unsigned char ep_scr_00 [] = { 0xB5, 25, 0xC5, 23, 0xD5, 26, 0x36, 29, 0x96, 20, 0xC6, 24, 0x17, 22, 0x37, 28, 0x97, 19, 0xC7, 23 };
+const unsigned char ep_scr_01 [] = { 0x16, 29, 0x17, 28, 0x87, 30, 0x28, 30, 0x88, 27, 0x29, 27, 0x69, 21, 0x79, 21, 0x89, 27, 0xC9, 21, 0xD9, 21, 0xE9, 21 };
+const unsigned char ep_scr_02 [] = { 0x26, 30, 0x46, 29, 0x27, 27, 0x47, 28, 0x28, 27, 0x9, 21, 0x19, 21, 0x29, 27 };
+const unsigned char ep_scr_03 [] = { 0xB2, 21, 0x16, 29, 0x17, 28, 0x77, 21 };
+const unsigned char ep_scr_04 [] = { 0x10, 19, 0x11, 19, 0x12, 19, 0x23, 20, 0xA3, 20, 0x24, 19, 0xA4, 19, 0x25, 19, 0xA5, 19, 0x26, 19, 0x56, 29, 0xA6, 19, 0x27, 19, 0x57, 28, 0xA7, 19 };
+const unsigned char ep_scr_05 [] = { 0x50, 19, 0x51, 19, 0x42, 21, 0x52, 19, 0x63, 30, 0x64, 19, 0xA5, 20, 0xA6, 19, 0xA7, 19 };
+const unsigned char ep_scr_06 [] = { 0x45, 25, 0x55, 23, 0x65, 26, 0x56, 24, 0xE6, 29, 0x57, 23, 0xE7, 28 };
+const unsigned char ep_scr_07 [] = { 0x8, 20, 0x78, 20, 0x9, 19, 0xD9, 20 };
+const unsigned char ep_scr_08 [] = { 0x24, 20, 0x54, 20, 0x84, 20, 0xB4, 20, 0xE5, 21, 0x16, 20, 0xE7, 21, 0xE8, 30, 0xE9, 27 };
+const unsigned char ep_scr_09 [] = { 0x40, 19, 0x41, 19, 0x42, 19, 0x72, 20, 0xB2, 20, 0x43, 20, 0x14, 30, 0x44, 19, 0x15, 27, 0x45, 19, 0x16, 27, 0x46, 19, 0x7, 21, 0x17, 27, 0x47, 19, 0x18, 20, 0x48, 19, 0x19, 27, 0x29, 21, 0x39, 21, 0x49, 21, 0xD9, 21, 0xE9, 21 };
+const unsigned char ep_scr_0A [] = { 0xD0, 19, 0xD1, 19, 0x72, 20, 0xA2, 20, 0xD2, 19, 0xE3, 20, 0x14, 30, 0x64, 20, 0xE4, 21, 0x15, 27, 0xE5, 20, 0x16, 27, 0x36, 20, 0x76, 20, 0xE6, 19, 0x17, 27, 0xE7, 19, 0x18, 27, 0x48, 20, 0x68, 20, 0xA8, 20, 0x9, 21, 0x19, 27, 0x29, 21, 0x39, 21, 0x49, 21, 0x59, 21, 0x69, 21, 0x79, 21, 0x89, 21, 0x99, 21, 0xA9, 21, 0xB9, 21, 0xC9, 21, 0xD9, 21, 0xE9, 21 };
+const unsigned char ep_scr_0B [] = { 0x53, 25, 0x63, 23, 0x73, 26, 0x64, 24, 0x55, 25, 0x65, 23, 0x75, 26, 0xB5, 31, 0x16, 29, 0x66, 24, 0x17, 28, 0x67, 23, 0xA8, 20, 0xA9, 19 };
+const unsigned char ep_scr_0C [] = { 0x71, 31, 0xA1, 31, 0x72, 31, 0xA2, 31, 0x43, 31, 0x73, 31, 0xA3, 31, 0x25, 31 };
+const unsigned char ep_scr_0D [] = { 0x23, 31, 0x33, 31, 0x25, 31, 0x35, 31, 0xB5, 31, 0xE5, 31, 0x26, 31, 0x36, 31, 0x27, 31 };
+const unsigned char ep_scr_0E [] = { 0xA3, 31, 0x5, 31, 0x25, 31, 0x85, 31, 0xA5, 31, 0x87, 31, 0xD7, 31, 0x88, 31, 0xD8, 31 };
+const unsigned char ep_scr_0F [] = { 0x36, 31, 0x37, 31 };
+const unsigned char ep_scr_11 [] = { 0xE5, 30, 0xE6, 27, 0xE7, 27, 0xE8, 27, 0xD9, 21, 0xE9, 27 };
+const unsigned char ep_scr_12 [] = { 0x45, 30, 0xC5, 29, 0x46, 19, 0x76, 30, 0xA6, 22, 0xC6, 28, 0x47, 19, 0x77, 19, 0xD7, 30, 0x48, 19, 0x78, 19, 0xD8, 19, 0x49, 19, 0x79, 19, 0xD9, 19 };
+const unsigned char ep_scr_13 [] = { 0x0, 27, 0x1, 27, 0x2, 27, 0x3, 27, 0xA3, 32, 0xB3, 33, 0xC3, 34, 0x4, 27, 0xA4, 37, 0xB4, 38, 0xC4, 39, 0x5, 27, 0x6, 27, 0x46, 20, 0x7, 27, 0x47, 19 };
+const unsigned char *prints [] = { ep_scr_00, ep_scr_01, ep_scr_02, ep_scr_03, ep_scr_04, ep_scr_05, ep_scr_06, ep_scr_07, ep_scr_08, ep_scr_09, ep_scr_0A, ep_scr_0B, ep_scr_0C, ep_scr_0D, ep_scr_0E, ep_scr_0F, 0, ep_scr_11, ep_scr_12, ep_scr_13 };

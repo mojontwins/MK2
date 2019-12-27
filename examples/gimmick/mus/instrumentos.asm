@@ -1,0 +1,41 @@
+
+; Tabla de instrumentos
+TABLA_PAUTAS: DW PAUTA_0,0,0,0,PAUTA_4,0,PAUTA_6,PAUTA_7,PAUTA_8,PAUTA_9,0,0,0,0,0,0,0,0,PAUTA_18
+
+; Tabla de efectos
+TABLA_SONIDOS: DW SONIDO0,SONIDO1,SONIDO2,SONIDO3
+
+;Pautas (instrumentos)
+;Instrumento 'Piano'
+PAUTA_0:	DB	12,0,11,0,10,0,8,0,129
+;Instrumento 'Steel vol2'
+PAUTA_7:	DB	75,0,41,0,7,0,5,0,4,0,129
+;Instrumento 'Steel vol1'
+PAUTA_8:	DB	78,0,44,0,10,0,8,0,7,0,129
+;Instrumento 'vibratore'
+PAUTA_4:	DB	9,5,9,-5,8,5,8,-5,132
+;Instrumento 'Techno +1'
+PAUTA_6:	DB	77,0,12,0,10,0,10,0,11,0,11,0,10,0,10,0,129
+;Instrumento 'Techno -vol'
+PAUTA_9:	DB	74,0,9,0,8,0,8,0,9,0,9,0,8,0,8,0,129
+;Instrumento 'Techno -2vol'
+PAUTA_18:	DB	70,0,5,0,4,0,4,0,5,0,5,0,4,0,4,0,129
+
+;Efectos
+;Efecto 'bass drum'
+SONIDO0:	DB	209,63,0,209,78,0,69,109,0,255
+;Efecto 'drum'
+SONIDO1:	DB	69,47,0,232,44,5,0,57,2,255
+;Efecto 'drum'
+SONIDO2:	DB	173,47,0,232,44,5,0,57,2,255
+;Efecto 'drum'
+SONIDO3:	DB	107,63,0,232,44,5,0,57,2,255
+
+;Frecuencias para las notas
+DATOS_NOTAS: DW 0,0
+DW 1711,1614,1524,1438,1358,1281,1210,1142,1078,1017
+DW 960,906,855,807,762,719,679,641,605,571
+DW 539,509,480,453,428,404,381,360,339,320
+DW 302,285,269,254,240,227,214,202,190,180
+DW 170,160,151,143,135,127,120,113,107,101
+DW 95,90,85,80,76,71,67,64,60,57

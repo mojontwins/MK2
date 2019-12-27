@@ -1,0 +1,15 @@
+﻿# Ocho bloques del Nijakul
+# el loading pantalla de carga siempre va asi, solo cambiar el nombre,
+# se descomprime en la direccion de memoria de la pantalla 16384
+# las rams las cargamos en la direccion 32768 y luego se copian a la 49152 de su correspondiente banco
+# el ultimo es el bloque main que va en RAM 0 y no lo he comprimido. Luego indico la direccion de ejecución.
+# name load_addr  copy_addr  ram_bank  compressed?
+8
+loading.scr 32768 16384 0 1
+RAM1.bin 32768 49152 1 0
+RAM3.bin 32768 49152 3 0
+RAM4.bin 32768 49152 4 0
+RAM6.bin 32768 49152 6 0
+RAM7.bin 32768 49152 7 0
+zxgimmick.bin 24200 24200 0 0
+
