@@ -7,7 +7,7 @@ echo Converting...
 ..\..\..\src\utils\png2scr.exe ..\gfx\dragon.png ..\gfx\dragon.scr > nul
 ..\..\..\src\utils\png2scr.exe ..\gfx\fingod.png ..\gfx\fingod.scr > nul
 ..\..\..\src\utils\png2scr.exe ..\gfx\logogw.png ..\gfx\logogw.scr > nul
-..\..\..\src\utils\png2scr.exe ..\gfx\loading.png ..\work\loading.bin > nul
+..\..\..\src\utils\png2scr.exe ..\gfx\loading.png work\loading.bin > nul
 
 echo Compressing...
 ..\..\..\src\utils\apack.exe ..\gfx\title.scr ..\bin\title.bin   > nul

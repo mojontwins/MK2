@@ -101,13 +101,13 @@ rem Example for 128K games:
 ..\..\..\src\utils\bas2tap -a10 -s%game% loader\loader128.bas work\loader.tap  > nul
 ..\..\..\src\utils\bin2tap -o work\loading.tap -a 16384 work\loading.bin  > nul
 ..\..\..\src\utils\bin2tap -o work\reubica.tap -a 25000 loader\reubica.bin  > nul
-..\..\..\src\utils\bin2tap -o work\RAM1.tap -a 25000 work\ram1.bin  > nul
-..\..\..\src\utils\bin2tap -o work\RAM3.tap -a 25000 work\ram3.bin  > nul
-..\..\..\src\utils\bin2tap -o work\RAM4.tap -a 25000 work\ram4.bin  > nul
-..\..\..\src\utils\bin2tap -o work\RAM6.tap -a 25000 work\ram6.bin  > nul
-..\..\..\src\utils\bin2tap -o work\RAM7.tap -a 25000 work\ram7.bin  > nul
+..\..\..\src\utils\bin2tap -o work\RAM1.tap -a 32768 work\ram1.bin  > nul
+..\..\..\src\utils\bin2tap -o work\RAM3.tap -a 32768 work\ram3.bin  > nul
+..\..\..\src\utils\bin2tap -o work\RAM4.tap -a 32768 work\ram4.bin  > nul
+..\..\..\src\utils\bin2tap -o work\RAM6.tap -a 32768 work\ram6.bin  > nul
+..\..\..\src\utils\bin2tap -o work\RAM7.tap -a 32768 work\ram7.bin  > nul
 ..\..\..\src\utils\bin2tap -o work\main.tap -a 24200 work\%game%.bin  > nul
-copy /b work\loader.tap + work\loading.tap + work\reubica.bin + work\ram1.tap + work\ram3.tap + work\ram4.tap + work\ram6.tap + work\ram7.tap + work\main.tap %game%-%lang%.tap > nul
+copy /b work\loader.tap + work\loading.tap + work\reubica.tap + work\ram1.tap + work\ram3.tap + work\ram4.tap + work\ram6.tap + work\ram7.tap + work\main.tap %game%-%lang%.tap > nul
 del /a /s work\*.tap > nul
 
 copy work\%game%.bin ..\tzx

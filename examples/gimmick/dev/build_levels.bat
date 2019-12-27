@@ -4,9 +4,9 @@ echo Building Levels
 echo ===============
 
 echo Level 0 Pueblo
-..\..\..\src\utils\buildLevel.exe work\Level0.bin mapfile=..\map\mapa0.map map_w=5 map_h=4 decorations=..\script\decorations0.spt nohotspots fontfile=..\gfx\font.png tilesfile=..\gfx\Levels\work0.png behsfile=..\Levels\w0.beh spritesfile=..\gfx\Levels\sprites0.png nsprites=16 enemsfile=..\enems\enems0.ene scr_ini=18 ini_x=6 ini_y=7 enems_life=1 > nul
+..\..\..\src\utils\buildLevel.exe work\Level0.bin mapfile=..\map\mapa0.map map_w=5 map_h=4 decorations=..\script\decorations0.spt nohotspots fontfile=..\gfx\font.png tilesfile=..\gfx\Levels\work0.png behsfile=..\Levels\w0.beh spritesfile=..\gfx\Levels\sprites0.png nsprites=16 enemsfile=..\enems\enems0.ene scr_ini=18 ini_x=6 ini_y=7 enems_life=1
 ..\..\..\src\utils\apack.exe work\Level0.bin ..\bin\Level0c.bin > nul
-del work\Level0.bin > nul
+rem del work\Level0.bin > nul
 
 echo Level 1 Sonic world
 ..\..\..\src\utils\buildLevel.exe work\Level1.bin mapfile=..\map\mapa1.map map_w=20 map_h=1 decorations=..\script\decorations1.spt nohotspots fontfile=..\gfx\font.png tilesfile=..\gfx\Levels\work1.png behsfile=..\Levels\w1.beh spritesfile=..\gfx\Levels\sprites1.png nsprites=16 enemsfile=..\enems\enems1.ene scr_ini=0 ini_x=2 ini_y=7 enems_life=1 > nul

@@ -3,7 +3,7 @@
 ;
 ;	Reconstructed for z80 Module Assembler
 ;
-;	Module compile time: Fri Dec 27 09:40:39 2019
+;	Module compile time: Fri Dec 27 22:39:58 2019
 
 
 
@@ -21,7 +21,7 @@
 ;	SECTION	text
 
 ._keyscancodes
-	defw	763,765,509,1277,383,0,507,509,735,479
+	defw	2175,765,509,1277,1151,0,507,509,735,479
 	defw	383,0
 ;	SECTION	code
 
@@ -1567,7 +1567,7 @@
 	defb 85, 170
 	defb 85, 170
 	defb 85, 170
-	._baddies defs 5 * 4 * 3 * 12
+	._baddies defs 5 * 4 * 3 * 10
 	._behs defs 48
 	defb 0, 255
 	defb 0, 255
@@ -4522,14 +4522,14 @@
 	srl a
 	ld (_ptx2), a
 	ld a, (_gpy)
-	add 4
+	add 8
 	srl a
 	srl a
 	srl a
 	srl a
 	ld (_pty1), a
 	ld a, (_gpy)
-	add 11
+	add 15
 	srl a
 	srl a
 	srl a
@@ -4690,20 +4690,20 @@
 	or a
 	jr z, _player_gravity_done
 	; Signed comparisons are hard
-	; p_vy <= 128 - 12
+	; p_vy <= 127 - 12
 	; We are going to take a shortcut.
 	; If p_vy < 0, just add 12.
 	; If p_vy > 0, we can use unsigned comparition anyway.
 	ld a, (_p_vy)
 	bit 7, a
 	jr nz, _player_gravity_add ; < 0
-	cp 128 - 12
+	cp 127 - 12
 	jr nc, _player_gravity_maximum
 	._player_gravity_add
 	add 12
 	jr _player_gravity_vy_set
 	._player_gravity_maximum
-	ld a, 128
+	ld a, 127
 	._player_gravity_vy_set
 	ld (_p_vy), a
 	._player_gravity_done
@@ -4776,7 +4776,7 @@
 	sla a
 	sla a
 	sla a
-	sub 4
+	sub 8
 	ld (_gpy), a
 	ld d, 0
 	ld e, a
@@ -4817,7 +4817,6 @@
 	sla a
 	sla a
 	sla a
-	add 4
 	ld (_gpy), a
 	ld d, 0
 	ld e, a

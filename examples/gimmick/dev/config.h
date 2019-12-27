@@ -51,6 +51,7 @@
 #define WIN_CONDITION			2		// 0 = objects collected, 1 = screen 'N', 2 = scripting, 3 = SIM
 //#define EXTRA_SPRITES 		2 		// For 128K games -> # of extra sprite faces to make room for.
 
+//#define USE_TWO_BUTTONS 				// Alternate keyboard scheme for two-buttons games
 #ifndef PHANTOMAS_ENGINE
 	// To define different keys, the first two hex digits are the COLUMN, the next the ROW
 	/*
@@ -68,13 +69,13 @@
 	*/
 
 	// UP DOWN LEFT RIGHT FIRE JUMP <- with fire/hitter/throwable
-	// UP DOWN LEFT RIGHT JUMP xxxx <- with just jump, so configure ahead:
+	// UP DOWN LEFT RIGHT BTTN xxxx <- with just 1 button, so configure as fit:
 	unsigned int keyscancodes [] = {
 	#ifdef USE_TWO_BUTTONS
 		0x02fb, 0x02fd, 0x01fd, 0x04fd, 0x047f, 0x087f,		// WSADMN
 		0x01fb, 0x01fd, 0x02df, 0x01df, 0x047f, 0x087f, 	// QAOPMN
 	#else
-		0x02fb, 0x02fd, 0x01fd, 0x04fd, 0x017f, 0,			// WSADs-
+		0x087f, 0x02fd, 0x01fd, 0x04fd, 0x047f, 0,			// NSADM-
 		0x01fb, 0x01fd, 0x02df, 0x01df, 0x017f, 0, 			// QAOPs-
 	#endif
 	};
@@ -124,8 +125,8 @@
 // PLAYER_NEW_GENITAL works best with BOUNDING_BOX_TINY_BOTTOM
 
 										// Comment all of them for normal 16x16 bounding box
-//#define BOUNDING_BOX_8_BOTTOM			// 8x8 aligned to bottom center in 16x16
-#define BOUNDING_BOX_8_CENTERED		// 8x8 aligned to center in 16x16
+#define BOUNDING_BOX_8_BOTTOM			// 8x8 aligned to bottom center in 16x16
+//#define BOUNDING_BOX_8_CENTERED		// 8x8 aligned to center in 16x16
 //#define BOUNDING_BOX_TINY_BOTTOM		// 8x2 aligned to bottom center in 16x16
 // #define SMALL_COLLISION 				// 8x8 centered collision instead of 12x12
 
@@ -210,7 +211,6 @@
 // Extra engine configuration
 // --------------------------
 
-//#define USE_TWO_BUTTONS 				// Alternate keyboard scheme for two-buttons games
 #define USE_HOTSPOTS_TYPE_3 			// Alternate logic for recharges.
 //#define TILE_GET				13		// If defined, player can "get" tile #
 //#define TILE_GET_REPLACE  	0 		// Replace tile got with tile #
@@ -526,9 +526,11 @@
 // separately. If a top-view engine is configured instead, the horizontal values are also
 // applied to the vertical component, vertical values are ignored.
 
+// Speeds are 8 bits wide, so range is -128 to 127 !!
+
 // IV.1. Vertical movement. Only for side-view.
 
-#define PLAYER_FALL_VY_MAX		128 	// Max falling speed
+#define PLAYER_FALL_VY_MAX		127 	// Max falling speed
 #define PLAYER_G				12		// Gravity acceleration
 
 #define PLAYER_JMP_VY_INITIAL	32		// Initial jump velocity

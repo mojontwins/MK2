@@ -18,3 +18,9 @@ Cosas que he hecho:
 
 	- [X] Tipos de enemigos
 
+8. Corregí dos fallos en `compila.bat` y `build_fixed.bat` que hacían que se generase mal la cinta `.tap`.
+
+9. Por alguna razón todos los behs están a 0. Voy a revisar `build_levels.bat` y si todo parece correcto la posición de los tiestos en el pool, los binarios, generados, y por última instancia el conversor. Nada, todo estaba bien, pero el tamaño del pool estaba mal. Estaba reservando 12 bytes por enemigo como antes cuando ahora son 10.
+
+10. TODO - Poner que sea fácil importar otro gráfico para los proyectiles y configurar el tamaño. Idem para el puf de morirse.
+
