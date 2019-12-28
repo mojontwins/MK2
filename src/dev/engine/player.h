@@ -297,9 +297,8 @@ void player_kill (void) {
 	#endif
 
 	#ifdef MODE_128K
-		#ifdef PLAY_SAMPLE_ON_DEATH
-			_AY_ST_ALL ();
-		#else
+		_AY_ST_ALL ();
+		#ifndef PLAY_SAMPLE_ON_DEATH
 			_AY_PL_SND (p_killme);
 		#endif
 	#else
@@ -370,7 +369,11 @@ void player_kill (void) {
 		#ifdef MODE_128K
 			// Play music
 			#ifdef COMPRESSED_LEVELS
-				_AY_PL_MUS (level_data->music_id);
+				#ifdef EXTENDED_LEVELS
+					_AY_PL_MUS (level_data->music_id);
+				#else
+					_AY_PL_MUS (levels [level].music_id);
+				#endif
 			#else
 				_AY_PL_MUS (1);
 			#endif
@@ -641,16 +644,7 @@ unsigned char player_move (void) {
 				#endif
 			}
 
-			if (hit) {
-				#ifdef PLAYER_FLICKERS
-					if (p_life > 0 && p_state == EST_NORMAL)
-				#else
-					if (p_life > 0)
-				#endif
-				{
-					p_killme = SFX_PLAYER_DEATH_SPIKE;
-				}
-			}
+			if (hit) p_killme = SFX_PLAYER_DEATH_SPIKE;
 		#endif
 	#endif
 
