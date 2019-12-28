@@ -41,3 +41,10 @@ Built The Hobbit (Vaka's Cut) to test more stuff.
 
 1.- Collisions are not as nice (downwards or so it seems).
 2.- Dizzy state is not dizzy at all.
+
+~~
+
+Años sin apuntar nada, pero pongo aqui un todo:
+
+[ ] Revisar toda la lógica de `SHOOTER_FIRE_ONE`
+[ ] Poner que sea fácil importar otro gráfico para los proyectiles y configurar el tamaño. Idem para el puf de morirse. De hecho, hacer que los extra_sprites sean fácilmente modificables. Poner los que ya hay de placeholders y dejar hacer al programador.

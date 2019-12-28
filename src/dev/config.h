@@ -51,6 +51,7 @@
 #define WIN_CONDITION			2		// 0 = objects collected, 1 = screen 'N', 2 = scripting, 3 = SIM
 //#define EXTRA_SPRITES 		2 		// For 128K games -> # of extra sprite faces to make room for.
 
+//#define USE_TWO_BUTTONS 				// Alternate keyboard scheme for two-buttons games
 #ifndef PHANTOMAS_ENGINE
 	// To define different keys, the first two hex digits are the COLUMN, the next the ROW
 	/*
@@ -183,7 +184,7 @@
 
 //#define ENABLE_PURSUE_ENEMIES 		// If defined, type 7 enemies are active
 //#define DEATH_COUNT_EXPRESSION	20+(rand()&15)
-//#define TYPE_7_FIXED_SPRITE	4		// If defined, type 7 enemies are always #
+//#define TYPE_7_FIXED_SPRITE		4	// If defined, type 7 enemies are always #
 
 //#define ENABLE_SIMPLE_PURSUERS		// Simpler type 7s [NOT YET]
 
@@ -201,20 +202,19 @@
 #define ENABLE_ARROWS					// Enemy type 10 = arrows
 
 //#define ENABLE_CLOUDS					// If defined, type 4 enemies are active
-#define CLOUDS_SHOOT_FREQ		31		// Shoot frequency (2^n-1)
-#define CLOUDS_FIXED_SPRITE		0		// Type 8 enemies are always # - 1
-#define CLOUDS_SAFE_DISTANCE	48		// if closer won't shoot
+#define CLOUDS_SHOOT_FREQ			31	// Shoot frequency (2^n-1)
+#define CLOUDS_FIXED_SPRITE			0	// Type 8 enemies are always # - 1
+#define CLOUDS_SAFE_DISTANCE		48	// if closer won't shoot
 #define CLOUDS_FIRE_ONE					// If defined, just fire one coco per enemy
-#define CLOUD_SHOOT_SPEED		8		// pixels per frame
+#define CLOUD_SHOOT_SPEED			8	// pixels per frame
 
 // Extra engine configuration
 // --------------------------
 
-//#define USE_TWO_BUTTONS 				// Alternate keyboard scheme for two-buttons games
 //#define USE_HOTSPOTS_TYPE_3 			// Alternate logic for recharges.
-//#define TILE_GET				13		// If defined, player can "get" tile #
-//#define TILE_GET_REPLACE  	0 		// Replace tile got with tile #
-//#define TILE_GET_FLAG 		1		// And this increments flag #
+//#define TILE_GET					13	// If defined, player can "get" tile #
+//#define TILE_GET_REPLACE  		0 	// Replace tile got with tile #
+//#define TILE_GET_FLAG 			1	// And this increments flag #
 //#define TILE_GET_SCRIPT				// Run PLAYER_GETS_COIN when player gets tile TILE_GET
 //#define DIE_AND_RESPAWN				// If defined, dying = respawn on latest safe.
 //#define DISABLE_AUTO_SAFE_SPOT		// If defined, you have to define the save spot via scripting
@@ -229,7 +229,7 @@
 // little control but can be enough for simple games. If you want to have more control
 // over # of enemies killed (for example, to reset it!) just define this. p_killed will
 // no longer work, instead flag # will be used. 
-//#define BODY_COUNT_ON			2		// Increment flag # everytime the player kills an enemy
+//#define BODY_COUNT_ON				2	// Increment flag # everytime the player kills an enemy
 //#define RUN_SCRIPT_ON_KILL			// If defined, PLAYER_KILLS_ENEMY scripts are triggered on kills
 //#define ENEMY_BACKUP					// If you want a backup in case you change the enemy types
 										// ingame, define this. Useful for 48K or non-compressed level
@@ -253,7 +253,7 @@
 
 //#define PLAYER_CAN_FIRE 				// If defined, shooting engine is enabled.
 //#define CAN_FIRE_UP					// If defined, player can fire upwards and diagonal.
-//#define PLAYER_CAN_FIRE_FLAG	1		// If defined, player can only fire when flag # is 1 Needs flags
+//#define PLAYER_CAN_FIRE_FLAG		1	// If defined, player can only fire when flag # is 1 Needs flags
 //#define PLAYER_CAN_FIRE_INV		45	// If defined, player con only fire if item # is selected! Needs flags
 //#define PLAYER_BULLET_SPEED 		8	// Pixels/frame.
 //#define MAX_BULLETS 				1	// Max number of bullets on screen. Be careful!.
@@ -261,7 +261,7 @@
 //#define PLAYER_BULLET_X_OFFSET	0	// vertical offset from the player's left/right.
 //#define PLAYER_BULLETS_STRENGTH 	1	// Amount of life bullets take from baddies.
 //#define BULLETS_BREAK_WALLS			// If defined, bullets break breakable walls.
-//#define BULLETS_DONT_COLLIDE_PLATFORMS	// Bullets and platforms don't collide
+#define BULLETS_DONT_COLLIDE_PLATFORMS	// Bullets and platforms don't collide
 
 //#define LIMITED_BULLETS 				// If defined, bullets die after N frames
 //#define LB_FRAMES					4	// If defined, defines the # of frames bullets live (fixed)
@@ -525,6 +525,8 @@
 // If a side-view engine is configured, we have to define vertical and horizontal constants
 // separately. If a top-view engine is configured instead, the horizontal values are also
 // applied to the vertical component, vertical values are ignored.
+
+// Speeds are 8 bits wide, so range is -128 to 127 !!
 
 // IV.1. Vertical movement. Only for side-view.
 

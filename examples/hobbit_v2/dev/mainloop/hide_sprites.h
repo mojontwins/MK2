@@ -74,7 +74,7 @@ void hide_sprites (unsigned char which_ones) {
 
 				ld  a, (_gpit)
 				inc a
-				cp  3
+				cp  MAX_BULLETS
 				jr  nz, hide_sprites_bullets_loop
 		#endasm
 	#endif
@@ -125,6 +125,7 @@ void hide_sprites (unsigned char which_ones) {
 				call SPMoveSprAbs
 		#endasm
 	#endif
+	
 	#ifdef ENABLE_FO_CARRIABLE_BOXES
 		// sp_MoveSprAbs (sp_carriable, spritesClip, 0, -2, -2, 0, 0);
 		#asm
@@ -136,6 +137,7 @@ void hide_sprites (unsigned char which_ones) {
 				call SPMoveSprAbs
 		#endasm
 	#endif
+	
 	#if defined (PLAYER_GENITAL) && defined (PLAYER_HAS_JUMP)
 		// sp_MoveSprAbs (sp_shadow, spritesClip, 0, -2, -2, 0, 0);
 		#asm

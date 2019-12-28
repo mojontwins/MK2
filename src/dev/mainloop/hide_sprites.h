@@ -74,7 +74,7 @@ void hide_sprites (unsigned char which_ones) {
 
 				ld  a, (_gpit)
 				inc a
-				cp  3
+				cp  MAX_BULLETS
 				jr  nz, hide_sprites_bullets_loop
 		#endasm
 	#endif

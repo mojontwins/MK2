@@ -147,8 +147,8 @@
 //#define OBJECTS_COLLECTABLE_IF	2 	// If defined, Objs. can be collected if FLAG # == 1
 //#define DEACTIVATE_EVIL_TILE			// If defined, no killing tiles (behaviour 1) are detected.
 #define FULL_BOUNCE 					// If defined, evil tile bounces equal MAX_VX, otherwise v/2
-#define PLAYER_BOUNCES				// If defined, collisions make player bounce
-#define SLOW_DRAIN					// Works with bounces. Drain is 4 times slower
+#define PLAYER_BOUNCES					// If defined, collisions make player bounce
+#define SLOW_DRAIN						// Works with bounces. Drain is 4 times slower
 //#define PLAYER_DIZZY 					// Enable dizzy state for player
 //#define PLAYER_DIZZ_EXPR 				(((rand () & 15) - 7) << 3)
 #define PLAYER_FLICKERS 				// If defined, collisions make player flicker instead.
@@ -184,16 +184,16 @@
 
 //#define ENABLE_PURSUE_ENEMIES 		// If defined, type 7 enemies are active
 //#define DEATH_COUNT_EXPRESSION	20+(rand()&15)
-//#define TYPE_7_FIXED_SPRITE	4		// If defined, type 7 enemies are always #
+//#define TYPE_7_FIXED_SPRITE		4	// If defined, type 7 enemies are always #
 
 //#define ENABLE_SIMPLE_PURSUERS		// Simpler type 7s [NOT YET]
 
-#define MAX_COCOS 				3	// Max # of cocos.
+#define MAX_COCOS 					3	// Max # of cocos.
 //#define COCOS_COLLIDE					// Cocos will die with beh 8
 
-#define ENABLE_SHOOTERS				// Activate this if your raise bit 4 in any enemies.
+#define ENABLE_SHOOTERS					// Activate this if your raise bit 4 in any enemies.
 
-#define SHOOTER_SHOOT_FREQ		49	// Shoot frequency (2^n-1)
+#define SHOOTER_SHOOT_FREQ			49	// Shoot frequency (2^n-1)
 #define SHOOTER_SAFE_DISTANCE		8	// if closer won't shoot
 //#define SHOOTER_FIRE_ONE 				// If defined, just fire one coco per enemy
 #define ENEMY_SHOOT_SPEED			4	// pixels per frame
@@ -202,21 +202,21 @@
 #define ENABLE_ARROWS					// Enemy type 10 = arrows
 
 //#define ENABLE_CLOUDS					// If defined, type 4 enemies are active
-#define CLOUDS_SHOOT_FREQ		31		// Shoot frequency (2^n-1)
-#define CLOUDS_FIXED_SPRITE		0		// Type 8 enemies are always # - 1
-#define CLOUDS_SAFE_DISTANCE	48		// if closer won't shoot
+#define CLOUDS_SHOOT_FREQ			31	// Shoot frequency (2^n-1)
+#define CLOUDS_FIXED_SPRITE			0	// Type 8 enemies are always # - 1
+#define CLOUDS_SAFE_DISTANCE		48	// if closer won't shoot
 #define CLOUDS_FIRE_ONE					// If defined, just fire one coco per enemy
-#define CLOUD_SHOOT_SPEED		8		// pixels per frame
+#define CLOUD_SHOOT_SPEED			8	// pixels per frame
 
 // Extra engine configuration
 // --------------------------
 
 #define USE_HOTSPOTS_TYPE_3 			// Alternate logic for recharges.
-//#define TILE_GET				13		// If defined, player can "get" tile #
-//#define TILE_GET_REPLACE  	0 		// Replace tile got with tile #
-//#define TILE_GET_FLAG 		1		// And this increments flag #
+//#define TILE_GET					13	// If defined, player can "get" tile #
+//#define TILE_GET_REPLACE  		0 	// Replace tile got with tile #
+//#define TILE_GET_FLAG 			1	// And this increments flag #
 //#define TILE_GET_SCRIPT				// Run PLAYER_GETS_COIN when player gets tile TILE_GET
-#define DIE_AND_RESPAWN				// If defined, dying = respawn on latest safe.
+#define DIE_AND_RESPAWN					// If defined, dying = respawn on latest safe.
 //#define DISABLE_AUTO_SAFE_SPOT		// If defined, you have to define the save spot via scripting
 //#define REENTER_ON_DEATH				// Reenter screen when killed, for 1-screen arcades.
 //#define PLAYER_STEP_SOUND				// Sound while walking. No effect in the BOOTEE engine.
@@ -229,8 +229,8 @@
 // little control but can be enough for simple games. If you want to have more control
 // over # of enemies killed (for example, to reset it!) just define this. p_killed will
 // no longer work, instead flag # will be used. 
-//#define BODY_COUNT_ON			2		// Increment flag # everytime the player kills an enemy
-#define RUN_SCRIPT_ON_KILL			// If defined, PLAYER_KILLS_ENEMY scripts are triggered on kills
+//#define BODY_COUNT_ON				2	// Increment flag # everytime the player kills an enemy
+#define RUN_SCRIPT_ON_KILL				// If defined, PLAYER_KILLS_ENEMY scripts are triggered on kills
 //#define ENEMY_BACKUP					// If you want a backup in case you change the enemy types
 										// ingame, define this. Useful for 48K or non-compressed level
 										// games (in compressed level games you can save this and just
@@ -253,19 +253,19 @@
 
 #define PLAYER_CAN_FIRE 				// If defined, shooting engine is enabled.
 //#define CAN_FIRE_UP					// If defined, player can fire upwards and diagonal.
-#define PLAYER_CAN_FIRE_FLAG	1		// If defined, player can only fire when flag # is 1 Needs flags
+#define PLAYER_CAN_FIRE_FLAG		1	// If defined, player can only fire when flag # is 1 Needs flags
 //#define PLAYER_CAN_FIRE_INV		45	// If defined, player con only fire if item # is selected! Needs flags
 #define PLAYER_BULLET_SPEED 		4	// Pixels/frame.
 #define MAX_BULLETS 				1	// Max number of bullets on screen. Be careful!.
-#define PLAYER_BULLET_Y_OFFSET	0	// vertical offset from the player's top.
-#define PLAYER_BULLET_X_OFFSET	0	// vertical offset from the player's left/right.
+#define PLAYER_BULLET_Y_OFFSET		0	// vertical offset from the player's top.
+#define PLAYER_BULLET_X_OFFSET		0	// vertical offset from the player's left/right.
 #define PLAYER_BULLETS_STRENGTH 	1	// Amount of life bullets take from baddies.
-#define BULLETS_BREAK_WALLS			// If defined, bullets break breakable walls.
+#define BULLETS_BREAK_WALLS				// If defined, bullets break breakable walls.
 #define BULLETS_DONT_COLLIDE_PLATFORMS	// Bullets and platforms don't collide
 
 #define LIMITED_BULLETS 				// If defined, bullets die after N frames
 //#define LB_FRAMES					4	// If defined, defines the # of frames bullets live (fixed)
-#define LB_FRAMES_FLAG			2	// If defined, defines which flag determines the # of frames
+#define LB_FRAMES_FLAG				2	// If defined, defines which flag determines the # of frames
 
 // Hitter. Define only *ONE* of these. More to come.
 // -------------------------------------------------
@@ -275,7 +275,7 @@
 //#define PLAYER_HAZ_WHIP				// Player haz whip. (Nicanor (side) / Key to time (top-down))
 
 //#define PLAYER_HITTER_INV			46	// If defined, player can use hitter only if item # is selected!
-// #define PLAYER_HITTER_STRENGTH		0	// Hitter strength. 0 = just makes monsters turn around.
+//#define PLAYER_HITTER_STRENGTH	0	// Hitter strength. 0 = just makes monsters turn around.
 //#define HITTER_BREAKS_WALLS			// If defined, hitter breaks breakable walls.
 
 //#define PLAYER_SIMPLE_BOMBS			// If defined, bombs-s.h module is enabled (Nicanor)
@@ -323,12 +323,12 @@
 // ---------
 
 #define ACTIVATE_SCRIPTING				// Activates msc3 scripting and flag related stuff.
-#define SCRIPT_PAGE				6	// Which RAM page holds the script (128)
-// #define CLEAR_FLAGS						// If defined, clear flags each level/beginning.
+#define SCRIPT_PAGE					6	// Which RAM page holds the script (128)
+// #define CLEAR_FLAGS					// If defined, clear flags each level/beginning.
 #define SCRIPTING_DOWN					// Use DOWN as the action key.
 //#define SCRIPTING_KEY_M				// Use M as the action key instead.
 //#define SCRIPTING_KEY_FIRE			// User FIRE as the action key instead.
-#define ENABLE_EXTERN_CODE			// Enables custom code to be run from the script using EXTERN n
+#define ENABLE_EXTERN_CODE				// Enables custom code to be run from the script using EXTERN n
 //#define EXTERN_E						// Uncomment this as well if you use EXTERN_E in your script
 // #define ENABLE_FIRE_ZONE				// Allows to define a zone which auto-triggers "FIRE"
 
@@ -542,7 +542,7 @@
 
 // IV.2. Horizontal (side view) or general (top view) movement.
 
-#define PLAYER_VX_MAX			48 		// Max velocity
+#define PLAYER_VX_MAX			47		// Max velocity
 #define PLAYER_AX				8		// Acceleration
 #define PLAYER_RX				8		// Friction
 

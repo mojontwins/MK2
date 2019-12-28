@@ -46,8 +46,9 @@
 #define FREEPOOL 			61697
 
 // Define where to store and how many sprite descriptors are needed.
-// This game = 4*10 = 40 blocks
-#define NUMBLOCKS			55
+// This game has player + 3 enemies + 1 16x16 shot + 3 8x8 cocos
+// so it needs 10 + 3*10 + 10 + 3*5 = 65 blocks
+#define NUMBLOCKS			65
 unsigned char AD_FREE [NUMBLOCKS * 15];
 
 // Note the 15: blocks are 14 bytes, but there's an overhead of 1 byte per block

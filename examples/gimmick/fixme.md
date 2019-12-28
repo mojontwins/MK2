@@ -24,3 +24,11 @@ Cosas que he hecho:
 
 10. TODO - Poner que sea fácil importar otro gráfico para los proyectiles y configurar el tamaño. Idem para el puf de morirse.
 
+11. El número de bloques reservado era insuficiente. Este juego tiene:
+
+	- Los 4 sprites principales: 4*10 = 40
+	- Un único disparo. Será de 16x16, así que 10
+	- Tres cocos, 3*5 = 15
+
+	Total, 65 bloques, y sólo reservaba 55.
+

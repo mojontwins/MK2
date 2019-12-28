@@ -54,7 +54,7 @@ void main (void) {
 		// TITLE SCREEN
 		// ************
 
-		#include "mainloop/title_screen.h"
+		#include "my/title_screen.h"
 
 		// *******************
 		// GAME INITIALIZATION
@@ -278,9 +278,9 @@ void main (void) {
 					break;
 				#ifdef ACTIVATE_SCRIPTING
 					case 3:
-							blackout_area ();
-							level = warp_to_level;
-							break;
+						blackout_area ();
+						level = warp_to_level;
+						break;
 				#endif
 				#ifdef SCRIPTED_GAME_ENDING
 					case 4:
