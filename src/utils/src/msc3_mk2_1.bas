@@ -435,7 +435,7 @@ Function procesaClausulas (f As integer) As String
 							Case "PLAYER_IN_Y":
 								clausula = clausula + chr (&H22) + chr (val (lP (2)) * 16 - 15) + chr (val (lP (4)) * 16 + 15)
 								clausulasUsed (&H22) = -1
-								numClausulas = numClausulas + 1								
+								numClausulas = numClausulas + 1
 							Case "PLAYER_IN_Y_TILES":
 								fzx1 = val (lP (2)) * 16 - 15
 								If fzx1 < 0 Then fzx1 = 0
@@ -444,6 +444,10 @@ Function procesaClausulas (f As integer) As String
 								clausula = clausula + chr (&H22) + chr (fzx1) + chr (fzx2)
 								clausulasUsed (&H22) = -1
 								numClausulas = numClausulas + 1
+							Case "POSSEE":
+								clausula = clausula + Chr (&H23)
+								clausulasUsed (&H23) = -1
+								numClausulas = numClausulas + 1								
 							Case "ALL_ENEMIES_DEAD"
 								clausula = clausula + chr (&H30)
 								clausulasUsed (&H30) = -1
@@ -643,6 +647,9 @@ Function procesaClausulas (f As integer) As String
 						
 						clausula = clausula + Chr (&H51) + Chr (fzx1) + Chr (fzy1) + Chr (fzx2) + Chr (fzy2)
 						actionsUsed (&H51) = -1
+					Case "INVALIDATE":
+						clausula = clausula + Chr (&H52)
+						actionsUsed (&H52) = -1
 					Case "SHOW_COINS":
 						clausula = clausula + Chr (&H60)
 						actionsUsed (&H60) = -1
@@ -1443,6 +1450,13 @@ if clausulasUsed (&H22) Then
 	print #f3, "                    break;"
 end if
 
+if clausulasUsed (&H23) Then
+	print #f3, "                case 0x23:"
+	print #f3, "                    // IF POSSEE"
+	print #f3, "                    sc_terminado = (possee == 0);"
+	print #f3, "                    break;"
+end if
+
 if clausulasUsed (&H30) Then
 	print #f3, "                case 0x30:"
 	print #f3, "                    // IF ALL_ENEMIES_DEAD"
@@ -1735,6 +1749,13 @@ if actionsUsed (&H51) Then
 	print #f3, "                        fzx2 = read_byte ();"
 	print #f3, "                        fzy2 = read_byte ();"
 	print #f3, "                        f_zone_ac = 1;"
+	print #f3, "                        break;"
+End If
+
+If actionsUsed (&H52) Then
+	print #f3, "                    case 0x52:"
+	print #f3, "                        // INVALIDATE"
+	print #f3, "                        invalidate_viewport ();"
 	print #f3, "                        break;"
 End If
 

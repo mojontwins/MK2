@@ -1,10 +1,12 @@
-// MT Engine MK2 v0.90b
-// Copyleft 2016 the Mojon Twins
+// MT Engine MK2
+// Copyleft 2014 the Mojon Twins
 
 // extern.h
 // External custom code to be run from a script
 
+// =======[CUSTOM MODIFICATION]=======
 unsigned char textbuff [150] @ SAFE_MEMORY_POOL;	// Max. 150 characters.
+unsigned char *extaddress;
 unsigned char exti, extx, exty, stepbystep, keyp;
 unsigned char is_cutscene = 0;
 
@@ -76,7 +78,6 @@ void do_extern_action (unsigned char n) {
 		
 		asm_int = (gpt - 1) << 1;
 		#asm
-	._extern_depack_text
 				di
 				ld b, 6
 				call SetRAMBank

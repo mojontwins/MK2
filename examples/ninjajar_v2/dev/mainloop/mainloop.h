@@ -54,14 +54,14 @@ void main (void) {
 		// TITLE SCREEN
 		// ************
 
-		#include "mainloop/title_screen.h"
+		#include "my/title_screen.h"
 
 		// *******************
 		// GAME INITIALIZATION
 		// *******************
 
 		#include "mainloop/game_init.h"
-level=5;
+
 		#ifdef COMPRESSED_LEVELS
 			while (mlplaying) {
 				prepare_level ();
@@ -70,7 +70,7 @@ level=5;
 				// NEW LEVEL SCREEN
 				// ****************
 
-				#include "mainloop/new_level.h"
+				#include "my/new_level.h"
 		#endif
 
 		// ********************
@@ -124,7 +124,7 @@ level=5;
 			#endif
 
 			#ifdef ENABLE_SHOOTERS
-				cocos_move ();
+				move_cocos ();
 			#endif
 
 			#if defined (BREAKABLE_WALLS) || defined (BREAKABLE_WALLS_SIMPLE)
@@ -278,9 +278,9 @@ level=5;
 					break;
 				#ifdef ACTIVATE_SCRIPTING
 					case 3:
-							blackout_area ();
-							level = warp_to_level;
-							break;
+						blackout_area ();
+						level = warp_to_level;
+						break;
 				#endif
 				#ifdef SCRIPTED_GAME_ENDING
 					case 4:

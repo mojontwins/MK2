@@ -343,7 +343,7 @@ void player_kill (void) {
 					cx1 = gpjt;
 					cy1 = p_safe_y;
 					at2 = attr ();
-					if ((at1 & 12) && !(at2 & 8)) break;
+					if ((at1 & 12) && !(at2 & 9)) break;
 					gpjt ++; if (gpjt == 15) gpjt = 0; 
 				}
 				p_safe_x = gpjt;
@@ -617,9 +617,7 @@ unsigned char player_move (void) {
 					gpy &= 0xf0;
 				// } END_OF_CUSTOM
 				#ifdef PLAYER_FLICKERS
-					if (p_life > 0 && p_state == EST_NORMAL)
-				#else
-					if (p_life > 0)
+					if (p_state == EST_NORMAL)
 				#endif
 				{
 					p_killme = SFX_PLAYER_DEATH_SPIKE;
@@ -644,7 +642,10 @@ unsigned char player_move (void) {
 				#endif
 			}
 
-			if (hit) p_killme = SFX_PLAYER_DEATH_SPIKE;
+			#ifdef PLAYER_FLICKERS
+				if (p_state == EST_NORMAL)
+			#endif
+				if (hit) p_killme = SFX_PLAYER_DEATH_SPIKE;
 		#endif
 	#endif
 

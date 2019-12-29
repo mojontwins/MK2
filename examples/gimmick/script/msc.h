@@ -258,6 +258,10 @@ void run_script (unsigned char whichs) {
                         draw_coloured_tile ();
                         invalidate_tile ();
                         break;
+                    case 0x52:
+                        // INVALIDATE
+                        invalidate_viewport ();
+                        break;
                     case 0x69:
                         // WARP_TO_LEVEL
                         // Opcode: 69 l n_pant x y silent

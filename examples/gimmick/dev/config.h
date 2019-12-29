@@ -125,7 +125,7 @@
 // PLAYER_NEW_GENITAL works best with BOUNDING_BOX_TINY_BOTTOM
 
 										// Comment all of them for normal 16x16 bounding box
-#define BOUNDING_BOX_8_BOTTOM			// 8x8 aligned to bottom center in 16x16
+//#define BOUNDING_BOX_8_BOTTOM			// 8x8 aligned to bottom center in 16x16
 //#define BOUNDING_BOX_8_CENTERED		// 8x8 aligned to center in 16x16
 //#define BOUNDING_BOX_TINY_BOTTOM		// 8x2 aligned to bottom center in 16x16
 // #define SMALL_COLLISION 				// 8x8 centered collision instead of 12x12
@@ -138,10 +138,10 @@
 //#define PLAYER_CANNOT_FLICK_SCREEN	// If defined, automatic screen flicking is disabled.
 //#define PLAYER_WRAP_AROUND			// If defined, wrap-around. Needs PLAYER_CANNOT_FLICK_SCREEN
 #define DIRECT_TO_PLAY					// If defined, title screen is also the game frame.
-#define DISABLE_HOTSPOTS				// Disable them completely. Saves tons of memory.
-//#define DEACTIVATE_KEYS 				// If defined, keys are not present.
-//#define DEACTIVATE_OBJECTS			// If defined, objects are not present.
-#define DEACTIVATE_REFILLS
+//#define DISABLE_HOTSPOTS				// Disable them completely. Saves tons of memory.
+#define DEACTIVATE_KEYS 				// If defined, keys are not present.
+#define DEACTIVATE_OBJECTS				// If defined, objects are not present.
+//#define DEACTIVATE_REFILLS
 //#define ONLY_ONE_OBJECT				// If defined, only one object can be carried at a time.
 //#define OBJECT_COUNT				1	// Defines which FLAG will be used to store the object count.
 //#define OBJECTS_COLLECTABLE_IF	2 	// If defined, Objs. can be collected if FLAG # == 1
@@ -199,7 +199,10 @@
 #define ENEMY_SHOOT_SPEED			4	// pixels per frame
 
 #define ENABLE_DROPS					// Enemy type 9 = drops
+#define DROPS_KILLABLE					// Define if drops can be killed 
+
 #define ENABLE_ARROWS					// Enemy type 10 = arrows
+#define ARROWS_KILLABLE					// Define if drops can be killed 
 
 //#define ENABLE_CLOUDS					// If defined, type 4 enemies are active
 #define CLOUDS_SHOOT_FREQ			31	// Shoot frequency (2^n-1)
@@ -298,7 +301,7 @@
 // Breakable walls
 // ---------------
 
-//#define BREAKABLE_WALLS_SIMPLE
+#define BREAKABLE_WALLS_SIMPLE
 
 //#define BREAKABLE_ANIM				// If defined, breakable tiles look "broken"
 #define BREAKABLE_TILE				43	// "broken tile"
@@ -534,7 +537,7 @@
 #define PLAYER_G				12		// Gravity acceleration
 
 #define PLAYER_JMP_VY_INITIAL	32		// Initial jump velocity
-#define PLAYER_JMP_VY_MAX		88	 	// Max jump velocity
+#define PLAYER_JMP_VY_MAX		87	 	// Max jump velocity
 #define PLAYER_JMP_VY_INCR		12		// acceleration while JUMP is pressed
 
 //#define PLAYER_JETPAC_VY_INCR	8		// Vertical jetpac gauge

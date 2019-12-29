@@ -8,6 +8,8 @@ unsigned char textbuff [150] @ SAFE_MEMORY_POOL;	// Max. 150 characters.
 unsigned char exti, extx, exty, stepbystep, keyp;
 unsigned char is_cutscene = 0;
 
+//
+
 void do_extern_action (unsigned char n) {
 	// Add custom code here.
 	

@@ -78,7 +78,39 @@
 
 #if defined (ENABLE_SHOOTERS) || defined (ENABLE_CLOUDS)	
 
-	void cocos_shoot (void) {
+	void coco_clear_sprite (void) {
+		//sp_MoveSprAbs (sp_cocos [coco_it], spritesClip, 0, -2, -2, 0, 0);
+		#asm
+				ld  a, (_coco_it)
+				sla a
+				ld  c, a
+				ld  b, 0 				// BC = offset to [gpit] in 16bit arrays
+				ld  hl, _sp_cocos
+				add hl, bc
+				ld  e, (hl)
+				inc hl 
+				ld  d, (hl)
+				push de						
+				pop ix
+
+				ld  iy, vpClipStruct
+				ld  bc, 0
+
+				ld  hl, 0xfefe
+				ld  de, 0 
+				
+				call SPMoveSprAbs
+		#endasm
+	}
+
+	void init_cocos (void) {
+		for (coco_it = 0; coco_it < MAX_COCOS; ++ coco_it) {
+			coco_s [coco_it] = 0;
+			coco_clear_sprite ();
+		}
+	}
+
+	void shoot_coco (void) {
 		coco_x0 = _en_x + 4;
 		#ifdef SHOOTER_FIRE_ONE
 			coco_it = enit;	
@@ -113,55 +145,30 @@
 		}
 	}
 
-	void cocos_destroy (void) {
+	void destroy_cocos (void) {
 		coco_s [coco_it] = 0;
-		//sp_MoveSprAbs (sp_cocos [coco_it], spritesClip, 0, -2, -2, 0, 0);
-		#asm
-				ld  a, (_coco_it)
-				sla a
-				ld  c, a
-				ld  b, 0 				// BC = offset to [gpit] in 16bit arrays
-				ld  hl, _sp_cocos
-				add hl, bc
-				ld  e, (hl)
-				inc hl 
-				ld  d, (hl)
-				push de						
-				pop ix
-
-				ld  iy, vpClipStruct
-				ld  bc, 0
-
-				ld  hl, 0xfefe
-				ld  de, 0 
-				
-				call SPMoveSprAbs
-		#endasm
+		coco_clear_sprite ();
 	}
 
-	void cocos_init (void) {
-		for (coco_it = 0; coco_it < MAX_COCOS; ++ coco_it) cocos_destroy ();
-	}
-	
-	void cocos_move (void) {
+	void move_cocos (void) {
 		for (coco_it = 0; coco_it < MAX_COCOS; coco_it ++) {
 			if (coco_s [coco_it]) {
 				ctx = coco_x [coco_it] + coco_vx [coco_it];
 				cty = coco_y [coco_it] + coco_vy [coco_it];
 
-				if (ctx >= 240 || cty >= 160) cocos_destroy ();
+				if (ctx >= 240 || cty >= 160) coco_s [coco_it] = 0;
 				// Collide player
 				if (p_state == EST_NORMAL) {
 					cx1 = ctx + 3; cy1 = cty + 3; cx2 = gpx; cy2 = gpy;
 					if (collide_pixel ()) {
-						cocos_destroy ();
+						destroy_cocos ();
 						p_killme = SFX_PLAYER_DEATH_COCO;
 					}
 				}
 				// Collide cocos
 				#ifdef COCOS_COLLIDE
 					cx1 = (ctx + 3) >> 4; cy1 = (cty + 3) >> 4;
-					if (attr () > 7) cocos_destroy ();
+					if (attr () > 7) destroy_cocos ();
 				#endif
 
 				// Render

@@ -1,5 +1,5 @@
 // Collide with bullets
-
+if (killable)
 #ifdef FIRE_MIN_KILLABLE
 	if (_en_t >= FIRE_MIN_KILLABLE) 
 #endif

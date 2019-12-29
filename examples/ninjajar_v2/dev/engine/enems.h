@@ -104,9 +104,6 @@ void enems_init (void) {
 					case 4:
 						// Make sure mx is positive!
 						baddies [enoffsmasi].mx = abs (baddies [enoffsmasi].mx);
-						#ifdef CLOUDS_FIXED_CELL
-							en_an_base_frame [gpit] = CLOUDS_FIXED_CELL << 1; 
-						#endif
 						break;
 				#endif
 				#ifdef ENABLE_HANNA_MONSTERS_11
@@ -114,6 +111,7 @@ void enems_init (void) {
 						en_an_state [gpit] = 0;
 						break;
 				#endif
+				#include "my/extra_enems_init.h"
 				default:
 					break;
 			}
@@ -484,6 +482,7 @@ void enems_move (void) {
 						#include "engine/enemmods/move_hanna_11.h"
 						break;
 				#endif
+				#include "my/extra_enems_move.h"
 				default:
 					en_an_n_f [enit] = sprite_18_a;
 			}
@@ -535,11 +534,11 @@ void enems_move (void) {
 				#asm
 					ld  a, (_tocado)
 					or  a
-					jr  nz, _enems_collision_skip
+					jp  nz, _enems_collision_skip
 
 					ld  a, (_p_state)
 					or  a
-					jr  nz, _enems_collision_skip
+					jp  nz, _enems_collision_skip
 
 					// (gpx + 8 >= _en_x && gpx <= _en_x + 8 && gpy + 8 >= _en_y && gpy <= _en_y + 8)
 
@@ -553,7 +552,7 @@ void enems_move (void) {
 						add 12
 					#endif
 					cp  c
-					jr  c, _enems_collision_skip
+					jp  c, _enems_collision_skip
 
 					// gpx <= _en_x + 8; _en_x + 8 >= gpx
 					ld  a, (_gpx)
@@ -565,7 +564,7 @@ void enems_move (void) {
 						add 12
 					#endif
 					cp  c
-					jr  c, _enems_collision_skip
+					jp  c, _enems_collision_skip
 
 					// gpy + 8 >= _en_y
 					ld  a, (__en_y)
@@ -577,7 +576,7 @@ void enems_move (void) {
 						add 12
 					#endif
 					cp  c
-					jr  c, _enems_collision_skip
+					jp  c, _enems_collision_skip
 
 					// gpy <= _en_y + 8; _en_y + 8 >= gpy
 					ld  a, (_gpy)
@@ -589,7 +588,7 @@ void enems_move (void) {
 						add 12
 					#endif
 					cp  c
-					jr  c, _enems_collision_skip			
+					jp  c, _enems_collision_skip			
 				#endasm
 				{
 					#ifdef PLAYER_KILLS_ENEMIES

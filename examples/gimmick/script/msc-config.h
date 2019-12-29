@@ -27,6 +27,6 @@ extern unsigned char *script;
 #define LEVEL_4 0x125B
 #define LEVEL_5 0x15C4
 #define LEVEL_6 0x1DC5
-#define LEVEL_7 0x2401
-#define LEVEL_8 0x2CF8
+#define LEVEL_7 0x2402
+#define LEVEL_8 0x2CF9
 #define SCRIPT_INIT 52704

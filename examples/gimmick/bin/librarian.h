@@ -12,15 +12,15 @@ RESOURCE resources [] = {
    {3, 51540},   // 1: marco.bin
    {3, 51540},   // 2: ending.bin
    {3, 53905},   // 3: level0c.bin
-   {3, 56453},   // 4: level1c.bin
-   {3, 59406},   // 5: level2c.bin
-   {3, 61790},   // 6: level3c.bin
+   {3, 56475},   // 4: level1c.bin
+   {3, 59439},   // 5: level2c.bin
+   {3, 61843},   // 6: level3c.bin
    {4, 49152},   // 7: level4c.bin
-   {4, 51597},   // 8: level5c.bin
-   {4, 54469},   // 9: level6c.bin
-   {4, 56937},   // 10: level7c.bin
-   {4, 59808},   // 11: level8c.bin
-   {4, 62322},   // 12: dragon.bin
+   {4, 51610},   // 8: level5c.bin
+   {4, 54497},   // 9: level6c.bin
+   {4, 56986},   // 10: level7c.bin
+   {4, 59874},   // 11: level8c.bin
+   {4, 62399},   // 12: dragon.bin
    {7, 49152},   // 13: fingod.bin
    {7, 51641}    // 14: logogw.bin
 };

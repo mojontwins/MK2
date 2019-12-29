@@ -37,6 +37,8 @@ void enems_init (void) {
 	//                   1011 = Hanna Type 11
 	//                   1100 = Hanna Punchos
 
+	// 01001000
+
 	#ifdef COUNT_SCR_ENEMS_ON_FLAG
 		flags [COUNT_SCR_ENEMS_ON_FLAG]	= 0;
 	#endif
@@ -104,6 +106,11 @@ void enems_init (void) {
 					case 4:
 						// Make sure mx is positive!
 						baddies [enoffsmasi].mx = abs (baddies [enoffsmasi].mx);
+						break;
+				#endif
+				#ifdef ENABLE_DROPS
+					case 9:
+						#include "addons/drops/init.h"
 						break;
 				#endif
 				#ifdef ENABLE_HANNA_MONSTERS_11
@@ -469,11 +476,17 @@ void enems_move (void) {
 				#endif
 				#ifdef ENABLE_DROPS
 					case 9:			// drops
+						#ifdef DROPS_KILLABLE
+							killable = 1;
+						#endif
 						#include "addons/drops/move.h"
 						break;
 				#endif
 				#ifdef ENABLE_ARROWS
 					case 10:		// arrows
+						#ifdef ARROWS_KILLABLE
+							killable = 1;
+						#endif
 						#include "addons/arrows/move.h"
 						break;
 				#endif

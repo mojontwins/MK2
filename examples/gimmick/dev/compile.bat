@@ -18,8 +18,8 @@ echo ### MAKING SPRITESET ###
 
 echo ### MAKING TEXTS ###
 cd ..\texts
-..\..\..\src\utils\textstuffer2.exe texts_es.bin textfile=texts_es.txt mode=simple wordwrap=24  > nul
-..\..\..\src\utils\textstuffer2.exe texts_en.bin textfile=texts_en.txt mode=simple wordwrap=24  > nul
+..\..\..\src\utils\textstuffer2.exe texts_es.bin textfile=texts_es.txt mode=simple wordwrap=24 space=27  > nul
+..\..\..\src\utils\textstuffer2.exe texts_en.bin textfile=texts_en.txt mode=simple wordwrap=24 space=27  > nul
 
 copy texts_%lang%.bin ..\bin\texts.bin > nul
 
