@@ -441,3 +441,9 @@ unsigned char action_pressed;
 
 unsigned char success;
 unsigned char playing;
+
+#ifdef SHOW_FPS
+	unsigned char game_frame_counter;
+	unsigned char tv_frame_counter;
+#endif
+	

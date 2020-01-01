@@ -97,6 +97,9 @@ void main (void) {
 				#ifdef ENABLE_LAVA
 					if (flags [LAVA_FLAG] == 1) lava_reenter ();
 				#endif
+				#ifdef SHOW_FPS
+					game_frame_counter = tv_frame_counter = 0;
+				#endif
 			}
 
 			// Update HUD
@@ -244,6 +247,10 @@ void main (void) {
 			#endif
 
 			// Main loop is done!
+
+			#ifdef SHOW_FPS
+				++ game_frame_counter;
+			#endif
 		}
 
 		#ifdef MODE_128K
