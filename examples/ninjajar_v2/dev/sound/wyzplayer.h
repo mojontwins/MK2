@@ -36,6 +36,13 @@ void ISR(void) {
 	#ifdef MIN_FAPS_PER_FRAME
 		++ isrc;
 	#endif
+	#ifdef SHOW_FPS
+		++ tv_frame_counter;
+		if (tv_frame_counter == 50) {
+			_x = 0; _y = 0; _t = game_frame_counter; print_number2 ();
+			tv_frame_counter = game_frame_counter = 0;
+		}
+	#endif
 }
 
 void wyz_init (void) {
@@ -74,6 +81,7 @@ void __FASTCALL__ wyz_play_music (unsigned char song_number) {
 		call SetRAMBank
 		ei
 	#endasm
+	song_playing = song_number;
 }
 
 void wyz_stop_sound (void) {

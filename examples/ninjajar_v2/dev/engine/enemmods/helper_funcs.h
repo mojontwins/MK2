@@ -151,73 +151,161 @@
 	}
 
 	void move_cocos (void) {
-		for (coco_it = 0; coco_it < MAX_COCOS; coco_it ++) {
-			if (coco_s [coco_it]) {
-				ctx = coco_x [coco_it] + coco_vx [coco_it];
-				cty = coco_y [coco_it] + coco_vy [coco_it];
+		#asm
+				ld  a, MAX_COCOS
+				ld  (_coco_it), a
 
-				if (ctx >= 240 || cty >= 160) coco_s [coco_it] = 0;
-				// Collide player
-				if (p_state == EST_NORMAL) {
-					cx1 = ctx + 3; cy1 = cty + 3; cx2 = gpx; cy2 = gpy;
-					if (collide_pixel ()) {
-						destroy_cocos ();
-						p_killme = SFX_PLAYER_DEATH_COCO;
-					}
-				}
-				// Collide cocos
-				#ifdef COCOS_COLLIDE
-					cx1 = (ctx + 3) >> 4; cy1 = (cty + 3) >> 4;
-					if (attr () > 7) destroy_cocos ();
-				#endif
+			._move_cocos_loop
+				ld  a, (_coco_it)
+				dec a
+				ret z
+				ld  (_coco_it), a
 
-				// Render
-				//sp_MoveSprAbs (sp_cocos [coco_it], spritesClip, 0, VIEWPORT_Y + (coco_y [coco_it] >> 3), VIEWPORT_X + (coco_x [coco_it] >> 3), coco_x [coco_it] & 7, coco_y [coco_it] & 7);
-				#asm
-						ld  a, (_coco_it)
-						sla a
-						ld  c, a
-						ld  b, 0 				// BC = offset to [gpit] in 16bit arrays
-						ld  hl, _sp_cocos
-						add hl, bc
-						ld  e, (hl)
-						inc hl 
-						ld  d, (hl)
-						push de						
-						pop ix
+				ld  d, 0
+				ld  e, a
 
-						ld  iy, vpClipStruct
-						ld  bc, 0
+				ld  hl, _coco_s 
+				add hl, de
+				ld  a, (hl)
+				or  a
+				jr  z, _move_cocos_loop
+			
+			._move_cocos_do
 
-						ld  a, (_cty)
-						srl a
-						srl a
-						srl a
-						add VIEWPORT_Y
-						ld  h, a
+				// Update coordinates
+				ld  hl, _coco_vx
+				add hl, de
+				ld  c, (hl)
+				ld  hl, _coco_x
+				add hl, de
+				ld  a, (hl)
+				add c
+				ld  (_ctx), a
 
-						ld  a, (_ctx)
-						srl a
-						srl a
-						srl a
-						add VIEWPORT_X
-						ld  l, a
+				ld  hl, _coco_vy
+				add hl, de
+				ld  c, (hl)
+				ld  hl, _coco_y
+				add hl, de
+				ld  a, (hl)
+				add c
+				ld  (_cty), a
 
-						ld  a, (_ctx)
-						and 7
-						ld  d, a 
+				// Out of screen check
+				// cty is in A
+				cp  144
+				jp  nc, _destroy_cocos
 
-						ld  a, (_cty)
-						and 7
-						ld  e, a 
-						
-						call SPMoveSprAbs
-				#endasm	
+				ld  a, (_ctx)
+				cp  240
+				jp  nc, _destroy_cocos
 
-				coco_x [coco_it] = ctx;
-				coco_y [coco_it] = cty;
-			}
-		}
+				// Collide with player
+				ld  a, (_p_state)
+				cp  EST_NORMAL
+				jr  nz, _move_cocos_collide_player_done
+
+				ld  a, (_ctx)
+				add 3
+				ld  (_cx1), a
+				ld  a, (_cty)
+				add 3
+				ld  (_cy1), a
+				ld  a, (_gpx)
+				ld  (_cx2), a
+				ld  a, (_gpy)
+				ld  (_cy2), a
+				call _collide_pixel
+				xor a
+				or  l
+				jr  z, _move_cocos_collide_player_done
+
+				ld  a, SFX_PLAYER_DEATH_COCO
+				ld  (_p_killme), a
+				jp  _destroy_cocos
+
+			._move_cocos_collide_player_done
+
+				// Collide with bg
+			#ifdef COCOS_COLLIDE
+				ld  a, (_ctx)
+				add 3
+				srl a
+				srl a
+				srl a
+				srl a
+				ld  (_cx1), a
+
+				ld  a, (_cty)
+				add 3
+				srl a
+				srl a
+				srl a
+				srl a
+				ld  (_cx1), a
+
+				call _attr
+				ld  a, l
+				and 12
+				jp  nz, _destroy_cocos
+			#endif				
+
+			// Render
+				ld  a, (_coco_it)
+				sla a
+				ld  c, a
+				ld  b, 0 				// BC = offset to [gpit] in 16bit arrays
+				ld  hl, _sp_cocos
+				add hl, bc
+				ld  e, (hl)
+				inc hl 
+				ld  d, (hl)
+				push de						
+				pop ix
+
+				ld  iy, vpClipStruct
+				ld  bc, 0
+
+				ld  a, (_cty)
+				srl a
+				srl a
+				srl a
+				add VIEWPORT_Y
+				ld  h, a
+
+				ld  a, (_ctx)
+				srl a
+				srl a
+				srl a
+				add VIEWPORT_X
+				ld  l, a
+
+				ld  a, (_ctx)
+				and 7
+				ld  d, a 
+
+				ld  a, (_cty)
+				and 7
+				ld  e, a 		
+				
+				call SPMoveSprAbs			
+
+			._move_cocos_continue
+				ld  de, (_coco_it)
+				ld  d, 0
+
+				ld  hl, _coco_x
+				add hl, de
+				ld  a, (_ctx)
+				ld  (hl), a
+
+				ld  hl, _coco_y
+				add hl, de
+				ld  a, (_cty)
+				ld  (hl), a
+
+				jp  _move_cocos_loop
+		#endasm
 	}
 #endif
 

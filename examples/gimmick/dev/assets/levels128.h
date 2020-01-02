@@ -61,9 +61,9 @@ typedef struct {
 	unsigned char ts_res;
 	unsigned char ss_res;
 	unsigned char enems_res;
-#ifndef DISABLE_HOTSPOTS
-	unsigned char hotspots_res;
-#endif
+	#ifndef DISABLE_HOTSPOTS
+		unsigned char hotspots_res;
+	#endif
 	unsigned char behs_res;
 	unsigned char music_id;
 	unsigned char scr_ini, ini_x, ini_y;
@@ -164,31 +164,31 @@ extern unsigned char behs [0];
 
 // Level struct
 #ifdef EXTENDED_LEVELS
-LEVEL levels [] = {
-	// Fase 0: Intro.
-	{MAP5C_BIN, BOLTS5C_BIN, TS5C_BIN, SS0C_BIN, ENEMS5C_BIN, HOTSPOTS5C_BIN, BEHS5C_BIN, 0,
-	 8, 7, 7, 99, 7, 3, 99, 1, 2, SENG_JUMP, 0,
-	 1, SCRIPT_INIT + SCRIPT_0}
-	 // ... etc
-};
-
-#ifdef LEVEL_SEQUENCE
-unsigned char level_sequence [] = {
-	// ... list of level #s
-};
-#endif
+	LEVEL levels [] = {
+		// Fase 0: Intro.
+		{MAP5C_BIN, BOLTS5C_BIN, TS5C_BIN, SS0C_BIN, ENEMS5C_BIN, HOTSPOTS5C_BIN, BEHS5C_BIN, 0,
+		 8, 7, 7, 99, 7, 3, 99, 1, 2, SENG_JUMP, 0,
+		 1, SCRIPT_INIT + SCRIPT_0}
+		 // ... etc
+	};
+	
+	#ifdef LEVEL_SEQUENCE
+		unsigned char level_sequence [] = {
+			// ... list of level #s
+		};
+	#endif
 
 #else
-LEVEL levels [] = {
-	{LEVEL0C_BIN, 1,SCRIPT_INIT + LEVEL_0}, /*Pueblo*/
-	{LEVEL1C_BIN, 2,SCRIPT_INIT + LEVEL_1}, /*Sonic*/
-	{LEVEL2C_BIN, 7,SCRIPT_INIT + LEVEL_2}, /*Mario*/
-	{LEVEL3C_BIN, 4,SCRIPT_INIT + LEVEL_3}, /*Castlevania*/
-	{LEVEL4C_BIN, 14,SCRIPT_INIT + LEVEL_4}, /*Wonder Boy3*/
-	{LEVEL5C_BIN, 9,SCRIPT_INIT + LEVEL_5}, /*Shinobi*/
-	{LEVEL6C_BIN, 8,SCRIPT_INIT + LEVEL_6}, /*Rooms and Bosses*/
-	{LEVEL7C_BIN, 11,SCRIPT_INIT + LEVEL_7}, /*Ghouls and Goblins*/
-	{LEVEL8C_BIN, 13,SCRIPT_INIT + LEVEL_8} /*WB 1 + surprise*/	
-	// etc
-};
+	LEVEL levels [] = {
+		{LEVEL0C_BIN, 1,SCRIPT_INIT + LEVEL_0}, /*Pueblo*/
+		{LEVEL1C_BIN, 2,SCRIPT_INIT + LEVEL_1}, /*Sonic*/
+		{LEVEL2C_BIN, 7,SCRIPT_INIT + LEVEL_2}, /*Mario*/
+		{LEVEL3C_BIN, 4,SCRIPT_INIT + LEVEL_3}, /*Castlevania*/
+		{LEVEL4C_BIN, 14,SCRIPT_INIT + LEVEL_4}, /*Wonder Boy3*/
+		{LEVEL5C_BIN, 9,SCRIPT_INIT + LEVEL_5}, /*Shinobi*/
+		{LEVEL6C_BIN, 8,SCRIPT_INIT + LEVEL_6}, /*Rooms and Bosses*/
+		{LEVEL7C_BIN, 11,SCRIPT_INIT + LEVEL_7}, /*Ghouls and Goblins*/
+		{LEVEL8C_BIN, 13,SCRIPT_INIT + LEVEL_8} /*WB 1 + surprise*/	
+		// etc
+	};
 #endif

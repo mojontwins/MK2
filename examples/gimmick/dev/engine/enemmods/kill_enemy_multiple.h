@@ -56,12 +56,7 @@ void enems_kill (unsigned char amount) {
 			en_an_dead_row [enit] = DEATH_COUNT_EXPRESSION;
 #endif
 
-// Run script on kill
-#ifdef ACTIVATE_SCRIPTING
-#ifdef RUN_SCRIPT_ON_KILL
-			run_script (2 * MAP_W * MAP_H + 5);
-#endif
-#endif
+enemy_was_killed = 1;
 
 #if ENEMS_LIFE_GAUGE > 1 || FANTIES_LIFE_GAUGE > 1
 		} else {

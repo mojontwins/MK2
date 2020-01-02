@@ -72,6 +72,30 @@ void reloc_player (void) {
 #endif
 }
 
+void read_two_bytes_D_E (void) {
+    #asm
+            // Read two bytes: flag #, number
+
+            #ifdef MODE_128K
+                di
+                ld  b, SCRIPT_PAGE
+                call SetRAMBank
+            #endif
+
+                ld  hl, (_script)
+                ld  d, (hl)         // flag #
+                inc hl
+                ld  e, (hl)         // number
+                inc hl
+                ld  (_script), hl
+
+            #ifdef MODE_128K
+                ld  b, 0
+                call SetRAMBank
+                ei
+            #endif
+    #endasm
+}
 unsigned char *next_script;
 void run_script (unsigned char whichs) {
 
@@ -127,26 +151,84 @@ void run_script (unsigned char whichs) {
                 case 0x10:
                     // IF FLAG sc_x = sc_n
                     // Opcode: 10 sc_x sc_n
-                    readxy ();
-                    sc_terminado = (flags [sc_x] != sc_y);
+                    // readxy ();
+                    // sc_terminado = (flags [sc_x] != sc_y);
+                    #asm
+                            call _read_two_bytes_d_e
+                            // Set sc_terminado if flags [C] != E
+                            ld  b, 0
+                            ld  c, d
+                            ld  hl, _flags
+                            add hl, bc
+                            ld  a, (hl)
+                            cp  e
+                            jr  z, _flag_equal_val_ok
+                            ld  a, 1
+                            ld  (_sc_terminado), a
+                        ._flag_equal_val_ok
+                    #endasm
                     break;
                 case 0x11:
                     // IF FLAG sc_x < sc_n
                     // Opcode: 11 sc_x sc_n
-                    readxy ();
-                    sc_terminado = (flags [sc_x] >= sc_y);
+                    // readxy ();
+                    // sc_terminado = (flags [sc_x] >= sc_y);
+                    #asm
+                            call _read_two_bytes_d_e
+                            // Set sc_terminado if flags [C] >= E
+                            ld  b, 0
+                            ld  c, d
+                            ld  hl, _flags
+                            add hl, bc
+                            ld  a, (hl)
+                            cp  e
+                            jr  c, _flag_minor_val_ok ; branch if A < E
+                            ld  a, 1
+                            ld  (_sc_terminado), a
+                        ._flag_minor_val_ok
+                    #endasm
                     break;
                 case 0x12:
                     // IF FLAG sc_x > sc_n
                     // Opcode: 12 sc_x sc_n
-                    readxy ();
-                    sc_terminado = (flags [sc_x] <= sc_y);
+                    // readxy ();
+                    // sc_terminado = (flags [sc_x] <= sc_y);
+                    #asm
+                            call _read_two_bytes_d_e
+                            // Set sc_terminado if flags [C] <= E
+                            // or...            if E >= flags [C]
+                            ld  b, 0
+                            ld  c, d
+                            ld  hl, _flags
+                            add hl, bc
+                            ld  a, e     ; A = E (second byte)
+                            ld  e, (hl)  ; E = flags [C]
+                            cp  e
+                            jr  c, _flag_equal_greater_ok ; branch if A < E
+                            ld  a, 1
+                            ld  (_sc_terminado), a
+                        ._flag_equal_greater_ok
+                    #endasm
                     break;
                 case 0x13:
                     // IF FLAG sc_x <> sc_n
                     // Opcode: 13 sc_x sc_n
-                    readxy ();
-                    sc_terminado = (flags [sc_x] == sc_y);
+                    // readxy ();
+                    // sc_terminado = (flags [sc_x] == sc_y);
+                    #asm
+                            call _read_two_bytes_d_e
+                            // Set sc_terminado if flags [C] == E
+                            ld  b, 0
+                            ld  c, d
+                            ld  hl, _flags
+                            add hl, bc
+                            ld  a, (hl)
+                            cp  e
+                            jr  nz, _flag_different_val_ok
+                            ld  a, 1
+                            ld  (_sc_terminado), a
+                        ._flag_different_val_ok
+                    #endasm
                     break;
                 case 0x20:
                     // IF PLAYER_TOUCHES sc_x, sc_y
@@ -172,6 +254,10 @@ void run_script (unsigned char whichs) {
 #else
                     sc_terminado = (!((p_x >> FIXBITS) >= sc_x && (p_x >> FIXBITS) <= sc_y));
 #endif
+                    break;
+                case 0x23:
+                    // IF POSSEE
+                    sc_terminado = (possee == 0);
                     break;
                 case 0x80:
                      // IF LEVEL = sc_n
@@ -277,6 +363,12 @@ void run_script (unsigned char whichs) {
                         fzx2 = read_byte ();
                         fzy2 = read_byte ();
                         f_zone_ac = 1;
+                        break;
+                    case 0x52:
+                        // INVALIDATE
+                        enems_move ();
+                        update_sprites ();
+                        invalidate_viewport ();
                         break;
                     case 0x69:
                         // WARP_TO_LEVEL

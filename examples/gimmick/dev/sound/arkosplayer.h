@@ -102,6 +102,7 @@ void __FASTCALL__ arkos_play_music (unsigned char song_number) {
 		call SetRAMBank
 		ei
 	#endasm
+	song_playing = song_number;
 }
 
 void arkos_stop_sound (void) {

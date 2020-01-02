@@ -14,10 +14,10 @@
 	_en_y2 = 0;
 	if (_en_my) {
 		_en_x += _en_mx;
-		en_an_n_f [gpit] = arrow_sprites + (_en_mx < 0 ? 0 : 144);
+		en_an_n_f [enit] = arrow_sprites + (_en_mx < 0 ? 0 : 144);
 		if (_en_x == _en_x2) _en_my = 0;
 	} else {
-		en_an_n_f [gpit] = sprite_18_a;
+		en_an_n_f [enit] = sprite_18_a;
 		if (0 == enemy_shoots || (addons_between (gpy, _en_y1, _en_y1, 15, 15) && addons_between (gpx, _en_x1, _en_x2, 15, 31))){
 			_en_y2 = 1;
 		}

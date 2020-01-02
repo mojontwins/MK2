@@ -232,7 +232,7 @@ void enems_move (void) {
 		p_gotten = ptgmy = ptgmx = 0;
 	#endif
 
-	tocado = 0;
+	tocado = enemy_was_killed = 0;
 
 	for (enit = 0; enit < 3; ++ enit) {
 		active = killable = animate = 0;
@@ -713,5 +713,16 @@ void enems_move (void) {
 
 	#if defined (SLOW_DRAIN) && defined (PLAYER_BOUNCES)
 		lasttimehit = tocado;
+	#endif
+
+	#ifdef ENEMS_MAY_DIE
+		if (enemy_was_killed) {
+			// Run script on kill
+			#ifdef ACTIVATE_SCRIPTING
+				#ifdef RUN_SCRIPT_ON_KILL
+					run_script (2 * MAP_W * MAP_H + 5);
+				#endif
+			#endif
+		}
 	#endif
 }

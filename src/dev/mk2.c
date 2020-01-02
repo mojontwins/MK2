@@ -9,6 +9,7 @@
 #define FIXBITS 4
 #include <spritepack.h>
 //#define DEBUG
+//#define SHOW_FPS
 
 // We are using some stuff from splib2 directly.
 #asm

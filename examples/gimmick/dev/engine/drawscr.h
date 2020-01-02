@@ -579,7 +579,7 @@ void draw_scr (void) {
 	#endif
 
 	// Enemy initialization for this screen
-	enoffs = n_pant * 3;
+	enoffs = n_pant + (n_pant << 1);
 
 	enems_init ();
 

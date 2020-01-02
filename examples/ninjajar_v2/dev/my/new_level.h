@@ -4,7 +4,6 @@
 // New level screen.
 // You can add here your own code. Just comment the original and add yours.
 
-/*
 if (!silent_level) {
 	blackout_area ();
 	
@@ -19,18 +18,4 @@ if (!silent_level) {
 
 	active_sleep (250);
 }
-silent_level = 1;
-*/
-
-if (!silent_level) {
-	blackout_area ();	
-	_x = 5; _y = 5; _t = 71; gp_gen = "GRACIAS ANDY Y NATHAN ;_"; print_str ();
-	sp_UpdateNow ();
-	active_sleep (150);
-
-	blackout_area ();
-	_x = 6; _y = 11; _t = 71; gp_gen = "LA AVENTURA COMIENZA"; print_str ();
-	sp_UpdateNow ();
-	active_sleep (250);
-} 
-silent_level = 1;
+silent_level = 0;

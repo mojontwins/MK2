@@ -261,6 +261,10 @@ unsigned char pregotten;
 	unsigned char enemy_shoots;
 #endif
 
+#ifdef ENEMS_MAY_DIE
+	unsigned char enemy_was_killed;
+#endif
+
 // Bullets
 
 #ifdef PLAYER_CAN_FIRE
@@ -447,3 +451,7 @@ unsigned char playing;
 	unsigned char tv_frame_counter;
 #endif
 	
+#ifdef MODE_128K
+	unsigned char song_playing;
+#endif
+

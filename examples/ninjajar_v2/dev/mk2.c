@@ -9,6 +9,7 @@
 #define FIXBITS 4
 #include <spritepack.h>
 //#define DEBUG
+//#define SHOW_FPS
 
 // We are using some stuff from splib2 directly.
 #asm
@@ -245,6 +246,9 @@ unsigned char AD_FREE [NUMBLOCKS * 15];
 
 // Enemies
 #include "engine/enems.h"
+
+// Update sprites
+#include "engine/update_sprites.h"
 
 // Screen drawing
 #include "engine/drawscr.h"

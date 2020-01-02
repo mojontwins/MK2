@@ -367,17 +367,7 @@ void player_kill (void) {
 		}
 
 		#ifdef MODE_128K
-			// Play music
-			#ifdef COMPRESSED_LEVELS
-				#ifdef EXTENDED_LEVELS
-					_AY_PL_MUS (level_data->music_id);
-				#else
-					_AY_PL_MUS (levels [level].music_id);
-				#endif
-			#else
-				_AY_PL_MUS (1);
-			#endif
-			//_AY_PL_SND (18);
+			_AY_PL_MUS (song_playing);				
 		#endif
 	#endif
 }

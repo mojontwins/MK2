@@ -37,6 +37,8 @@ void enems_init (void) {
 	//                   1011 = Hanna Type 11
 	//                   1100 = Hanna Punchos
 
+	// 01001000
+
 	#ifdef COUNT_SCR_ENEMS_ON_FLAG
 		flags [COUNT_SCR_ENEMS_ON_FLAG]	= 0;
 	#endif
@@ -104,6 +106,11 @@ void enems_init (void) {
 					case 4:
 						// Make sure mx is positive!
 						baddies [enoffsmasi].mx = abs (baddies [enoffsmasi].mx);
+						break;
+				#endif
+				#ifdef ENABLE_DROPS
+					case 9:
+						#include "addons/drops/init.h"
 						break;
 				#endif
 				#ifdef ENABLE_HANNA_MONSTERS_11
@@ -225,7 +232,7 @@ void enems_move (void) {
 		p_gotten = ptgmy = ptgmx = 0;
 	#endif
 
-	tocado = 0;
+	tocado = enemy_was_killed = 0;
 
 	for (enit = 0; enit < 3; ++ enit) {
 		active = killable = animate = 0;
@@ -469,11 +476,17 @@ void enems_move (void) {
 				#endif
 				#ifdef ENABLE_DROPS
 					case 9:			// drops
+						#ifdef DROPS_KILLABLE
+							killable = 1;
+						#endif
 						#include "addons/drops/move.h"
 						break;
 				#endif
 				#ifdef ENABLE_ARROWS
 					case 10:		// arrows
+						#ifdef ARROWS_KILLABLE
+							killable = 1;
+						#endif
 						#include "addons/arrows/move.h"
 						break;
 				#endif
@@ -700,5 +713,16 @@ void enems_move (void) {
 
 	#if defined (SLOW_DRAIN) && defined (PLAYER_BOUNCES)
 		lasttimehit = tocado;
+	#endif
+
+	#ifdef ENEMS_MAY_DIE
+		if (enemy_was_killed) {
+			// Run script on kill
+			#ifdef ACTIVATE_SCRIPTING
+				#ifdef RUN_SCRIPT_ON_KILL
+					run_script (2 * MAP_W * MAP_H + 5);
+				#endif
+			#endif
+		}
 	#endif
 }

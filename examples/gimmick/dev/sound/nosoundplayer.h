@@ -31,6 +31,7 @@ void __FASTCALL__ nosound_play_sound (unsigned char fx_number) {
 
 void __FASTCALL__ nosound_play_music (unsigned char song_number) {
 	// Do nothing
+	song_playing = song_number;
 }
 
 void nosound_stop_sound (void)

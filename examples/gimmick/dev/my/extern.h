@@ -237,15 +237,15 @@ void do_extern_action (unsigned char n) {
 	} else if (gpt == 250) {
 		is_cutscene = 0;
 	} else {
-		  // gpt = 252 - 255
-		  // Lower bit 7
-		  exti = gpt - 252;   // 252 = 0, 253 = 1, 254 = 2.
-		  baddies [enoffs + exti].t &= 0x7F;
-		  en_an_state [exti] = en_an_count [exti] = 0;
-	  #ifdef COMPRESSED_LEVELS
-		  baddies [enoffs + exti].life = level_data.enems_life;
-	  #else
-		  baddies [enoffs + exti].life = ENEMIES_LIFE_GAUGE;
-	  #endif
+		// gpt = 252 - 255
+		// Lower bit 7
+		exti = gpt - 252;   // 252 = 0, 253 = 1, 254 = 2.
+		baddies [enoffs + exti].t &= 0x7F;
+		en_an_state [exti] = en_an_count [exti] = 0;
+	  	#ifdef COMPRESSED_LEVELS
+			baddies [enoffs + exti].life = level_data.enems_life;
+		#else
+			baddies [enoffs + exti].life = ENEMIES_LIFE_GAUGE;
+		#endif
 	}
 }

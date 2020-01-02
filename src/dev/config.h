@@ -199,7 +199,10 @@
 //#define ENEMY_SHOOT_SPEED			4	// pixels per frame
 
 //#define ENABLE_DROPS					// Enemy type 9 = drops
+//#define DROPS_KILLABLE				// Define if drops can be killed 
+
 #define ENABLE_ARROWS					// Enemy type 10 = arrows
+#define ARROWS_KILLABLE					// Define if drops can be killed 
 
 //#define ENABLE_CLOUDS					// If defined, type 4 enemies are active
 #define CLOUDS_SHOOT_FREQ			31	// Shoot frequency (2^n-1)

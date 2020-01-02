@@ -164,19 +164,19 @@ extern unsigned char behs [0];
 
 // Level struct
 #ifdef EXTENDED_LEVELS
-LEVEL levels [] = {
-	// Fase 0: Intro.
-	{MAP5C_BIN, BOLTS5C_BIN, TS5C_BIN, SS0C_BIN, ENEMS5C_BIN, HOTSPOTS5C_BIN, BEHS5C_BIN, 0,
-	 8, 7, 7, 99, 7, 3, 99, 1, 2, SENG_JUMP, 0,
-	 1, SCRIPT_INIT + SCRIPT_0}
-	 // ... etc
-};
-
-#ifdef LEVEL_SEQUENCE
-	unsigned char level_sequence [] = {
-		// ... list of level #s
+	LEVEL levels [] = {
+		// Fase 0: Intro.
+		{MAP5C_BIN, BOLTS5C_BIN, TS5C_BIN, SS0C_BIN, ENEMS5C_BIN, HOTSPOTS5C_BIN, BEHS5C_BIN, 0,
+		 8, 7, 7, 99, 7, 3, 99, 1, 2, SENG_JUMP, 0,
+		 1, SCRIPT_INIT + SCRIPT_0}
+		 // ... etc
 	};
-#endif
+	
+	#ifdef LEVEL_SEQUENCE
+		unsigned char level_sequence [] = {
+			// ... list of level #s
+		};
+	#endif
 
 #else
 	LEVEL levels [] = {

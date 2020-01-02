@@ -69,7 +69,7 @@ void __FASTCALL__ wyz_play_sound (unsigned char fx_number) {
 	#endasm
 }
 
-void __FASTCALL__ wyz_play_music (unsigned char song_number) {
+void __FASTCALL__ wyz_play_music (unsigned char song_number) {	
 	#asm
 		di
 		ld b, 1
@@ -81,6 +81,7 @@ void __FASTCALL__ wyz_play_music (unsigned char song_number) {
 		call SetRAMBank
 		ei
 	#endasm
+	song_playing = song_number;
 }
 
 void wyz_stop_sound (void) {
