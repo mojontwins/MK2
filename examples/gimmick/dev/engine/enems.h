@@ -232,7 +232,10 @@ void enems_move (void) {
 		p_gotten = ptgmy = ptgmx = 0;
 	#endif
 
-	tocado = enemy_was_killed = 0;
+	tocado = 0;
+	#ifdef ENEMS_MAY_DIE
+		enemy_was_killed = 0;
+	#endif
 
 	for (enit = 0; enit < 3; ++ enit) {
 		active = killable = animate = 0;

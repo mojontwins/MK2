@@ -1,5 +1,5 @@
-// MT Engine MK2 v0.88
-// Copyleft 2014 the Mojon Twins
+// MT MK2 ZX v1.0 
+// Copyleft 2010-2015, 2019 by The Mojon Twins
 
 // mk2.c
 // Main file
@@ -8,8 +8,6 @@
 
 #define FIXBITS 4
 #include <spritepack.h>
-//#define DEBUG
-//#define SHOW_FPS
 
 // We are using some stuff from splib2 directly.
 #asm
@@ -20,60 +18,8 @@
 		LIB SPCompDListAddr
 #endasm
 
-// FOR 128K GAMES:
-#pragma output STACKPTR=24199
-
-// FOR 48K GAMES:
-// #pragma output STACKPTR=61937
-
-/* splib2 memory map
-61440 - 61696 IM2 vector table
-61697 - 61936 FREEPOOL (240 bytes)
-61937 - 61948 ISR
-61949 - 61951 Free (3 bytes)
-61952 - 65535 Horizontal Rotation Tables
-*/
-
-// If you use a frame limiter you need the isrc counter
-#define ISRC_ADDRESS 		23296
-
-// For two integers & one char which are never paged out (reserve 5 bytes)
-#define SAFE_INT_ADDRESS 	23297
-
-// Safe memory pool (use it carefully)
-#define SAFE_MEMORY_POOL 	23302
-
-// Free space in the splib2 area we can use
-#define FREEPOOL 			61697
-
-// Define where to store and how many sprite descriptors are needed.
-// This game has player + 3 enemies + 1 16x16 shot + 3 8x8 cocos
-// so it needs 10 + 3*10 + 10 + 3*5 = 65 blocks
-#define NUMBLOCKS			65
-unsigned char AD_FREE [NUMBLOCKS * 15];
-
-// Note the 15: blocks are 14 bytes, but there's an overhead of 1 byte per block
-
-// For each sprite you need 1+R*C blocks, where R = rows, C = columns.
-// For example, a 16x16 sprite needs 1+3*3 = 10 blocks.
-// For games with just 4 16x16 sprites (no shoots/hitter/etc) you need 40 blocks.
-// For each shoot/hiter/coco you need 1+2*2 = 5 extra blocks.
-// Special: the whip, the shadow which is 1 + 3*2 = 7 extra blocks.
-
-// For example: shoots activated need 4 * 10 + 3 * 5 = 55 blocks.
-// hitter and no shoots need 4 * 10 + 1 * 5 = 45 blocks.
-// hitter and cocos need 4 * 10 + 4 * 5 = 60 blocks.
-// carriable plus nothing else 5 * 10 = 50 blocks
-// carriable and cocos 5 * 10 + 3 * 5 = 65 blocks
-// Just a whip: 4 * 10 + 7 ? 47 blocks.
-// Just a whip plus 1 shoot = 4*10 + 7 + 5 = 52 blocks.
-// Just do the math.
-
-// Optimal place to compile if using 48K and standard COMPRESSED_LEVELS:
-// 23296 + MAP_W * MAP_H * (108) + MAX_BOLTS * 4 + 49
-// Check "Journey to the centre of the Nose" for some insight.
-
-#include "config.h"
+#include "my/config.h"
+#include "my/sfx_config.h"
 
 // Cosas del juego:
 
@@ -247,6 +193,9 @@ unsigned char AD_FREE [NUMBLOCKS * 15];
 
 // Enemies
 #include "engine/enems.h"
+
+// Update sprites
+#include "engine/update_sprites.h"
 
 // Screen drawing
 #include "engine/drawscr.h"

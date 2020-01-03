@@ -54,7 +54,7 @@ void main (void) {
 		// TITLE SCREEN
 		// ************
 
-		#include "mainloop/title_screen.h"
+		#include "my/title_screen.h"
 
 		// *******************
 		// GAME INITIALIZATION
@@ -70,7 +70,7 @@ void main (void) {
 				// NEW LEVEL SCREEN
 				// ****************
 
-				#include "mainloop/new_level.h"
+				#include "my/new_level.h"
 		#endif
 
 		// ********************
@@ -96,6 +96,9 @@ void main (void) {
 				draw_scr ();
 				#ifdef ENABLE_LAVA
 					if (flags [LAVA_FLAG] == 1) lava_reenter ();
+				#endif
+				#ifdef SHOW_FPS
+					game_frame_counter = tv_frame_counter = 0;
 				#endif
 			}
 
@@ -149,7 +152,7 @@ void main (void) {
 			#endif
 
 			// Update sprites
-			#include "mainloop/update_sprites.h"
+			update_sprites ();
 
 			// Limit frame rate
 			#ifdef MIN_FAPS_PER_FRAME
@@ -244,6 +247,10 @@ void main (void) {
 			#endif
 
 			// Main loop is done!
+
+			#ifdef SHOW_FPS
+				++ game_frame_counter;
+			#endif
 		}
 
 		#ifdef MODE_128K
@@ -278,9 +285,9 @@ void main (void) {
 					break;
 				#ifdef ACTIVATE_SCRIPTING
 					case 3:
-							blackout_area ();
-							level = warp_to_level;
-							break;
+						blackout_area ();
+						level = warp_to_level;
+						break;
 				#endif
 				#ifdef SCRIPTED_GAME_ENDING
 					case 4:

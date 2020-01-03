@@ -152,7 +152,7 @@ void main (void) {
 			#endif
 
 			// Update sprites
-			#include "mainloop/update_sprites.h"
+			update_sprites ();
 
 			// Limit frame rate
 			#ifdef MIN_FAPS_PER_FRAME

@@ -698,18 +698,8 @@ void print_str (void) {
 
 #if defined (COMPRESSED_LEVELS) || defined (SHOW_LEVEL_ON_SCREEN)
 	void blackout_area (void) {
-		// blackens gameplay area for LEVEL XX display
-		asm_int = 22528 + 32 * VIEWPORT_Y + VIEWPORT_X;
 		#asm
-			/*
-			ld	hl, _asm_int
-			ld	a, (hl)
-			ld	e, a
-			inc	hl
-			ld	a, (hl)
-			ld	d, a
-			*/
-			ld  de, (_asm_int)
+			ld  de, 22528 + 32 * VIEWPORT_Y + VIEWPORT_X
 			ld  b, 20
 		.bal1
 			push bc

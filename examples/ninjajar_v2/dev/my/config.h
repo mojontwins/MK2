@@ -1,8 +1,63 @@
-// MT Engine MK2 v0.90b
-// Copyleft 2016 the Mojon Twins
+// MT MK2 ZX v1.0 
+// Copyleft 2010-2015, 2019 by The Mojon Twins
 
 // config.h
 // game engine configuration & behaviour
+
+//#define DEBUG
+//#define SHOW_FPS
+
+// FOR 128K GAMES:
+#pragma output STACKPTR=24199
+
+// FOR 48K GAMES:
+//#pragma output STACKPTR=61937
+
+/* splib2 memory map
+61440 - 61696 IM2 vector table
+61697 - 61936 FREEPOOL (240 bytes)
+61937 - 61948 ISR
+61949 - 61951 Free (3 bytes)
+61952 - 65535 Horizontal Rotation Tables
+*/
+
+// If you use a frame limiter you need the isrc counter
+#define ISRC_ADDRESS 		23296
+
+// For two integers & one char which are never paged out (reserve 5 bytes)
+#define SAFE_INT_ADDRESS 	23297
+
+// Safe memory pool (use it carefully)
+#define SAFE_MEMORY_POOL 	23302
+
+// Free space in the splib2 area we can use
+#define FREEPOOL 			61697
+
+// Define where to store and how many sprite descriptors are needed.
+// This game = 4*10 = 40 blocks
+#define NUMBLOCKS			60
+unsigned char AD_FREE [NUMBLOCKS * 15];
+
+// Note the 15: blocks are 14 bytes, but there's an overhead of 1 byte per block
+
+// For each sprite you need 1+R*C blocks, where R = rows, C = columns.
+// For example, a 16x16 sprite needs 1+3*3 = 10 blocks.
+// For games with just 4 16x16 sprites (no shoots/hitter/etc) you need 40 blocks.
+// For each shoot/hiter/coco you need 1+2*2 = 5 extra blocks.
+// Special: the whip, the shadow which is 1 + 3*2 = 7 extra blocks.
+
+// For example: shoots activated need 4 * 10 + 3 * 5 = 55 blocks.
+// hitter and no shoots need 4 * 10 + 1 * 5 = 45 blocks.
+// hitter and cocos need 4 * 10 + 4 * 5 = 60 blocks.
+// carriable plus nothing else 5 * 10 = 50 blocks
+// carriable and cocos 5 * 10 + 3 * 5 = 65 blocks
+// Just a whip: 4 * 10 + 7 ? 47 blocks.
+// Just a whip plus 1 shoot = 4*10 + 7 + 5 = 52 blocks.
+// Just do the math.
+
+// Optimal place to compile if using 48K and standard COMPRESSED_LEVELS:
+// 23296 + MAP_W * MAP_H * (108) + MAX_BOLTS * 4 + 49
+// Check "Journey to the centre of the Nose" for some insight.
 
 // ============================================================================
 // I. General configuration
@@ -12,45 +67,46 @@
 // #define DEBUG
 
 // 128K support
-//#define MODE_128K 					// 128K mode.
+#define MODE_128K 						// 128K mode.
 
 // Music engine
 //#define USE_ARKOS						// Just comment this to use the default WYZ player.
 //#define ARKOS_SFX_CHANNEL		1		// SFX Channel (0-2)
 //#define NO_SOUND						// Durante el desarrollo, no llama al player.
-//#define PLAY_SAMPLE_ON_DEATH 	0 		// Ninjajar!
+#define PLAY_SAMPLE_ON_DEATH 	0 		// Ninjajar!
 
 // Multi-level support
 
 #define COMPRESSED_LEVELS 				// use levels.h/levels128.h instead of mapa.h and enems.h (!)
-//#define EXTENDED_LEVELS				// Ninjajar! style full-featured levelset
-//#define LEVEL_SEQUENCE				// Ninjajar! style level sequence array
-//#define SCRIPTED_GAME_ENDING			// Game ending is triggered from the script
+#define EXTENDED_LEVELS					// Ninjajar! style full-featured levelset
+#define LEVEL_SEQUENCE					// Ninjajar! style level sequence array
+#define SCRIPTED_GAME_ENDING			// Game ending is triggered from the script
 //#define SIMPLE_LEVEL_MANAGER			// Custom level manager "simple" <- UNFINISHED. DON'T USE!
 
 #define MIN_FAPS_PER_FRAME 		2		// Experimental. Adds an ISR even in 48K mode.
 										// Limits the max. speed to 50/N fps.
 
-// In this section we define map dimensions, initial and authomatic ending conditions, etc.
+// In this section we define map dimmensions, initial and authomatic ending conditions, etc.
 
-#define MAP_W					4		//
+#define MAP_W					3		//
 #define MAP_H					7		// Map dimensions in screens
 //#define ENABLE_CUSTOM_CONNECTIONS 	// Custom connections array. MAP_W/MAP_H just define how many screens
-//#define SCR_INI				1		//  Initial screen
-//#define PLAYER_INI_X			5		//
-//#define PLAYER_INI_Y			1		// Initial tile coordinates
+//#define SCR_INI				99		//  Initial screen
+//#define PLAYER_INI_X			99		//
+//#define PLAYER_INI_Y			99		// Initial tile coordinates
 //#define SCR_END 				99		// Last screen. 99 = deactivated.
 //#define PLAYER_END_X			99		//
 //#define PLAYER_END_Y			99		// Player tile coordinates to finish game
 //#define PLAYER_MAX_OBJECTS	99		// Objects to get to finish game
 #define PLAYER_LIFE 			9		// Max and starting life gauge.
-//#define DONT_LIMIT_LIFE				// If defined, no upper limit to life gauge.
+#define DONT_LIMIT_LIFE					// If defined, no upper limit to life gauge.
 #define PLAYER_REFILL			1		// Life recharge
-#define MAX_LEVELS				2		// # of compressed levels
-#define REFILL_ME 						// If defined, refill player on each level
-#define WIN_CONDITION			0		// 0 = objects collected, 1 = screen 'N', 2 = scripting, 3 = SIM
+//#define MAX_LEVELS			99		// # of compressed levels
+//#define REFILL_ME 					// If defined, refill player on each level
+//#define WIN_CONDITION			99		// 0 = objects collected, 1 = screen 'N', 2 = scripting, 3 = SIM
 //#define EXTRA_SPRITES 		2 		// For 128K games -> # of extra sprite faces to make room for.
 
+//#define USE_TWO_BUTTONS 				// Alternate keyboard scheme for two-buttons games
 #ifndef PHANTOMAS_ENGINE
 	// To define different keys, the first two hex digits are the COLUMN, the next the ROW
 	/*
@@ -74,7 +130,7 @@
 		0x02fb, 0x02fd, 0x01fd, 0x04fd, 0x047f, 0x087f,		// WSADMN
 		0x01fb, 0x01fd, 0x02df, 0x01df, 0x047f, 0x087f, 	// QAOPMN
 	#else
-		0x02fb, 0x02fd, 0x01fd, 0x04fd, 0x017f, 0,			// WSADs-
+		0x087f, 0x02fd, 0x01fd, 0x04fd, 0x047f, 0,			// NSADM-
 		0x01fb, 0x01fd, 0x02df, 0x01df, 0x017f, 0, 			// QAOPs-
 	#endif
 	};
@@ -127,7 +183,7 @@
 #define BOUNDING_BOX_8_BOTTOM			// 8x8 aligned to bottom center in 16x16
 //#define BOUNDING_BOX_8_CENTERED		// 8x8 aligned to center in 16x16
 //#define BOUNDING_BOX_TINY_BOTTOM		// 8x2 aligned to bottom center in 16x16
-//#define SMALL_COLLISION 				// 8x8 centered collision instead of 12x12
+#define SMALL_COLLISION 				// 8x8 centered collision instead of 12x12
 
 // General directives:
 // -------------------
@@ -136,30 +192,30 @@
 //#define PLAYER_CYCLIC_MAP				// Cyclic, endless map in all directions.
 //#define PLAYER_CANNOT_FLICK_SCREEN	// If defined, automatic screen flicking is disabled.
 //#define PLAYER_WRAP_AROUND			// If defined, wrap-around. Needs PLAYER_CANNOT_FLICK_SCREEN
-#define DIRECT_TO_PLAY					// If defined, title screen is also the game frame.
+//#define DIRECT_TO_PLAY				// If defined, title screen is also the game frame.
 //#define DISABLE_HOTSPOTS				// Disable them completely. Saves tons of memory.
-//#define DEACTIVATE_KEYS 				// If defined, keys are not present.
+#define DEACTIVATE_KEYS 				// If defined, keys are not present.
 //#define DEACTIVATE_OBJECTS			// If defined, objects are not present.
 //#define DEACTIVATE_REFILLS
 //#define ONLY_ONE_OBJECT				// If defined, only one object can be carried at a time.
 //#define OBJECT_COUNT				1	// Defines which FLAG will be used to store the object count.
-//#define OBJECTS_COLLECTABLE_IF	2 	// If defined, Objs. can be collected if FLAG # == 1
+//#define OBJECTS_COLLECTABLE_IF	2	// If defined, Objs. can be collected if FLAG # == 1
 //#define DEACTIVATE_EVIL_TILE			// If defined, no killing tiles (behaviour 1) are detected.
-//#define FULL_BOUNCE 					// If defined, evil tile bounces equal MAX_VX, otherwise v/2
+#define FULL_BOUNCE 					// If defined, evil tile bounces equal MAX_VX, otherwise v/2
 //#define PLAYER_BOUNCES				// If defined, collisions make player bounce
 //#define SLOW_DRAIN					// Works with bounces. Drain is 4 times slower
 //#define PLAYER_DIZZY 					// Enable dizzy state for player
 //#define PLAYER_DIZZ_EXPR 				(((rand () & 15) - 7) << 3)
 #define PLAYER_FLICKERS 				// If defined, collisions make player flicker instead.
 //#define MAP_BOTTOM_KILLS				// If defined, exiting the map bottomwise kills.
-//#define WALLS_STOP_ENEMIES			// If defined, enemies react to the scenary (new: if bit 5 on!)
+#define WALLS_STOP_ENEMIES				// If defined, enemies react to the scenary (new: if bit 5 on!)
 //#define EVERYTHING_IS_A_WALL			// If defined, any tile <> type 0 is a wall, otherwise just 8.
 //#define COUNT_SCR_ENEMS_ON_FLAG 1		// If defined, count # of enems on screen and store in flag #
 //#define SHOW_LEVEL_ON_SCREEN			// If defined, show level # whenever we enter a new screen
 //#define CUSTOM_HIT					// If defined, different agents take different amounts of life (needs to be refined, don't use)
 //#define CUSTOM_HIT_DEFAULT		10
-#define IS_EVIL ==1 					// ==1 or &1, depending on what you need.
-#define ONLY_VERTICAL_EVIL_TILE			// Does as it suggests.
+#define IS_EVIL &1 						// ==1 or &1, depending on what you need.
+//#define ONLY_VERTICAL_EVIL_TILE		// Does as it suggests.
 
 // Enemy engine
 // ------------
@@ -170,39 +226,42 @@
 //#define PATROLLERS_HIT			9 	// If defined, patrollers take THIS life, otherwise 1
 #define ENEMS_DYING_FRAMES 			12	// Show explosion for # frames
 
-//#define ENABLE_FANTIES				// If defined, add code for flying enemies.
-//#define FANTIES_SIGHT_DISTANCE	96	// If defined, used in our type 6 enemies.
-//#define FANTIES_KILL_ON_TOUCH			// If defined, enemy also dies when collision happens
-//#define FANTIES_NUMB_ON_FLAG		31	// If defined, flag = 0 makes them not move.
-//#define FANTIES_MAX_V 			128 // Flying enemies max speed (also for custom type 6 if you want)
-//#define FANTIES_A 				16	// Flying enemies acceleration.
-//#define FANTIES_LIFE_GAUGE		1	// Amount of shots needed to kill flying enemies.
-//#define FANTIES_HIT 				12 	// If defined, fanties take THIS life, otherwise 1
-//#define FANTIES_FIXED_CELL 		2	// Always use this
-//#define FANTIES_WITH_FACING 			// If defined, 0 = facing left, 1 = facing right
+#define ENABLE_FANTIES					// If defined, add code for flying enemies.
+#define FANTIES_SIGHT_DISTANCE	96		// If defined, used in our type 6 enemies.
+#define FANTIES_KILL_ON_TOUCH			// If defined, enemy also dies when collision happens
+//#define FANTIES_NUMB_ON_FLAG	31		// If defined, flag = 0 makes them not move.
+#define FANTIES_MAX_V 			64 		// Flying enemies max speed (also for custom type 6 if you want)
+#define FANTIES_A 				4		// Flying enemies acceleration.
+#define FANTIES_LIFE_GAUGE		1		// Amount of shots needed to kill flying enemies.
+//#define FANTIES_HIT 			12 		// If defined, fanties take THIS life, otherwise 1
+#define FANTIES_FIXED_CELL 		2		// Always use this
+#define FANTIES_WITH_FACING 			// If defined, 0 = facing left, 1 = facing right
 
 //#define ENABLE_PURSUE_ENEMIES 		// If defined, type 7 enemies are active
-//#define DEATH_COUNT_EXPRESSION	20+(rand()&15)
-//#define TYPE_7_FIXED_SPRITE	4		// If defined, type 7 enemies are always #
+//#define DEATH_COUNT_EXPRESSION		20+(rand()&15)
+//#define TYPE_7_FIXED_CELL		4		// If defined, type 7 enemies are always #
 
 //#define ENABLE_SIMPLE_PURSUERS		// Simpler type 7s [NOT YET]
 
-//#define MAX_COCOS 				1	// Max # of cocos.
-//#define COCOS_COLLIDE					// Cocos will die with beh 8
+#define MAX_COCOS 				3		// Max # of cocos.
+// #define COCOS_COLLIDE				// Cocos will die with beh 8
 
-//#define ENABLE_SHOOTERS				// Activate this if your raise bit 4 in any enemies.
+#define ENABLE_SHOOTERS					// Activate this if your raise bit 4 in any enemies.
 
-//#define SHOOTER_SHOOT_FREQ		63	// Shoot frequency (2^n-1)
-//#define SHOOTER_SAFE_DISTANCE		64	// if closer won't shoot
-//#define SHOOTER_FIRE_ONE 				// If defined, just fire one coco per enemy
-//#define ENEMY_SHOOT_SPEED			4	// pixels per frame
+#define SHOOTER_SHOOT_FREQ		63		// Shoot frequency (2^n-1)
+#define SHOOTER_SAFE_DISTANCE	48		// if closer won't shoot
+#define SHOOTER_FIRE_ONE 				// If defined, just fire one coco per enemy
+#define ENEMY_SHOOT_SPEED		6		// pixels per frame
 
 //#define ENABLE_DROPS					// Enemy type 9 = drops
-//#define ENABLE_ARROWS					// Enemy type 10 = arrows
+//#define DROPS_KILLABLE				// Define if drops can be killed 
 
-//#define ENABLE_CLOUDS					// If defined, type 4 enemies are active
+//#define ENABLE_ARROWS					// Enemy type 10 = arrows
+//#define ARROWS_KILLABLE					// Define if drops can be killed 
+
+#define ENABLE_CLOUDS					// If defined, type 4 enemies are active
 #define CLOUDS_SHOOT_FREQ		31		// Shoot frequency (2^n-1)
-#define CLOUDS_FIXED_SPRITE		0		// Type 8 enemies are always # - 1
+#define CLOUDS_FIXED_CELL		0		// Type 8 enemies are always #
 #define CLOUDS_SAFE_DISTANCE	48		// if closer won't shoot
 #define CLOUDS_FIRE_ONE					// If defined, just fire one coco per enemy
 #define CLOUD_SHOOT_SPEED		8		// pixels per frame
@@ -210,18 +269,17 @@
 // Extra engine configuration
 // --------------------------
 
-//#define USE_TWO_BUTTONS 				// Alternate keyboard scheme for two-buttons games
-//#define USE_HOTSPOTS_TYPE_3 			// Alternate logic for recharges.
-//#define TILE_GET				13		// If defined, player can "get" tile #
-//#define TILE_GET_REPLACE  	0 		// Replace tile got with tile #
-//#define TILE_GET_FLAG 		1		// And this increments flag #
+#define USE_HOTSPOTS_TYPE_3 			// Alternate logic for recharges.
+#define TILE_GET				22		// If defined, player can "get" tile #
+#define TILE_GET_REPLACE  		0 		// Replace tile got with tile #
+#define TILE_GET_FLAG 			1		// And this increments flag #
 //#define TILE_GET_SCRIPT				// Run PLAYER_GETS_COIN when player gets tile TILE_GET
-//#define DIE_AND_RESPAWN				// If defined, dying = respawn on latest safe.
+#define DIE_AND_RESPAWN					// If defined, dying = respawn on latest safe.
 //#define DISABLE_AUTO_SAFE_SPOT		// If defined, you have to define the save spot via scripting
 //#define REENTER_ON_DEATH				// Reenter screen when killed, for 1-screen arcades.
-#define PLAYER_STEP_SOUND				// Sound while walking. No effect in the BOOTEE engine.
+//#define PLAYER_STEP_SOUND				// Sound while walking. No effect in the BOOTEE engine.
 //#define DISABLE_PLATFORMS				// If defined, disable platforms (all engines)
-//#define ENABLE_CONVEYORS				// Enable conveyors (all engines)
+#define ENABLE_CONVEYORS				// Enable conveyors (all engines)
 
 // Body count
 // ----------
@@ -255,11 +313,11 @@
 //#define CAN_FIRE_UP					// If defined, player can fire upwards and diagonal.
 //#define PLAYER_CAN_FIRE_FLAG	1		// If defined, player can only fire when flag # is 1 Needs flags
 //#define PLAYER_CAN_FIRE_INV		45	// If defined, player con only fire if item # is selected! Needs flags
-//#define PLAYER_BULLET_SPEED 	8		// Pixels/frame.
-//#define MAX_BULLETS 			1		// Max number of bullets on screen. Be careful!.
+//#define PLAYER_BULLET_SPEED 		8	// Pixels/frame.
+//#define MAX_BULLETS 				1	// Max number of bullets on screen. Be careful!.
 //#define PLAYER_BULLET_Y_OFFSET	6	// vertical offset from the player's top.
 //#define PLAYER_BULLET_X_OFFSET	0	// vertical offset from the player's left/right.
-//#define PLAYER_BULLETS_STRENGTH 1		// Amount of life bullets take from baddies.
+//#define PLAYER_BULLETS_STRENGTH 	1	// Amount of life bullets take from baddies.
 //#define BULLETS_BREAK_WALLS			// If defined, bullets break breakable walls.
 //#define BULLETS_DONT_COLLIDE_PLATFORMS	// Bullets and platforms don't collide
 
@@ -270,26 +328,26 @@
 // Hitter. Define only *ONE* of these. More to come.
 // -------------------------------------------------
 
-//#define PLAYER_CAN_PUNCH				// Player can punch. (Ninjajar! (side))
+#define PLAYER_CAN_PUNCH				// Player can punch. (Ninjajar! (side))
 //#define PLAYER_HAZ_SWORD				// Player haz sword. (Espadewr (side))
 //#define PLAYER_HAZ_WHIP				// Player haz whip. (Nicanor (side) / Key to time (top-down))
 
-//#define PLAYER_HITTER_INV		46		// If defined, player can use hitter only if item # is selected!
-//#define PLAYER_HITTER_STRENGTH	0	// Hitter strength. 0 = just makes monsters turn around.
-//#define HITTER_BREAKS_WALLS			// If defined, hitter breaks breakable walls.
+//#define PLAYER_HITTER_INV			46	// If defined, player can use hitter only if item # is selected!
+#define PLAYER_HITTER_STRENGTH		1	// Hitter strength. 0 = just makes monsters turn around.
+#define HITTER_BREAKS_WALLS				// If defined, hitter breaks breakable walls.
 
 //#define PLAYER_SIMPLE_BOMBS			// If defined, bombs-s.h module is enabled (Nicanor)
-//#define PLAYER_BOMBS_STRENGTH	1		// Amount of life bombs take from baddies.
+//#define PLAYER_BOMBS_STRENGTH		1	// Amount of life bombs take from baddies.
 //#define BOMBS_EXPLOSION_TILE		42	// Tile # for explosion.
 //#define BOMBS_BREAK_WALLS				// If defined, bombs break breakable walls.
 //#define PLAYER_BOMBS_TILE			44	// ... You know the drill...
 //#define PLAYER_BOMBS_INV			44	// If defined, player can use bombs only if item # is selected!
 										// NOTE! As of 0.89, this is the only option implemented! 
 
-#define ENEMS_LIFE_GAUGE		1		// Amount of shots/hits needed to kill enemies.
-//#define RESPAWN_ON_ENTER				// Enemies respawn when entering screen
+#define ENEMS_LIFE_GAUGE	1			// Amount of shots/hits needed to kill enemies.
+#define RESPAWN_ON_ENTER				// Enemies respawn when entering screen
 //#define RESPAWN_ON_REENTER			// Respawn even on a REENTER in the script (by default REENTER doesn't respawn enemies!)
-//#define FIRE_MIN_KILLABLE 	3		// If defined, only enemies >= N can be killed.
+//#define FIRE_MIN_KILLABLE 		3	// If defined, only enemies >= N can be killed.
 
 //#define MAX_AMMO					5	// If defined, ammo is not infinite!
 //#define AMMO_REFILL				5	// ammo refill, using tile 20 (hotspot #4)
@@ -298,39 +356,39 @@
 // Breakable walls
 // ---------------
 
-//#define BREAKABLE_WALLS_SIMPLE
+#define BREAKABLE_WALLS_SIMPLE
 
-//#define BREAKABLE_ANIM				// If defined, breakable tiles look "broken"
-#define BREAKABLE_TILE			43		// "broken tile"
-#define MAX_BREAKABLE			7		// Max tiles showing "breaking"
-#define MAX_BREAKABLE_FRAMES	4		// Frames to show "breaking"
+#define BREAKABLE_ANIM					// If defined, breakable tiles look "broken"
+#define BREAKABLE_TILE				31	// "broken tile"
+#define MAX_BREAKABLE				3	// Max tiles showing "breaking"
+#define MAX_BREAKABLE_FRAMES		4	// Frames to show "breaking"
 
-//#define BREAKABLE_TILE_GET	12		// If defined, tile "TILE GET" may appear when breaking tile #
-#define BREAKABLE_TILE_FREQ 	3		// Breakable tile frequency (AND)
-#define BREAKABLE_TILE_FREQ_T	2		// <= this value = true.
+#define BREAKABLE_TILE_GET			12	// If defined, tile "TILE GET" may appear when breaking tile #
+#define BREAKABLE_TILE_FREQ 		3	// Breakable tile frequency (AND)
+#define BREAKABLE_TILE_FREQ_T		2	// <= this value = true.
 
-//#define PERSISTENT_BREAKABLE			// Only works with compressed levels/128K games.
+#define PERSISTENT_BREAKABLE			// Only works with compressed levels/128K games.
 
 // Kill slowly (Ramiro)
 // --------------------
 
 //#define ENABLE_KILL_SLOWLY			// Beh 3 kills slowly
-// #define KILL_SLOWLY_ON_FLAG		30 		// If defined, flag controls behaviour. If 0,beh 1.
-// #define KILL_SLOWLY_GAUGE		32 		// # of ticks before kill
-// #define KILL_SLOWLY_FRAMES		8 		// # of frames per tick
+//#define KILL_SLOWLY_ON_FLAG		30 	// If defined, flag controls behaviour. If 0,beh 1.
+//#define KILL_SLOWLY_GAUGE			32 	// # of ticks before kill
+//#define KILL_SLOWLY_FRAMES		8 	// # of frames per tick
 
 // Scripting
 // ---------
 
-//#define ACTIVATE_SCRIPTING		// Activates msc3 scripting and flag related stuff.
-//#define SCRIPT_PAGE		7		// Which RAM page holds the script (128)
-//#define CLEAR_FLAGS				// If defined, clear flags each level/beginning.
-//#define SCRIPTING_DOWN			// Use DOWN as the action key.
-//#define SCRIPTING_KEY_M			// Use M as the action key instead.
-//#define SCRIPTING_KEY_FIRE		// User FIRE as the action key instead.
-//#define ENABLE_EXTERN_CODE		// Enables custom code to be run from the script using EXTERN n
-//#define EXTERN_E					// Uncomment this as well if you use EXTERN_E in your script
-//#define ENABLE_FIRE_ZONE			// Allows to define a zone which auto-triggers "FIRE"
+#define ACTIVATE_SCRIPTING				// Activates msc3 scripting and flag related stuff.
+#define SCRIPT_PAGE					7	// Which RAM page holds the script (128)
+//#define CLEAR_FLAGS					// If defined, clear flags each level/beginning.
+#define SCRIPTING_DOWN					// Use DOWN as the action key.
+//#define SCRIPTING_KEY_M				// Use M as the action key instead.
+//#define SCRIPTING_KEY_FIRE			// User FIRE as the action key instead.
+#define ENABLE_EXTERN_CODE				// Enables custom code to be run from the script using EXTERN n
+//#define EXTERN_E						// Uncomment this as well if you use EXTERN_E in your script
+#define ENABLE_FIRE_ZONE				// Allows to define a zone which auto-triggers "FIRE"
 
 // Simple Item Manager
 // -------------------
@@ -338,7 +396,7 @@
 //#define ENABLE_SIM
 
 // General
-//#define SIM_MAXCONTAINERS 	6
+//#define SIM_MAXCONTAINERS 		6
 //#define SIM_DOWN
 //#define SIM_KEY_M
 //#define SIM_KEY_FIRE
@@ -365,8 +423,8 @@
 //#define TIMER_GAMEOVER_0				// If defined, timer = 0 causes "game over"
 //#define TIMER_KILL_0					// If defined, timer = 0 causes "one life less".
 //#define TIMER_WARP_TO 0				// If defined, warp to screen X after "one life less".
-//#define TIMER_WARP_TO_X	1			//
-//#define TIMER_WARP_TO_Y	1			// "warp to" coordinates.
+//#define TIMER_WARP_TO_X			1	//
+//#define TIMER_WARP_TO_Y			1	// "warp to" coordinates.
 //#define TIMER_AUTO_RESET				// If defined, timer resets after "one life less"
 //#define SHOW_TIMER_OVER				// If defined, "TIME OVER" shows when time is up.
 
@@ -375,12 +433,12 @@
 // Experimental & custom. Use @ your own risk. Not supported __AT ALL__
 // Only 128K/Multilevel/Enhaced levels. This was custom for Ninjajar! - I wonder why it's still here
 
-//#define ENABLE_LAVA
-//#define LAVA_FLAG					30
-//#define LAVA_PERIOD 				7
-//#define LAVA_X1 					2
-//#define LAVA_X2 					28	// LAVA_X1 <= x < LAVA_X2
-//#define LAVA_T					18
+#define ENABLE_LAVA
+#define LAVA_FLAG					30
+#define LAVA_PERIOD 				7
+#define LAVA_X1 					2
+#define LAVA_X2 					28	// LAVA_X1 <= x < LAVA_X2
+#define LAVA_T						18
 
 // Floating objects:
 // -----------------
@@ -447,8 +505,8 @@
 //#define PLAYER_CAN_KILL_FLAG		1	// If defined, player can only kill when flag # is "1"
 //#define PLAYER_MIN_KILLABLE	  	3 	// Only kill enemies with id >= PLAYER_MIN_KILLABLE
 
-//#define PLAYER_HAS_SWIM 				// If defined, player is able to swim
-//#define SWITCHABLE_ENGINES			// WIP! VERY, VERY, VERY WIP! See Sir Ababol DX or Ninjajar!
+#define PLAYER_HAS_SWIM 				// If defined, player is able to swim
+#define SWITCHABLE_ENGINES				// WIP! VERY, VERY, VERY WIP! See Sir Ababol DX or Ninjajar!
 
 // ============================================================================
 // III. Screen configuration
@@ -459,24 +517,24 @@
 
 #define VIEWPORT_X				1		//
 #define VIEWPORT_Y				2		// Viewport character coordinates
-#define LIFE_X					6 		//
+#define LIFE_X					3 		//
 #define LIFE_Y					0		// Life gauge counter character coordinates
-#define OBJECTS_X				17		//
-#define OBJECTS_Y				0		// Objects counter character coordinates
-#define REVERSE_OBJECTS_COUNT 			// If defined, from MAX to 0
+#define OBJECTS_X				99		//
+#define OBJECTS_Y				99		// Objects counter character coordinates
+//#define REVERSE_OBJECTS_COUNT 		// If defined, from MAX to 0
 #define OBJECTS_ICON_X			99		//
 #define OBJECTS_ICON_Y			99		// Objects icon character coordinates (use with ONLY_ONE_OBJECT)
-#define KEYS_X					29		//
-#define KEYS_Y					0		// Keys counter character coordinates
+#define KEYS_X					99		//
+#define KEYS_Y					99		// Keys counter character coordinates
 #define KILLED_X				99		//
 #define KILLED_Y				99		// Kills counter character coordinates
 #define AMMO_X					99		//
 #define AMMO_Y					99		// Ammo counter character coordinates
 #define TIMER_X 				99		//
 #define TIMER_Y 				99		// Timer counter coordinates
-#define FLAG_X					99		//
-#define FLAG_Y					99		// Custom flag character coordinates
-//#define PLAYER_SHOW_FLAG		1		// If defined, show flag #
+#define FLAG_X					29		//
+#define FLAG_Y					0		// Custom flag character coordinates
+#define PLAYER_SHOW_FLAG		1		// If defined, show flag #
 #define FUEL_X					99		//
 #define FUEL_Y					99		// Fuel counter in bla bla bla
 
@@ -491,27 +549,27 @@
 
 // Map data format. Choose one:
 
-//#define PACKED_MAP 					// Packed maps, 2 bytes per tile.
+#define PACKED_MAP 						// Packed maps, 2 bytes per tile.
 //#define UNPACKED_MAP					// Full, uncompressed maps. Shadows settings are ignored.
-#define RLE_MAP 				44		// Use RLE instead of packed/unpacked. 44, 53 or 62.
+//#define RLE_MAP 				44		// Use RLE instead of packed/unpacked. 44, 53 or 62.
 
 // Graphic FX, uncomment which applies...
 
 //#define USE_AUTO_SHADOWS				// Automatic shadows made of darker attributes
-#define USE_AUTO_TILE_SHADOWS 			// Automatic shadows using specially defined tiles 32-47.
+//#define USE_AUTO_TILE_SHADOWS 		// Automatic shadows using specially defined tiles 32-47.
 //#define ENABLE_SUBTILESETS			// Adds subtileset loader.
 //#define MAP_ATTRIBUTES				// Enables multi-purpose map attributes array (only in multi-level games as of 0.90)
 //#define NO_MASKS						// Sprites are rendered using OR instead of masks.
 //#define PLAYER_ALTERNATE_ANIMATION	// If defined, animation is 1,2,3,1,2,3...
-//#define MASKED_BULLETS				// If needed
+#define MASKED_BULLETS					// If needed
 //#define ENABLE_TILANIMS				// If defined, animated tiles are enabled and will alternate between t and t+1
 //#define IS_TILANIM(t) 	((t)==20)	// Condition to detect if a tile is animated										
-//#define PAUSE_ABORT					// Add h=PAUSE, y=ABORT
+#define PAUSE_ABORT						// Add h=PAUSE, y=ABORT
 //#define GET_X_MORE					// Shows "get X more" when getting an object
 #define ALT_TILE 				19 		// If defined, automatic random tile # for tile 0 (was fixed to 19)
 //#define TWO_SETS						// If defined, use two 16 sets in one (just ask)
 //#define TWO_SETS_SEL (n_pant>8?32:0)	// This expresion must equal 0 for set 1 to be used, or 32 for set 2 to be used (just ask)
-// #define TWO_SETS_MAPPED					// Two sets, but which set to use is mapped after map data (1 byte per screen)
+//#define TWO_SETS_MAPPED					// Two sets, but which set to use is mapped after map data (1 byte per screen)
 //#define ENABLE_LEVEL_NAMES			// Give a name for each level/screen in engine/levelnames.h
 //#define ENABLE_EXTRA_PRINTS			// Configure extra tile prints for some screens in engine/extraprints.h
 
@@ -526,23 +584,25 @@
 // separately. If a top-view engine is configured instead, the horizontal values are also
 // applied to the vertical component, vertical values are ignored.
 
+// Speeds are 8 bits wide, so range is -128 to 127 !!
+
 // IV.1. Vertical movement. Only for side-view.
 
-#define PLAYER_FALL_VY_MAX		127 	// Max falling speed
-#define PLAYER_G				6		// Gravity acceleration
+#define PLAYER_FALL_VY_MAX		127 	// Max falling speed 
+#define PLAYER_G				12		// Gravity acceleration
 
-#define PLAYER_JMP_VY_INITIAL	16		// Initial junp velocity
-#define PLAYER_JMP_VY_MAX		80 		// Max jump velocity
-#define PLAYER_JMP_VY_INCR		4		// acceleration while JUMP is pressed
+#define PLAYER_JMP_VY_INITIAL	24		// Initial jump velocity
+#define PLAYER_JMP_VY_MAX		78	 	// Max jump velocity 
+#define PLAYER_JMP_VY_INCR		12		// acceleration while JUMP is pressed 
 
 //#define PLAYER_JETPAC_VY_INCR	8		// Vertical jetpac gauge
-//#define PLAYER_JETPAC_VY_MAX	64	 	// Max vertical jetpac speed
+//#define PLAYER_JETPAC_VY_MAX	64  	// Max vertical jetpac speed
 
 // IV.2. Horizontal (side view) or general (top view) movement.
 
-#define PLAYER_VX_MAX			48	 	// Max velocity
-#define PLAYER_AX				6		// Acceleration
-#define PLAYER_RX				4		// Friction
+#define PLAYER_VX_MAX			64  	// Max velocity
+#define PLAYER_AX				16		// Acceleration
+#define PLAYER_RX				24		// Friction
 
 //#define PLAYER_AX_ALT			8 		// Acceleration (alternate) when stepping on tile w/beh. 64
 //#define PLAYER_RX_ALT			8 		// Friction (alternate) when stepping on tile w/beh. 64
@@ -551,8 +611,8 @@
 
 // IV.3. Swimming
 
-//#define PLAYER_MAX_VSWIM		32
-//#define PLAYER_ASWIM			8
+#define PLAYER_MAX_VSWIM		32
+#define PLAYER_ASWIM			8
 
 // ============================================================================
 // V. Tile behaviour

@@ -58,25 +58,25 @@
 			main_script_offset = levels [level_ac].script_offset;
 		}
 	#else
-
 		// 128K Simple levels (Goku Mal)
 
 		void prepare_level (void) {
 			get_resource (levels [level].resource, (unsigned int) (level_data));
 			#ifdef MAP_ATTRIBUTES
-				cur_map_attr = 99; 	// Force load of subts just in case.
-			#endif	
-			n_pant = level_data.scr_ini;
-			#ifdef PHANTOMAS_ENGINE
-				gpx = p_x = levels [level].ini_x << 4;
-				gpy = p_y = levels [level].ini_y << 4;
-			#else	
-				gpx = levels [level].ini_x << 4;
-				gpy = levels [level].ini_y << 4;
-				p_x = gpx << FIXBITS;
-				p_y = gpy << FIXBITS;
-			#endif	
-			
+				cur_map_attr = 99;   // Force load of subts just in case.
+			#endif  
+			if (script_result != 3) {
+				n_pant = level_data->scr_ini;
+				#ifdef PHANTOMAS_ENGINE
+					gpx = p_x = level_data->ini_x << 4;
+					gpy = p_y = level_data->ini_y << 4;
+				#else  
+					gpx = level_data->ini_x << 4;
+					gpy = level_data->ini_y << 4;
+					p_x = gpx << FIXBITS;
+					p_y = gpy << FIXBITS;
+				#endif  
+			}
 			main_script_offset = levels [level].script_offset;
 		}
 	#endif

@@ -180,6 +180,7 @@
 
 		ld  a, WBOTTOM
 		ld  (_wall_v), a
+		jr  _va_collision_done
 
 	._va_collision_checkevil
 

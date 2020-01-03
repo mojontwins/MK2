@@ -4,67 +4,95 @@
 // extern.h
 // External custom code to be run from a script
 
-// =======[CUSTOM MODIFICATION]=======
-unsigned char *textbuff = 23458;
-unsigned char *extaddress;
-unsigned char exti, extx, exty, exty2, extc, extl, keyp;
-extern unsigned char textos_load [0];
+unsigned char textbuff [150] @ SAFE_MEMORY_POOL;	// Max. 150 characters.
+unsigned char exti, extx, exty, stepbystep, keyp;
+unsigned char is_cutscene = 0;
 
-// CUSTOM {
-void read_print_text_line (void) {
-	while (1) {
-		exti = *extaddress ++;
-		if (exti == 0 || exti == '%') return;
-		// sp_PrintAtInv (exty, extx ++, extc, exti - 32);
-		#asm
-				; enter:  A = row position (0..23)
-				;         C = col position (0..31/63)
-				;         D = pallette #
-				;         E = graphic #
+void do_extern_action (unsigned char n) {
+	// Add custom code here.
+	
+	gpt = n;
+	if (gpt == 0) {
+		// Cortina
+		
+		for (exti = 0; exti < 10; exti ++) {
+			for (extx = exti; extx < 30 - exti; extx ++) {
+				#asm
+						// sp_PrintAtInv (VIEWPORT_Y + exti, VIEWPORT_X + extx, 71, 0);
+						ld  de, 0x4700
+						ld  a, (_extx)
+						add VIEWPORT_X
+						ld  c, a
 				ld  a, (_exti)
-				sub 32
-				ld  e, a
+						add VIEWPORT_Y
+						call SPPrintAtInv
 
+						// sp_PrintAtInv (VIEWPORT_Y + 19 - exti, VIEWPORT_X + extx, 71, 0);
+						ld  de, 0x4700
 				ld  a, (_extx)
+						add VIEWPORT_X
 				ld  c, a
-				inc a
-				ld  (_extx), a
+						ld  a, (_exti)
+						ld  b, a
+						ld  a, VIEWPORT_Y + 19
+						sub b
+						call SPPrintAtInv
+				#endasm
 
-				ld  a, (_exty)
+				if (extx < 19 - exti) {
+					#asm
+							// sp_PrintAtInv (VIEWPORT_Y + extx, VIEWPORT_X + exti, 71, 0);
+							ld  de, 0x4700
+							ld  a, (_exti)
+							add VIEWPORT_X
+							ld  c, a
+							ld  a, (_extx)
+							add VIEWPORT_Y
+							call SPPrintAtInv
 
-				ld  d, (_extc)
-
+							// sp_PrintAtInv (VIEWPORT_Y + extx, VIEWPORT_X + 29 - exti, 71, 0);
+							ld  de, 0x4700
+							ld  a, (_exti)
+							ld  b, a
+							ld  a, VIEWPORT_X + 29
+							sub b
+							ld  c, a
+							ld  a, (_extx)
+							add VIEWPORT_Y							
 				call SPPrintAtInv
 		#endasm
 	}
-}
-// } END_OF_CUSTOM
+			}
+			#asm
+				halt
+			#endasm
+			sp_UpdateNowEx (0);
+		}
+		return;
+	} else if (gpt < 250) {
+		
+		// Show text gpt
+		stepbystep = 1;
 
-void do_extern_action (unsigned char n) {
-// CUSTOM {		
-	asm_int = (n - 1) << 1;
+		asm_int = (gpt - 1) << 1;
 	#asm
+	._extern_depack_text
+				di
+				ld b, 6
+				call SetRAMBank
+			
 		; First we get where to look for the packed string
 	
-		/*
-		ld a, (_asm_int)
-		ld e, a
-		ld a, (_asm_int + 1)
-		ld d, a
-		*/
-		ld  de, (_asm_int)
-
-		ld hl, _textos_load
+				ld  hl, (_asm_int)
+				ld  de, $c000
 		add hl, de
-		ld c, (hl)
+				ld  a, (hl)
 		inc hl
-		ld b, (hl)
-		push bc
-		pop de
-		ld hl, _textos_load
+				ld  h, (hl)
+				ld  l, a
 		add hl, de
 		
-		ld de, 23458
+				ld de, _textbuff
 
 		; 5-bit scaped depacker by na_th_an
 		; Contains code by Antonio Villena
@@ -73,11 +101,14 @@ void do_extern_action (unsigned char n) {
 
 	.fbsd_mainb
         call fbsd_unpackc
+
         ld c, a
         ld a, b
         and a
         jr z, fbsd_fin
+
         call fbsd_stor
+
         ld a, c
         jr fbsd_mainb	
 
@@ -86,9 +117,12 @@ void do_extern_action (unsigned char n) {
         jr z, fbsd_escaped
         add a, 64
         jr fbsd_stor2
+
 	.fbsd_escaped
         ld a, c
+
         call fbsd_unpackc
+				
         ld c, a
         ld a, b
         add a, 32
@@ -101,6 +135,7 @@ void do_extern_action (unsigned char n) {
         ld      b, 0x08
 	.fbsd_bucle
         call    fbsd_getbit
+
         rl      b
         jr      nc, fbsd_bucle
         ret
@@ -118,135 +153,99 @@ void do_extern_action (unsigned char n) {
 		;
 		;		
 		
+				ld b, 0
+				call SetRAMBank
+				ei				
 	#endasm	
 
-	if (n < 31) {
-		// Textstuffer2 for this game is patched.
-		// it receives an extra parameter with a line offset
-		// first byte for lines < offset is a precalculated
-		// x coordinate the line of text to appear centered.
-		for (exti = 1; exti < 31; exti ++) {
-			// sp_PrintAtInv (22, exti, 23, 0);
-			#asm
-				; enter:  A = row position (0..23)
-				;         C = col position (0..31/63)
-				;         D = pallette #
-				;         E = graphic #
-				ld  a, (_exti)
-				ld  c, a
+		if (is_cutscene == 0) {
+			// Show
+			exti = textbuff [0] - 64;
+			
+			// Draw empty frame
+			extx = 3 + exti + exti;
 
-				ld  a, 22
-				ld  d, 23
-				ld  e, 0
+			_x = 3; _y = 3; _t = 6; gp_gen = "#$$$$$$$$$$$$$$$$$$$$$$$$%"; print_str ();
+			_x = 3; _t = 6; gp_gen = "&                        '";
+			for (_y = 4; _y < extx; ++ _y) { _x = 3; print_str (); }
+			_x = 3; _y = extx; _t = 6; gp_gen = "())))))))))))))))))))))))*"; print_str ();
 
-				call SPPrintAtInv			
-			#endasm
+			exty = 4;
+		} else {
+			exty = 13;
 		}
-		extaddress = textbuff;
-		extx = (*extaddress) - 64;
-		exty = 22; extc = 23;
-		extaddress ++;
-		read_print_text_line ();
-	} else {
-		hide_sprites (0);
-
-		// # of lines
-		extaddress = textbuff;
-		extl = (*extaddress) - 64;
-
-		// Height of box
-		exty2 = extl + extl - 1;
-
-		// Vertical position, centered
-		exty = 11 - (exty2 >> 1);
-
-		// Title
-		//sp_PrintAtInv (exty, 3, 2, 2);
-		#asm
-				ld  a, (_exty)
-				ld  c, 3
-				ld  de, 0x0202
-				call SPPrintAtInv
-		#endasm
-
-		extx = 4; extc = 23;
-		extaddress ++; read_print_text_line ();
-		//sp_PrintAtInv (exty, extx ++, 2, 3);
-		#asm
-				ld  a, (_extx)
-				ld  c, a
-				inc a
-				ld  (_extx), a
-				ld  a, (_exty)			
-				ld  de, 0x0203
-				call SPPrintAtInv
-		#endasm
-
-		_x = 3; _y = exty + 1; _t = 71; gp_gen = "&                        %"; print_str ();
-		for (exti = extx; exti < 28; exti ++) {
-			//sp_PrintAtInv (exty + 1, exti, 71, 4);
-			#asm
-				ld  a, (_exti)
-				ld  c, a
-				ld  a, (_exty)
-				inc a
-				ld  d, 71
-				ld  e, 4
-				call SPPrintAtInv
-			#endasm
-		}
-
-		// Frame
-		for (exti = exty + 2; exti < exty + exty2; exti ++) {
-			_x = 3; _y = exti; _t = 71; gp_gen = "&                        '"; print_str ();
-		}
-		_x = 3; _y = exty + exty2; _t = 71; gp_gen = "())))))))))))))))))))))))*"; print_str ();
-
-		sp_UpdateNow ();
-		active_sleep (10);
-
-		// Show text
+		
+		// Draw text
+		extx = 4; 
+		gp_gen = textbuff + 1;
 		keyp = 1;
-		exty = exty + 2; extc = 71; extl --;
-		while (extl --) {
-			extx = 4; 
-			read_print_text_line ();
-			if (keyp) {
-				sp_UpdateNow ();
-#ifndef MODE_128K
-				beep_fx (7 + ((rand () & 1) << 2));
-#endif
+		while (exti = *gp_gen ++) {
+			if (exti == '%') {
+				extx = 4; exty += 2;
+	} else {
+				// sp_PrintAtInv (exty, extx, 71, exti - 32);
+		#asm
+					ld  a, (_exti)
+					sub 32
+					ld  e, a
+					ld  a, (_extx)
+					ld  c, a
+				ld  a, (_exty)
+					ld  d, 71				
+				call SPPrintAtInv
+		#endasm
+				++ extx;
+				if (extx == 28) {
+					extx = 4; exty += 2;
+				}
 			}
-			if (button_pressed ()) keyp = 0;
-			exty += 2; 
+
+			if (stepbystep) {
+		#asm
+					halt
+		#endasm
+				if (exti != 32 && is_cutscene == 0) _AY_PL_SND (8);
+			#asm
+					halt
+					halt
+			#endasm
+				sp_UpdateNowEx (0);
 		}
 
-		sp_UpdateNow ();
+			if (button_pressed ()) {
+				if (keyp == 0) {
+					stepbystep = 0;
+		}
+			} else {
+				keyp = 0;
+			}
+		}
+
+		sp_UpdateNowEx (0);
 		sp_WaitForNoKey ();
 		while (button_pressed ());
 		active_sleep (5000);
 
-		// REDRAW; SHOW
-		sc_x = sc_y = 0;
-		for (sc_c = 0; sc_c < 150; sc_c ++) {
-			_x = sc_x; _y = sc_y; _n = map_attr [sc_c]; _t = map_buff [sc_c]; update_tile ();
-			sc_x ++; if (sc_x == 15) { sc_x = 0; sc_y ++; }
+		if (is_cutscene) {
+			for (exti = 11; exti < 24; exti ++) {
+				_x = 3; _y = exti; _t = 71; gp_gen = "                          "; print_str ();
+				sp_UpdateNow (0);
 		}
-		sp_UpdateNow ();
 	}
-// } END_OF_CUSTOM	
+	} else if (gpt == 251) {
+		is_cutscene = 1;		
+	} else if (gpt == 250) {
+		is_cutscene = 0;
+	} else {
+		// gpt = 252 - 255
+		// Lower bit 7
+		exti = gpt - 252;   // 252 = 0, 253 = 1, 254 = 2.
+		baddies [enoffs + exti].t &= 0x7F;
+		en_an_state [exti] = en_an_count [exti] = 0;
+	  	#ifdef COMPRESSED_LEVELS
+			baddies [enoffs + exti].life = level_data.enems_life;
+		#else
+			baddies [enoffs + exti].life = ENEMIES_LIFE_GAUGE;
+		#endif
+	}
 }
-
-// CUSTOM {
-#ifndef INGLISHPITINGLISH
-#asm
-	._textos_load
-		BINARY "../bin/texts.bin"
-#endasm
-#else
-#asm
-	._textos_load
-		BINARY "../bin/texts-eng.bin"
-#endasm
-#endif		
-// } END_OF_CUSTOM

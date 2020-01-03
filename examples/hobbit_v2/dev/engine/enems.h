@@ -37,6 +37,8 @@ void enems_init (void) {
 	//                   1011 = Hanna Type 11
 	//                   1100 = Hanna Punchos
 
+	// 01001000
+
 	#ifdef COUNT_SCR_ENEMS_ON_FLAG
 		flags [COUNT_SCR_ENEMS_ON_FLAG]	= 0;
 	#endif
@@ -106,11 +108,17 @@ void enems_init (void) {
 						baddies [enoffsmasi].mx = abs (baddies [enoffsmasi].mx);
 						break;
 				#endif
+				#ifdef ENABLE_DROPS
+					case 9:
+						#include "addons/drops/init.h"
+						break;
+				#endif
 				#ifdef ENABLE_HANNA_MONSTERS_11
 					case 11:
 						en_an_state [gpit] = 0;
 						break;
 				#endif
+				#include "my/extra_enems_init.h"
 				default:
 					break;
 			}
@@ -225,6 +233,9 @@ void enems_move (void) {
 	#endif
 
 	tocado = 0;
+	#ifdef ENEMS_MAY_DIE
+		enemy_was_killed = 0;
+	#endif
 
 	for (enit = 0; enit < 3; ++ enit) {
 		active = killable = animate = 0;
@@ -468,11 +479,17 @@ void enems_move (void) {
 				#endif
 				#ifdef ENABLE_DROPS
 					case 9:			// drops
+						#ifdef DROPS_KILLABLE
+							killable = 1;
+						#endif
 						#include "addons/drops/move.h"
 						break;
 				#endif
 				#ifdef ENABLE_ARROWS
 					case 10:		// arrows
+						#ifdef ARROWS_KILLABLE
+							killable = 1;
+						#endif
 						#include "addons/arrows/move.h"
 						break;
 				#endif
@@ -481,6 +498,7 @@ void enems_move (void) {
 						#include "engine/enemmods/move_hanna_11.h"
 						break;
 				#endif
+				#include "my/extra_enems_move.h"
 				default:
 					en_an_n_f [enit] = sprite_18_a;
 			}
@@ -532,11 +550,11 @@ void enems_move (void) {
 				#asm
 					ld  a, (_tocado)
 					or  a
-					jr  nz, _enems_collision_skip
+					jp  nz, _enems_collision_skip
 
 					ld  a, (_p_state)
 					or  a
-					jr  nz, _enems_collision_skip
+					jp  nz, _enems_collision_skip
 
 					// (gpx + 8 >= _en_x && gpx <= _en_x + 8 && gpy + 8 >= _en_y && gpy <= _en_y + 8)
 
@@ -550,7 +568,7 @@ void enems_move (void) {
 						add 12
 					#endif
 					cp  c
-					jr  c, _enems_collision_skip
+					jp  c, _enems_collision_skip
 
 					// gpx <= _en_x + 8; _en_x + 8 >= gpx
 					ld  a, (_gpx)
@@ -562,7 +580,7 @@ void enems_move (void) {
 						add 12
 					#endif
 					cp  c
-					jr  c, _enems_collision_skip
+					jp  c, _enems_collision_skip
 
 					// gpy + 8 >= _en_y
 					ld  a, (__en_y)
@@ -574,7 +592,7 @@ void enems_move (void) {
 						add 12
 					#endif
 					cp  c
-					jr  c, _enems_collision_skip
+					jp  c, _enems_collision_skip
 
 					// gpy <= _en_y + 8; _en_y + 8 >= gpy
 					ld  a, (_gpy)
@@ -586,7 +604,7 @@ void enems_move (void) {
 						add 12
 					#endif
 					cp  c
-					jr  c, _enems_collision_skip			
+					jp  c, _enems_collision_skip			
 				#endasm
 				{
 					#ifdef PLAYER_KILLS_ENEMIES
@@ -698,5 +716,16 @@ void enems_move (void) {
 
 	#if defined (SLOW_DRAIN) && defined (PLAYER_BOUNCES)
 		lasttimehit = tocado;
+	#endif
+
+	#ifdef ENEMS_MAY_DIE
+		if (enemy_was_killed) {
+			// Run script on kill
+			#ifdef ACTIVATE_SCRIPTING
+				#ifdef RUN_SCRIPT_ON_KILL
+					run_script (2 * MAP_W * MAP_H + 5);
+				#endif
+			#endif
+		}
 	#endif
 }

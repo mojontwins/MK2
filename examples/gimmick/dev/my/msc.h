@@ -342,6 +342,8 @@ void run_script (unsigned char whichs) {
                         break;
                     case 0x52:
                         // INVALIDATE
+                        enems_move ();
+                        update_sprites ();
                         invalidate_viewport ();
                         break;
                     case 0x69:

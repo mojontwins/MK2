@@ -39,3 +39,6 @@ void draw_coloured_tile_gamearea (void);
 unsigned char collide_pixel (void);
 unsigned char attr (void);
 void print_number2 (void);
+
+void update_sprites (void);
+void enems_move (void);

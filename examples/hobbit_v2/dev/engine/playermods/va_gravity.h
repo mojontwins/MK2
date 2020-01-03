@@ -13,8 +13,8 @@
 			p_vy = PLAYER_FALL_VY_MAX;	
 	}
 
-#ifdef PLAYER_CUMULATIVE_JUMP
-	if (!p_jmp_on)
-#endif
+	#ifdef PLAYER_CUMULATIVE_JUMP
+		if (!p_jmp_on)
+	#endif
 		if (p_gotten) p_vy = 0;
 #endif

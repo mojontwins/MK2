@@ -61,9 +61,9 @@ typedef struct {
 	unsigned char ts_res;
 	unsigned char ss_res;
 	unsigned char enems_res;
-#ifndef DISABLE_HOTSPOTS
-	unsigned char hotspots_res;
-#endif
+	#ifndef DISABLE_HOTSPOTS
+		unsigned char hotspots_res;
+	#endif
 	unsigned char behs_res;
 	unsigned char music_id;
 	unsigned char scr_ini, ini_x, ini_y;
@@ -143,7 +143,7 @@ extern unsigned char spriteset [0];
 
 extern BADDIE baddies [0];
 #asm
-	._baddies defs MAP_W * MAP_H * 3 * 12
+	._baddies defs MAP_W * MAP_H * 3 * 10
 #endasm
 
 #ifndef DISABLE_HOTSPOTS
@@ -164,23 +164,23 @@ extern unsigned char behs [0];
 
 // Level struct
 #ifdef EXTENDED_LEVELS
-LEVEL levels [] = {
-	// Fase 0: Intro.
-	{MAP5C_BIN, BOLTS5C_BIN, TS5C_BIN, SS0C_BIN, ENEMS5C_BIN, HOTSPOTS5C_BIN, BEHS5C_BIN, 0,
-	 8, 7, 7, 99, 7, 3, 99, 1, 2, SENG_JUMP, 0,
-	 1, SCRIPT_INIT + SCRIPT_0}
-	 // ... etc
-};
+	LEVEL levels [] = {
+		// Fase 0: Intro.
+		{MAP5C_BIN, BOLTS5C_BIN, TS5C_BIN, SS0C_BIN, ENEMS5C_BIN, HOTSPOTS5C_BIN, BEHS5C_BIN, 0,
+		 8, 7, 7, 99, 7, 3, 99, 1, 2, SENG_JUMP, 0,
+		 1, SCRIPT_INIT + SCRIPT_0}
+		 // ... etc
+	};
 
-#ifdef LEVEL_SEQUENCE
-unsigned char level_sequence [] = {
-	// ... list of level #s
-};
-#endif
+	#ifdef LEVEL_SEQUENCE
+	unsigned char level_sequence [] = {
+		// ... list of level #s
+	};
+	#endif
 
 #else
-LEVEL levels [] = {
-	{LEVEL0C_BIN, 0, SCRIPT_INIT + LEVEL_0},
-	// etc
-};
+	LEVEL levels [] = {
+		{LEVEL0C_BIN, 0, SCRIPT_INIT + LEVEL_0},
+		// etc
+	};
 #endif

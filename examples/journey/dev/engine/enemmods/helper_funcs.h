@@ -6,6 +6,7 @@
 		unsigned char mn = dx < dy ? dx : dy;
 		return (dx + dy - (mn >> 1) - (mn >> 2) + (mn >> 4));
 		*/
+		
 		#asm
 				// Calculate dx
 				ld  a, (_cx1)
@@ -30,12 +31,12 @@
 				ld  (__y), a
 
 				// Calculate mn
-				ld  c, a
-				ld  a, (__x)
-				cp  c
+				ld  c, a 			; c = _y
+				ld  a, (__x)        ; a = _x
+				cp  c 				; _x < _y ?
 				jr  c, _distance_mn_set
 			._distance_dy_min
-				ld  a, (__y)
+				ld  a, c
 			._distance_mn_set
 				ld  (__n), a
 
@@ -49,12 +50,12 @@
 
 				ld  a, (__n)
 				srl a
-				ld  c, a
+				ld  c, a 			; c = (mn >> 1)
 				srl a
-				ld  d, a
+				ld  d, a 			; d = (mn >> 2)
 				srl a
 				srl a
-				ld  e, a
+				ld  e, a 			; e = (mn >> 4)
 
 				ld  a, b 	// dx + dy
 				sub c  		// dx + dy - (mn >> 1)
@@ -63,7 +64,7 @@
 
 				ld  l, a
 				ld  h, 0
-		#endasm
+		#endasm		
 	}
 #endif
 
@@ -76,8 +77,37 @@
 #endif
 
 #if defined (ENABLE_SHOOTERS) || defined (ENABLE_CLOUDS)	
+
+	void coco_clear_sprite (void) {
+		//sp_MoveSprAbs (sp_cocos [coco_it], spritesClip, 0, -2, -2, 0, 0);
+		#asm
+				ld  a, (_coco_it)
+				sla a
+				ld  c, a
+				ld  b, 0 				// BC = offset to [gpit] in 16bit arrays
+				ld  hl, _sp_cocos
+				add hl, bc
+				ld  e, (hl)
+				inc hl 
+				ld  d, (hl)
+				push de						
+				pop ix
+
+				ld  iy, vpClipStruct
+				ld  bc, 0
+
+				ld  hl, 0xfefe
+				ld  de, 0 
+				
+				call SPMoveSprAbs
+		#endasm
+	}
+
 	void init_cocos (void) {
-		for (gpit = 0; gpit < MAX_COCOS;) coco_s [gpit++] = 0;
+		for (coco_it = 0; coco_it < MAX_COCOS; ++ coco_it) {
+			coco_s [coco_it] = 0;
+			coco_clear_sprite ();
+		}
 	}
 
 	void shoot_coco (void) {
@@ -85,7 +115,7 @@
 		#ifdef SHOOTER_FIRE_ONE
 			coco_it = enit;	
 		#else
-			for (coco_it = 0; coco_it < MAX_COCOS; coco_it ++) 
+			for (coco_it = 0; coco_it < MAX_COCOS; ++ coco_it) 
 		#endif
 		{
 			if (coco_s [coco_it] == 0) {
@@ -115,31 +145,167 @@
 		}
 	}
 
+	void destroy_cocos (void) {
+		coco_s [coco_it] = 0;
+		coco_clear_sprite ();
+	}
+
 	void move_cocos (void) {
-		for (coco_it = 0; coco_it < MAX_COCOS; coco_it ++) {
-			if (coco_s [coco_it]) {
-				ctx = coco_x [coco_it] + coco_vx [coco_it];
-				cty = coco_y [coco_it] + coco_vy [coco_it];
+		#asm
+				ld  a, MAX_COCOS
+				ld  (_coco_it), a
 
-				if (ctx >= 240 || cty >= 160) coco_s [coco_it] = 0;
-				// Collide player
-				if (p_state == EST_NORMAL) {
-					ctx = cx1 = ctx + 3; cty = cy1 = cty + 3; cx2 = gpx; cy2 = gpy;
-					if (collide_pixel ()) {
-						coco_s [coco_it] = 0;
-						p_killme = SFX_PLAYER_DEATH_COCO;
-					}
-				}
-				// Collide cocos
-				#ifdef COCOS_COLLIDE
-					cx1 = ctx >> 4; cy1 = cty >> 4;
-					if (attr () > 7) coco_s [coco_it] = 0;
-				#endif			
+			._move_cocos_loop
+				ld  a, (_coco_it)
+				dec a
+				ret z
+				ld  (_coco_it), a
 
-				coco_x [coco_it] = ctx;
-				coco_y [coco_it] = cty;
-			}
-		}
+				ld  d, 0
+				ld  e, a
+
+				ld  hl, _coco_s 
+				add hl, de
+				ld  a, (hl)
+				or  a
+				jr  z, _move_cocos_loop
+			
+			._move_cocos_do
+
+				// Update coordinates
+				ld  hl, _coco_vx
+				add hl, de
+				ld  c, (hl)
+				ld  hl, _coco_x
+				add hl, de
+				ld  a, (hl)
+				add c
+				ld  (_ctx), a
+
+				ld  hl, _coco_vy
+				add hl, de
+				ld  c, (hl)
+				ld  hl, _coco_y
+				add hl, de
+				ld  a, (hl)
+				add c
+				ld  (_cty), a
+
+				// Out of screen check
+				// cty is in A
+				cp  144
+				jp  nc, _destroy_cocos
+
+				ld  a, (_ctx)
+				cp  240
+				jp  nc, _destroy_cocos
+
+				// Collide with player
+				ld  a, (_p_state)
+				cp  EST_NORMAL
+				jr  nz, _move_cocos_collide_player_done
+
+				ld  a, (_ctx)
+				add 3
+				ld  (_cx1), a
+				ld  a, (_cty)
+				add 3
+				ld  (_cy1), a
+				ld  a, (_gpx)
+				ld  (_cx2), a
+				ld  a, (_gpy)
+				ld  (_cy2), a
+				call _collide_pixel
+				xor a
+				or  l
+				jr  z, _move_cocos_collide_player_done
+
+				ld  a, SFX_PLAYER_DEATH_COCO
+				ld  (_p_killme), a
+				jp  _destroy_cocos
+
+			._move_cocos_collide_player_done
+
+				// Collide with bg
+			#ifdef COCOS_COLLIDE
+				ld  a, (_ctx)
+				add 3
+				srl a
+				srl a
+				srl a
+				srl a
+				ld  (_cx1), a
+
+				ld  a, (_cty)
+				add 3
+				srl a
+				srl a
+				srl a
+				srl a
+				ld  (_cx1), a
+
+				call _attr
+				ld  a, l
+				and 12
+				jp  nz, _destroy_cocos
+			#endif				
+
+			// Render
+				ld  a, (_coco_it)
+				sla a
+				ld  c, a
+				ld  b, 0 				// BC = offset to [gpit] in 16bit arrays
+				ld  hl, _sp_cocos
+				add hl, bc
+				ld  e, (hl)
+				inc hl 
+				ld  d, (hl)
+				push de						
+				pop ix
+
+				ld  iy, vpClipStruct
+				ld  bc, 0
+
+				ld  a, (_cty)
+				srl a
+				srl a
+				srl a
+				add VIEWPORT_Y
+				ld  h, a
+
+				ld  a, (_ctx)
+				srl a
+				srl a
+				srl a
+				add VIEWPORT_X
+				ld  l, a
+
+				ld  a, (_ctx)
+				and 7
+				ld  d, a 
+
+				ld  a, (_cty)
+				and 7
+				ld  e, a 		
+				
+				call SPMoveSprAbs			
+
+			._move_cocos_continue
+				ld  de, (_coco_it)
+				ld  d, 0
+
+				ld  hl, _coco_x
+				add hl, de
+				ld  a, (_ctx)
+				ld  (hl), a
+
+				ld  hl, _coco_y
+				add hl, de
+				ld  a, (_cty)
+				ld  (hl), a
+
+				jp  _move_cocos_loop
+		#endasm
 	}
 #endif
 

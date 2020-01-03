@@ -139,7 +139,7 @@
 
 	._ha_collision_checkevil
 
-		#ifdef DEACTIhaTE_EVIL_TILE
+		#ifdef DEACTIVATE_EVIL_TILE
 			#ifndef ONLY_VERTICAL_EVIL_TILE
 				#endasm
 					hit_h = ((at1 IS_EVIL) || (at2 IS_EVIL));

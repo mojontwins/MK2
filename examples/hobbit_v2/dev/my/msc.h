@@ -72,6 +72,30 @@ void reloc_player (void) {
 #endif
 }
 
+void read_two_bytes_D_E (void) {
+    #asm
+            // Read two bytes: flag #, number
+
+            #ifdef MODE_128K
+                di
+                ld  b, SCRIPT_PAGE
+                call SetRAMBank
+            #endif
+
+                ld  hl, (_script)
+                ld  d, (hl)         // flag #
+                inc hl
+                ld  e, (hl)         // number
+                inc hl
+                ld  (_script), hl
+
+            #ifdef MODE_128K
+                ld  b, 0
+                call SetRAMBank
+                ei
+            #endif
+    #endasm
+}
 unsigned char *next_script;
 void run_script (unsigned char whichs) {
 
@@ -127,14 +151,42 @@ void run_script (unsigned char whichs) {
                 case 0x10:
                     // IF FLAG sc_x = sc_n
                     // Opcode: 10 sc_x sc_n
-                    readxy ();
-                    sc_terminado = (flags [sc_x] != sc_y);
+                    // readxy ();
+                    // sc_terminado = (flags [sc_x] != sc_y);
+                    #asm
+                            call _read_two_bytes_d_e
+                            // Set sc_terminado if flags [C] != E
+                            ld  b, 0
+                            ld  c, d
+                            ld  hl, _flags
+                            add hl, bc
+                            ld  a, (hl)
+                            cp  e
+                            jr  z, _flag_equal_val_ok
+                            ld  a, 1
+                            ld  (_sc_terminado), a
+                        ._flag_equal_val_ok
+                    #endasm
                     break;
                 case 0x13:
                     // IF FLAG sc_x <> sc_n
                     // Opcode: 13 sc_x sc_n
-                    readxy ();
-                    sc_terminado = (flags [sc_x] == sc_y);
+                    // readxy ();
+                    // sc_terminado = (flags [sc_x] == sc_y);
+                    #asm
+                            call _read_two_bytes_d_e
+                            // Set sc_terminado if flags [C] == E
+                            ld  b, 0
+                            ld  c, d
+                            ld  hl, _flags
+                            add hl, bc
+                            ld  a, (hl)
+                            cp  e
+                            jr  nz, _flag_different_val_ok
+                            ld  a, 1
+                            ld  (_sc_terminado), a
+                        ._flag_different_val_ok
+                    #endasm
                     break;
                 case 0x20:
                     // IF PLAYER_TOUCHES sc_x, sc_y
@@ -201,8 +253,15 @@ void run_script (unsigned char whichs) {
                     case 0x01:
                         // SET FLAG sc_x = sc_n
                         // Opcode: 01 sc_x sc_n
-                        readxy ();
-                        flags [sc_x] = sc_y;
+                        #asm
+                                call _readxy
+                                ld  de, (_sc_x)
+                                ld  d, 0
+                                ld  hl, _flags
+                                add hl, de
+                                ld  a, (_sc_y)
+                                ld  (hl), a
+                        #endasm
                         break;
                     case 0x20:
                         // SET TILE (sc_x, sc_y) = sc_n
