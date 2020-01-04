@@ -15,19 +15,19 @@ You can define custom enemy types adding code to `extra_enems_init.h` (initializ
 Code in `extra_enems_init.h`:
 
 ```c
-	case 5:
-		// This enemy type has a fixed base frame: 
-		en_an_base_frame [gpit] = 4;
-		break;
+    case 5:
+        // This enemy type has a fixed base frame: 
+        en_an_base_frame [gpit] = 4;
+        break;
 ```
 
 Code in `extra_enems_move.h`: 
 
 ```c
-	case 5:
-		// static, idle, dummy enemy
-		active = animate = 1;
-		break;
+    case 5:
+        // static, idle, dummy enemy
+        active = animate = 1;
+        break;
 ```
 
 ## `new_level.h`
