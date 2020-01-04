@@ -7,17 +7,17 @@ Animated tiles are just pairs of tiles in your tileset which are swapped every N
 *Tilanims* behavious is configured by this section in `my/config.h`:
 
 ```c
-	#define ENABLE_TILANIMS					// If defined, animated tiles are enabled and will alternate between t and t+1
+    #define ENABLE_TILANIMS                 // If defined, animated tiles are enabled and will alternate between t and t+1
 
-	#define TILANIMS_PERIOD 			16 	// Update tilanims every N frames. 1 = every frame
+    #define TILANIMS_PERIOD             16  // Update tilanims every N frames. 1 = every frame
 
-	#define TILANIMS_TYPE_ONE 				// Only one animated tile changes each time, or
-	#define TILANIMS_TYPE_ALL 				// All animated tiles change at once.
-											// If you enable both types you need to set tilanims_type_select
-											// to 0 (TYPE_ALL) or 1 (TYPE_ONE) to choose
-	#define TILANIMS_TYPE_SELECT_FLAG	5	// Or use this flag instead, if defined
+    #define TILANIMS_TYPE_ONE               // Only one animated tile changes each time, or
+    #define TILANIMS_TYPE_ALL               // All animated tiles change at once.
+                                            // If you enable both types you need to set tilanims_type_select
+                                            // to 0 (TYPE_ALL) or 1 (TYPE_ONE) to choose
+    #define TILANIMS_TYPE_SELECT_FLAG   5   // Or use this flag instead, if defined
 
-	#define IS_TILANIM(t) 		((t)==20)	// Condition to detect if a tile is animated
+    #define IS_TILANIM(t)       ((t)==20)   // Condition to detect if a tile is animated
 ```
 
 If `ENABLE_TILANIMS` is set, tiles which meet the condition `IS_TILANIM(t)` are added to the *tilanims* arrays. The size of these arrays should not be very big and is configured in `definitions.h` as `MAX_TILANIMS`.
