@@ -561,17 +561,30 @@ unsigned char AD_FREE [NUMBLOCKS * 15];
 //#define MAP_ATTRIBUTES				// Enables multi-purpose map attributes array (only in multi-level games as of 0.90)
 //#define NO_MASKS						// Sprites are rendered using OR instead of masks.
 //#define PLAYER_ALTERNATE_ANIMATION	// If defined, animation is 1,2,3,1,2,3...
-#define MASKED_BULLETS				// If needed
-// #define ENABLE_TILANIMS					// If defined, animated tiles are enabled and will alternate between t and t+1
-// #define IS_TILANIM(t) 		((t)==20)	// Condition to detect if a tile is animated										
+#define MASKED_BULLETS					// If needed
+
 //#define PAUSE_ABORT					// Add h=PAUSE, y=ABORT
 //#define GET_X_MORE					// Shows "get X more" when getting an object
-// #define ALT_TILE 				19 		// If defined, automatic random tile # for tile 0 (was fixed to 19)
+//#define ALT_TILE 				19 		// If defined, automatic random tile # for tile 0 (was fixed to 19)
 //#define TWO_SETS						// If defined, use two 16 sets in one (just ask)
 //#define TWO_SETS_SEL (n_pant>8?32:0)	// This expresion must equal 0 for set 1 to be used, or 32 for set 2 to be used (just ask)
-// #define TWO_SETS_MAPPED					// Two sets, but which set to use is mapped after map data (1 byte per screen)
+//#define TWO_SETS_MAPPED				// Two sets, but which set to use is mapped after map data (1 byte per screen)
 //#define ENABLE_LEVEL_NAMES			// Give a name for each level/screen in engine/levelnames.h
 //#define ENABLE_EXTRA_PRINTS			// Configure extra tile prints for some screens in engine/extraprints.h
+
+// Animated tiles v.3
+
+#define ENABLE_TILANIMS					// If defined, animated tiles are enabled and will alternate between t and t+1
+
+#define TILANIMS_PERIOD 			16 	// Update tilanims every N frames. 1 = every frame
+
+#define TILANIMS_TYPE_ONE 				// Only one animated tile changes each time, or
+#define TILANIMS_TYPE_ALL 				// All animated tiles change at once.
+										// If you enable both types you need to set tilanims_type_select
+										// to 0 (TYPE_ALL) or 1 (TYPE_ONE) to choose
+#define TILANIMS_TYPE_SELECT_FLAG	5	// Or use this flag instead, if defined
+
+#define IS_TILANIM(t) 		((t)==20)	// Condition to detect if a tile is animated
 
 // ============================================================================
 // IV. Player movement configuration
@@ -758,5 +771,10 @@ unsigned char behs [] = {
 #if defined (PLAYER_CAN_FIRE) || defined (PLAYER_KILLS_ENEMIES) || defined (ENABLE_PURSUERS) || defined (MODE_128K) || defined (PLAYER_CAN_PUNCH) || defined (CARRIABLE_BOXES_THROWABLE) || defined (PLAYER_HAZ_SWORD) || defined (PLAYER_HAZ_WHIP) || defined (PLAYER_SIMPLE_BOMBS)
 	#define ENEMS_MAY_DIE
 #endif
+
+// Several types of tilanims at once
+#if defined (TILANIMS_TYPE_ALL) && defined (TILANIMS_TYPE_ONE)
+	#define TILANIMS_SEVERAL_TYPES
+#endif 
 
 // END OF WARNING.

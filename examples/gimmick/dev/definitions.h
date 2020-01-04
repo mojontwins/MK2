@@ -414,3 +414,11 @@ unsigned char playing;
 	unsigned char song_playing;
 #endif
 
+#ifdef ENABLE_TILANIMS
+	#if TILANIMS_PERIOD > 1
+		unsigned char tilanims_counter;
+	#endif
+	#if defined (TILANIMS_SEVERAL_TYPES) && !defined (TILANIMS_TYPE_SELECT_FLAG)
+		unsigned char tilanims_type_select;
+	#endif
+#endif
