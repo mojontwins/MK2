@@ -31,6 +31,7 @@
 #define SC_RIGHT 	&H4D
 #define SC_UP 		&H48
 #define SC_DOWN 	&H50
+#define SC_E 		&H12
 #define SC_S        &H1F
 #define SC_G 		&H22
 #define SC_H 		&H23
@@ -97,6 +98,7 @@ End Type
 
 Dim Shared As OptionsType options
 Dim Shared As MapDescriptorType mapDescriptor
+Dim Shared As String exportFilename
 
 Redim Shared As uByte mapData (0, 0, 0, 0)
 Redim Shared As EnemiesType enems (0, 0, 0)
@@ -397,8 +399,89 @@ Sub parseHeaders
 	Close #fIn
 End Sub
 
-Sub saveChurrera
-	Puts ("TODO")
+Function saveChurrera As Integer
+	Dim As Integer fOut
+	Dim As Integer baddiesCount
+	Dim As Integer xP, yP, i
+	Dim As uByte d
+
+	exportFilename = fileNamePrompt ("Export MK1 .h", exportFilename)
+	If exportFilename <> "" Then
+		fOut = FreeFile
+		Open exportFilename For Output As #fOut
+		Print #fOut, "// Exported by ponedor.exe - Churrera MK1 mode!"
+		Print #fOut, ""
+
+		baddiesCount = 0
+		For yP = 0 To mapDescriptor.mapH - 1
+			For xP = 0 To mapDescriptor.mapW - 1
+				For i = 0 To mapDescriptor.nenems - 1
+					d = enems (xP, yP, i).t
+					If d > 0 And d <> 4 Then baddiesCount = baddiesCount + 1
+		Next i, xP, yP
+
+		Print #fOut, "#define BADDIES_COUNT " & baddiesCount 
+		Print #fOut, ""
+
+		Print #fOut, "typedef struct {"
+		Print #fOut, "    int x, y;"
+		Print #fOut, "    unsigned char x1, y1, x2, y2;"
+		Print #fOut, "    char mx, my;"
+		Print #fOut, "    char t;"
+		Print #fOut, "    #ifdef PLAYER_CAN_FIRE"
+		Print #fOut, "        unsigned char life;"
+		Print #fOut, "    #endif"
+		Print #fOut, "} MALOTE;"
+		Print #fOut, ""
+
+		Print #fOut, "MALOTE malotes [] = {"
+
+		For yP = 0 To mapDescriptor.mapH - 1
+			For xP = 0 To mapDescriptor.mapW - 1
+				For i = 0 To mapDescriptor.nenems - 1
+
+					Print #fOut, "    {";
+
+					Print #fOut, Str (enems (xP, yP, i).x * 16) & ", ";
+					Print #fOut, Str (enems (xP, yP, i).y * 16) & ", ";
+					Print #fOut, Str (enems (xP, yP, i).x * 16) & ", ";
+					Print #fOut, Str (enems (xP, yP, i).y * 16) & ", ";
+					Print #fOut, Str (enems (xP, yP, i).xx * 16) & ", ";
+					Print #fOut, Str (enems (xP, yP, i).yy * 16) & ", ";
+					Print #fOut, Str (Sgn (enems (xP, yP, i).xx - enems (xP, yP, i).x) * enems (xP, yP, i).n) & ", ";
+					Print #fOut, Str (Sgn (enems (xP, yP, i).yy - enems (xP, yP, i).y) * enems (xP, yP, i).n) & ", ";
+					Print #fOut, Str (enems (xP, yP, i).t) & ", ";
+
+					Print #fOut, "}";
+					If yP < mapDescriptor.mapH - 1 Or _
+						xP < mapDescriptor.mapW - 1 Or _
+						i < mapDescriptor.nenems Then
+						Print #fOut, ","
+					Else
+						Print #fOut, ""
+					End If
+		Next i, xP, yP
+
+		Print #fOut, "};"
+		Print #fOut, ""
+
+		Print #fOut, "typedef struct {"
+		Print #fOut, "    unsigned char xy, tipo, act;"
+		Print #fOut, "} HOTSPOT;"
+		Print #fOut, ""
+
+		Print #fOut, "HOTSPOT hotspots [] = {"
+
+''''''''''''''''''''
+
+		Print #fOut, "};"
+		Print #fOut, ""
+
+		Close #fOut
+		Return -1
+	Else 
+		Return 0
+	End If
 End Sub
 
 Sub saveProject
@@ -632,6 +715,78 @@ Sub openingScreenNoParams
 
 	If res Then System
 End Sub
+
+Function confirmarSalida As Integer
+	Dim As Integer res 
+	Dim As Integer x0, y0
+	Dim As Button buttonYes
+	Dim As Button buttonNo
+
+	While (MultiKey (1) Or Window_Event_close): Wend
+
+	res = 0
+	sve
+	removeMainButtons
+
+	x0 = options.winW \ 2 - 90
+	y0 = options.winH \ 2 - 28
+
+	Line (x0, y0)-(x0 + 179, y0 + 55), RGBA (127,127,127,127), BF 
+	Line (x0, y0)-(x0 + 179, y0 + 55), 0, B
+
+	Var Label_a =	Label_New	(x0 + 8, y0 + 8, 18*8, 20, "Seguro de verdad?", black, bgmain)
+	buttonYes = 	Button_New	(x0 + 8, y0 + 8 + 20, 112, 20, "Seguro, Paco")
+	buttonNo = 		Button_New 	(x0 + 8 + 112 + 4, y0 + 8 + 20, 48, 20, "Huy!")
+
+	Do
+		If Button_Event (buttonYes) Then	res = -1: Exit Do
+		If Button_Event (buttonNo) Then 	res = 0: Exit Do
+		If Window_Event_Close Then 			res = -1: Exit Do
+		If MultiKey (1) Then 				res = 0: Exit Do
+		If MultiKey (SC_ENTER) Then			res = -1: Exit Do
+	Loop
+
+	rec
+	While (MultiKey (1) Or Window_Event_close): Wend
+
+	Return res
+End Function
+
+Function fileNamePrompt (title As String, defaultFn As String) As String
+	Dim As String resFilename 
+	Dim As Integer x0, y0
+	Dim As Button buttonOk
+	Dim As TextBox textFilename
+
+	While (MultiKey (1) Or Window_Event_close): Wend
+
+	res = 0
+	sve
+	removeMainButtons
+
+	x0 = options.winW \ 2 - 90
+	y0 = options.winH \ 2 - 28
+
+	Line (x0, y0)-(x0 + 179, y0 + 55), RGBA (127,127,127,127), BF 
+	Line (x0, y0)-(x0 + 179, y0 + 55), 0, B
+
+	Var Label_a =	Label_New	(x0 + 8, y0 + 8, 18*8, 20, title, black, bgmain)
+	textFilename =  TextBox_New (x0 + 8, y0 + 8 + 20, 128, 20, defaultFn)
+	buttonOk = 		Button_New	(x0 + 8 + 128 + 8, y0 + 8 + 20, 40, 20, "Save")
+	
+	Do
+		TextBox_Edit (textFilename)
+
+		If Button_Event (Ok) Then 	res = TextBox_GetText (textFilename): Exit Do
+		If MultiKey (1) Then 		res = "": Exit Do
+		If MultiKey (SC_ENTER) Then	res = TextBox_GetText (textFilename): Exit Do
+	Loop
+
+	rec
+	While (MultiKey (1) Or Window_Event_close): Wend
+
+	Return res
+End Function
 
 Function parseInput As Integer
 	Dim As String mandatory (3) = { "out", "map", "tiles", "size" }
@@ -1022,42 +1177,6 @@ Sub removeMainButtons
 	Line (options.borderLeft, options.winH - 22)-(options.borderLeft + 52 + 52 + 52 + 60 + 16 + 8, options.winH), bgmain, BF
 End Sub
 
-Function confirmarSalida As Integer
-	Dim As Integer res 
-	Dim As Integer x0, y0
-	Dim As Button buttonYes
-	Dim As Button buttonNo
-
-	While (MultiKey (1) Or Window_Event_close): Wend
-
-	res = 0
-	sve
-	removeMainButtons
-
-	x0 = options.winW \ 2 - 90
-	y0 = options.winH \ 2 - 28
-
-	Line (x0, y0)-(x0 + 179, y0 + 55), RGBA (127,127,127,127), BF 
-	Line (x0, y0)-(x0 + 179, y0 + 55), 0, B
-
-	Var Label_a =	Label_New	(x0 + 8, y0 + 8, 18*8, 20, "Seguro de verdad?", black, bgmain)
-	buttonYes = 	Button_New	(x0 + 8, y0 + 8 + 20, 112, 20, "Seguro, Paco")
-	buttonNo = 		Button_New 	(x0 + 8 + 112 + 4, y0 + 8 + 20, 48, 20, "Huy!")
-
-	Do
-		If Button_Event (buttonYes) Then	res = -1: Exit Do
-		If Button_Event (buttonNo) Then 	res = 0: Exit Do
-		If Window_Event_Close Then 			res = -1: Exit Do
-		If MultiKey (1) Then 				res = 0: Exit Do
-		If MultiKey (SC_ENTER) Then			res = -1: Exit Do
-	Loop
-
-	rec
-	While (MultiKey (1) Or Window_Event_close): Wend
-
-	Return res
-End Function
-
 Sub noPuedesPonerMas
 	Dim As Integer x0, y0
 	Dim As Button buttonFuck
@@ -1356,6 +1475,7 @@ Function readCursors As uInteger
 
 	If MultiKey (SC_L) Then     res = res Or CS_LMT
 	If MultiKey (SC_H) Then     res = res Or CS_H
+	If MultiKey (SC_E) Then     res = res Or CS_H
 
 	Return res
 End Function
@@ -1501,6 +1621,8 @@ Dim As uInteger keys, keysTF
 
 '' Main
 
+exportFilename = "enems.h"
+
 parseInput () 
 
 '' Project info is already loaded, so
@@ -1627,8 +1749,9 @@ Do
 
 	'' H
 	If (KeysTF And CS_H) Or Button_Event (buttonH) Then
-		saveChurrera
-		grabadoChurreraPerfe
+		If saveChurrera Then
+			grabadoChurreraPerfe
+		End If
 	End If
 
 	'' Exit
