@@ -9,6 +9,9 @@
 ' Needs libpng.a, fbpng.bi, cmdlineparser.*, mtparser.*, gui.*, bmp.* to compile.
 ' Needs zlib1.dll to run.
 
+#define WIN_INCLUDEALL
+#include once "windows.bi"
+
 #include "file.bi"
 #include "fbpng.bi"
 #include "fbgfx.bi"
@@ -131,6 +134,133 @@ Dim Shared As uByte thinNumbers (135) = { _
 	0, 14, 8, 14, 8, 8, 8, 0, _
 	0, 14, 14, 14, 14, 14, 14, 0 _
 }
+
+Sub sanitizeSlashes (ByRef spec As String)
+	Dim As Integer i
+	For i = 1 To Len (spec)
+		If Mid (spec, i, 1) = Chr (92) Then Mid (spec, i, 1) = "/"
+	Next
+End Sub
+
+Function absoluteToRelative (fileSpec As String, refSpec As String) As String
+	Dim As Integer i
+	Dim As Integer fi
+	Dim As Integer numBacks
+	Dim As String res
+
+	sanitizeSlashes fileSpec
+	sanitizeSlashes refSpec
+
+	' Check how much of fileSpec and refSpec are the same
+	For i = 1 To Len (fileSpec)
+		If i > Len (refSpec) Then Exit For
+		If Mid (fileSpec, i, 1) <> Mid (refSpec, i, 1) Then Exit For
+	Next i
+
+	fi = i
+
+	If fi > Len (refSpec) Then
+		' fileSpec contains refSpec, so numBacks = 0
+		numBacks = 0
+	Else
+		' Count how many /s there are, then add 1
+		numBacks = 1
+		For i = fi To Len (refSpec)
+			If Mid (refSpec, i, 1) = "/" Then numBacks = numBacks + 1
+		Next i
+	End If
+
+	res = ""
+	For i = 1 To numBacks
+		res = res & "../"
+	Next i
+
+	res = res & Right (fileSpec, Len (fileSpec) - fi + 1)
+
+	Return res
+End Function
+
+Function filebrowserTS () As String 
+	Dim ofn As OPENFILENAME
+	Dim filename As Zstring * (MAX_PATH + 1)
+	Dim title As Zstring * 32 => "Find Tileset..."
+
+	Dim myCurDir As String
+	myCurDir = Curdir
+
+	Dim initialdir As Zstring * 256 => myCurDir
+
+	With ofn
+	.lStructSize       = Sizeof(OPENFILENAME)
+	.hwndOwner         = NULL
+	.hInstance         = GetModuleHandle(NULL)
+	.lpstrFilter       = Strptr(!"Png Files, (*.png)\0*.png\0BMP Files, (*.bmp)\0*.bmp\0All Files, (*.*)\0*.*\0\0")
+	.lpstrCustomFilter = NULL
+	.nMaxCustFilter    = 0
+	.nFilterIndex      = 1
+	.lpstrFile         = @filename
+	.nMaxFile          = Sizeof(filename)
+	.lpstrFileTitle    = NULL
+	.nMaxFileTitle     = 0
+	.lpstrInitialDir   = @initialdir
+	.lpstrTitle        = @title
+	.Flags             = OFN_EXPLORER Or OFN_FILEMUSTEXIST Or OFN_PATHMUSTEXIST
+	.nFileOffset       = 0
+	.nFileExtension    = 0
+	.lpstrDefExt       = NULL
+	.lCustData         = 0
+	.lpfnHook          = NULL
+	.lpTemplateName    = NULL
+	End With
+
+	If (GetOpenFileName(@ofn) = FALSE) Then Return ""
+
+	filename = absoluteToRelative (filename, myCurDir)
+	ChDir myCurDir
+
+	Return filename
+End Function
+
+Function filebrowserMap () As String
+	Dim ofn As OPENFILENAME
+	Dim filename As Zstring * (MAX_PATH + 1)
+	Dim title As Zstring * 32 => "Find MAP..."
+
+	Dim myCurDir As String
+	myCurDir = Curdir
+
+	Dim initialdir As Zstring * 256 => myCurDir
+
+	With ofn
+	.lStructSize       = Sizeof(OPENFILENAME)
+	.hwndOwner         = NULL
+	.hInstance         = GetModuleHandle(NULL)
+	.lpstrFilter       = Strptr(!"MAP Files, (*.MAP)\0*.MAP\0All Files, (*.*)\0*.*\0\0")
+	.lpstrCustomFilter = NULL
+	.nMaxCustFilter    = 0
+	.nFilterIndex      = 1
+	.lpstrFile         = @filename
+	.nMaxFile          = Sizeof(filename)
+	.lpstrFileTitle    = NULL
+	.nMaxFileTitle     = 0
+	.lpstrInitialDir   = @initialdir
+	.lpstrTitle        = @title
+	.Flags             = OFN_EXPLORER Or OFN_FILEMUSTEXIST Or OFN_PATHMUSTEXIST
+	.nFileOffset       = 0
+	.nFileExtension    = 0
+	.lpstrDefExt       = NULL
+	.lCustData         = 0
+	.lpfnHook          = NULL
+	.lpTemplateName    = NULL
+	End With
+
+	If (GetOpenFileName(@ofn) = FALSE) Then Return ""
+
+	filename = absoluteToRelative (filename, myCurDir)
+	ChDir myCurDir
+
+	Return filename
+End Function
 
 Function myFileExists (fn As String) As Integer
 	Dim fH As Integer
@@ -578,7 +708,7 @@ Sub drawLastBox (xC As Integer, yC As Integer, n As Integer)
 	Circle (x0 + 8, y0 + 8), 6, RGB (0, 0, 0), , , , F
 	Circle (x0 + 8, y0 + 8), 5, RGB (255,220,120), , , , F
 
-	drawThinHexNumber2 x0 + 5, y0 + 4, RGB (127, 127, 127), -1, n
+	drawThinHexNumber2 x0 + 5, y0 + 4, bgmain, -1, n
 End Sub
 
 Sub drawHotspot (xC As Integer, yC as Integer, n as Integer)
@@ -657,7 +787,7 @@ Sub waitNoMouse
 End Sub
 
 Sub removeMainButtons
-	Line (options.borderLeft, options.winH - 22)-(options.borderLeft + 52 + 52 + 52 + 52 + 8, options.winH), RGB (127,127,127), BF
+	Line (options.borderLeft, options.winH - 22)-(options.borderLeft + 52 + 52 + 52 + 52 + 8, options.winH), bgmain, BF
 End Sub
 
 Function confirmarSalida As Integer
@@ -678,7 +808,7 @@ Function confirmarSalida As Integer
 	Line (x0, y0)-(x0 + 179, y0 + 55), RGBA (127,127,127,127), BF 
 	Line (x0, y0)-(x0 + 179, y0 + 55), 0, B
 
-	Var Label_a =	Label_New	(x0 + 8, y0 + 8, 18*8, 20, "Seguro de verdad?", black, RGB (127,127,127))
+	Var Label_a =	Label_New	(x0 + 8, y0 + 8, 18*8, 20, "Seguro de verdad?", black, bgmain)
 	buttonYes = 	Button_New	(x0 + 8, y0 + 8 + 20, 112, 20, "Seguro, Paco")
 	buttonNo = 		Button_New 	(x0 + 8 + 112 + 4, y0 + 8 + 20, 48, 20, "Huy!")
 
@@ -709,7 +839,7 @@ Sub noPuedesPonerMas
 	Line (x0, y0)-(x0 + 127, y0 + 55), RGBA (127,127,127,127), BF 
 	Line (x0, y0)-(x0 + 127, y0 + 55), 0, B
 
-	Var Label_a = 	Label_New 	(x0 + 8, y0 + 8, 15 * 8, 20, "Ya estan los " & mapDescriptor.nenems, black, RGB (127,127,127))
+	Var Label_a = 	Label_New 	(x0 + 8, y0 + 8, 15 * 8, 20, "Ya estan los " & mapDescriptor.nenems, black, bgmain)
 	buttonFuck = 	Button_New	(x0 + 64 - 28, y0 + 8 + 20, 56, 20, "Fuck!")
 
 	Do
@@ -731,7 +861,7 @@ Sub grabadoPerfe
 	Line (x0, y0)-(x0 + 127, y0 + 55), RGBA (127,127,127,127), BF 
 	Line (x0, y0)-(x0 + 127, y0 + 55), 0, B
 
-	Var Label_a = 	Label_New 	(x0 + 8, y0 + 8, 15 * 8, 20, "Grabado perfe", black, RGB (127,127,127))
+	Var Label_a = 	Label_New 	(x0 + 8, y0 + 8, 15 * 8, 20, "Grabado perfe", black, bgmain)
 	buttonOk = 	Button_New	(x0 + 64 - 28, y0 + 8 + 20, 56, 20, "OK!")
 
 	Do
@@ -757,7 +887,7 @@ Function hotspotsCreateDialog (t As Integer) As Integer
 	Line (x0, y0)-(x0 + 127, y0 + 55), RGBA (127,127,127,127), BF 
 	Line (x0, y0)-(x0 + 127, y0 + 55), 0, B
 
-	Var Label_a = 	Label_New 	(x0 + 8, y0 + 8, 10*8, 20, "Hotspot:", black, RGB (127,127,127))
+	Var Label_a = 	Label_New 	(x0 + 8, y0 + 8, 10*8, 20, "Hotspot:", black, bgmain)
 	If t <> 0 Then
 		textT = 		TextBox_New (x0 + 8 + 10*8, y0 + 8, 32, 20, Hex (t))
 	Else 
@@ -798,7 +928,7 @@ Function enemsCreateDialogStep1 As Integer
 	Line (x0, y0)-(x0 + 127, y0 + 55), RGBA (127,127,127,127), BF 
 	Line (x0, y0)-(x0 + 127, y0 + 55), 0, B
 
-	Var Label_a = 	Label_New 	(x0 + 8, y0 + 8, 10*8, 20, "Type H:", black, RGB (127,127,127))
+	Var Label_a = 	Label_New 	(x0 + 8, y0 + 8, 10*8, 20, "Type H:", black, bgmain)
 	textT = 		TextBox_New (x0 + 8 + 10*8, y0 + 8, 32, 20, "")
 	buttonOk = 		Button_New	(x0 + 8, y0 + 8 + 20, 32, 20, "OK")
 	buttonCancel = 	Button_New 	(x0 + 8 + 32 + 4, y0 + 8 + 20, 40, 20, "Mal")
@@ -838,13 +968,13 @@ Function enemsCreateDialogStep2 (ByRef a As Integer, ByRef s1 As Integer, ByRef 
 	Line (x0, y0)-(x0 + 127, y0 + 95), RGBA (127,127,127,127), BF 
 	Line (x0, y0)-(x0 + 127, y0 + 95), 0, B
 
-	Var Label_a = 	Label_New 	(x0 + 8, y0 + 8, 10*8, 20, "Attr:", black, RGB (127,127,127))
+	Var Label_a = 	Label_New 	(x0 + 8, y0 + 8, 10*8, 20, "Attr:", black, bgmain)
 	textA = 		TextBox_New (x0 + 8 + 10*8, y0 + 8, 32, 20, "")
 	
-	Var Label_b = 	Label_New 	(x0 + 8, y0 + 8 + 20, 10*8, 20, "s1:", black, RGB (127,127,127))
+	Var Label_b = 	Label_New 	(x0 + 8, y0 + 8 + 20, 10*8, 20, "s1:", black, bgmain)
 	textS1 = 		TextBox_New (x0 + 8 + 10*8, y0 + 8 + 20, 32, 20, "")
 
-	Var Label_c = 	Label_New 	(x0 + 8, y0 + 8 + 20 + 20, 10*8, 20, "s2:", black, RGB (127,127,127))
+	Var Label_c = 	Label_New 	(x0 + 8, y0 + 8 + 20 + 20, 10*8, 20, "s2:", black, bgmain)
 	textS2 = 		TextBox_New (x0 + 8 + 10*8, y0 + 8 + 20 + 20, 32, 20, "")
 
 	buttonOk = 		Button_New	(x0 + 8, y0 + 8 + 20 + 20 + 20, 32, 20, "OK")
@@ -908,16 +1038,16 @@ Function enemsEditDialog (xP As Integer, yP As Integer, _
 	Line (x0, y0)-(x0 + 127, y0 + 115), RGBA (127,127,127,127), BF 
 	Line (x0, y0)-(x0 + 127, y0 + 115), 0, B
 
-	Var Label_t = 	Label_New 	(x0 + 8, y0 + 8, 10*8, 20, "Type:", black, RGB (127,127,127))
+	Var Label_t = 	Label_New 	(x0 + 8, y0 + 8, 10*8, 20, "Type:", black, bgmain)
 	textT = 		TextBox_New (x0 + 8 + 10*8, y0 + 8, 32, 20, Hex (t, 2))
 
-	Var Label_a = 	Label_New 	(x0 + 8, y0 + 8 + 20, 10*8, 20, "Attr:", black, RGB (127,127,127))
+	Var Label_a = 	Label_New 	(x0 + 8, y0 + 8 + 20, 10*8, 20, "Attr:", black, bgmain)
 	textA = 		TextBox_New (x0 + 8 + 10*8, y0 + 8 + 20, 32, 20, Hex (a, 2))
 	
-	Var Label_b = 	Label_New 	(x0 + 8, y0 + 8 + 20 + 20, 10*8, 20, "s1:", black, RGB (127,127,127))
+	Var Label_b = 	Label_New 	(x0 + 8, y0 + 8 + 20 + 20, 10*8, 20, "s1:", black, bgmain)
 	textS1 = 		TextBox_New (x0 + 8 + 10*8, y0 + 8 + 20 + 20, 32, 20, Hex (s1, 2))
 
-	Var Label_c = 	Label_New 	(x0 + 8, y0 + 8 + 20 + 20 + 20, 10*8, 20, "s2:", black, RGB (127,127,127))
+	Var Label_c = 	Label_New 	(x0 + 8, y0 + 8 + 20 + 20 + 20, 10*8, 20, "s2:", black, bgmain)
 	textS2 = 		TextBox_New (x0 + 8 + 10*8, y0 + 8 + 20 + 20 + 20, 32, 20, Hex (s2, 2))
 
 	buttonOk = 		Button_New	(x0 + 8, y0 + 8 + 20 + 20 + 20 + 20, 32, 20, "OK")
@@ -1103,6 +1233,115 @@ Sub printHotspotsMode ()
 	Sve
 End Sub
 
+Sub openingScreenNoParams
+	Dim As Button buttonExit
+	Dim As Button buttonTilesetfile
+	Dim As Button buttonMapfile
+	Dim As Button buttonCreateNew
+	Dim As Button buttonLoadExisting
+
+	Dim As TextBox textMapW
+	Dim As TextBox textMapH
+	Dim As TextBox textScrW
+	Dim As TextBox textScrH
+	Dim As TextBox textNenems
+	Dim As TextBox textAdjust
+	Dim As TextBox textTilesetfile
+	Dim As TextBox textMapfile
+	Dim As TextBox textEnemsfile
+	Dim As TextBox textEnemsLoadFile
+
+	Dim As HWND hwnd
+
+	OpenWindow 320, 240, "Mojon Twins' Ponedowr"
+	ScreenControl fb.GET_WINDOW_HANDLE, Cast (Integer, hwnd)
+	
+	Line (8, 8)-(312, 166), &H404040, b
+
+	Var Label_CN =  Label_new   (16, 0, 11*8, 16, "Create New", black, bgmain)
+
+	Var Label_MW = 	Label_New 	(16, 18, 6*8, 16, "Map W", black, bgmain)
+	textMapW = 		TextBox_New (72, 18, 32, 16, "")
+	Var Label_MH = 	Label_New 	(120, 18, 6*8, 16, "Map H", black, bgmain)
+	textMapH = 		TextBox_New (176, 18, 32, 16, "")
+
+	Var Label_SW = 	Label_New 	(16, 38, 6*8, 16, "Scr W", black, bgmain)
+	textScrW = 		TextBox_New (72, 38, 32, 16, "15")
+	Var Label_SH = 	Label_New 	(120, 38, 6*8, 16, "Scr H", black, bgmain)
+	textScrH = 		TextBox_New (176, 38, 32, 16, "10")
+
+	Var Label_NE = 	Label_New 	(16, 58, 7*8, 16, "Nenems", black, bgmain)
+	textNenems = 	TextBox_New (72, 58, 32, 16, "3")
+	Var Label_A = 	Label_New 	(120, 58, 7*8, 16, "Adjust", black, bgmain)
+	textAdjust = 	TextBox_New (176, 58, 32, 16, "0")
+
+	Var LabelTSF =  Label_new   (16, 78, 4*8, 16, "TS", black, bgmain)
+	textTilesetfile = TextBox_New (72, 78, 128, 16, "")
+	buttonTilesetfile = Button_New (208, 78, 48, 16, "Find")
+
+	Var LabelMF =  	Label_new   (16, 98, 4*8, 16, "Map", black, bgmain)
+	textMapfile =   TextBox_New (72, 98, 128, 16, "")
+	buttonMapfile = Button_New  (208, 98, 48, 16, "Find")
+
+	Var LabelOut =  Label_New   (16, 118, 7*8, 16, "Output", red, bgmain)
+	textEnemsfile = TextBox_New (72, 118, 128, 16, "enems.ene")
+
+	buttonCreateNew = Button_New (312-12*8, 138, 11*8, 20, "Create New")
+
+	buttonExit = Button_New (4, 218, 48, 20, "Exit")
+
+	Dim As Integer res, which
+
+	res = 0: which = 0
+
+	Do
+		Select Case which
+			Case 0: TextBox_Edit (textMapW): TextBox_SetText (textMapW, Str (Val (TextBox_GetText (textMapW))))
+			Case 1: TextBox_Edit (textMapH): TextBox_SetText (textMapH, Str (Val (TextBox_GetText (textMapH))))
+			Case 2: TextBox_Edit (textScrW): TextBox_SetText (textScrW, Str (Val (TextBox_GetText (textScrW))))
+			Case 3: TextBox_Edit (textScrH): TextBox_SetText (textScrH, Str (Val (TextBox_GetText (textScrH))))
+			Case 4: TextBox_Edit (textNenems): TextBox_SetText (textNenems, Str (Val (TextBox_GetText (textNenems))))
+			Case 5: TextBox_Edit (textAdjust): TextBox_SetText (textAdjust, Str (Val (TextBox_GetText (textAdjust))))
+			Case 6: TextBox_Edit (textTilesetfile)
+			Case 7: TextBox_Edit (textMapfile)
+			Case 8: TextBox_Edit (textEnemsfile): If TextBox_GetText (textEnemsfile) = "" Then TextBox_SetText (textEnemsfile, "enems.ene")
+		End Select
+
+		If MultiKey (1) Or Button_Event (buttonExit) Or Window_Event_Close Then res = -1: Exit Do 
+		If MultiKey (SC_TAB) Then which = which + 1: If which = 9 Then which = 0
+
+		If TextBox_Event (textMapW) Then which = 0		
+		If TextBox_Event (textMapH) Then which = 1
+		If TextBox_Event (textScrW) Then which = 2
+		If TextBox_Event (textScrH) Then which = 3
+		If TextBox_Event (textNenems) Then which = 4		
+		If TextBox_Event (textAdjust) Then which = 5
+		If TextBox_Event (textTilesetfile) Then which = 6
+		If TextBox_Event (textMapfile) Then which = 7
+		If TextBox_Event (textEnemsfile) Then which = 8
+
+		If Button_Event (buttonCreateNew) Then
+		End If
+
+		If Button_Event (buttonMapfile) Then 
+			TextBox_SetText ( _
+				textMapfile, _
+				filebrowserMap () _
+			)
+			ShowWindow (hwnd, SW_SHOW)
+			SetForegroundWindow (hwnd)
+		End If
+		If Button_Event (buttonTilesetfile) Then 
+			TextBox_SetText ( _
+				textTilesetfile, _
+				filebrowserTS () _
+			)
+			ShowWindow (hwnd, SW_SHOW)
+			SetForegroundWindow (hwnd)
+		End If
+	Loop
+End Sub
+
 ' Controls
 Dim As Button buttonSave
 Dim As Button buttonExit
@@ -1114,7 +1353,15 @@ Dim As Integer xP, yP, xPO, yPO, xC, yC, xCO, yCO, mx, my, mbtn
 Dim As uInteger keys, keysTF
 
 '' Main
-If Not parseInput () Then
+
+If Command (1) = "/h" Or Command (1) = "-h" Or Command (1) = "/?" Then
+	usage
+	End
+End If
+
+If Len (Command (1)) = 0 Then 
+	openingScreenNoParams
+ElseIf Not parseInput () Then
 	usage
 	End
 End If
@@ -1160,7 +1407,7 @@ Do
 			options.borderLeft, 0, _
 			18*8, 16, _
 			"XP:" & Hex (xP, 2) & " YP:" & Hex (yP, 2) & " NP:" & Hex ((yP * mapDescriptor.mapW + xP), 2), _
-			0, RGB (127, 127, 127)
+			0, bgmain
 		Sve
 	End If
 
@@ -1175,7 +1422,7 @@ Do
 		yC = (my - options.mapViewOffsetY) \ ratio
 
 		If xC <> xCO Or yC <> yCO Then
-			SetText options.winW - options.borderRight - 60, 0, 8*8, 16, "X:" & Hex (xC, 1) & " Y:" & Hex (yC, 1), 0, RGB (127, 127, 127)
+			SetText options.winW - options.borderRight - 60, 0, 8*8, 16, "X:" & Hex (xC, 1) & " Y:" & Hex (yC, 1), 0, bgmain
 			xCO = xC: yCO = yC
 		End If
 
@@ -1194,7 +1441,7 @@ Do
 		If mbtn And 1 Then waitNoMouse: processLeftClick xP, yP, xC, yC
 		If mbtn And 2 Then waitNoMouse: processRightClick xP, yP, xC, yC
 	Else 
-		SetText options.winW - options.borderRight - 60, 0, 8*8, 16, "       ", 0, RGB (127, 127, 127)
+		SetText options.winW - options.borderRight - 60, 0, 8*8, 16, "       ", 0, bgmain
 		xCO = &HFF: yCO = &HFF
 	End If	
 
