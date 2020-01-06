@@ -33,6 +33,7 @@
 #define SC_DOWN 	&H50
 #define SC_S        &H1F
 #define SC_G 		&H22
+#define SC_H 		&H23
 #define SC_L 		&H26
 #define SC_ENTER 	&H1C
 #define SC_TAB		&H0F
@@ -49,6 +50,7 @@
 #define CS_MINUS 	&H0080
 
 #define CS_LMT 		&H0100
+#define CS_H        &H0200
 
 #define STATE_INITIAL 0
 #define STATE_LAYINGOUTENEMY 1
@@ -151,6 +153,8 @@ Function absoluteToRelative (fileSpec As String, refSpec As String) As String
 	sanitizeSlashes fileSpec
 	sanitizeSlashes refSpec
 
+	If Right (refSpec, 1) <> "/" Then refSpec = refSpec & "/"
+
 	' Check how much of fileSpec and refSpec are the same
 	For i = 1 To Len (fileSpec)
 		If i > Len (refSpec) Then Exit For
@@ -236,6 +240,47 @@ Function filebrowserMap () As String
 	.hwndOwner         = NULL
 	.hInstance         = GetModuleHandle(NULL)
 	.lpstrFilter       = Strptr(!"MAP Files, (*.MAP)\0*.MAP\0All Files, (*.*)\0*.*\0\0")
+	.lpstrCustomFilter = NULL
+	.nMaxCustFilter    = 0
+	.nFilterIndex      = 1
+	.lpstrFile         = @filename
+	.nMaxFile          = Sizeof(filename)
+	.lpstrFileTitle    = NULL
+	.nMaxFileTitle     = 0
+	.lpstrInitialDir   = @initialdir
+	.lpstrTitle        = @title
+	.Flags             = OFN_EXPLORER Or OFN_FILEMUSTEXIST Or OFN_PATHMUSTEXIST
+	.nFileOffset       = 0
+	.nFileExtension    = 0
+	.lpstrDefExt       = NULL
+	.lCustData         = 0
+	.lpfnHook          = NULL
+	.lpTemplateName    = NULL
+	End With
+
+	If (GetOpenFileName(@ofn) = FALSE) Then Return ""
+
+	filename = absoluteToRelative (filename, myCurDir)
+	ChDir myCurDir
+
+	Return filename
+End Function
+
+Function filebrowserEne () As String
+	Dim ofn As OPENFILENAME
+	Dim filename As Zstring * (MAX_PATH + 1)
+	Dim title As Zstring * 32 => "Find enems file"
+
+	Dim myCurDir As String
+	myCurDir = Curdir
+
+	Dim initialdir As Zstring * 256 => myCurDir
+
+	With ofn
+	.lStructSize       = Sizeof(OPENFILENAME)
+	.hwndOwner         = NULL
+	.hInstance         = GetModuleHandle(NULL)
+	.lpstrFilter       = Strptr(!"Enem Files, (*.ene)\0*.ene\0All Files, (*.*)\0*.*\0\0")
 	.lpstrCustomFilter = NULL
 	.nMaxCustFilter    = 0
 	.nFilterIndex      = 1
@@ -352,6 +397,10 @@ Sub parseHeaders
 	Close #fIn
 End Sub
 
+Sub saveChurrera
+	Puts ("TODO")
+End Sub
+
 Sub saveProject
 	Dim As Integer fOut
 	Dim As uByte d
@@ -411,12 +460,190 @@ Sub saveProject
 	Close #fOut
 End Sub
 
+Sub usage
+	Print "Edit an existing set:"
+	Print "$ ponedor.exe file.ene"
+	Print
+	Print "Create new set:"
+	Print "$ ponedor.exe new out=file.ene map=file.map tiles=file.png|bmp [adjust=n] size=w,h"
+	Print "                  [scrsize=w,h] [nenems=n] [x2]"
+	Print
+	Print "out           output filename"
+	Print "map           map file (raw, headerless, 1 byte per tile, row order)"
+	Print "tiles         tileset in png or bmp format."
+	Print "adjust        substract this number from every byte read from the map file. Def=0"
+	Print "size          map size in screens"
+	Print "scrsize       screen size in tiles. Def=16,12"
+	Print "nenems        number of enemies per screen. Def=3"
+	Print "x2            zoom x2 (hacky)"
+End Sub
+
+Sub openingScreenNoParams
+	Dim As Button buttonExit
+	Dim As Button buttonTilesetfile
+	Dim As Button buttonMapfile
+	Dim As Button buttonEnemsfile
+	Dim As Button buttonCreateNew
+	Dim As Button buttonLoadExisting
+
+	Dim As TextBox textMapW
+	Dim As TextBox textMapH
+	Dim As TextBox textScrW
+	Dim As TextBox textScrH
+	Dim As TextBox textNenems
+	Dim As TextBox textAdjust
+	Dim As TextBox textTilesetfile
+	Dim As TextBox textMapfile
+	Dim As TextBox textEnemsfile
+	Dim As TextBox textEnemsLoadFile
+
+	Dim As HWND hwnd
+
+	OpenWindow 320, 240, "Mojon Twins' Ponedowr"
+	ScreenControl fb.GET_WINDOW_HANDLE, Cast (Integer, hwnd)
+	
+	Line (8, 8)-(312, 166), &H404040, b
+
+	Var Label_CN =  Label_new   (16, 0, 11*8, 16, "Create New", black, bgmain)
+
+	Var Label_MW = 	Label_New 	(16, 18, 6*8, 16, "Map W", black, bgmain)
+	textMapW = 		TextBox_New (72, 18, 32, 16, "")
+	Var Label_MH = 	Label_New 	(120, 18, 6*8, 16, "Map H", black, bgmain)
+	textMapH = 		TextBox_New (176, 18, 32, 16, "")
+
+	Var Label_SW = 	Label_New 	(16, 38, 6*8, 16, "Scr W", black, bgmain)
+	textScrW = 		TextBox_New (72, 38, 32, 16, "15")
+	Var Label_SH = 	Label_New 	(120, 38, 6*8, 16, "Scr H", black, bgmain)
+	textScrH = 		TextBox_New (176, 38, 32, 16, "10")
+
+	Var Label_NE = 	Label_New 	(16, 58, 7*8, 16, "Nenems", black, bgmain)
+	textNenems = 	TextBox_New (72, 58, 32, 16, "3")
+	Var Label_A = 	Label_New 	(120, 58, 7*8, 16, "Adjust", black, bgmain)
+	textAdjust = 	TextBox_New (176, 58, 32, 16, "0")
+
+	Var LabelTSF =  Label_new   (16, 78, 4*8, 16, "TS", black, bgmain)
+	textTilesetfile = TextBox_New (72, 78, 128, 16, "")
+	buttonTilesetfile = Button_New (208, 78, 48, 16, "Find")
+
+	Var LabelMF =  	Label_new   (16, 98, 4*8, 16, "Map", black, bgmain)
+	textMapfile =   TextBox_New (72, 98, 128, 16, "")
+	buttonMapfile = Button_New  (208, 98, 48, 16, "Find")
+
+	Var LabelOut =  Label_New   (16, 118, 7*8, 16, "Output", red, bgmain)
+	textEnemsfile = TextBox_New (72, 118, 128, 16, "enems.ene")
+
+	buttonCreateNew = Button_New (312-12*8, 138, 11*8, 20, "Create New")
+
+	Line (8, 176)-(312, 232), &H404040, b
+
+	Var Label_OE =  Label_new   (16, 166, 14*8, 16, "Open existing", black, bgmain)
+
+	Var LabelIn =   Label_new   (16, 184, 7*8, 16, "Input", red, bgmain)
+	textEnemsLoadFile = TextBox_New (72, 184, 128, 16, "")
+	buttonEnemsfile = Button_New (208, 184, 48, 16, "Find")
+
+	buttonLoadExisting = Button_New (312-15*8, 204, 14*8, 20, "Load Existing")
+	
+	Dim As Integer res, which
+
+	res = 0: which = 0
+
+	Do
+		Select Case which
+			Case 0: TextBox_Edit (textMapW): TextBox_SetText (textMapW, Str (Val (TextBox_GetText (textMapW))))
+			Case 1: TextBox_Edit (textMapH): TextBox_SetText (textMapH, Str (Val (TextBox_GetText (textMapH))))
+			Case 2: TextBox_Edit (textScrW): TextBox_SetText (textScrW, Str (Val (TextBox_GetText (textScrW))))
+			Case 3: TextBox_Edit (textScrH): TextBox_SetText (textScrH, Str (Val (TextBox_GetText (textScrH))))
+			Case 4: TextBox_Edit (textNenems): TextBox_SetText (textNenems, Str (Val (TextBox_GetText (textNenems))))
+			Case 5: TextBox_Edit (textAdjust): TextBox_SetText (textAdjust, Str (Val (TextBox_GetText (textAdjust))))
+			Case 6: TextBox_Edit (textTilesetfile)
+			Case 7: TextBox_Edit (textMapfile)
+			Case 8: TextBox_Edit (textEnemsfile): If TextBox_GetText (textEnemsfile) = "" Then TextBox_SetText (textEnemsfile, "enems.ene")
+			Case 9: TextBox_Edit (textEnemsLoadFile)
+		End Select
+
+		If MultiKey (1) Or Button_Event (buttonExit) Or Window_Event_Close Then res = -1: Exit Do 
+		If MultiKey (SC_TAB) Then which = which + 1: If which = 10 Then which = 0
+
+		If TextBox_Event (textMapW) Then which = 0		
+		If TextBox_Event (textMapH) Then which = 1
+		If TextBox_Event (textScrW) Then which = 2
+		If TextBox_Event (textScrH) Then which = 3
+		If TextBox_Event (textNenems) Then which = 4		
+		If TextBox_Event (textAdjust) Then which = 5
+		If TextBox_Event (textTilesetfile) Then which = 6
+		If TextBox_Event (textMapfile) Then which = 7
+		If TextBox_Event (textEnemsfile) Then which = 8
+		If TextBox_Event (textEnemsLoadFile) Then which = 9
+
+		If Button_Event (buttonCreateNew) Then
+			doLoad = 0
+			enemsFn = TextBox_GetText (textEnemsfile)
+			sanitizeSlashes enemsFn
+
+			mapDescriptor.mapFile = TextBox_GetText (textMapfile)
+			mapDescriptor.tilesFile = TextBox_GetText (textTilesetfile)
+			mapDescriptor.adjust = Val (TextBox_GetText (textAdjust))
+			mapDescriptor.mapW = Val (TextBox_GetText (textMapW))
+			mapDescriptor.mapH = Val (TextBox_GetText (textMapH))
+			If mapDescriptor.mapW = 0 Or mapDescriptor.mapH = 0 Then Puts ("Wrong map size"): System
+			mapDescriptor.scrW = Val (TextBox_GetText (textScrW))
+			mapDescriptor.scrH = Val (TextBox_GetText (textScrH))
+			If mapDescriptor.scrW = 0 Or mapDescriptor.scrH = 0 Then Puts ("Wrong screen size"): System
+			mapDescriptor.nenems = Val (TextBox_GetText (textNenems))
+			If mapDescriptor.nenems = 0 Then mapDescriptor.nenems = 3
+			doLoad = 0
+			Exit Do
+		End If
+
+		If Button_Event (buttonMapfile) Then 
+			TextBox_SetText ( _
+				textMapfile, _
+				filebrowserMap () _
+			)
+			ShowWindow (hwnd, SW_SHOW)
+			SetForegroundWindow (hwnd)
+		End If
+		If Button_Event (buttonTilesetfile) Then 
+			TextBox_SetText ( _
+				textTilesetfile, _
+				filebrowserTS () _
+			)
+			ShowWindow (hwnd, SW_SHOW)
+			SetForegroundWindow (hwnd)
+		End If
+		If Button_Event (buttonEnemsfile) Then 
+			TextBox_SetText ( _
+				textEnemsLoadFile, _
+				filebrowserEne () _
+			)
+			ShowWindow (hwnd, SW_SHOW)
+			SetForegroundWindow (hwnd)
+		End If
+		If Button_Event (buttonLoadExisting) Then
+			enemsFn = TextBox_GetText (textEnemsLoadFile)
+			sanitizeSlashes enemsFn
+
+			parseHeaders
+			doLoad = -1
+			Exit Do
+		End If
+	Loop
+
+	If res Then System
+End Sub
+
 Function parseInput As Integer
 	Dim As String mandatory (3) = { "out", "map", "tiles", "size" }
 	Dim As Integer coords (10)
 
 	' Parse the command line
 	sclpParseAttrs
+
+	If sclpGetValue ("/h") <> "" Or sclpGetValue ("-h") <> "" Or sclpGetValue ("/?") <> "" Then
+		usage
+		End
+	End If
 
 	debug = (sclpGetValue ("debug") <> "")
 	stretchX2 = (sclpGetValue ("x2") <> "")
@@ -467,47 +694,49 @@ Function parseInput As Integer
 		doLoad = 0
 	Else
 		' Editing.
-		If Command (1) = "" Then Return 0
-		enemsFn = Command (1)
+		If Command (1) = "" Or Command (1) = "x2" Then 
+			openingScreenNoParams
+		Else
+			enemsFn = Command (1)
+			sanitizeSlashes enemsFn
+			parseHeaders
+			doLoad = -1
+		End If
 
-		parseHeaders
-		doLoad = -1
 	End If
 
 	Return -1
 End Function
 
-Sub usage
-	Print "Edit an existing set:"
-	Print "$ ponedor.exe file.ene"
-	Print
-	Print "Create new set:"
-	Print "$ ponedor.exe new out=file.ene map=file.map tiles=file.png|bmp [adjust=n] size=w,h"
-	Print "                  [scrsize=w,h] [nenems=n] [x2]"
-	Print
-	Print "out           output filename"
-	Print "map           map file (raw, headerless, 1 byte per tile, row order)"
-	Print "tiles         tileset in png or bmp format."
-	Print "adjust        substract this number from every byte read from the map file. Def=0"
-	Print "size          map size in screens"
-	Print "scrsize       screen size in tiles. Def=16,12"
-	Print "nenems        number of enemies per screen. Def=3"
-	Print "x2            zoom x2 (hacky)"
-End Sub
+Function addPathTo (spec As String) As String
+	Dim As String enemsFnPath
+
+	' Get path from enemsFn
+	If Instr (enemsFn, "/") Then
+		enemsFnPath = Left (enemsFn, Instrrev (enemsFn, "/"))
+	Else
+		enemsFnPath = ""
+	End If
+
+	Return enemsFnPath & spec
+End Function
 
 Sub cutTileSet
 	Dim As Any ptr img
 	Dim As Any ptr work
 	Dim As Integer w, h, x, y, i, xx, yy, c
+	Dim As String fixedFileName
 
-	If Not (myFileExists (Trim (mapDescriptor.tilesFile, Any Chr (0)+Chr (9)+Chr (32)))) Then Puts ("ERROR: " & Trim (mapDescriptor.tilesFile, Any Chr (0)+Chr (9)+Chr (32)) & " does not exist. Can't continue."): System
+	fixedFileName = addPathTo (mapDescriptor.tilesFile)
 
-	If Right (Trim (mapDescriptor.tilesFile, Any Chr (0)+Chr (9)+Chr (32)), 4) = ".png" Then
-		If debug Then puts ("Reading PNG file " & Trim (mapDescriptor.tilesFile, Any Chr (0)+Chr (9)+Chr (32)))
-		img = png_load (mapDescriptor.tilesFile)
+	If Not (myFileExists (Trim (fixedFileName, Any Chr (0)+Chr (9)+Chr (32)))) Then Puts ("ERROR: " & Trim (mapDescriptor.tilesFile, Any Chr (0)+Chr (9)+Chr (32)) & " does not exist. Can't continue."): System
+
+	If Right (Trim (fixedFileName, Any Chr (0)+Chr (9)+Chr (32)), 4) = ".png" Then
+		If debug Then puts ("Reading PNG file " & Trim (fixedFileName, Any Chr (0)+Chr (9)+Chr (32)))
+		img = png_load (fixedFileName)
 	Else
-		If debug Then puts ("Reading BMP file " & Trim (mapDescriptor.tilesFile, Any Chr (0)+Chr (9)+Chr (32)))
-		img = bmp_load (mapDescriptor.tilesFile)
+		If debug Then puts ("Reading BMP file " & Trim (fixedFileName, Any Chr (0)+Chr (9)+Chr (32)))
+		img = bmp_load (fixedFileName)
 	End If
 	If ImageInfo (img, w, h, , , , ) Then
 		' Error!
@@ -577,8 +806,11 @@ End Sub
 Sub loadMap
 	Dim As Integer fIn, x, y, xMap, yMap, xScr, yScr
 	Dim As uByte d
+	Dim As String fixedFileName
 
-	If Not (myFileExists (Trim (mapDescriptor.mapFile, Any Chr (0)+Chr (9)+Chr (32)))) Then Puts ("ERROR: " & Trim (mapDescriptor.mapFile, Any Chr (0)+Chr (9)+Chr (32)) & " does not exist. Can't continue."): System
+	fixedFileName = addPathTo (mapDescriptor.mapFile)
+
+	If Not (myFileExists (Trim (fixedFileName, Any Chr (0)+Chr (9)+Chr (32)))) Then Puts ("ERROR: " & Trim (mapDescriptor.mapFile, Any Chr (0)+Chr (9)+Chr (32)) & " does not exist. Can't continue."): System
 
 	If debug Then 
 		Puts ("loading Map")
@@ -587,7 +819,7 @@ Sub loadMap
 	End If
 
 	fIn = FreeFile
-	Open Trim (mapDescriptor.mapFile, Any Chr (0)+Chr (9)+Chr (32)) For Binary As #fIn
+	Open Trim (fixedFileName, Any Chr (0)+Chr (9)+Chr (32)) For Binary As #fIn
 	For y = 0 To mapDescriptor.mapH * mapDescriptor.scrH - 1
 		yScr = y Mod mapDescriptor.scrH
 		yMap = y \ mapDescriptor.scrH
@@ -787,7 +1019,7 @@ Sub waitNoMouse
 End Sub
 
 Sub removeMainButtons
-	Line (options.borderLeft, options.winH - 22)-(options.borderLeft + 52 + 52 + 52 + 52 + 8, options.winH), bgmain, BF
+	Line (options.borderLeft, options.winH - 22)-(options.borderLeft + 52 + 52 + 52 + 60 + 16 + 8, options.winH), bgmain, BF
 End Sub
 
 Function confirmarSalida As Integer
@@ -862,6 +1094,28 @@ Sub grabadoPerfe
 	Line (x0, y0)-(x0 + 127, y0 + 55), 0, B
 
 	Var Label_a = 	Label_New 	(x0 + 8, y0 + 8, 15 * 8, 20, "Grabado perfe", black, bgmain)
+	buttonOk = 	Button_New	(x0 + 64 - 28, y0 + 8 + 20, 56, 20, "OK!")
+
+	Do
+	Loop Until MultiKey (1) Or MultiKey (SC_ENTER) Or Button_Event (buttonOk)
+
+	rec
+End Sub
+
+Sub grabadoChurreraPerfe
+	Dim As Integer x0, y0
+	Dim As Button buttonOk
+
+	sve
+	removeMainButtons
+
+	x0 = options.winW \ 2 - 64
+	y0 = options.winH \ 2 - 28
+
+	Line (x0, y0)-(x0 + 127, y0 + 55), RGBA (127,127,127,127), BF 
+	Line (x0, y0)-(x0 + 127, y0 + 55), 0, B
+
+	Var Label_a = 	Label_New 	(x0 + 8, y0 + 8, 13*8, 20, "Export .h ok", black, bgmain)
 	buttonOk = 	Button_New	(x0 + 64 - 28, y0 + 8 + 20, 56, 20, "OK!")
 
 	Do
@@ -1101,6 +1355,7 @@ Function readCursors As uInteger
 	If MultiKey (SC_PLUS) Then 	res = res Or CS_PLUS
 
 	If MultiKey (SC_L) Then     res = res Or CS_LMT
+	If MultiKey (SC_H) Then     res = res Or CS_H
 
 	Return res
 End Function
@@ -1233,120 +1488,12 @@ Sub printHotspotsMode ()
 	Sve
 End Sub
 
-Sub openingScreenNoParams
-	Dim As Button buttonExit
-	Dim As Button buttonTilesetfile
-	Dim As Button buttonMapfile
-	Dim As Button buttonCreateNew
-	Dim As Button buttonLoadExisting
-
-	Dim As TextBox textMapW
-	Dim As TextBox textMapH
-	Dim As TextBox textScrW
-	Dim As TextBox textScrH
-	Dim As TextBox textNenems
-	Dim As TextBox textAdjust
-	Dim As TextBox textTilesetfile
-	Dim As TextBox textMapfile
-	Dim As TextBox textEnemsfile
-	Dim As TextBox textEnemsLoadFile
-
-	Dim As HWND hwnd
-
-	OpenWindow 320, 240, "Mojon Twins' Ponedowr"
-	ScreenControl fb.GET_WINDOW_HANDLE, Cast (Integer, hwnd)
-	
-	Line (8, 8)-(312, 166), &H404040, b
-
-	Var Label_CN =  Label_new   (16, 0, 11*8, 16, "Create New", black, bgmain)
-
-	Var Label_MW = 	Label_New 	(16, 18, 6*8, 16, "Map W", black, bgmain)
-	textMapW = 		TextBox_New (72, 18, 32, 16, "")
-	Var Label_MH = 	Label_New 	(120, 18, 6*8, 16, "Map H", black, bgmain)
-	textMapH = 		TextBox_New (176, 18, 32, 16, "")
-
-	Var Label_SW = 	Label_New 	(16, 38, 6*8, 16, "Scr W", black, bgmain)
-	textScrW = 		TextBox_New (72, 38, 32, 16, "15")
-	Var Label_SH = 	Label_New 	(120, 38, 6*8, 16, "Scr H", black, bgmain)
-	textScrH = 		TextBox_New (176, 38, 32, 16, "10")
-
-	Var Label_NE = 	Label_New 	(16, 58, 7*8, 16, "Nenems", black, bgmain)
-	textNenems = 	TextBox_New (72, 58, 32, 16, "3")
-	Var Label_A = 	Label_New 	(120, 58, 7*8, 16, "Adjust", black, bgmain)
-	textAdjust = 	TextBox_New (176, 58, 32, 16, "0")
-
-	Var LabelTSF =  Label_new   (16, 78, 4*8, 16, "TS", black, bgmain)
-	textTilesetfile = TextBox_New (72, 78, 128, 16, "")
-	buttonTilesetfile = Button_New (208, 78, 48, 16, "Find")
-
-	Var LabelMF =  	Label_new   (16, 98, 4*8, 16, "Map", black, bgmain)
-	textMapfile =   TextBox_New (72, 98, 128, 16, "")
-	buttonMapfile = Button_New  (208, 98, 48, 16, "Find")
-
-	Var LabelOut =  Label_New   (16, 118, 7*8, 16, "Output", red, bgmain)
-	textEnemsfile = TextBox_New (72, 118, 128, 16, "enems.ene")
-
-	buttonCreateNew = Button_New (312-12*8, 138, 11*8, 20, "Create New")
-
-	buttonExit = Button_New (4, 218, 48, 20, "Exit")
-
-	Dim As Integer res, which
-
-	res = 0: which = 0
-
-	Do
-		Select Case which
-			Case 0: TextBox_Edit (textMapW): TextBox_SetText (textMapW, Str (Val (TextBox_GetText (textMapW))))
-			Case 1: TextBox_Edit (textMapH): TextBox_SetText (textMapH, Str (Val (TextBox_GetText (textMapH))))
-			Case 2: TextBox_Edit (textScrW): TextBox_SetText (textScrW, Str (Val (TextBox_GetText (textScrW))))
-			Case 3: TextBox_Edit (textScrH): TextBox_SetText (textScrH, Str (Val (TextBox_GetText (textScrH))))
-			Case 4: TextBox_Edit (textNenems): TextBox_SetText (textNenems, Str (Val (TextBox_GetText (textNenems))))
-			Case 5: TextBox_Edit (textAdjust): TextBox_SetText (textAdjust, Str (Val (TextBox_GetText (textAdjust))))
-			Case 6: TextBox_Edit (textTilesetfile)
-			Case 7: TextBox_Edit (textMapfile)
-			Case 8: TextBox_Edit (textEnemsfile): If TextBox_GetText (textEnemsfile) = "" Then TextBox_SetText (textEnemsfile, "enems.ene")
-		End Select
-
-		If MultiKey (1) Or Button_Event (buttonExit) Or Window_Event_Close Then res = -1: Exit Do 
-		If MultiKey (SC_TAB) Then which = which + 1: If which = 9 Then which = 0
-
-		If TextBox_Event (textMapW) Then which = 0		
-		If TextBox_Event (textMapH) Then which = 1
-		If TextBox_Event (textScrW) Then which = 2
-		If TextBox_Event (textScrH) Then which = 3
-		If TextBox_Event (textNenems) Then which = 4		
-		If TextBox_Event (textAdjust) Then which = 5
-		If TextBox_Event (textTilesetfile) Then which = 6
-		If TextBox_Event (textMapfile) Then which = 7
-		If TextBox_Event (textEnemsfile) Then which = 8
-
-		If Button_Event (buttonCreateNew) Then
-		End If
-
-		If Button_Event (buttonMapfile) Then 
-			TextBox_SetText ( _
-				textMapfile, _
-				filebrowserMap () _
-			)
-			ShowWindow (hwnd, SW_SHOW)
-			SetForegroundWindow (hwnd)
-		End If
-		If Button_Event (buttonTilesetfile) Then 
-			TextBox_SetText ( _
-				textTilesetfile, _
-				filebrowserTS () _
-			)
-			ShowWindow (hwnd, SW_SHOW)
-			SetForegroundWindow (hwnd)
-		End If
-	Loop
-End Sub
-
 ' Controls
 Dim As Button buttonSave
 Dim As Button buttonExit
 Dim As Button buttonGrid
 Dim As Button buttonReload
+Dim As Button buttonH
 
 ' Variables
 Dim As Integer xP, yP, xPO, yPO, xC, yC, xCO, yCO, mx, my, mbtn
@@ -1354,17 +1501,7 @@ Dim As uInteger keys, keysTF
 
 '' Main
 
-If Command (1) = "/h" Or Command (1) = "-h" Or Command (1) = "/?" Then
-	usage
-	End
-End If
-
-If Len (Command (1)) = 0 Then 
-	openingScreenNoParams
-ElseIf Not parseInput () Then
-	usage
-	End
-End If
+parseInput () 
 
 '' Project info is already loaded, so
 initOptions
@@ -1385,6 +1522,7 @@ buttonSave = Button_New (options.borderLeft, options.winH - 22, 48, 20, "Save")
 buttonExit = Button_New (options.borderLeft + 52, options.winH - 22, 48, 20, "Exit")
 buttonGrid = Button_New (options.borderLeft + 52 + 52, options.winH - 22, 48, 20, "Grid")
 buttonReload = Button_New (options.borderLeft + 52 + 52 + 52, options.winH - 22, 56, 20, "Reload")
+buttonH = Button_New (options.borderLeft + 52 + 52 + 52 + 60, options.winH - 22, 16, 20, "H")
 
 '' Last things
 editingState = 0
@@ -1485,6 +1623,12 @@ Do
 		cutTileSet
 		loadMap
 		renderScreen xP, yP
+	End If
+
+	'' H
+	If (KeysTF And CS_H) Or Button_Event (buttonH) Then
+		saveChurrera
+		grabadoChurreraPerfe
 	End If
 
 	'' Exit
