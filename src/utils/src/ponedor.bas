@@ -399,6 +399,54 @@ Sub parseHeaders
 	Close #fIn
 End Sub
 
+Sub sve
+	Get (0, 0)-(options.winW - 1, options.winH - 1), buffer
+End Sub
+
+Sub rec 
+	Put (0,0), buffer, PSET
+End Sub
+
+Sub removeMainButtons
+	Line (options.borderLeft, options.winH - 22)-(options.borderLeft + 52 + 52 + 52 + 60 + 16 + 8, options.winH), bgmain, BF
+End Sub
+
+Function fileNamePrompt (title As String, defaultFn As String) As String
+	Dim As String res
+	Dim As Integer x0, y0
+	Dim As Button buttonOk
+	Dim As TextBox textFilename
+
+	While (MultiKey (1) Or Window_Event_close): Wend
+
+	res = ""
+	sve
+	removeMainButtons
+
+	x0 = options.winW \ 2 - 90
+	y0 = options.winH \ 2 - 28
+
+	Line (x0, y0)-(x0 + 179, y0 + 55), RGBA (127,127,127,127), BF 
+	Line (x0, y0)-(x0 + 179, y0 + 55), 0, B
+
+	Var Label_a =	Label_New	(x0 + 8, y0 + 8, 18*8, 20, title, black, bgmain)
+	textFilename =  TextBox_New (x0 + 8, y0 + 8 + 20, 128, 20, defaultFn)
+	buttonOk = 		Button_New	(x0 + 8 + 128 + 8, y0 + 8 + 20, 40, 20, "Save")
+	
+	Do
+		TextBox_Edit (textFilename)
+
+		If Button_Event (buttonOk) Then res = TextBox_GetText (textFilename): Exit Do
+		If MultiKey (1) Then 			res = "": Exit Do
+		If MultiKey (SC_ENTER) Then		res = TextBox_GetText (textFilename): Exit Do
+	Loop
+
+	rec
+	While (MultiKey (1) Or Window_Event_close): Wend
+
+	Return res
+End Function
+
 Function saveChurrera As Integer
 	Dim As Integer fOut
 	Dim As Integer baddiesCount
@@ -472,7 +520,23 @@ Function saveChurrera As Integer
 
 		Print #fOut, "HOTSPOT hotspots [] = {"
 
-''''''''''''''''''''
+		For yP = 0 To mapDescriptor.mapH - 1
+			For xP = 0 To mapDescriptor.mapW - 1
+
+				Print #fOut, "    {";
+
+				Print #fOut, Str (16*hotspots (xP,yP).x + hotspots (xP,yP).y) & ", ";
+				Print #fOut, Str (hotspots (xP,yP).t) & ", 0";
+
+				Print #fOut, "}";
+
+				If yP < mapDescriptor.mapH - 1 Or _
+					xP < mapDescriptor.mapW - 1 Then
+					Print #fOut, ","
+				Else
+					Print #fOut, ""
+				End If
+		Next xP, yP
 
 		Print #fOut, "};"
 		Print #fOut, ""
@@ -482,7 +546,7 @@ Function saveChurrera As Integer
 	Else 
 		Return 0
 	End If
-End Sub
+End Function
 
 Sub saveProject
 	Dim As Integer fOut
@@ -744,42 +808,6 @@ Function confirmarSalida As Integer
 		If Window_Event_Close Then 			res = -1: Exit Do
 		If MultiKey (1) Then 				res = 0: Exit Do
 		If MultiKey (SC_ENTER) Then			res = -1: Exit Do
-	Loop
-
-	rec
-	While (MultiKey (1) Or Window_Event_close): Wend
-
-	Return res
-End Function
-
-Function fileNamePrompt (title As String, defaultFn As String) As String
-	Dim As String resFilename 
-	Dim As Integer x0, y0
-	Dim As Button buttonOk
-	Dim As TextBox textFilename
-
-	While (MultiKey (1) Or Window_Event_close): Wend
-
-	res = 0
-	sve
-	removeMainButtons
-
-	x0 = options.winW \ 2 - 90
-	y0 = options.winH \ 2 - 28
-
-	Line (x0, y0)-(x0 + 179, y0 + 55), RGBA (127,127,127,127), BF 
-	Line (x0, y0)-(x0 + 179, y0 + 55), 0, B
-
-	Var Label_a =	Label_New	(x0 + 8, y0 + 8, 18*8, 20, title, black, bgmain)
-	textFilename =  TextBox_New (x0 + 8, y0 + 8 + 20, 128, 20, defaultFn)
-	buttonOk = 		Button_New	(x0 + 8 + 128 + 8, y0 + 8 + 20, 40, 20, "Save")
-	
-	Do
-		TextBox_Edit (textFilename)
-
-		If Button_Event (Ok) Then 	res = TextBox_GetText (textFilename): Exit Do
-		If MultiKey (1) Then 		res = "": Exit Do
-		If MultiKey (SC_ENTER) Then	res = TextBox_GetText (textFilename): Exit Do
 	Loop
 
 	rec
@@ -1158,23 +1186,11 @@ Function countEnemsThisScreen (xP As Integer, yP As Integer) As Integer
 	Return res
 End Function
 
-Sub sve
-	Get (0, 0)-(options.winW - 1, options.winH - 1), buffer
-End Sub
-
-Sub rec 
-	Put (0,0), buffer, PSET
-End Sub
-
 Sub waitNoMouse
 	Dim As Integer x, y, mbtn
 	Do
 		Getmouse x, y, , mbtn
 	Loop While mbtn
-End Sub
-
-Sub removeMainButtons
-	Line (options.borderLeft, options.winH - 22)-(options.borderLeft + 52 + 52 + 52 + 60 + 16 + 8, options.winH), bgmain, BF
 End Sub
 
 Sub noPuedesPonerMas
