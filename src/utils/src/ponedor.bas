@@ -156,8 +156,7 @@ Function absoluteToRelative (fileSpec As String, refSpec As String) As String
 	sanitizeSlashes refSpec
 
 	If Right (refSpec, 1) <> "/" Then refSpec = refSpec & "/"
-Puts (fileSpec)
-Puts (refSpec)
+
 	' Check how much of fileSpec and refSpec are the same
 	For i = 1 To Len (fileSpec)
 		If i > Len (refSpec) Then Exit For
@@ -179,7 +178,7 @@ Puts (refSpec)
 	Next i
 
 	res = res & Right (fileSpec, Len (fileSpec) - fi + 1)
-Puts (res)
+
 	Return res
 End Function
 
