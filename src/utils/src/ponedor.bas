@@ -165,12 +165,8 @@ Function absoluteToRelative (fileSpec As String, refSpec As String) As String
 
 	fi = i
 
-	If fi > Len (refSpec) Then
-		' fileSpec contains refSpec, so numBacks = 0
-		numBacks = 0
-	Else
-		' Count how many /s there are, then add 1
-		numBacks = 1
+	numBacks = 0
+	If fi <= Len (refSpec) Then
 		For i = fi To Len (refSpec)
 			If Mid (refSpec, i, 1) = "/" Then numBacks = numBacks + 1
 		Next i
@@ -632,6 +628,7 @@ Sub openingScreenNoParams
 	Dim As Button buttonEnemsfile
 	Dim As Button buttonCreateNew
 	Dim As Button buttonLoadExisting
+	Dim As Button buttonToggleSize
 
 	Dim As TextBox textMapW
 	Dim As TextBox textMapH
@@ -646,7 +643,10 @@ Sub openingScreenNoParams
 
 	Dim As HWND hwnd
 
-	OpenWindow 320, 240, "Mojon Twins' Ponedowr"
+	Dim As Integer prevStretchX2
+	Dim As String lm
+
+	OpenWindow 320, 268, "Mojon Twins' Ponedowr"
 	ScreenControl fb.GET_WINDOW_HANDLE, Cast (Integer, hwnd)
 	
 	Line (8, 8)-(312, 166), &H404040, b
@@ -690,12 +690,24 @@ Sub openingScreenNoParams
 	buttonEnemsfile = Button_New (208, 184, 48, 16, "Find")
 
 	buttonLoadExisting = Button_New (312-15*8, 204, 14*8, 20, "Load Existing")
+
+	buttonToggleSize = Button_New (8, 240, 6*8, 20, "Size")
 	
 	Dim As Integer res, which
 
 	res = 0: which = 0
+	prevStretchX2 = Not stretchX2
 
 	Do
+		If prevStretchX2 <> stretchX2 Then
+			If stretchX2 then lm = "Double" Else lm = "Normal"
+			SetText 64, 242, _
+				7*8, 16, _
+				lm, _
+				0, bgmain
+			prevStretchX2 = stretchX2
+		End If
+
 		Select Case which
 			Case 0: TextBox_Edit (textMapW): TextBox_SetText (textMapW, Str (Val (TextBox_GetText (textMapW))))
 			Case 1: TextBox_Edit (textMapH): TextBox_SetText (textMapH, Str (Val (TextBox_GetText (textMapH))))
@@ -775,7 +787,12 @@ Sub openingScreenNoParams
 			doLoad = -1
 			Exit Do
 		End If
+		If Button_Event (buttonToggleSize) Then
+			stretchX2 = Not stretchX2
+		End If
 	Loop
+
+	If stretchX2 Then ratio = 32: offsetr = 8 Else ratio = 16: offsetr = 0
 
 	If res Then System
 End Sub
