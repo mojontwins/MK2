@@ -34,12 +34,12 @@ ENDIF
 ; The call will only fail if sufficient memory is not available from u_malloc. 
 
 .SPCreateSpr
-IF DISP_HICOLOUR
-   ex af,af'
-   add a,a                    ; convert threshold number
-   or SProtatetbl/256         ; to rotation table msb
-   ex af,af'
-ENDIF
+;IF DISP_HICOLOUR
+;   ex af,af'
+;   add a,a                    ; convert threshold number
+;   or SProtatetbl/256         ; to rotation table msb
+;   ex af,af'
+;ENDIF
    push de
    push bc
    ld de,14
@@ -75,9 +75,9 @@ ENDIF
    ld (hl),a                  ; no vertical rotation
    inc hl
    ld (hl),a                  ; no next char struct
-   ld a,c
-   and $3f
-   ld (ix+12),a               ; sprite plane
+   ;ld a,c
+   ;and $3f
+   ;ld (ix+12),a               ; sprite plane
    ld a,c
    and $c0
    ld (ix+13),a               ; sprite type
@@ -162,11 +162,11 @@ ENDIF
    inc hl
    ld (hl),SProtatetbl/256    ; no horizontal rotation
    inc hl
-IF !DISP_HIRES
-   ex af,af'
-   ld (hl),a
-   ex af,af'
-ENDIF
+;IF !DISP_HIRES
+;   ex af,af'
+;   ld (hl),a
+;   ex af,af'
+;ENDIF
    inc hl
    ld (hl),0			; no next char struct in display list
    pop hl                     ; hl = char struct (next in sprite ptr)

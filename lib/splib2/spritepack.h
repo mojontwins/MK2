@@ -429,8 +429,8 @@ extern int  __LIB__  sp_IntPtInterval(uint x, struct sp_Interval *i);
 
 /* sprites */
 
-extern struct sp_SS __LIB__ *sp_CreateSpr(uchar type, uchar rows, void *graphic, uchar plane, uchar extra);
-extern int  __LIB__  sp_AddColSpr(struct sp_SS *sprite, void *graphic, uchar extra);
+extern struct sp_SS __LIB__ *sp_CreateSpr(uchar type, uchar rows, void *graphic);
+extern int  __LIB__  sp_AddColSpr(struct sp_SS *sprite, void *graphic);
 extern void __LIB__  sp_DeleteSpr(struct sp_SS *sprite);
 extern void __LIB__  sp_IterateSprChar(struct sp_SS *sprite, void *hook);
                                        /* void (*hook)(struct sp_CS *cs)) */

@@ -12,20 +12,21 @@
 #include "spritepack.h"
 
 /* returns no carry if success */
-struct sp_SS *sp_CreateSpr(uchar type, uchar rows, void *graphic, uchar plane, uchar extra)
+struct sp_SS *sp_CreateSpr(uchar type, uchar rows, void *graphic)
 {
 #asm
    LIB SPCreateSpr
 
    ld hl,2
    add hl,sp         ; hl points past ret address
-   ld a,(hl)         ; 'extra' parameter is colour or threshold info
-   ex af,af'         ; a' = extra
-   inc hl
-   inc hl
-   ld c,(hl)         ; c = plane
-   inc hl
-   inc hl
+   ;ld a,(hl)         ; 'extra' parameter is colour or threshold info
+   ;ex af,af'         ; a' = extra
+   ;inc hl
+   ;inc hl
+   ;ld c,(hl)         ; c = plane
+   ld c, 0
+   ;inc hl
+   ;inc hl
    ld e,(hl)
    inc hl
    ld d,(hl)         ; de = sprite graphic

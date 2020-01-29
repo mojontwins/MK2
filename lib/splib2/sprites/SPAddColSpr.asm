@@ -25,12 +25,6 @@ defw SPDeleteSpr
 ; The call will only fail if sufficient memory is unavailable. 
 
 .SPAddColSpr
-IF DISP_HICOLOUR
-   ex af,af'
-   add a,a              ; convert threshold number
-   or SProtatetbl/256   ; to rotation table msb
-   ex af,af'
-ENDIF
    ld a,(ix+5)          ; adjust sprite column address
 ; ******** POSSIBLE BUG FOR COMPRESS SPRITES?
    add a,a              ; for existing vertical rotation
@@ -138,11 +132,11 @@ ENDIF
    ld a,(bc)            ; store current horizontal rotation in char struct
    ld (hl),a
    inc hl
-IF !DISP_HIRES
-   ex af,af'
-   ld (hl),a
-   ex af,af'
-ENDIF
+;IF !DISP_HIRES
+;   ex af,af'
+;   ld (hl),a
+;   ex af,af'
+;ENDIF
    inc hl
    ld (hl),0            ; no next char struct in display list
    pop hl               ; hl = last column char struct
