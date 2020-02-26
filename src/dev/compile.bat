@@ -172,10 +172,10 @@ rem Example for 128K games:
 rem ..\utils\bas2tap -a10 -sFINAL loader\loader128.bas work\loader.tap  > nul
 rem ..\utils\bin2tap -o work\loading.tap -a 16384 work\loading.bin  > nul
 rem ..\utils\bin2tap -o work\reubica.tap -a 25000 loader\reubica.bin  > nul
-rem ..\utils\bin2tap -o work\RAM1.tap -a 25000 work\ram1.bin  > nul
-rem ..\utils\bin2tap -o work\RAM3.tap -a 25000 work\ram3.bin  > nul
-rem ..\utils\bin2tap -o work\RAM4.tap -a 25000 work\ram4.bin  > nul
-rem ..\utils\bin2tap -o work\RAM6.tap -a 25000 work\ram6.bin  > nul
-rem ..\utils\bin2tap -o work\RAM7.tap -a 25000 work\ram7.bin  > nul
+rem ..\utils\bin2tap -o work\RAM1.tap -a 32768 work\ram1.bin  > nul
+rem ..\utils\bin2tap -o work\RAM3.tap -a 32768 work\ram3.bin  > nul
+rem ..\utils\bin2tap -o work\RAM4.tap -a 32768 work\ram4.bin  > nul
+rem ..\utils\bin2tap -o work\RAM6.tap -a 32768 work\ram6.bin  > nul
+rem ..\utils\bin2tap -o work\RAM7.tap -a 32768 work\ram7.bin  > nul
 rem ..\utils\bin2tap -o work\main.tap -a 24200 work\%game%.bin  > nul
 rem copy /b work\loader.tap + work\loading.tap + work\reubica.bin + work\ram1.tap + work\ram3.tap + work\ram4.tap + work\ram6.tap + work\ram7.tap + work\main.tap %game%.tap > nul
