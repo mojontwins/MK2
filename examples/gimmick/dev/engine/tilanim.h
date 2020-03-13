@@ -121,7 +121,7 @@ void tilanims_do (void) {
 		}
 	#endif
 
-	#ifdef TILANIMS_TYPE_ONE
+	#ifdef TILANIMS_TYPE_ALL
 		#ifdef TILANIMS_SEVERAL_TYPES
 			if (
 				#ifdef TILANIMS_TYPE_SELECT_FLAG
@@ -138,12 +138,12 @@ void tilanims_do (void) {
 				xor 128 				// Flick bit 7
 				ld  (_tilanims_ft), a
 
-				bit a, 7
-				jr  z, _tilanims_no_flick
+				bit 7, a
+				jr  z, _tilanims_no_flick_all
 
 				inc a
 
-			._tilanims_no_flick
+			._tilanims_no_flick_all
 				and 127
 				ld  (__t), a
 
