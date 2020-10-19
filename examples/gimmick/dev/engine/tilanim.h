@@ -152,8 +152,7 @@ void tilanims_do (void) {
 				ld  d, 0
 
 			._tilanims_update_loop
-				dec e
-				ret z
+				dec e				
 				
 				// Draw tile
 				ld  hl, _tilanims_xy
@@ -177,6 +176,10 @@ void tilanims_do (void) {
 				call _draw_coloured_tile
 				call _invalidate_tile
 				pop  de
+
+				xor a
+				or  e
+				ret z
 
 				jr  _tilanims_update_loop
 

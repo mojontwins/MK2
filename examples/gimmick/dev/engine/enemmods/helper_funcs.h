@@ -157,8 +157,10 @@
 
 			._move_cocos_loop
 				ld  a, (_coco_it)
-				dec a
+				or  a
 				ret z
+				
+				dec a
 				ld  (_coco_it), a
 
 				ld  d, 0

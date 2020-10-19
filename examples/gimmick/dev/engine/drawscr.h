@@ -385,12 +385,8 @@ void draw_scr_background (void) {
 				// if (
 				// 	(hotspots [n_pant].act && hotspots [n_pant].tipo) 
 
-				xor a
-				or  b
-				jr  z, _hotspots_setup_done  
-				
-				xor a
-				or  c
+				ld  a, b
+				and c
 			
 			#ifndef USE_HOTSPOTS_TYPE_3						
 				jr  nz, _hotspots_setup_do

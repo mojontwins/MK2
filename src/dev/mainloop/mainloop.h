@@ -92,6 +92,7 @@ void main (void) {
 
 			// New screen?
 			if (n_pant != o_pant) {
+				#include "my/before_flick.h"
 				o_pant = n_pant;
 				draw_scr ();
 				#ifdef ENABLE_LAVA

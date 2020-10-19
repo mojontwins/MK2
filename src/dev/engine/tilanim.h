@@ -43,7 +43,25 @@ void tilanims_do (void) {
 			ld  a, (_max_tilanims)
 			or  a
 			ret z
+	#endasm
 
+	#if TILANIMS_PERIOD > 1
+		if (tilanims_counter) { -- tilanims_counter; return; }
+		else tilanims_counter = TILANIMS_PERIOD; // And execute.
+	#endif
+
+	#ifdef TILANIMS_TYPE_ONE
+		#ifdef TILANIMS_SEVERAL_TYPES
+			if (
+				#ifdef TILANIMS_TYPE_SELECT_FLAG
+					flags [TILANIMS_TYPE_SELECT_FLAG] == 1
+				#else
+					tilanims_type_select == 1
+				#endif
+			)
+		#endif
+		{
+			#asm
 			ld  a, (_tait)
 			add TILANIMS_PRIME
 			cp  MAX_TILANIMS
@@ -64,9 +82,9 @@ void tilanims_do (void) {
 			ret z
 
 			// Flip bit 7
-			ld  hl, _tilanims_ft
-			add hl, de
-			ld  a, (hl)
+					;ld  hl, _tilanims_ft
+					;add hl, de
+					;ld  a, (hl)
 			xor 128
 			ld  (hl), a			
 			
@@ -100,4 +118,72 @@ void tilanims_do (void) {
 			call _draw_coloured_tile
 			call _invalidate_tile
 	#endasm
+		}
+	#endif
+
+	#ifdef TILANIMS_TYPE_ALL
+		#ifdef TILANIMS_SEVERAL_TYPES
+			if (
+				#ifdef TILANIMS_TYPE_SELECT_FLAG
+					flags [TILANIMS_TYPE_SELECT_FLAG] == 1
+				#else
+					tilanims_type_select == 1
+				#endif
+			)
+		#endif
+		{
+			#asm
+				// As all tilanims flick at once, precalc:
+				ld  a, (_tilanims_ft)	// The first defined.
+				xor 128 				// Flick bit 7
+				ld  (_tilanims_ft), a
+
+				bit 7, a
+				jr  z, _tilanims_no_flick_all
+
+				inc a
+
+			._tilanims_no_flick_all
+				and 127
+				ld  (__t), a
+
+				// Flick & paint all tilanims
+				ld  de, (_max_tilanims)
+				ld  d, 0
+
+			._tilanims_update_loop
+				dec e				
+				
+				// Draw tile
+				ld  hl, _tilanims_xy
+				add hl, de
+				ld  a, (hl)
+				ld  c, a
+				srl a
+				srl a
+				srl a
+				and 0xfe
+				add VIEWPORT_X
+				ld  (__x), a
+
+				ld  a, c
+				and 15
+				sla a
+				add VIEWPORT_Y
+				ld  (__y), a
+
+				push de
+				call _draw_coloured_tile
+				call _invalidate_tile
+				pop  de
+
+				xor a
+				or  e
+				ret z
+
+				jr  _tilanims_update_loop
+
+			#endasm
+		}
+	#endif
 }
