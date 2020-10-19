@@ -45,7 +45,7 @@ void tilanims_do (void) {
 			ret z
 	#endasm
 
-	#if TILANIMS_PERIOD > 1
+	#ifdef TILANIMS_PERIOD
 		if (tilanims_counter) { -- tilanims_counter; return; }
 		else tilanims_counter = TILANIMS_PERIOD; // And execute.
 	#endif
