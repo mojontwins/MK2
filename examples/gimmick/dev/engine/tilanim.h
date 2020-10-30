@@ -44,8 +44,8 @@ void tilanims_do (void) {
 			or  a
 			ret z
 	#endasm
-					
-	#if TILANIMS_PERIOD > 1
+
+	#ifdef TILANIMS_PERIOD
 		if (tilanims_counter) { -- tilanims_counter; return; }
 		else tilanims_counter = TILANIMS_PERIOD; // And execute.
 	#endif
@@ -62,62 +62,62 @@ void tilanims_do (void) {
 		#endif
 		{
 			#asm
-					ld  a, (_tait)
-					add TILANIMS_PRIME
-					cp  MAX_TILANIMS
-					jr  c, _tilanims_tait_0_skip
-					sub MAX_TILANIMS
-				._tilanims_tait_0_skip
-					ld  (_tait), a
+			ld  a, (_tait)
+			add TILANIMS_PRIME
+			cp  MAX_TILANIMS
+			jr  c, _tilanims_tait_0_skip
+			sub MAX_TILANIMS
+		._tilanims_tait_0_skip
+			ld  (_tait), a
 
-					// Check counter for tilanim #tait
-					ld  d, 0
-					ld  e, a
+			// Check counter for tilanim #tait
+			ld  d, 0
+			ld  e, a
 
-					// Check of active
-					ld  hl, _tilanims_ft
-					add hl, de
-					ld  a, (hl)
-					or  a
-					ret z
+			// Check of active
+			ld  hl, _tilanims_ft
+			add hl, de
+			ld  a, (hl)
+			or  a
+			ret z
 
-					// Flip bit 7
+			// Flip bit 7
 					;ld  hl, _tilanims_ft
 					;add hl, de
 					;ld  a, (hl)
-					xor 128
-					ld  (hl), a			
-					
-					// Which tile?
-					bit 7, a
-					jr  z, _tilanims_no_flick
+			xor 128
+			ld  (hl), a			
+			
+			// Which tile?
+			bit 7, a
+			jr  z, _tilanims_no_flick
 
-					inc a
-				._tilanims_no_flick
-					and 127
-					ld  (__t), a
+			inc a
+		._tilanims_no_flick
+			and 127
+			ld  (__t), a
 
-					// Draw tile
-					ld  hl, _tilanims_xy
-					add hl, de
-					ld  a, (hl)
-					ld  c, a
-					srl a
-					srl a
-					srl a
-					and 0xfe
-					add VIEWPORT_X
-					ld  (__x), a
+			// Draw tile
+			ld  hl, _tilanims_xy
+			add hl, de
+			ld  a, (hl)
+			ld  c, a
+			srl a
+			srl a
+			srl a
+			and 0xfe
+			add VIEWPORT_X
+			ld  (__x), a
 
-					ld  a, c
-					and 15
-					sla a
-					add VIEWPORT_Y
-					ld  (__y), a
+			ld  a, c
+			and 15
+			sla a
+			add VIEWPORT_Y
+			ld  (__y), a
 
-					call _draw_coloured_tile
-					call _invalidate_tile
-			#endasm
+			call _draw_coloured_tile
+			call _invalidate_tile
+	#endasm
 		}
 	#endif
 
@@ -133,10 +133,18 @@ void tilanims_do (void) {
 		#endif
 		{
 			#asm
-				// As all tilanims flick at once, precalc:
-				ld  a, (_tilanims_ft)	// The first defined.
-				xor 128 				// Flick bit 7
-				ld  (_tilanims_ft), a
+				// Flick & paint all tilanims
+				ld  de, (_max_tilanims)
+				ld  d, 0
+
+			._tilanims_update_loop
+				dec e				
+
+				ld  hl, _tilanims_ft
+				add hl, de
+				ld  a, (hl)
+				xor 128
+				ld  (hl), a
 
 				bit 7, a
 				jr  z, _tilanims_no_flick_all
@@ -146,13 +154,6 @@ void tilanims_do (void) {
 			._tilanims_no_flick_all
 				and 127
 				ld  (__t), a
-
-				// Flick & paint all tilanims
-				ld  de, (_max_tilanims)
-				ld  d, 0
-
-			._tilanims_update_loop
-				dec e				
 				
 				// Draw tile
 				ld  hl, _tilanims_xy

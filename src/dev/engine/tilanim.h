@@ -133,10 +133,18 @@ void tilanims_do (void) {
 		#endif
 		{
 			#asm
-				// As all tilanims flick at once, precalc:
-				ld  a, (_tilanims_ft)	// The first defined.
-				xor 128 				// Flick bit 7
-				ld  (_tilanims_ft), a
+				// Flick & paint all tilanims
+				ld  de, (_max_tilanims)
+				ld  d, 0
+
+			._tilanims_update_loop
+				dec e				
+
+				ld  hl, _tilanims_ft
+				add hl, de
+				ld  a, (hl)
+				xor 128
+				ld  (hl), a
 
 				bit 7, a
 				jr  z, _tilanims_no_flick_all
@@ -146,13 +154,6 @@ void tilanims_do (void) {
 			._tilanims_no_flick_all
 				and 127
 				ld  (__t), a
-
-				// Flick & paint all tilanims
-				ld  de, (_max_tilanims)
-				ld  d, 0
-
-			._tilanims_update_loop
-				dec e				
 				
 				// Draw tile
 				ld  hl, _tilanims_xy
