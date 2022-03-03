@@ -415,5 +415,31 @@ Listo. Hay que ver si funciona, y si eso, ya tendría para hacer el release.
 
 Sale raro y no furula casi na, tendré que arreglarlo. Además me da que este es de los juegos estos que usaban los planos para hacer el fondo, como Leovigildo, y no me acuerdo cómo se obraba el milagro... Voy a ver. OK - esto era con un custom en `draw_scr_background`, que voy a "guardar" tras un define para que se pueda desactivar sin tocar mucho.
 
+```c
+	#define CUSTOM_BACKGROUND
+```
 
+Y luego pones código en una función `custom_bg ()` dentro de `my/custom_background.h`. Debería documentar esto, o quizá actualizar el PDF mierdoso que hay que no sé cómo hice.
 
+Luego hay miserias:
+
+1.- Supuestamente los enemigos deberían convertirse en murciélagos, pero estos aparecen en (0,0) y no donde deberían.
+2.- Habría que usar un gráfico fijo.
+3.- Al acabar el nivel hay que sacar los sprites de pantalla.
+
+Ya estamos con las mierdas... Al inicializar los fantis se establece su posición a (x1, y1), en lugar de a (x, y). Debería poner esto configurable con to sus muertos tho.
+
+Más miserias: ahora resulta que hay un backup de enemigos que guarda los tipos y nada más. Cuando te matan los fantis vuelven a ser lineales, pero no se recolocan en su sitio. Y esto es por la mierda de lógica de entrar y salir de pantalla que está hecha con el puto ojete.
+
+Qué me enerva este motor, qué bien que lo abandoné.
+
+Veamos, se hace esto:
+
+- `player_kill`: Como `REENTER_ON_DEATH`, `o_pant` se pone a 99. Esto provoca un reenter. 
+- `draw_scr`: Si se ha puesto `no_draw` a 1, no se pinta. Pero no es el caso.
+- Se pinta LEVEL XX y se dibuja la pantalla
+- Se llama a enems_init, en cualquier caso.
+
+`do_respawn` se pone cuando hay que revivir a los enemigos si `RESPAWN_ON_ENTER` está definido. Supuestamente se pone a 1 siempre, tras salir de `enems_init`, pero se puede poner a 0 desde el script con un "REDRAW".
+
+El tema entonces es, ¿por qué no se reinicializan los lineales a x1? Porque no habrá código para ello. Me queda pendiente mirar cómo se obra el milagro en la versión vieja y ver cómo reintegrarlo.

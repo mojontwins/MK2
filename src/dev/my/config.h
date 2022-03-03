@@ -34,16 +34,13 @@
 #define FREEPOOL 			61697
 
 // Define where to store and how many sprite descriptors are needed.
-// This game = 4*10 = 40 blocks
-#define NUMBLOCKS			40
-unsigned char AD_FREE [NUMBLOCKS * 15];
-
-// Note the 15: blocks are 14 bytes, but there's an overhead of 1 byte per block
+// This game = 4*10 + 1*5 = 40 blocks
+#define NUMBLOCKS			45
 
 // For each sprite you need 1+R*C blocks, where R = rows, C = columns.
 // For example, a 16x16 sprite needs 1+3*3 = 10 blocks.
 // For games with just 4 16x16 sprites (no shoots/hitter/etc) you need 40 blocks.
-// For each shoot/hiter/coco you need 1+2*2 = 5 extra blocks.
+// For each shoot/hitter/coco you need 1+2*2 = 5 extra blocks.
 // Special: the whip, the shadow which is 1 + 3*2 = 7 extra blocks.
 
 // For example: shoots activated need 4 * 10 + 3 * 5 = 55 blocks.
@@ -54,6 +51,10 @@ unsigned char AD_FREE [NUMBLOCKS * 15];
 // Just a whip: 4 * 10 + 7 ? 47 blocks.
 // Just a whip plus 1 shoot = 4*10 + 7 + 5 = 52 blocks.
 // Just do the math.
+
+unsigned char AD_FREE [NUMBLOCKS * 15];
+
+// Note the 15: blocks are 14 bytes, but there's an overhead of 1 byte per block
 
 // Optimal place to compile if using 48K and standard COMPRESSED_LEVELS:
 // 23296 + MAP_W * MAP_H * (108) + MAX_BOLTS * 4 + 49
@@ -235,8 +236,9 @@ unsigned char AD_FREE [NUMBLOCKS * 15];
 #define FANTIES_A 					4	// Flying enemies acceleration.
 #define FANTIES_LIFE_GAUGE			1	// Amount of shots needed to kill flying enemies.
 //#define FANTIES_HIT 				12 	// If defined, fanties take THIS life, otherwise 1
-//#define FANTIES_FIXED_CELL 		2	// Always use this
+#define FANTIES_FIXED_CELL 			3	// Always use this
 //#define FANTIES_WITH_FACING 			// If defined, 0 = facing left, 1 = facing right
+#define FANTIES_INIT_ON_CURRENT			// If defined, init on (x, y) rather than (x1, y1)
 
 //#define ENABLE_PURSUE_ENEMIES 		// If defined, type 7 enemies are active
 //#define DEATH_COUNT_EXPRESSION	20+(rand()&15)
@@ -334,7 +336,7 @@ unsigned char AD_FREE [NUMBLOCKS * 15];
 //#define PLAYER_HAZ_WHIP				// Player haz whip. (Nicanor (side) / Key to time (top-down))
 
 //#define PLAYER_HITTER_INV			46	// If defined, player can use hitter only if item # is selected!
-#define PLAYER_HITTER_STRENGTH		0	// Hitter strength. 0 = just makes monsters turn around.
+#define PLAYER_HITTER_STRENGTH		1	// Hitter strength. 0 = just makes monsters turn around.
 //#define HITTER_BREAKS_WALLS			// If defined, hitter breaks breakable walls.
 
 //#define PLAYER_SIMPLE_BOMBS			// If defined, bombs-s.h module is enabled (Nicanor)
@@ -570,9 +572,10 @@ unsigned char AD_FREE [NUMBLOCKS * 15];
 //#define ALT_TILE 				19 		// If defined, automatic random tile # for tile 0 (was fixed to 19)
 //#define TWO_SETS						// If defined, use two 16 sets in one (just ask)
 //#define TWO_SETS_SEL (n_pant>8?32:0)	// This expresion must equal 0 for set 1 to be used, or 32 for set 2 to be used (just ask)
-// #define TWO_SETS_MAPPED					// Two sets, but which set to use is mapped after map data (1 byte per screen)
+// #define TWO_SETS_MAPPED				// Two sets, but which set to use is mapped after map data (1 byte per screen)
 //#define ENABLE_LEVEL_NAMES			// Give a name for each level/screen in engine/levelnames.h
 //#define ENABLE_EXTRA_PRINTS			// Configure extra tile prints for some screens in engine/extraprints.h
+#define CUSTOM_BACKGROUND				// Use a custom background tile changer @ my/custom_background.h
 
 // ============================================================================
 // IV. Player movement configuration

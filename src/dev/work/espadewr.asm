@@ -3,7 +3,7 @@
 ;
 ;	Reconstructed for z80 Module Assembler
 ;
-;	Module compile time: Thu Mar 03 14:30:37 2022
+;	Module compile time: Thu Mar 03 16:55:51 2022
 
 
 	C_LINE	0,"mk2.c"
@@ -6986,11 +6986,11 @@
 
 	C_LINE	198,"mk2.c::update_sprites::0::149"
 	C_LINE	0,"engine/drawscr.h::update_sprites::0::149"
-	C_LINE	7,"engine/drawscr.h::update_sprites::0::149"
+	C_LINE	11,"engine/drawscr.h::update_sprites::0::149"
 
 ; Function advance_worm flags 0x00000200 __smallc 
 ; void advance_worm()
-	C_LINE	7,"engine/drawscr.h::advance_worm::0::149"
+	C_LINE	11,"engine/drawscr.h::advance_worm::0::149"
 ._advance_worm
 			ld  bc, (_gpit)
 			ld  b, 0
@@ -7023,11 +7023,11 @@
 	ret
 
 
-	C_LINE	113,"engine/drawscr.h::advance_worm::0::150"
+	C_LINE	122,"engine/drawscr.h::advance_worm::0::150"
 
 ; Function draw_scr_background flags 0x00000200 __smallc 
 ; void draw_scr_background()
-	C_LINE	113,"engine/drawscr.h::draw_scr_background::0::150"
+	C_LINE	122,"engine/drawscr.h::draw_scr_background::0::150"
 ._draw_scr_background
 	ld	de,_seed1
 	ld	hl,(_n_pant)
@@ -7165,11 +7165,11 @@
 	ret
 
 
-	C_LINE	550,"engine/drawscr.h::draw_scr_background::0::151"
+	C_LINE	559,"engine/drawscr.h::draw_scr_background::0::151"
 
 ; Function draw_scr flags 0x00000200 __smallc 
 ; void draw_scr()
-	C_LINE	550,"engine/drawscr.h::draw_scr::0::151"
+	C_LINE	559,"engine/drawscr.h::draw_scr::0::151"
 ._draw_scr
 	ld	a,1
 	ld	(_is_rendering),a

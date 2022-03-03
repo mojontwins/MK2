@@ -163,7 +163,7 @@ rem ###########################################################################
 
 echo ### COMPILING ###
 zcc +zx -vn -m mk2.c -o work\%game%.bin -lsplib2_mk2 -zorg=24200 > nul
-zcc +zx -vn -a mk2.c -o work\%game%.asm -lsplib2_mk2 -zorg=24200 > nul
+rem zcc +zx -vn -a mk2.c -o work\%game%.asm -lsplib2_mk2 -zorg=24200 > nul
 
 echo ### MAKING TAPS ###
 ..\utils\bas2tap -a10 -sFINAL loader\loader.bas work\loader.tap  > nul

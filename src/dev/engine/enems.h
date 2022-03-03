@@ -43,9 +43,6 @@ void enems_init (void) {
 		flags [COUNT_SCR_ENEMS_ON_FLAG]	= 0;
 	#endif
 
-	#ifndef RESPAWN_ON_REENTER
-		if (do_respawn)
-	#endif
 	for (gpit = 0; gpit < 3; gpit ++) {
 		//en_an_frame [gpit] = 0;
 		en_an_count [gpit] = 3;
@@ -53,6 +50,9 @@ void enems_init (void) {
 		enoffsmasi = enoffs + gpit;
 		
 		#ifdef RESPAWN_ON_ENTER
+			#ifndef RESPAWN_ON_REENTER
+				if (do_respawn)
+			#endif
 			// Back to life!
 			{		
 				baddies [enoffsmasi].t &= 0x7f;
@@ -84,12 +84,19 @@ void enems_init (void) {
 						#ifdef FANTIES_FIXED_CELL
 							en_an_base_frame [gpit] = FANTIES_FIXED_CELL << 1;
 						#endif
-						en_an_x [gpit] = baddies [enoffsmasi].x1 << FIXBITS;
-						baddies [enoffsmasi].x = baddies [enoffsmasi].x1;
-						en_an_y [gpit] = baddies [enoffsmasi].y1 << FIXBITS;
-						baddies [enoffsmasi].y = baddies [enoffsmasi].y1;
+
+						#ifdef FANTIES_INIT_ON_CURRENT
+							en_an_x [gpit] = baddies [enoffsmasi].x << FIXBITS;
+							en_an_y [gpit] = baddies [enoffsmasi].y << FIXBITS;
+						#else
+							en_an_x [gpit] = baddies [enoffsmasi].x1 << FIXBITS;
+							baddies [enoffsmasi].x = baddies [enoffsmasi].x1;
+							en_an_y [gpit] = baddies [enoffsmasi].y1 << FIXBITS;
+							baddies [enoffsmasi].y = baddies [enoffsmasi].y1;
+						#endif
 						
 						en_an_vx [gpit] = en_an_vy [gpit] = 0;
+
 						#ifdef FANTIES_SIGHT_DISTANCE					
 							en_an_state [gpit] = FANTIES_IDLE;
 						#endif					
