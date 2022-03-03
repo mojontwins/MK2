@@ -566,7 +566,7 @@ void draw_scr (void) {
 	} else {
 		#ifdef SHOW_LEVEL_ON_SCREEN
 			blackout_area ();
-			_x = 12; _y = 12; _t = 71; gp_gen = "LEVEL"; print_str ();
+			_x = 12; _y = 12; _t = 71; gp_gen = (unsigned char *) ("LEVEL"); print_str ();
 			_x = 18; _y = 12; _t = n_pant + 1; print_number2 ();
 			sp_UpdateNow ();
 			active_sleep (500);

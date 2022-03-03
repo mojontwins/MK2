@@ -25,18 +25,18 @@ void init_bullets (void) {
 #endif
 
 #ifndef COMPRESSED_LEVELS
-#if defined (PLAYER_KILLS_ENEMIES) || defined (PLAYER_CAN_FIRE) || defined (PLAYER_CAN_PUNCH) || defined (PLAYER_HAZ_SWORD)
-void init_baddies (void) {
-	gpit = 0;
-	while (gpit < MAP_W * MAP_H * 3) {
-		baddies [gpit].t = baddies [gpit].t & 0x7f;
-#ifdef PLAYER_CAN_FIRE
-		baddies [gpit].life = ENEMS_LIFE_GAUGE;
-#endif
-		gpit ++;
-	}
-}
-#endif
+	#if defined (PLAYER_KILLS_ENEMIES) || defined (PLAYER_CAN_FIRE) || defined (PLAYER_CAN_PUNCH) || defined (PLAYER_HAZ_SWORD)
+		void init_baddies (void) {
+			gpit = 0;
+			while (gpit < MAP_W * MAP_H * 3) {
+				baddies [gpit].t = baddies [gpit].t & 0x7f;
+				#ifdef PLAYER_CAN_FIRE
+					baddies [gpit].life = ENEMS_LIFE_GAUGE;
+				#endif
+				gpit ++;
+			}
+		}
+	#endif
 #endif
 
 #ifndef COMPRESSED_LEVELS

@@ -360,5 +360,60 @@ Faltaba `my/before_flick.h`, y parece que `music.h` no le gusta ni mijitis. Es c
 
 El apaño de la definición de `level_data` había que hacerlo también en modo 48 Kas Naranja. También tenía la misma miseria de `music.h`.
 
+## Ahora Khe
+
+Ahora, a preparar un release de MK2. Habría que sacar Ninjajar y meter un juego por defecto, para luego hacer el merge, crear una nueva rama, y meter Ninjajar en esa rama.
+
+Como ejemplo voy a poner algún ejemplo chulo que haya hecho a lo largo del tiempo. Por ejemplo **Espadewr!**.
+
+## Espadewr!
+
+Primero copio los assets y luego monto la historia con el config.h y compilo. A ver. Tengo que parchear el enems.ene, probablemente. Hay que comprobar "2b" y que el formato de los enemigos esté bien. Y parece que está bien. Veamos el config...
+
+Remember que tiene un extern *y scripting* *y textos* (WTF?) Bueno, está bien todo el despliegue.
+
+Compilando esto han salido más miserias (¡normal! qué bien he elegido el ejemplo):
+
+```
+	engine/drawscr.h:569:47: warning: Assigning 'gp_gen', type: unsigned char * gp_gen from char *  [-Wincompatible-pointer-types]
+```
+
+Típico de cadenas, y este: 
+
+```
+	engine/hud.h:79:28: fatal error: Unknown symbol: timer_old
+```
+
+Porque cambié la forma en que se controla si se dibuja algo o no en el hud.
+
+También hay miserias en los fanties, seguramente porque estos son más complejos o algo. La putez es que esta versión de z88dk no sabe enseñar bien donde está el fallo en ensamble, o yo no sé interpretarlo...
+
+```
+	Warning at file './engine/enemmods/move_fanty_asm.h::enems_move::5::136': integer '356' out of range
+	Warning at file './engine/enemmods/move_fanty_asm.h::enems_move::5::136': integer '356' out of range
+	Warning at file './engine/enemmods/move_fanty_asm.h::enems_move::5::136': integer '356' out of range
+	Warning at file './engine/enemmods/move_fanty_asm.h::enems_move::5::136': integer '-356' out of range
+	Warning at file './engine/enemmods/move_fanty_asm.h::enems_move::5::136': integer '356' out of range
+	Warning at file './engine/enemmods/move_fanty_asm.h::enems_move::5::136': integer '356' out of range
+	Warning at file './engine/enemmods/move_fanty_asm.h::enems_move::5::136': integer '356' out of range
+	Warning at file './engine/enemmods/move_fanty_asm.h::enems_move::5::136': integer '-356' out of range
+```
+
+Lo miraré en el ensamble generado, quizá esté haciendo el tonto con alguna constante porque ahora esto es 4 bits de precisión y siempre se me olvida... Parece ser `FANTIES_MAX_V`... Que debería ser 64.
+
+Y esto ¡huy!:
+
+```
+	Error at file 'engine/hitter_asm.h::hitter_render::0::92' line 25: syntax error
+```
+
+Esta es inexplicable... Aunque es posible que sea algo del ensamble, tal y como veo que está generando el código...  Exacto, y ahora encontrarlo va a ser un dolor :D Aunque si esto iba en Ninjajar!, debe ser en la sección específica para la espada.
+
+Te encontrarew - vale, ponía "Or z". Espero que no haya más.
+
+Listo. Hay que ver si funciona, y si eso, ya tendría para hacer el release.
+
+Sale raro y no furula casi na, tendré que arreglarlo. Además me da que este es de los juegos estos que usaban los planos para hacer el fondo, como Leovigildo, y no me acuerdo cómo se obraba el milagro... Voy a ver. OK - esto era con un custom en `draw_scr_background`, que voy a "guardar" tras un define para que se pueda desactivar sin tocar mucho.
+
 
 

@@ -2,7 +2,7 @@
 
 rem set here the game name (used in filenames)
 
-SET game=mk2
+SET game=espadewr
 
 echo ------------------------------------------------------------------------------
 echo    BUILDING %game%
@@ -33,11 +33,11 @@ rem that file to the script folder.
 rem the "TwoTS" parameter is to force 16 tiles maps for games which use two
 rem tilesets. Check on whatsnew.txt for directions.
 
-..\utils\map2bin.exe ..\map\mapa.map 10 2 99 ..\bin\map.bin ..\bin\bolts.bin force > nul
+..\utils\map2bin.exe ..\map\mapa.map 3 3 99 ..\bin\map.bin ..\bin\bolts.bin force > nul
 move ..\bin\map.bin.spt ..\script > nul
 
 echo ### MAKING ENEMS ###
-..\utils\ene2bin.exe 10 2 1 ..\enems\enems.ene ..\bin\enems.bin ..\bin\hotspots.bin > nul
+..\utils\ene2bin.exe 3 3 1 ..\enems\enems.ene ..\bin\enems.bin ..\bin\hotspots.bin > nul
 
 
 echo ### MAKING TILESET ###
@@ -85,6 +85,10 @@ REM copy texts.bin ..\bin\texts.bin
 REM ..\utils\textstuffer2.exe texts-eng.bin textfile=texts-eng.txt mode=simple wordwrap=24 
 REM copy texts-eng.bin ..\bin\texts-eng.bin
 
+cd ..\texts
+..\utils\textstuffer.exe texts.txt texts.bin 24
+copy texts.bin ..\bin
+
 rem echo ### MAKING PORTRAITS ####
 rem ..\utils\portraits.exe ..\bin\portraits.bin ..\gfx\portraits\00_meghan.png ..\gfx\portraits\01_sold.png
 
@@ -102,7 +106,7 @@ rem i.e. "msc3_mk2_1.exe ninjajar.spt 21 rampage"
 
 echo ### MAKING SCRIPT ###
 cd ..\script
-..\utils\msc3_mk2_1.exe script.spt 20 > nul
+..\utils\msc3_mk2_1.exe script.spt 9 > nul
 
 rem If scripts and texts are going to share the same RAM page, use this line
 rem (for 128K games)
@@ -159,6 +163,7 @@ rem ###########################################################################
 
 echo ### COMPILING ###
 zcc +zx -vn -m mk2.c -o work\%game%.bin -lsplib2_mk2 -zorg=24200 > nul
+zcc +zx -vn -a mk2.c -o work\%game%.asm -lsplib2_mk2 -zorg=24200 > nul
 
 echo ### MAKING TAPS ###
 ..\utils\bas2tap -a10 -sFINAL loader\loader.bas work\loader.tap  > nul

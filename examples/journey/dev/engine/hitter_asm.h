@@ -9,12 +9,14 @@
 	unsigned char hoffs_x [] = {12, 14, 16, 16, 12};
 	#define HITTER_MAX_FRAME 5
 #endif
+
 #ifdef PLAYER_HAZ_SWORD
 	//                                     H   H   H   H
 	unsigned char hoffs_x [] = {8, 10, 12, 14, 15, 15, 14, 13, 10};
 	unsigned char hoffs_y [] = {2,  2,  2, 3,  4,  4,  5,  6,  7};
 	#define HITTER_MAX_FRAME 9
 #endif
+
 #ifdef PLAYER_HAZ_WHIP
 	//                          H  H   H
 	unsigned char hoffs_x [] = {8, 16, 16, 12, 8,  4, 0};
@@ -121,7 +123,7 @@ void hitter_render (void) {
 				ld  c, (hl) 			; C = hoffs_x [hitter_frame]
 
 				ld  a, (_p_up)
-				or  z
+				or  a
 				jr  z, _hitter_side
 
 			._hitter_up

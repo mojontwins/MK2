@@ -10,7 +10,7 @@ unsigned char objs_old, keys_old, life_old, killed_old;
 	unsigned char ammo_old;
 #endif
 
-#if defined (TIMER_ENABLE) && defined (PLAYER_SHOW_TIMER)
+#if defined (TIMER_ENABLE) && TIMER_X != 99
 	unsigned char timer_old;
 #endif
 
