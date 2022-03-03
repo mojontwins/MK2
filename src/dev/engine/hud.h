@@ -102,6 +102,5 @@ void update_hud (void) {
 			ks_gauge_old = p_ks_gauge;
 		}
 	#endif	
-
 }
 

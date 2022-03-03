@@ -241,5 +241,11 @@ void do_extern_action (unsigned char n) {
 		sp_UpdateNow ();	
 	} else if (n == 250) {
 		is_cutscene = 0;
-	}	
+	} else if (n == 255) {
+		for (gpit = 0; gpit < 3; gpit ++) {
+			enoffsmasi = enoffs + gpit;
+			baddies [enoffsmasi].x = baddies [enoffsmasi].x1;
+			baddies [enoffsmasi].y = baddies [enoffsmasi].y1;
+		}
+	}
 }

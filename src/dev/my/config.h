@@ -226,6 +226,7 @@ unsigned char AD_FREE [NUMBLOCKS * 15];
 
 #define ENABLE_PATROLLERS				// Yeah, you can now deactivate good ol' patrollers...
 //#define PATROLLERS_HIT			9 	// If defined, patrollers take THIS life, otherwise 1
+//#define PATROLLERS_RESET 				// If defined, patrollers are repositioned to x1,y1 on enter
 #define ENEMS_DYING_FRAMES 			12	// Show explosion for # frames
 
 #define ENABLE_FANTIES					// If defined, add code for flying enemies.

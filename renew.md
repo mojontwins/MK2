@@ -423,9 +423,10 @@ Y luego pones código en una función `custom_bg ()` dentro de `my/custom_backgr
 
 Luego hay miserias:
 
-1.- Supuestamente los enemigos deberían convertirse en murciélagos, pero estos aparecen en (0,0) y no donde deberían.
-2.- Habría que usar un gráfico fijo.
-3.- Al acabar el nivel hay que sacar los sprites de pantalla.
+[X] Supuestamente los enemigos deberían convertirse en murciélagos, pero estos aparecen en (0,0) y no donde deberían.
+[X] Habría que usar un gráfico fijo.
+[X] Al acabar el nivel hay que sacar los sprites de pantalla.
+[ ] la pantalla wrap-around no funciona hacia la derecha.
 
 Ya estamos con las mierdas... Al inicializar los fantis se establece su posición a (x1, y1), en lugar de a (x, y). Debería poner esto configurable con to sus muertos tho.
 
@@ -443,3 +444,19 @@ Veamos, se hace esto:
 `do_respawn` se pone cuando hay que revivir a los enemigos si `RESPAWN_ON_ENTER` está definido. Supuestamente se pone a 1 siempre, tras salir de `enems_init`, pero se puede poner a 0 desde el script con un "REDRAW".
 
 El tema entonces es, ¿por qué no se reinicializan los lineales a x1? Porque no habrá código para ello. Me queda pendiente mirar cómo se obra el milagro en la versión vieja y ver cómo reintegrarlo.
+
+Sospecho que el quid es que en la versión original los fantys no tocaban en_x ni en_y ni nada de eso...
+
+Digo, eso es. Pues toca inventarse subterfugio: `#define PATROLLERS_RESET` reposiciona en (x1, y1) a los lineales cada vez que se entra en una pantalla.
+
+El problema es que si coloco esto junto con el reset del resto de los enemigos no se detectan porque aún no hay restore, que ocurre en en `ENTERING ANY` que se ejecuta después de `enems_init`. 
+
+Pos ya está, lo hago como EXTERN y lo documento en el script.
+
+Ahora recuerdo que Greenweb hizo un `src` más sencillo que recuperaré. Este lo pondré como tutorial o algo.
+
+Da mal de nuevo: no detecta el fin de la pantalla. Los flags parecen bien. Quizá no esté ejecutando la sección correcta del script - lo veo mañana.
+
+Además, el restaurar (x, y) en (x1, y1) no es buena idea si mx o my van en el sentido que no es. Tengo que hacer un fix profundo que reordene (x1, y1) - (x2, y2) y usar <= y => en los bordes - esto se resolvía en el conversor en MK1 si mal no recuerdo y podría pasarlo aquí.
+
+Al final me estoy liando más de lo que quería y ni siquiera he empezado Ninjajar!, pero al menos así quito bugs y miserias.

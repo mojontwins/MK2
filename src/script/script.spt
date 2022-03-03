@@ -34,6 +34,13 @@ INC_DECORATIONS map.bin.spt
 # el tipo de los enemigos desde la copia de seguridad. Verás que no se
 # ejecuta siempre. Sigue los comentarios y verás por qué.
 
+# ENEMIES RESTORE simplemente restaura el "tipo" de los enemigos. Necesitamos
+# además reposicionarlos; si se convirtieron en fanties y volaron por ahí
+# habrá que recolocarlos otra vez en su sitio. La macro PATROLLERS_RESET 
+# hace justo eso, pero no nos sirve porque se ejecutaría antes del script
+# y en ese momento los enemigos aún son fanties. Por tanto, añadiremos un
+# extern, el 255, que realizará esa labor.
+
 # [*] ¿Por qué necesitamos una copia del número de enemigos en pantalla?
 # Cuando se acaba el tiempo, estamos ejecutando REHASH. Esto vuelve a ejecutar
 # la inicialización de la pantalla. Si hemos matado a algún enemigo, se volverá
@@ -95,6 +102,8 @@ ENTERING ANY
 		SETXY 7, 7
 		# Restauramos el tipo de los enemigos de esta pantalla
 		ENEMIES RESTORE
+		# Además los reposicionamos
+		EXTERN 255
 		# Reseteamos el contador de enemigos moridos.
 		SET FLAG $NKILLED = 0
 		# Y los murciélagos están desactivados.
