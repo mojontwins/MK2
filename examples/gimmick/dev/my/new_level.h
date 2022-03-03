@@ -8,7 +8,7 @@
 if (!silent_level) {
 	blackout_area ();
 	
-	_x = 12; _y = 12; _t = 71; gp_gen = "LEVEL"; print_str ();
+	_x = 12; _y = 12; _t = 71; gp_gen = (unsigned char *) ("LEVEL"); print_str ();
 	_x = 18; _y = 12; _t = level + 1; print_number2 ();
 	
 	sp_UpdateNow ();
@@ -24,12 +24,12 @@ silent_level = 1;
 
 if (!silent_level) {
 	blackout_area ();	
-	_x = 5; _y = 5; _t = 71; gp_gen = "GRACIAS ANDY Y NATHAN ;_"; print_str ();
+	_x = 5; _y = 5; _t = 71; gp_gen = (unsigned char *) ("GRACIAS ANDY Y NATHAN ;_"); print_str ();
 	sp_UpdateNow ();
 	active_sleep (150);
 
 	blackout_area ();
-	_x = 6; _y = 11; _t = 71; gp_gen = "LA AVENTURA COMIENZA"; print_str ();
+	_x = 6; _y = 11; _t = 71; gp_gen = (unsigned char *) ("LA AVENTURA COMIENZA"); print_str ();
 	sp_UpdateNow ();
 	active_sleep (250);
 } 

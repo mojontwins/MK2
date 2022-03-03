@@ -13,13 +13,70 @@ void read_controller (void) {
 	// https://forums.nesdev.com/viewtopic.php?p=179315#p179315
 	// This version is the same but with negative logic
 	// as splib2's functions are active low
+
+	/*
 	pad_this_frame = pad0;
 	pad0 = ((joyfunc) (&keys));			// Read pads here.
-	pad_this_frame = ((~(pad_this_frame ^ pad0)) | pad0) | 0x70;
+
+	// Pinch, raise/lower bit 6 with SPACE
+	if (sp_KeyPressed (0x017f)) pad0 &= 0xbf; 	// 1011 1111
+	else 						pad0 |= 0x40; 	// 0100 0000
+
+	pad_this_frame = ((~(pad_this_frame ^ pad0)) | pad0) | 0x30; // Always raise 00110000
+	*/
+
+	#asm
+			ld  a, (_pad0)
+			ld  (_pad_this_frame), a
+
+			// Read pads here:
+
+			ld	hl, (_joyfunc)
+			push hl
+			ld	hl,_keys
+			ex	(sp), hl
+			call l_jphl
+			pop	bc
+			ld	a, l
+			ld	(_pad0), a
+
+			// Pinch, raise / lower bit 6 with SPACE.
+			// You may want to remove this in your game...
+
+			ld  hl, 0x017f
+			push hl
+			call sp_KeyPressed
+			pop bc
+			xor a
+			or  l
+			
+			ld  a, (_pad0)
+			jp  z, space_not_pressed
+
+		.space_pressed
+			and 0xbf
+			jr  space_read_update_pad0
+
+		.space_not_pressed
+			or 0x40
+
+		.space_read_update_pad0
+			ld  (_pad0), a
+
+			// Now "compare"
+			
+			ld  c, a
+			ld  a, (_pad_this_frame)
+			xor c
+			neg
+			or  c
+			or  0x30
+
+			ld  (_pad_this_frame), a
+	#endasm
 }
 
 unsigned char button_pressed (void) {
-	//return (sp_GetKey () || ((((joyfunc) (&keys)) & sp_FIRE) == 0));
 	read_controller (); return (pad_this_frame != 0xff);
 }
 
@@ -143,33 +200,31 @@ void select_joyfunc (void) {
 
 	while (1) {
 		gpit = sp_GetKey ();
-		
-		if (gpit == '1' || gpit == '2') {
-			joyfunc = sp_JoyKeyboard;
-			gpjt = (gpit - '1') ? 6 : 0;
-			#ifdef USE_TWO_BUTTONS
-				keys.up = keyscancodes [gpjt ++];
-				keys.down = keyscancodes [gpjt ++];
-				keys.left = keyscancodes [gpjt ++];
-				keys.right = keyscancodes [gpjt ++];
-				key_fire = keys.fire = keyscancodes [gpjt ++];
-				key_jump = keyscancodes [gpjt];
-			#else
-				keys.up = keyscancodes [gpjt ++];		// UP
-				keys.down = keyscancodes [gpjt ++];		// DOWN
-				keys.left = keyscancodes [gpjt ++];		// LEFT
-				keys.right = keyscancodes [gpjt ++];	// RIGHT
-				keys.fire = keyscancodes [gpjt ++];		// FIRE				
-			#endif
-				break;
-			} else if (gpit == '3') {
-				joyfunc = sp_JoyKempston;
-				break;
-			} else if (gpit == '4') {
-				joyfunc = sp_JoySinclair1;
-				break;
+		if (gpit >= '1' && gpit <= '4') {
+			joyfunc = joyfuncs [gpit - '1'];
+
+			if (gpit <= '2') {
+				gpjt = (gpit - '1') ? 6 : 0;
+				#ifdef USE_TWO_BUTTONS
+					keys.up = keyscancodes [gpjt ++];
+					keys.down = keyscancodes [gpjt ++];
+					keys.left = keyscancodes [gpjt ++];
+					keys.right = keyscancodes [gpjt ++];
+					key_fire = keys.fire = keyscancodes [gpjt ++];
+					key_jump = keyscancodes [gpjt];
+				#else
+					keys.up = keyscancodes [gpjt ++];		// UP
+					keys.down = keyscancodes [gpjt ++];		// DOWN
+					keys.left = keyscancodes [gpjt ++];		// LEFT
+					keys.right = keyscancodes [gpjt ++];	// RIGHT
+					keys.fire = keyscancodes [gpjt ++];		// FIRE				
+				#endif
 			}
+
+			break;
 		}
+	}
+	
 	#ifdef MODE_128K
 		_AY_PL_SND (0);
 		sp_WaitForNoKey ();

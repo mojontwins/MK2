@@ -582,7 +582,7 @@ void draw_scr (void) {
 	enoffs = n_pant + (n_pant << 1);
 
 	enems_init ();
-
+	
 	#ifdef RESPAWN_ON_ENTER
 		do_respawn = 1;
 	#endif
@@ -617,8 +617,8 @@ void draw_scr (void) {
 
 	#if defined (PLAYER_CHECK_MAP_BOUNDARIES) || defined (PLAYER_CYCLIC_MAP)
 		#ifdef COMPRESSED_LEVELS
-			x_pant = n_pant % level_data->map_w;
-			y_pant = n_pant / level_data->map_w;
+			x_pant = n_pant % level_data.map_w;
+			y_pant = n_pant / level_data.map_w;
 		#else
 			x_pant = n_pant % MAP_W; y_pant = n_pant / MAP_W;
 		#endif

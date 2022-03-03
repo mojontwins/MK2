@@ -98,7 +98,7 @@ ENDIF
 
 .SPUpdateNow
    ld (dosprites), a
-   ld de,$4000 + (256 * (SP_ROWSTART ~ $18)) + (32 * (SP_ROWSTART ~ 7))   ; de = screen address
+   ld de,$4000 + (256 * (SP_ROWSTART & $18)) + (32 * (SP_ROWSTART & 7))   ; de = screen address
 IF DISP_TMXDUAL
    ld a,(SPScreen)
    add a,d
@@ -587,6 +587,17 @@ ENDIF
 
 
    push hl                       ; save char struct + 9
+   
+   ;; na_th_an
+IF FLASHASFG
+   ; Check if we must skip sprite rendering based upon cell attribute (bit 7 set = no sprites)
+   
+   ld  iy, tempcolour
+   bit 7, (iy+0)
+   
+   jp  nz, coloursprite
+ENDIF
+   
    ld h,(hl)                     ; h = msb of horizontal rotation table to use
    cp $c0                        ; what kind of sprite is this?
    jp nc, loadtype
@@ -1282,6 +1293,12 @@ IF DISP_TMXDUAL
 ENDIF
    ld d,a
    ld a,(tempcolour)             ; what's the final colour of this square?
+
+IF FLASHASFG
+   ;; na_th_an
+   and 127
+ENDIF
+
    ld (de),a
 .skipupdatecol
 ENDIF

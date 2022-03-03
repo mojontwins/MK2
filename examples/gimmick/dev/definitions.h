@@ -59,7 +59,11 @@ unsigned int safe_byte 	@ SAFE_INT_ADDRESS + 4;
 // Gigaglobals
 
 struct sp_UDK keys;
-void *joyfunc;				
+unsigned char (*joyfunc)(struct sp_UDK *) = sp_JoyKeyboard;
+
+const void *joyfuncs [] = {
+	sp_JoyKeyboard, sp_JoyKeyboard, sp_JoyKempston, sp_JoySinclair1
+};
 
 unsigned char *gen_pt;
  
@@ -229,8 +233,8 @@ unsigned char pregotten;
 #ifdef PLAYER_CAN_FIRE
 	unsigned char bullets_x [MAX_BULLETS];
 	unsigned char bullets_y [MAX_BULLETS];
-	unsigned char bullets_mx [MAX_BULLETS];
-	unsigned char bullets_my [MAX_BULLETS];
+	signed char bullets_mx [MAX_BULLETS];
+	signed char bullets_my [MAX_BULLETS];
 	unsigned char bullets_estado [MAX_BULLETS];
 	#ifdef LIMITED_BULLETS
 		unsigned char bullets_life [MAX_BULLETS];

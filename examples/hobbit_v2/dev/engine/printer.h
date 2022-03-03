@@ -651,7 +651,7 @@ void print_number2 (void) {
 				#ifdef REVERSE_OBJECTS_COUNT
 					_t = 
 						#ifdef COMPRESSED_LEVELS
-							level_data->max_objs
+							level_data.max_objs
 						#else						
 							PLAYER_MAX_OBJECTS
 						#endif

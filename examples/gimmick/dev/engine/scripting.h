@@ -1,7 +1,7 @@
 
 void run_entering_script (void) {
 	#ifdef EXTENDED_LEVELS
-		if (level_data->activate_scripting) 
+		if (level_data.activate_scripting) 
 	#endif
 	{
 		#ifdef LINE_OF_TEXT
@@ -55,7 +55,7 @@ void run_fire_script (void) {
 void do_ingame_scripting (void) {
 	if (
 		#ifdef EXTENDED_LEVELS
-			level_data->activate_scripting && 
+			level_data.activate_scripting && 
 		#endif
 		#ifdef SCRIPTING_KEY_M
 			sp_KeyPressed (KEY_M)
@@ -79,7 +79,7 @@ void do_ingame_scripting (void) {
 		#ifdef ENABLE_FIRE_ZONE
 			if (
 				#ifdef EXTENDED_LEVELS
-					level_data->activate_scripting &&
+					level_data.activate_scripting &&
 				#endif
 				f_zone_ac
 			) {

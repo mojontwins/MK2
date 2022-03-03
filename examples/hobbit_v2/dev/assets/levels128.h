@@ -87,7 +87,7 @@ typedef struct {
 // This will be overwritten with the unpacked data
 
 // Esta forma mierder-rara de hacerlo es porque z88dk no se aclara... O no me aclaro yo.
-extern LEVELHEADER level_data [0];
+extern LEVELHEADER level_data;
 #asm
 	._level_data defs 16
 #endasm

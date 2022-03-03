@@ -53,7 +53,7 @@
 		#endif
 
 		#ifdef EXTENDED_LEVELS
-			if (level_data->activate_scripting)
+			if (level_data.activate_scripting)
 		#endif
 		{
 			// Entering game script
@@ -130,7 +130,7 @@
 		#if !defined (HANNA_LEVEL_MANAGER) && !defined (SIMPLE_LEVEL_MANAGER)
 			#ifdef COMPRESSED_LEVELS
 				#ifdef EXTENDED_LEVELS
-					_AY_PL_MUS (level_data->music_id);
+					_AY_PL_MUS (level_data.music_id);
 				#else
 					_AY_PL_MUS (levels [level].music_id);
 				#endif		

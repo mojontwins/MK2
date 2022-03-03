@@ -140,11 +140,6 @@ globalvariables\SPNullSprPtr
 globalvariables\SPCompNullSprPtr
 globalvariables\SPqueuetable
 globalvariables\SPTileArray
-heap\sp_HeapAdd
-heap\sp_HeapExtract
-heap\sp_Heapify
-heap\sp_HeapSiftDown
-heap\sp_HeapSiftUp
 input\SPGetKey
 input\SPJoyFuller
 input\SPJoyKempston

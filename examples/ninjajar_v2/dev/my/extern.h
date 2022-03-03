@@ -165,10 +165,10 @@ void do_extern_action (unsigned char n) {
 		// Draw empty frame
 		extx = 3 + exti + exti;		
 	
-		_x = 3; _y = 3; _t = 1; gp_gen = "#$$$$$$$$$$$$$$$$$$$$$$$$%"; print_str ();
-		_x = 3; _t = 1; gp_gen = "&                        '";
+		_x = 3; _y = 3; _t = 1; gp_gen = (unsigned char *) ("#$$$$$$$$$$$$$$$$$$$$$$$$%"); print_str ();
+		_x = 3; _t = 1; gp_gen = (unsigned char *) ("&                        '");
 		for (_y = 4; _y < extx; ++ _y) { _x = 3; print_str (); }
-		_x = 3; _y = extx; _t = 1; gp_gen = "())))))))))))))))))))))))*"; print_str ();
+		_x = 3; _y = extx; _t = 1; gp_gen = (unsigned char *) ("())))))))))))))))))))))))*"); print_str ();
 		
 		exty = 4;
 	} else {

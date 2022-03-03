@@ -470,7 +470,7 @@ ENDIF
 .codeGotoX
    ld b,(hl)
    inc hl
-   jp computePos
+   jp computepos
 
 .codeNOP
-   jp computePos
+   jp computepos

@@ -271,7 +271,7 @@ void main (void) {
 							//_AY_PL_MUS (8);
 						#endif
 						//game_over ();
-						gp_gen = " GAME OVER! "; print_message ();
+						gp_gen = (unsigned char *)(" GAME OVER! "); print_message ();
 					#endif
 					mlplaying = 0;
 					active_sleep (250);
@@ -279,7 +279,7 @@ void main (void) {
 
 				case 1:
 					//_AY_PL_MUS (7);
-					gp_gen = " ZONE CLEAR "; print_message ();
+					gp_gen = (unsigned char *)(" ZONE CLEAR "); print_message ();
 					level ++;
 					active_sleep (250);
 					//do_extern_action (0);

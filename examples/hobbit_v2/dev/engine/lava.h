@@ -10,7 +10,7 @@ unsigned char lava_ct;
 void init_lava (void) {
 	// FIX: Esto solo funciona en modo 128k/compressed levels.
 	// Si lo necesitas en otra configuración, hay que cambiar esto
-	lava_y = 20 * level_data->map_h;
+	lava_y = 20 * level_data.map_h;
 	lava_ct = 0;
 	flags [LAVA_FLAG] = 0;
 }

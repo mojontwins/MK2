@@ -246,7 +246,7 @@ It's a good idea to run the script at this point so we can check everything is i
 
 This may be a bit tricky for newcomers, so I'll explain how levelsets are made in `MK2`.
 
-First of all, the engine internally uses a `level_data` struct of type `LEVELHEADER`, where it stores thinks like the map dimmensions, initial location, win codition, etc. This `level_data` struct is directly used by the *simple*, bundled level packs which games such as Mojon Twins' **Goku Mal** or Pat Morita Team's **Ninjakul**, **Gimmick** or **Black'n'White**, as the level headers are copied directly into it, and the whole level is compressed together and unpacked to the buffers which are set up in the correct order so everything ends up in place.
+First of all, the engine internally uses a `level_data` struct of type `LEVELHEADER`, where it stores thinks like the map dimensions, initial location, win codition, etc. This `level_data` struct is directly used by the *simple*, bundled level packs which games such as Mojon Twins' **Goku Mal** or Pat Morita Team's **Ninjakul**, **Gimmick** or **Black'n'White**, as the level headers are copied directly into it, and the whole level is compressed together and unpacked to the buffers which are set up in the correct order so everything ends up in place.
 
 But as we were making Ninjajar! we realized we'd need to reuse tilesets and other assets, so we developed a different approach in which each asset is compressed separately and not bundled in any form, so a more complex `levels` is needed to list all the level assets and configurations. That's what we define at the end of `levels128.h`.
 
@@ -1006,6 +1006,10 @@ A tiny special case for clouds needed to be added in `shoot_coco`:
 
     [...]
 ```
+
+## Coco types!
+
+I want clouds to shoot cocos but I want those to break against the bg so you can take cover, but I still want the cocos monkeys shoot to get through bg to they can always get you.
 
 ## Building
 

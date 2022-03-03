@@ -1,10 +1,10 @@
 	// 128K
 	if (
 		#if defined (COMPRESSED_LEVELS) && !(defined (SIMPLE_LEVEL_MANAGER) || defined (HANNA_LEVEL_MANAGER))
-			(level_data->win_condition == 0 && p_objs == level_data->max_objs) ||
-			(level_data->win_condition == 1 && n_pant == level_data->scr_fin)
+			(level_data.win_condition == 0 && p_objs == level_data.max_objs) ||
+			(level_data.win_condition == 1 && n_pant == level_data.scr_fin)
 			#ifdef ACTIVATE_SCRIPTING
-				|| (level_data->win_condition == 2 && script_result == 1)
+				|| (level_data.win_condition == 2 && script_result == 1)
 			#endif
 		#elif defined (MODE_128K) && (defined (HANNA_LEVEL_MANAGER) || defined (SIMPLE_LEVEL_MANAGER))
 			script_result == 1

@@ -31,7 +31,7 @@ if (
 	#ifdef ACTIVATE_SCRIPTING
 		#ifdef RUN_SCRIPT_ON_KILL
 			#ifdef EXTENDED_LEVELS
-				if (level_data->activate_scripting)
+				if (level_data.activate_scripting)
 			#endif
 			{
 				run_script (2 * MAP_W * MAP_H + 5);

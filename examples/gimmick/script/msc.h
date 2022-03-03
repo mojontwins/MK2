@@ -154,7 +154,7 @@ void run_script (unsigned char whichs) {
                     // readxy ();
                     // sc_terminado = (flags [sc_x] != sc_y);
                     #asm
-                            call _read_two_bytes_d_e
+                            call _read_two_bytes_D_E
                             // Set sc_terminado if flags [C] != E
                             ld  b, 0
                             ld  c, d
@@ -174,7 +174,7 @@ void run_script (unsigned char whichs) {
                     // readxy ();
                     // sc_terminado = (flags [sc_x] >= sc_y);
                     #asm
-                            call _read_two_bytes_d_e
+                            call _read_two_bytes_D_E
                             // Set sc_terminado if flags [C] >= E
                             ld  b, 0
                             ld  c, d
@@ -194,7 +194,7 @@ void run_script (unsigned char whichs) {
                     // readxy ();
                     // sc_terminado = (flags [sc_x] <= sc_y);
                     #asm
-                            call _read_two_bytes_d_e
+                            call _read_two_bytes_D_E
                             // Set sc_terminado if flags [C] <= E
                             // or...            if E >= flags [C]
                             ld  b, 0
@@ -216,7 +216,7 @@ void run_script (unsigned char whichs) {
                     // readxy ();
                     // sc_terminado = (flags [sc_x] == sc_y);
                     #asm
-                            call _read_two_bytes_d_e
+                            call _read_two_bytes_D_E
                             // Set sc_terminado if flags [C] == E
                             ld  b, 0
                             ld  c, d
@@ -446,8 +446,8 @@ void run_script (unsigned char whichs) {
                             _AY_ST_ALL ();
                         } else {
 #ifdef COMPRESSED_LEVELS
-                            level_data->music_id = sc_n;
-                            _AY_PL_MUS (level_data->music_id);
+                            level_data.music_id = sc_n;
+                            _AY_PL_MUS (level_data.music_id);
 #else
                             _AY_PL_MUS (sc_n);
 #endif

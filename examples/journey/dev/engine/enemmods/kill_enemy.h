@@ -2,7 +2,7 @@
 
 void enems_kill (unsigned char amount) {
 	
-	#if PLAYER_BULLETS_STRENGTH > 0 || PLAYER_HITTER_STRENGTH > 0 || PLAYER_BOMBS_STRENGTH > 0)
+	#if PLAYER_BULLETS_STRENGTH > 0 || PLAYER_HITTER_STRENGTH > 0 || PLAYER_BOMBS_STRENGTH > 0
 		en_an_n_f [enit] = sprite_17_a;
 
 		// Trajectory modification?

@@ -69,7 +69,7 @@ void do_extern_action (unsigned char n) {
 			sp_UpdateNowEx (0);
 		}
 		return;
-	} else if (gpt < 250) {
+	}
 		
 		// Show text gpt
 		stepbystep = 1;
@@ -165,10 +165,10 @@ void do_extern_action (unsigned char n) {
 			// Draw empty frame
 			extx = 3 + exti + exti;
 
-			_x = 3; _y = 3; _t = 6; gp_gen = "#$$$$$$$$$$$$$$$$$$$$$$$$%"; print_str ();
-			_x = 3; _t = 6; gp_gen = "&                        '";
+		_x = 3; _y = 3; _t = 1; gp_gen = (unsigned char *) ("#$$$$$$$$$$$$$$$$$$$$$$$$%"); print_str ();
+		_x = 3; _t = 1; gp_gen = (unsigned char *) ("&                        '");
 			for (_y = 4; _y < extx; ++ _y) { _x = 3; print_str (); }
-			_x = 3; _y = extx; _t = 6; gp_gen = "())))))))))))))))))))))))*"; print_str ();
+		_x = 3; _y = extx; _t = 1; gp_gen = (unsigned char *) ("())))))))))))))))))))))))*"); print_str ();
 
 			exty = 4;
 		} else {
@@ -225,27 +225,4 @@ void do_extern_action (unsigned char n) {
 		sp_WaitForNoKey ();
 		while (button_pressed ());
 		active_sleep (5000);
-
-		if (is_cutscene) {
-			for (exti = 11; exti < 24; exti ++) {
-				_x = 3; _y = exti; _t = 71; gp_gen = "                          "; print_str ();
-				sp_UpdateNow (0);
-		}
-	}
-	} else if (gpt == 251) {
-		is_cutscene = 1;		
-	} else if (gpt == 250) {
-		is_cutscene = 0;
-	} else {
-		// gpt = 252 - 255
-		// Lower bit 7
-		exti = gpt - 252;   // 252 = 0, 253 = 1, 254 = 2.
-		baddies [enoffs + exti].t &= 0x7F;
-		en_an_state [exti] = en_an_count [exti] = 0;
-	  	#ifdef COMPRESSED_LEVELS
-			baddies [enoffs + exti].life = level_data.enems_life;
-		#else
-			baddies [enoffs + exti].life = ENEMIES_LIFE_GAUGE;
-		#endif
-	}
 }

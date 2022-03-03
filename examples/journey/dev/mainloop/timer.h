@@ -21,7 +21,7 @@
 				active_sleep (500);
 #endif
 #ifdef EXTENDED_LEVELS
-				if (level_data->activate_scripting) {
+				if (level_data.activate_scripting) {
 #endif
 					run_script (MAP_W * MAP_H * 2 + 3);
 #ifdef EXTENDED_LEVELS

@@ -15,7 +15,7 @@
 #ifdef MODE_128K
 				// Play music
 #ifdef COMPRESSED_LEVELS
-				//_AY_PL_MUS (level_data->music_id);
+				//_AY_PL_MUS (level_data.music_id);
 #else
 				//_AY_PL_MUS (1);
 #endif

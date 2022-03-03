@@ -74,17 +74,17 @@
 			or  a
 			jr  z, _enems_plats_horz_done
 
-			// gpy + 16 >= _en_y
+			// gpy + 18 >= _en_y
 			ld  a, (__en_y)
 			ld  c, a
 			ld  a, (_gpy)
-			add 16
+			add 18
 			cp  c
 			jr  c, _enems_plats_horz_done
 
-			// gpy + 10 <= _en_y -> _en_y >= _gpy + 10
+			// gpy + 8 <= _en_y -> _en_y >= _gpy + 8
 			ld  a, (_gpy)
-			add 10
+			add 8
 			ld  c, a
 			ld  a, (__en_y)
 			cp  c
@@ -104,7 +104,7 @@
 			sla a 	; times FIXBITS
 			ld  (_ptgmx), a
 
-			jr _enems_plats_gpy_set
+			call _enems_plats_gpy_set
 
 		._enems_plats_horz_done
 
@@ -178,6 +178,10 @@
 
 			xor a
 			ld  (_p_vy), a
+			call _enems_plats_gpy_set
+
+		._enems_plats_vert_done
+			jp  _enems_collision_skip
 
 		._enems_plats_gpy_set
 
@@ -191,9 +195,7 @@
 			ld  l, FIXBITS
 			call l_asl
 			ld  (_p_y), hl
-
-		._enems_plats_vert_done
-			jp  _enems_collision_skip
+			ret 
 
 		._enems_platforms_done
 	#endasm
