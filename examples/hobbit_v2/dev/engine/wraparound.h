@@ -10,9 +10,9 @@ void wrap_around (void) {
 #else
 	// Momentum engine edge screen detection
 	if (p_x <= 0 && p_vx < 0) {
-		p_x = 14336;
+		p_x = 224<<FIXBITS;
 	}
-	if (p_x >= 14336 && p_vx > 0) {
+	if (p_x >= 224<<FIXBITS && p_vx > 0) {
 		p_x = 0;
 	}
 #endif	

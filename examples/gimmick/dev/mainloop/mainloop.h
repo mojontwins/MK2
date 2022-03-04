@@ -153,7 +153,7 @@ void main (void) {
 			#endif
 
 			// Update sprites
-			update_sprites ();
+			if (n_pant == o_pant) update_sprites ();
 
 			// Limit frame rate
 			#ifdef MIN_FAPS_PER_FRAME
@@ -165,7 +165,7 @@ void main (void) {
 			#endif
 
 			// Update to screen
-			sp_UpdateNow();
+			if (n_pant == o_pant) sp_UpdateNow();
 
 			// Experimental
 			#ifdef ENABLE_LAVA

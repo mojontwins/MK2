@@ -1,0 +1,187 @@
+ENTERING SCREEN 0
+	IF TRUE
+	THEN
+		DECORATIONS
+			2, 1, 16
+			3, 1, 17
+			4, 1, 18
+			12, 1, 16
+			13, 1, 18
+			2, 3, 22
+			3, 3, 23
+			4, 3, 22
+			10, 3, 22
+			11, 3, 23
+			2, 4, 25
+			3, 4, 24
+			10, 4, 25
+			11, 4, 24
+			7, 6, 28
+			4, 7, 29
+			3, 8, 19
+			4, 8, 21
+			10, 8, 19
+			11, 8, 20
+			12, 8, 21
+		END
+	END
+END
+ 
+ENTERING SCREEN 1
+	IF TRUE
+	THEN
+		DECORATIONS
+			12, 3, 18
+			7, 4, 16
+			8, 4, 18
+			2, 5, 27
+			12, 5, 27
+			2, 6, 28
+			7, 6, 27
+			12, 6, 26
+			7, 7, 29
+			12, 7, 28
+			8, 8, 19
+			9, 8, 20
+			10, 8, 20
+			11, 8, 21
+		END
+	END
+END
+ 
+ENTERING SCREEN 2
+	IF TRUE
+	THEN
+		DECORATIONS
+			7, 1, 16
+			8, 1, 18
+			7, 3, 22
+			8, 3, 23
+			7, 4, 25
+			8, 4, 24
+			1, 7, 27
+			1, 8, 26
+			7, 8, 19
+			8, 8, 20
+			9, 8, 20
+			10, 8, 20
+			11, 8, 21
+		END
+	END
+END
+ 
+ENTERING SCREEN 3
+	IF TRUE
+	THEN
+		DECORATIONS
+			4, 2, 23
+			3, 3, 25
+			4, 3, 22
+			5, 3, 24
+			7, 3, 18
+			4, 4, 24
+			8, 4, 18
+			10, 4, 16
+			9, 5, 17
+			1, 8, 19
+			2, 8, 21
+			4, 8, 19
+			5, 8, 20
+			6, 8, 21
+		END
+	END
+END
+ 
+ENTERING SCREEN 4
+	IF TRUE
+	THEN
+		DECORATIONS
+			7, 2, 16
+			8, 2, 17
+			9, 2, 17
+			10, 2, 18
+			7, 4, 25
+			8, 4, 22
+			10, 4, 24
+			8, 5, 26
+			8, 6, 28
+			6, 8, 19
+			7, 8, 20
+			8, 8, 21
+		END
+	END
+END
+ 
+ENTERING SCREEN 5
+	IF TRUE
+	THEN
+		DECORATIONS
+			1, 3, 24
+			9, 7, 27
+			0, 8, 21
+			9, 8, 28
+			14, 8, 19
+		END
+	END
+END
+ 
+ENTERING SCREEN 6
+	IF TRUE
+	THEN
+		DECORATIONS
+			0, 3, 18
+			14, 3, 16
+			12, 6, 19
+			11, 8, 19
+		END
+	END
+END
+ 
+ENTERING SCREEN 7
+	IF TRUE
+	THEN
+		DECORATIONS
+			0, 3, 18
+			1, 4, 18
+			8, 8, 19
+			9, 8, 20
+			10, 8, 20
+			11, 8, 21
+		END
+	END
+END
+ 
+ENTERING SCREEN 8
+	IF TRUE
+	THEN
+		DECORATIONS
+			6, 1, 16
+			4, 2, 16
+			5, 2, 17
+			7, 2, 22
+			6, 3, 25
+			7, 3, 24
+			5, 4, 25
+			11, 4, 25
+			1, 7, 21
+			10, 7, 39
+			2, 8, 19
+			3, 8, 20
+			4, 8, 21
+			10, 8, 40
+		END
+	END
+END
+ 
+ 
+// If you use extraprints.h, trim this bit and use it!
+const unsigned char ep_scr_00 [] = { 0x21, 16, 0x31, 17, 0x41, 18, 0xC1, 16, 0xD1, 18, 0x23, 22, 0x33, 23, 0x43, 22, 0xA3, 22, 0xB3, 23, 0x24, 25, 0x34, 24, 0xA4, 25, 0xB4, 24, 0x76, 28, 0x47, 29, 0x38, 19, 0x48, 21, 0xA8, 19, 0xB8, 20, 0xC8, 21 };
+const unsigned char ep_scr_01 [] = { 0xC3, 18, 0x74, 16, 0x84, 18, 0x25, 27, 0xC5, 27, 0x26, 28, 0x76, 27, 0xC6, 26, 0x77, 29, 0xC7, 28, 0x88, 19, 0x98, 20, 0xA8, 20, 0xB8, 21 };
+const unsigned char ep_scr_02 [] = { 0x71, 16, 0x81, 18, 0x73, 22, 0x83, 23, 0x74, 25, 0x84, 24, 0x17, 27, 0x18, 26, 0x78, 19, 0x88, 20, 0x98, 20, 0xA8, 20, 0xB8, 21 };
+const unsigned char ep_scr_03 [] = { 0x42, 23, 0x33, 25, 0x43, 22, 0x53, 24, 0x73, 18, 0x44, 24, 0x84, 18, 0xA4, 16, 0x95, 17, 0x18, 19, 0x28, 21, 0x48, 19, 0x58, 20, 0x68, 21 };
+const unsigned char ep_scr_04 [] = { 0x72, 16, 0x82, 17, 0x92, 17, 0xA2, 18, 0x74, 25, 0x84, 22, 0xA4, 24, 0x85, 26, 0x86, 28, 0x68, 19, 0x78, 20, 0x88, 21 };
+const unsigned char ep_scr_05 [] = { 0x13, 24, 0x97, 27, 0x8, 21, 0x98, 28, 0xE8, 19 };
+const unsigned char ep_scr_06 [] = { 0x3, 18, 0xE3, 16, 0xC6, 19, 0xB8, 19 };
+const unsigned char ep_scr_07 [] = { 0x3, 18, 0x14, 18, 0x88, 19, 0x98, 20, 0xA8, 20, 0xB8, 21 };
+const unsigned char ep_scr_08 [] = { 0x61, 16, 0x42, 16, 0x52, 17, 0x72, 22, 0x63, 25, 0x73, 24, 0x54, 25, 0xB4, 25, 0x17, 21, 0xA7, 39, 0x28, 19, 0x38, 20, 0x48, 21, 0xA8, 40 };
+const unsigned char *prints [] = { ep_scr_00, ep_scr_01, ep_scr_02, ep_scr_03, ep_scr_04, ep_scr_05, ep_scr_06, ep_scr_07, ep_scr_08 };

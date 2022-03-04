@@ -3,7 +3,7 @@
 ;
 ;	Reconstructed for z80 Module Assembler
 ;
-;	Module compile time: Thu Mar 03 12:31:06 2022
+;	Module compile time: Fri Mar 04 11:47:59 2022
 
 
 	C_LINE	0,"mk2.c"
@@ -166,6 +166,7 @@
 		LIB SPPrintAtInv
 		LIB SPTileArray
 		LIB SPInvalidate
+		LIB SPValidate
 		LIB SPCompDListAddr
 	C_LINE	0,"my/config.h"
 	C_LINE	39,"my/config.h"
@@ -185,9 +186,9 @@
 	defw	383
 	defw	0
 	SECTION	code_compiler
-	C_LINE	21,"mk2.c"
-	C_LINE	0,"my/sfx_config.h"
 	C_LINE	22,"mk2.c"
+	C_LINE	0,"my/sfx_config.h"
+	C_LINE	23,"mk2.c"
 	C_LINE	0,"definitions.h"
 	C_LINE	55,"definitions.h"
 	C_LINE	56,"definitions.h"
@@ -339,7 +340,7 @@
 	C_LINE	410,"definitions.h::my_malloc::0::1"
 	C_LINE	418,"definitions.h::my_malloc::0::1"
 	C_LINE	423,"definitions.h::my_malloc::0::1"
-	C_LINE	26,"mk2.c::my_malloc::0::1"
+	C_LINE	27,"mk2.c::my_malloc::0::1"
 	C_LINE	0,"autodefs.h::my_malloc::0::1"
 	C_LINE	7,"autodefs.h::my_malloc::0::1"
 	C_LINE	8,"autodefs.h::my_malloc::0::1"
@@ -362,7 +363,7 @@
 	C_LINE	41,"autodefs.h::my_malloc::0::1"
 	C_LINE	43,"autodefs.h::my_malloc::0::1"
 	C_LINE	44,"autodefs.h::my_malloc::0::1"
-	C_LINE	27,"mk2.c::my_malloc::0::1"
+	C_LINE	28,"mk2.c::my_malloc::0::1"
 	C_LINE	0,"my/msc-config.h::my_malloc::0::1"
 	C_LINE	5,"my/msc-config.h::my_malloc::0::1"
 	C_LINE	6,"my/msc-config.h::my_malloc::0::1"
@@ -385,7 +386,7 @@
 	C_LINE	18,"my/msc-config.h::my_malloc::0::1"
 	C_LINE	19,"my/msc-config.h::my_malloc::0::1"
     ._script defw 0
-	C_LINE	30,"mk2.c::my_malloc::0::1"
+	C_LINE	31,"mk2.c::my_malloc::0::1"
 	C_LINE	0,"system/128k.h::my_malloc::0::1"
 	C_LINE	8,"system/128k.h::my_malloc::0::1"
 
@@ -411,7 +412,7 @@
 	ret
 
 
-	C_LINE	34,"mk2.c::SetRAMBank::0::2"
+	C_LINE	35,"mk2.c::SetRAMBank::0::2"
 	C_LINE	0,"system/aplib.h::SetRAMBank::0::2"
 	C_LINE	7,"system/aplib.h::SetRAMBank::0::2"
 	C_LINE	8,"system/aplib.h::SetRAMBank::0::2"
@@ -569,9 +570,9 @@
 	ret
 
 
-	C_LINE	37,"mk2.c::unpack_RAMn::0::3"
-	C_LINE	0,"assets/pantallas.h::unpack_RAMn::0::3"
 	C_LINE	38,"mk2.c::unpack_RAMn::0::3"
+	C_LINE	0,"assets/pantallas.h::unpack_RAMn::0::3"
+	C_LINE	39,"mk2.c::unpack_RAMn::0::3"
 	C_LINE	0,"my/librarian.h::unpack_RAMn::0::3"
 	C_LINE	5,"my/librarian.h::unpack_RAMn::0::3"
 	C_LINE	10,"my/librarian.h::unpack_RAMn::0::3"
@@ -659,7 +660,7 @@
 	ret
 
 
-	C_LINE	41,"mk2.c::get_resource::0::4"
+	C_LINE	42,"mk2.c::get_resource::0::4"
 	C_LINE	0,"assets/levels128.h::get_resource::0::4"
 	C_LINE	22,"assets/levels128.h::get_resource::0::4"
 	C_LINE	38,"assets/levels128.h::get_resource::0::4"
@@ -2023,7 +2024,7 @@
 	defb	13
 	defw	64217
 	SECTION	code_compiler
-	C_LINE	44,"mk2.c::get_resource::0::4"
+	C_LINE	45,"mk2.c::get_resource::0::4"
 	C_LINE	0,"addons/helpers.h::get_resource::0::4"
 	C_LINE	2,"addons/helpers.h::get_resource::0::4"
 
@@ -2120,7 +2121,7 @@
 	ret
 
 
-	C_LINE	66,"mk2.c::addons_between::0::5"
+	C_LINE	67,"mk2.c::addons_between::0::5"
 	C_LINE	0,"addons/drops/sprites.h::addons_between::0::5"
 	C_LINE	7,"addons/drops/sprites.h::addons_between::0::5"
 	C_LINE	8,"addons/drops/sprites.h::addons_between::0::5"
@@ -2134,7 +2135,7 @@
 	defb 0, 255
 ._drop_sprites
 	BINARY "../bin/spdrop.bin"
-	C_LINE	68,"mk2.c::addons_between::0::5"
+	C_LINE	69,"mk2.c::addons_between::0::5"
 	C_LINE	0,"addons/arrows/sprites.h::addons_between::0::5"
 	C_LINE	7,"addons/arrows/sprites.h::addons_between::0::5"
 	C_LINE	8,"addons/arrows/sprites.h::addons_between::0::5"
@@ -2148,7 +2149,7 @@
 	defb 0, 255
 ._arrow_sprites
 	BINARY "../bin/sparrow.bin"
-	C_LINE	71,"mk2.c::addons_between::0::5"
+	C_LINE	72,"mk2.c::addons_between::0::5"
 	C_LINE	0,"sound/wyzplayer.h::addons_between::0::5"
 	C_LINE	24,"sound/wyzplayer.h::addons_between::0::5"
 	defw 0	 
@@ -2248,7 +2249,7 @@
 	ret
 
 
-	C_LINE	81,"mk2.c::wyz_stop_sound::0::10"
+	C_LINE	82,"mk2.c::wyz_stop_sound::0::10"
 	C_LINE	0,"engine/printer.h::wyz_stop_sound::0::10"
 	C_LINE	8,"engine/printer.h::wyz_stop_sound::0::10"
 	SECTION	data_compiler
@@ -2369,20 +2370,42 @@
 
 	C_LINE	524,"engine/printer.h::invalidate_viewport::0::13"
 
+; Function validate_viewport flags 0x00000200 __smallc 
+; void validate_viewport()
+	C_LINE	524,"engine/printer.h::validate_viewport::0::13"
+._validate_viewport
+			; Invalidate Rectangle
+			;
+			; enter:  B = row coord top left corner
+			;         C = col coord top left corner
+			;         D = row coord bottom right corner
+			;         E = col coord bottom right corner
+			;        IY = clipping rectangle, set it to "ClipStruct" for full screen
+			ld  b,  0 
+			ld  c,  1 
+			ld  d,  0 +19
+			ld  e,  1 +29
+			ld  iy, vpClipStruct
+			call SPValidate
+	ret
+
+
+	C_LINE	545,"engine/printer.h::validate_viewport::0::14"
+
 ; Function draw_invalidate_coloured_tile_gamearea flags 0x00000200 __smallc 
 ; void draw_invalidate_coloured_tile_gamearea()
-	C_LINE	524,"engine/printer.h::draw_invalidate_coloured_tile_gamearea::0::13"
+	C_LINE	545,"engine/printer.h::draw_invalidate_coloured_tile_gamearea::0::14"
 ._draw_invalidate_coloured_tile_gamearea
 	call	_draw_coloured_tile_gamearea
 	call	_invalidate_tile
 	ret
 
 
-	C_LINE	529,"engine/printer.h::draw_invalidate_coloured_tile_gamearea::0::14"
+	C_LINE	550,"engine/printer.h::draw_invalidate_coloured_tile_gamearea::0::15"
 
 ; Function draw_coloured_tile_gamearea flags 0x00000200 __smallc 
 ; void draw_coloured_tile_gamearea()
-	C_LINE	529,"engine/printer.h::draw_coloured_tile_gamearea::0::14"
+	C_LINE	550,"engine/printer.h::draw_coloured_tile_gamearea::0::15"
 ._draw_coloured_tile_gamearea
 	ld	hl,(__t)
 	ld	h,0
@@ -2416,11 +2439,11 @@
 	ret
 
 
-	C_LINE	549,"engine/printer.h::draw_coloured_tile_gamearea::0::16"
+	C_LINE	570,"engine/printer.h::draw_coloured_tile_gamearea::0::17"
 
 ; Function print_number2 flags 0x00000200 __smallc 
 ; void print_number2()
-	C_LINE	549,"engine/printer.h::print_number2::0::16"
+	C_LINE	570,"engine/printer.h::print_number2::0::17"
 ._print_number2
 	ld	hl,(__t)
 	ld	h,0
@@ -2464,11 +2487,11 @@
 	ret
 
 
-	C_LINE	668,"engine/printer.h::print_number2::0::17"
+	C_LINE	687,"engine/printer.h::print_number2::0::18"
 
 ; Function print_str flags 0x00000200 __smallc 
 ; void print_str()
-	C_LINE	668,"engine/printer.h::print_str::0::17"
+	C_LINE	687,"engine/printer.h::print_str::0::18"
 ._print_str
 		ld  hl, (_gp_gen)
 		.print_str_loop
@@ -2492,11 +2515,11 @@
 	ret
 
 
-	C_LINE	701,"engine/printer.h::print_str::0::18"
+	C_LINE	720,"engine/printer.h::print_str::0::19"
 
 ; Function blackout_area flags 0x00000200 __smallc 
 ; void blackout_area()
-	C_LINE	701,"engine/printer.h::blackout_area::0::18"
+	C_LINE	720,"engine/printer.h::blackout_area::0::19"
 ._blackout_area
 			ld  de, 22528 + 32 *  0  +  1 
 			ld  b, 20
@@ -2515,16 +2538,16 @@
 	ret
 
 
-	C_LINE	722,"engine/printer.h::blackout_area::0::19"
+	C_LINE	741,"engine/printer.h::blackout_area::0::20"
 	SECTION	data_compiler
 ._utaux
 	defb	0
 	SECTION	code_compiler
-	C_LINE	723,"engine/printer.h::blackout_area::0::19"
+	C_LINE	742,"engine/printer.h::blackout_area::0::20"
 
 ; Function update_tile flags 0x00000200 __smallc 
 ; void update_tile()
-	C_LINE	723,"engine/printer.h::update_tile::0::19"
+	C_LINE	742,"engine/printer.h::update_tile::0::20"
 ._update_tile
 		ld  a, (__x)
 		ld  c, a
@@ -2554,11 +2577,11 @@
 	ret
 
 
-	C_LINE	762,"engine/printer.h::update_tile::0::20"
+	C_LINE	781,"engine/printer.h::update_tile::0::21"
 
 ; Function print_message flags 0x00000200 __smallc 
 ; void print_message()
-	C_LINE	762,"engine/printer.h::print_message::0::20"
+	C_LINE	781,"engine/printer.h::print_message::0::21"
 ._print_message
 	ld	a,10
 	ld	(__x),a
@@ -2591,13 +2614,13 @@
 	ret
 
 
-	C_LINE	91,"mk2.c::print_message::0::21"
-	C_LINE	0,"engine/general.h::print_message::0::21"
-	C_LINE	11,"engine/general.h::print_message::0::21"
+	C_LINE	92,"mk2.c::print_message::0::22"
+	C_LINE	0,"engine/general.h::print_message::0::22"
+	C_LINE	11,"engine/general.h::print_message::0::22"
 
 ; Function read_controller flags 0x00000200 __smallc 
 ; void read_controller()
-	C_LINE	11,"engine/general.h::read_controller::0::21"
+	C_LINE	11,"engine/general.h::read_controller::0::22"
 ._read_controller
 			ld  a, (_pad0)
 			ld  (_pad_this_frame), a
@@ -2634,11 +2657,11 @@
 	ret
 
 
-	C_LINE	81,"engine/general.h::read_controller::0::22"
+	C_LINE	81,"engine/general.h::read_controller::0::23"
 
 ; Function button_pressed flags 0x00000200 __smallc 
 ; unsigned char button_pressed()
-	C_LINE	81,"engine/general.h::button_pressed::0::22"
+	C_LINE	81,"engine/general.h::button_pressed::0::23"
 ._button_pressed
 	call	_read_controller
 	ld	a,(_pad_this_frame)
@@ -2649,11 +2672,11 @@
 	ret
 
 
-	C_LINE	103,"engine/general.h::button_pressed::0::23"
+	C_LINE	103,"engine/general.h::button_pressed::0::24"
 
 ; Function cortina flags 0x00000200 __smallc 
 ; void cortina()
-	C_LINE	103,"engine/general.h::cortina::0::23"
+	C_LINE	103,"engine/general.h::cortina::0::24"
 ._cortina
 		ld b, 7
 	.fade_out_extern
@@ -2690,13 +2713,13 @@
 	ret
 
 
-	C_LINE	153,"engine/general.h::cortina::0::24"
+	C_LINE	153,"engine/general.h::cortina::0::25"
 
 ; Function addsign flags 0x00000200 __smallc 
 ; int addsign(int n, int value)
 ; parameter 'int value' at sp+2 size(2)
 ; parameter 'int n' at sp+4 size(2)
-	C_LINE	153,"engine/general.h::addsign::0::24"
+	C_LINE	153,"engine/general.h::addsign::0::25"
 ._addsign
 	ld	hl,4	;const
 	add	hl,sp
@@ -2733,12 +2756,12 @@
 	ret
 
 
-	C_LINE	158,"engine/general.h::addsign::0::25"
+	C_LINE	158,"engine/general.h::addsign::0::26"
 
 ; Function abs flags 0x00000200 __smallc 
 ; unsigned int abs(int n)
 ; parameter 'int n' at sp+2 size(2)
-	C_LINE	158,"engine/general.h::abs::0::25"
+	C_LINE	158,"engine/general.h::abs::0::26"
 ._abs
 	pop	bc
 	pop	hl
@@ -2767,12 +2790,12 @@
 	ret
 
 
-	C_LINE	165,"engine/general.h::abs::0::26"
+	C_LINE	165,"engine/general.h::abs::0::27"
 
 ; Function active_sleep flags 0x00000200 __smallc 
 ; void active_sleep(int espera)
 ; parameter 'int espera' at sp+2 size(2)
-	C_LINE	165,"engine/general.h::active_sleep::0::26"
+	C_LINE	165,"engine/general.h::active_sleep::0::27"
 ._active_sleep
 .i_32
 				halt
@@ -2806,11 +2829,11 @@
 	ret
 
 
-	C_LINE	179,"engine/general.h::active_sleep::0::28"
+	C_LINE	179,"engine/general.h::active_sleep::0::29"
 
 ; Function select_joyfunc flags 0x00000200 __smallc 
 ; void select_joyfunc()
-	C_LINE	179,"engine/general.h::select_joyfunc::0::28"
+	C_LINE	179,"engine/general.h::select_joyfunc::0::29"
 ._select_joyfunc
 .i_36
 	call	sp_GetKey
@@ -2938,21 +2961,21 @@
 	ret
 
 
-	C_LINE	93,"mk2.c::select_joyfunc::0::32"
-	C_LINE	0,"my/extern.h::select_joyfunc::0::32"
-	C_LINE	7,"my/extern.h::select_joyfunc::0::32"
-	C_LINE	8,"my/extern.h::select_joyfunc::0::32"
-	C_LINE	9,"my/extern.h::select_joyfunc::0::32"
+	C_LINE	94,"mk2.c::select_joyfunc::0::33"
+	C_LINE	0,"my/extern.h::select_joyfunc::0::33"
+	C_LINE	7,"my/extern.h::select_joyfunc::0::33"
+	C_LINE	8,"my/extern.h::select_joyfunc::0::33"
+	C_LINE	9,"my/extern.h::select_joyfunc::0::33"
 	SECTION	data_compiler
 ._is_cutscene
 	defb	0
 	SECTION	code_compiler
-	C_LINE	11,"my/extern.h::select_joyfunc::0::32"
+	C_LINE	11,"my/extern.h::select_joyfunc::0::33"
 
 ; Function do_extern_action flags 0x00000200 __smallc 
 ; void do_extern_action(unsigned char n)
 ; parameter 'unsigned char n' at sp+2 size(1)
-	C_LINE	11,"my/extern.h::do_extern_action::0::32"
+	C_LINE	11,"my/extern.h::do_extern_action::0::33"
 ._do_extern_action
 	ld	hl,2	;const
 	add	hl,sp
@@ -3439,13 +3462,13 @@
 	ret
 
 
-	C_LINE	100,"mk2.c::do_extern_action::0::54"
-	C_LINE	0,"my/msc.h::do_extern_action::0::54"
-	C_LINE	12,"my/msc.h::do_extern_action::0::54"
+	C_LINE	101,"mk2.c::do_extern_action::0::55"
+	C_LINE	0,"my/msc.h::do_extern_action::0::55"
+	C_LINE	12,"my/msc.h::do_extern_action::0::55"
 
 ; Function read_byte flags 0x00000200 __smallc 
 ; unsigned char read_byte()
-	C_LINE	12,"my/msc.h::read_byte::0::54"
+	C_LINE	12,"my/msc.h::read_byte::0::55"
 ._read_byte
                     di
             ld b,  6 
@@ -3463,11 +3486,11 @@
 	ret
 
 
-	C_LINE	36,"my/msc.h::read_byte::0::55"
+	C_LINE	36,"my/msc.h::read_byte::0::56"
 
 ; Function read_vbyte flags 0x00000200 __smallc 
 ; unsigned char read_vbyte()
-	C_LINE	36,"my/msc.h::read_vbyte::0::55"
+	C_LINE	36,"my/msc.h::read_vbyte::0::56"
 ._read_vbyte
         call _read_byte
         ld  a, l
@@ -3485,11 +3508,11 @@
 	ret
 
 
-	C_LINE	56,"my/msc.h::read_vbyte::0::56"
+	C_LINE	56,"my/msc.h::read_vbyte::0::57"
 
 ; Function readxy flags 0x00000200 __smallc 
 ; void readxy()
-	C_LINE	56,"my/msc.h::readxy::0::56"
+	C_LINE	56,"my/msc.h::readxy::0::57"
 ._readxy
 	call	_read_vbyte
 	ld	h,0
@@ -3502,11 +3525,11 @@
 	ret
 
 
-	C_LINE	61,"my/msc.h::readxy::0::57"
+	C_LINE	61,"my/msc.h::readxy::0::58"
 
 ; Function stop_player flags 0x00000200 __smallc 
 ; void stop_player()
-	C_LINE	61,"my/msc.h::stop_player::0::57"
+	C_LINE	61,"my/msc.h::stop_player::0::58"
 ._stop_player
 	ld	hl,0	;const
 	ld	a,l
@@ -3518,11 +3541,11 @@
 	ret
 
 
-	C_LINE	65,"my/msc.h::stop_player::0::58"
+	C_LINE	65,"my/msc.h::stop_player::0::59"
 
 ; Function reloc_player flags 0x00000200 __smallc 
 ; void reloc_player()
-	C_LINE	65,"my/msc.h::reloc_player::0::58"
+	C_LINE	65,"my/msc.h::reloc_player::0::59"
 ._reloc_player
 	call	_read_vbyte
 	ld	h,l
@@ -3536,11 +3559,11 @@
 	ret
 
 
-	C_LINE	75,"my/msc.h::reloc_player::0::59"
+	C_LINE	75,"my/msc.h::reloc_player::0::60"
 
 ; Function read_two_bytes_D_E flags 0x00000200 __smallc 
 ; void read_two_bytes_D_E()
-	C_LINE	75,"my/msc.h::read_two_bytes_D_E::0::59"
+	C_LINE	75,"my/msc.h::read_two_bytes_D_E::0::60"
 ._read_two_bytes_D_E
                             di
                 ld  b,  6 
@@ -3554,16 +3577,34 @@
                 ld  b, 0
                 call SetRAMBank
                 ei
+				ld  a, d
+				call undo_flag_reference
+				ld  d, a
+				ld  a, e
+				call undo_flag_reference
+				ld  e, a
+                ret
+            .undo_flag_reference
+                bit 7, a
+                ret z
+                and 0x7f
+            .undo_flag_reference_do
+                ld  b, 0
+                ld  c, a
+                ld  hl, _flags
+                add hl, bc
+                ld  a, (hl)
+                ret
 	ret
 
 
-	C_LINE	100,"my/msc.h::read_two_bytes_D_E::0::60"
-	C_LINE	101,"my/msc.h::read_two_bytes_D_E::0::60"
+	C_LINE	123,"my/msc.h::read_two_bytes_D_E::0::61"
+	C_LINE	124,"my/msc.h::read_two_bytes_D_E::0::61"
 
 ; Function run_script flags 0x00000200 __smallc 
 ; void run_script(unsigned char whichs)
 ; parameter 'unsigned char whichs' at sp+2 size(1)
-	C_LINE	101,"my/msc.h::run_script::0::60"
+	C_LINE	124,"my/msc.h::run_script::0::61"
 ._run_script
 	ld	de,(_main_script_offset)
 	ld	hl,2	;const
@@ -3651,11 +3692,8 @@
 	jp	i_89	;EOS
 .i_91
                             call _read_two_bytes_D_E
-                            ld  b, 0
-                            ld  c, d
-                            ld  hl, _flags
-                            add hl, bc
-                            ld  a, (hl)
+                            ld  a, d
+                            call undo_flag_reference_do
                             cp  e
                             jr  z, _flag_equal_val_ok
                             ld  a, 1
@@ -3664,11 +3702,8 @@
 	jp	i_89	;EOS
 .i_92
                             call _read_two_bytes_D_E
-                            ld  b, 0
-                            ld  c, d
-                            ld  hl, _flags
-                            add hl, bc
-                            ld  a, (hl)
+                            ld  a, d
+                            call undo_flag_reference_do
                             cp  e
                             jr  c, _flag_minor_val_ok ; branch if A < E
                             ld  a, 1
@@ -3677,25 +3712,20 @@
 	jp	i_89	;EOS
 .i_93
                             call _read_two_bytes_D_E
-                            ld  b, 0
-                            ld  c, d
-                            ld  hl, _flags
-                            add hl, bc
-                            ld  a, e     ; A = E (second byte)
-                            ld  e, (hl)  ; E = flags [C]
-                            cp  e
-                            jr  c, _flag_equal_greater_ok ; branch if A < E
+                            ld  a, d
+                            call undo_flag_reference_do
+                            ld  d, a  	; D = flags [D]
+                            ld  a, e    ; A = E (second byte)
+                            cp  d
+                            jr  c, _flag_equal_greater_ok ; branch if A < D
                             ld  a, 1
                             ld  (_sc_terminado), a
                         ._flag_equal_greater_ok
 	jp	i_89	;EOS
 .i_94
                             call _read_two_bytes_D_E
-                            ld  b, 0
-                            ld  c, d
-                            ld  hl, _flags
-                            add hl, bc
-                            ld  a, (hl)
+                            ld  a, d
+                            call undo_flag_reference_do
                             cp  e
                             jr  nz, _flag_different_val_ok
                             ld  a, 1
@@ -4254,13 +4284,13 @@
 	ret
 
 
-	C_LINE	103,"mk2.c::run_script::0::73"
-	C_LINE	0,"engine/scripting.h::run_script::0::73"
-	C_LINE	2,"engine/scripting.h::run_script::0::73"
+	C_LINE	104,"mk2.c::run_script::0::74"
+	C_LINE	0,"engine/scripting.h::run_script::0::74"
+	C_LINE	2,"engine/scripting.h::run_script::0::74"
 
 ; Function run_entering_script flags 0x00000200 __smallc 
 ; void run_entering_script()
-	C_LINE	2,"engine/scripting.h::run_entering_script::0::73"
+	C_LINE	2,"engine/scripting.h::run_entering_script::0::74"
 ._run_entering_script
 	ld	hl,41	;const
 	push	hl
@@ -4278,11 +4308,11 @@
 	ret
 
 
-	C_LINE	50,"engine/scripting.h::run_entering_script::0::75"
+	C_LINE	50,"engine/scripting.h::run_entering_script::0::76"
 
 ; Function run_fire_script flags 0x00000200 __smallc 
 ; void run_fire_script()
-	C_LINE	50,"engine/scripting.h::run_fire_script::0::75"
+	C_LINE	50,"engine/scripting.h::run_fire_script::0::76"
 ._run_fire_script
 	ld	hl,42	;const
 	push	hl
@@ -4301,11 +4331,11 @@
 	ret
 
 
-	C_LINE	55,"engine/scripting.h::run_fire_script::0::76"
+	C_LINE	55,"engine/scripting.h::run_fire_script::0::77"
 
 ; Function do_ingame_scripting flags 0x00000200 __smallc 
 ; void do_ingame_scripting()
-	C_LINE	55,"engine/scripting.h::do_ingame_scripting::0::76"
+	C_LINE	55,"engine/scripting.h::do_ingame_scripting::0::77"
 ._do_ingame_scripting
 	ld	hl,(_pad0)
 	ld	h,0
@@ -4332,9 +4362,9 @@
 	ret
 
 
-	C_LINE	107,"mk2.c::do_ingame_scripting::0::80"
-	C_LINE	0,"engine/frames.h::do_ingame_scripting::0::80"
-	C_LINE	37,"engine/frames.h::do_ingame_scripting::0::80"
+	C_LINE	108,"mk2.c::do_ingame_scripting::0::81"
+	C_LINE	0,"engine/frames.h::do_ingame_scripting::0::81"
+	C_LINE	37,"engine/frames.h::do_ingame_scripting::0::81"
 	SECTION	data_compiler
 ._player_frames
 	defw	_sprite_5_a + 0
@@ -4348,7 +4378,7 @@
 	defw	_sprite_8_a + 0
 	defw	_sprite_4_a + 0
 	SECTION	code_compiler
-	C_LINE	45,"engine/frames.h::do_ingame_scripting::0::80"
+	C_LINE	45,"engine/frames.h::do_ingame_scripting::0::81"
 	SECTION	data_compiler
 ._enem_frames
 	defw	_sprite_9_a + 0
@@ -4360,13 +4390,13 @@
 	defw	_sprite_15_a + 0
 	defw	_sprite_16_a + 0
 	SECTION	code_compiler
-	C_LINE	111,"mk2.c::do_ingame_scripting::0::80"
-	C_LINE	0,"engine/clevels.h::do_ingame_scripting::0::80"
-	C_LINE	63,"engine/clevels.h::do_ingame_scripting::0::80"
+	C_LINE	112,"mk2.c::do_ingame_scripting::0::81"
+	C_LINE	0,"engine/clevels.h::do_ingame_scripting::0::81"
+	C_LINE	63,"engine/clevels.h::do_ingame_scripting::0::81"
 
 ; Function prepare_level flags 0x00000200 __smallc 
 ; void prepare_level()
-	C_LINE	63,"engine/clevels.h::prepare_level::0::80"
+	C_LINE	63,"engine/clevels.h::prepare_level::0::81"
 ._prepare_level
 	ld	hl,_levels
 	push	hl
@@ -4435,13 +4465,13 @@
 	ret
 
 
-	C_LINE	117,"mk2.c::prepare_level::0::82"
-	C_LINE	0,"engine/collision.h::prepare_level::0::82"
-	C_LINE	7,"engine/collision.h::prepare_level::0::82"
+	C_LINE	118,"mk2.c::prepare_level::0::83"
+	C_LINE	0,"engine/collision.h::prepare_level::0::83"
+	C_LINE	7,"engine/collision.h::prepare_level::0::83"
 
 ; Function collide_pixel flags 0x00000200 __smallc 
 ; unsigned char collide_pixel()
-	C_LINE	7,"engine/collision.h::collide_pixel::0::82"
+	C_LINE	7,"engine/collision.h::collide_pixel::0::83"
 ._collide_pixel
 			ld  hl, 0
 			ld  a, (_cx2)
@@ -4474,11 +4504,11 @@
 	ret
 
 
-	C_LINE	52,"engine/collision.h::collide_pixel::0::83"
+	C_LINE	52,"engine/collision.h::collide_pixel::0::84"
 
 ; Function cm_two_points flags 0x00000200 __smallc 
 ; unsigned char cm_two_points()
-	C_LINE	52,"engine/collision.h::cm_two_points::0::83"
+	C_LINE	52,"engine/collision.h::cm_two_points::0::84"
 ._cm_two_points
 			ld  a, (_cx1)
 			cp  15
@@ -4537,11 +4567,11 @@
 	ret
 
 
-	C_LINE	127,"engine/collision.h::cm_two_points::0::84"
+	C_LINE	127,"engine/collision.h::cm_two_points::0::85"
 
 ; Function attr flags 0x00000200 __smallc 
 ; unsigned char attr()
-	C_LINE	127,"engine/collision.h::attr::0::84"
+	C_LINE	127,"engine/collision.h::attr::0::85"
 ._attr
 			ld  a, (_cx1)
 			cp  15
@@ -4574,11 +4604,11 @@
 	ret
 
 
-	C_LINE	169,"engine/collision.h::attr::0::85"
+	C_LINE	169,"engine/collision.h::attr::0::86"
 
 ; Function qtile flags 0x00000200 __smallc 
 ; unsigned char qtile()
-	C_LINE	169,"engine/collision.h::qtile::0::85"
+	C_LINE	169,"engine/collision.h::qtile::0::86"
 ._qtile
 			ld  a, (_cx1)
 			cp  15
@@ -4611,20 +4641,20 @@
 	ret
 
 
-	C_LINE	121,"mk2.c::qtile::0::86"
-	C_LINE	0,"engine/random.h::qtile::0::86"
-	C_LINE	7,"engine/random.h::qtile::0::86"
-	C_LINE	8,"engine/random.h::qtile::0::86"
-	C_LINE	9,"engine/random.h::qtile::0::86"
-	C_LINE	10,"engine/random.h::qtile::0::86"
+	C_LINE	122,"mk2.c::qtile::0::87"
+	C_LINE	0,"engine/random.h::qtile::0::87"
+	C_LINE	7,"engine/random.h::qtile::0::87"
+	C_LINE	8,"engine/random.h::qtile::0::87"
+	C_LINE	9,"engine/random.h::qtile::0::87"
+	C_LINE	10,"engine/random.h::qtile::0::87"
 	._seed1 defw 0
 	._seed2 defw 0
 	._randres defb 0
-	C_LINE	18,"engine/random.h::qtile::0::86"
+	C_LINE	18,"engine/random.h::qtile::0::87"
 
 ; Function rand flags 0x00000200 __smallc 
 ; unsigned char rand()
-	C_LINE	18,"engine/random.h::rand::0::86"
+	C_LINE	18,"engine/random.h::rand::0::87"
 ._rand
 		.rnd 
 			ld  hl,0xA280
@@ -4654,11 +4684,11 @@
 	ret
 
 
-	C_LINE	49,"engine/random.h::rand::0::87"
+	C_LINE	49,"engine/random.h::rand::0::88"
 
 ; Function srand flags 0x00000200 __smallc 
 ; void srand()
-	C_LINE	49,"engine/random.h::srand::0::87"
+	C_LINE	49,"engine/random.h::srand::0::88"
 ._srand
 			ld	hl, (_seed1)
 			ld	(rnd+1),hl
@@ -4667,13 +4697,13 @@
 	ret
 
 
-	C_LINE	124,"mk2.c::srand::0::88"
-	C_LINE	0,"engine/messages.h::srand::0::88"
-	C_LINE	12,"engine/messages.h::srand::0::88"
+	C_LINE	125,"mk2.c::srand::0::89"
+	C_LINE	0,"engine/messages.h::srand::0::89"
+	C_LINE	12,"engine/messages.h::srand::0::89"
 
 ; Function game_ending flags 0x00000200 __smallc 
 ; void game_ending()
-	C_LINE	12,"engine/messages.h::game_ending::0::88"
+	C_LINE	12,"engine/messages.h::game_ending::0::89"
 ._game_ending
 	call	sp_UpdateNow
 	ld	hl,2	;const
@@ -4686,11 +4716,11 @@
 	ret
 
 
-	C_LINE	31,"engine/messages.h::game_ending::0::89"
+	C_LINE	31,"engine/messages.h::game_ending::0::90"
 
 ; Function game_over flags 0x00000200 __smallc 
 ; void game_over()
-	C_LINE	31,"engine/messages.h::game_over::0::89"
+	C_LINE	31,"engine/messages.h::game_over::0::90"
 ._game_over
 	ld	a,1
 	ld	(__x),a
@@ -4707,13 +4737,13 @@
 	ret
 
 
-	C_LINE	127,"mk2.c::game_over::0::90"
-	C_LINE	0,"engine/tilanim.h::game_over::0::90"
-	C_LINE	6,"engine/tilanim.h::game_over::0::90"
+	C_LINE	128,"mk2.c::game_over::0::91"
+	C_LINE	0,"engine/tilanim.h::game_over::0::91"
+	C_LINE	6,"engine/tilanim.h::game_over::0::91"
 
 ; Function tilanim_reset flags 0x00000200 __smallc 
 ; void tilanim_reset()
-	C_LINE	6,"engine/tilanim.h::tilanim_reset::0::90"
+	C_LINE	6,"engine/tilanim.h::tilanim_reset::0::91"
 ._tilanim_reset
 			ld  hl, _tilanims_ft
 			ld  de, _tilanims_ft + 1 
@@ -4727,11 +4757,11 @@
 	ret
 
 
-	C_LINE	22,"engine/tilanim.h::tilanim_reset::0::91"
+	C_LINE	22,"engine/tilanim.h::tilanim_reset::0::92"
 
 ; Function tilanims_add flags 0x00000200 __smallc 
 ; void tilanims_add()
-	C_LINE	22,"engine/tilanim.h::tilanims_add::0::91"
+	C_LINE	22,"engine/tilanim.h::tilanims_add::0::92"
 ._tilanims_add
 			ld  de, (_max_tilanims)
 			ld  d, 0
@@ -4749,11 +4779,11 @@
 	ret
 
 
-	C_LINE	45,"engine/tilanim.h::tilanims_add::0::92"
+	C_LINE	45,"engine/tilanim.h::tilanims_add::0::93"
 
 ; Function tilanims_do flags 0x00000200 __smallc 
 ; void tilanims_do()
-	C_LINE	45,"engine/tilanim.h::tilanims_do::0::92"
+	C_LINE	45,"engine/tilanim.h::tilanims_do::0::93"
 ._tilanims_do
 			ld  a, (_max_tilanims)
 			or  a
@@ -4868,13 +4898,13 @@
 	ret
 
 
-	C_LINE	144,"mk2.c::tilanims_do::0::96"
-	C_LINE	0,"engine/breakable-s.h::tilanims_do::0::96"
-	C_LINE	7,"engine/breakable-s.h::tilanims_do::0::96"
+	C_LINE	145,"mk2.c::tilanims_do::0::97"
+	C_LINE	0,"engine/breakable-s.h::tilanims_do::0::97"
+	C_LINE	7,"engine/breakable-s.h::tilanims_do::0::97"
 
 ; Function wall_broken flags 0x00000200 __smallc 
 ; void wall_broken()
-	C_LINE	7,"engine/breakable-s.h::wall_broken::0::96"
+	C_LINE	7,"engine/breakable-s.h::wall_broken::0::97"
 ._wall_broken
 	ld	hl,0	;const
 	ld	a,l
@@ -4900,11 +4930,11 @@
 	ret
 
 
-	C_LINE	159,"engine/breakable-s.h::wall_broken::0::97"
+	C_LINE	159,"engine/breakable-s.h::wall_broken::0::98"
 
 ; Function break_wall flags 0x00000200 __smallc 
 ; void break_wall()
-	C_LINE	159,"engine/breakable-s.h::break_wall::0::97"
+	C_LINE	159,"engine/breakable-s.h::break_wall::0::98"
 ._break_wall
 	ld	a,(__x)
 	ld	(_cx1),a
@@ -4943,13 +4973,13 @@
 	ret
 
 
-	C_LINE	153,"mk2.c::break_wall::0::99"
-	C_LINE	0,"engine/inits.h::break_wall::0::99"
-	C_LINE	18,"engine/inits.h::break_wall::0::99"
+	C_LINE	154,"mk2.c::break_wall::0::100"
+	C_LINE	0,"engine/inits.h::break_wall::0::100"
+	C_LINE	18,"engine/inits.h::break_wall::0::100"
 
 ; Function init_bullets flags 0x00000200 __smallc 
 ; void init_bullets()
-	C_LINE	18,"engine/inits.h::init_bullets::0::99"
+	C_LINE	18,"engine/inits.h::init_bullets::0::100"
 ._init_bullets
 	xor	a
 	ld	(_gpit),a
@@ -4972,13 +5002,13 @@
 	ret
 
 
-	C_LINE	157,"mk2.c::init_bullets::0::101"
-	C_LINE	0,"engine/bullets.h::init_bullets::0::101"
-	C_LINE	7,"engine/bullets.h::init_bullets::0::101"
+	C_LINE	158,"mk2.c::init_bullets::0::102"
+	C_LINE	0,"engine/bullets.h::init_bullets::0::102"
+	C_LINE	7,"engine/bullets.h::init_bullets::0::102"
 
 ; Function fire_bullet flags 0x00000200 __smallc 
 ; void fire_bullet()
-	C_LINE	7,"engine/bullets.h::fire_bullet::0::101"
+	C_LINE	7,"engine/bullets.h::fire_bullet::0::102"
 ._fire_bullet
 	ld	hl,(_flags+1)
 	ld	h,0
@@ -5093,11 +5123,11 @@
 	ret
 
 
-	C_LINE	150,"engine/bullets.h::fire_bullet::0::106"
+	C_LINE	150,"engine/bullets.h::fire_bullet::0::107"
 
 ; Function mueve_bullets flags 0x00000200 __smallc 
 ; void mueve_bullets()
-	C_LINE	150,"engine/bullets.h::mueve_bullets::0::106"
+	C_LINE	150,"engine/bullets.h::mueve_bullets::0::107"
 ._mueve_bullets
 	xor	a
 	ld	(_gpit),a
@@ -5239,15 +5269,15 @@
 	ret
 
 
-	C_LINE	166,"mk2.c::mueve_bullets::0::113"
-	C_LINE	0,"engine/blocks.h::mueve_bullets::0::113"
-	C_LINE	175,"mk2.c::mueve_bullets::0::113"
-	C_LINE	0,"engine/player.h::mueve_bullets::0::113"
-	C_LINE	25,"engine/player.h::mueve_bullets::0::113"
+	C_LINE	167,"mk2.c::mueve_bullets::0::114"
+	C_LINE	0,"engine/blocks.h::mueve_bullets::0::114"
+	C_LINE	176,"mk2.c::mueve_bullets::0::114"
+	C_LINE	0,"engine/player.h::mueve_bullets::0::114"
+	C_LINE	25,"engine/player.h::mueve_bullets::0::114"
 
 ; Function player_init flags 0x00000200 __smallc 
 ; void player_init()
-	C_LINE	25,"engine/player.h::player_init::0::113"
+	C_LINE	25,"engine/player.h::player_init::0::114"
 ._player_init
 	xor	a
 	ld	(_p_vy),a
@@ -5308,11 +5338,11 @@
 	ret
 
 
-	C_LINE	146,"engine/player.h::player_init::0::114"
+	C_LINE	146,"engine/player.h::player_init::0::115"
 
 ; Function player_calc_bounding_box flags 0x00000200 __smallc 
 ; void player_calc_bounding_box()
-	C_LINE	146,"engine/player.h::player_calc_bounding_box::0::114"
+	C_LINE	146,"engine/player.h::player_calc_bounding_box::0::115"
 ._player_calc_bounding_box
 			ld  a, (_gpx)
 			srl a
@@ -5343,11 +5373,11 @@
 	ret
 
 
-	C_LINE	276,"engine/player.h::player_calc_bounding_box::0::115"
+	C_LINE	276,"engine/player.h::player_calc_bounding_box::0::116"
 
 ; Function player_kill flags 0x00000200 __smallc 
 ; void player_kill()
-	C_LINE	276,"engine/player.h::player_kill::0::115"
+	C_LINE	276,"engine/player.h::player_kill::0::116"
 ._player_kill
 	ld	hl,_p_life
 	ld	a,(hl)
@@ -5475,11 +5505,11 @@
 	ret
 
 
-	C_LINE	375,"engine/player.h::player_kill::0::119"
+	C_LINE	377,"engine/player.h::player_kill::0::120"
 
 ; Function player_move flags 0x00000200 __smallc 
 ; unsigned char player_move()
-	C_LINE	375,"engine/player.h::player_move::0::119"
+	C_LINE	377,"engine/player.h::player_move::0::120"
 ._player_move
 	ld	hl,0	;const
 	ld	a,l
@@ -5487,8 +5517,8 @@
 	ld	h,0
 	ld	a,l
 	ld	(_wall_v),a
-	C_LINE	0,"./engine/playermods/va.h::player_move::1::120"
-	C_LINE	0,"./engine/playermods/va_gravity_asm.h::player_move::1::120"
+	C_LINE	0,"./engine/playermods/va.h::player_move::1::121"
+	C_LINE	0,"./engine/playermods/va_gravity_asm.h::player_move::1::121"
 			ld  a, (_do_gravity)
 			or  a
 			jr  z, _player_gravity_done
@@ -5516,7 +5546,7 @@
 			xor a
 			ld  (_p_vy), a
 		._player_gravity_p_gotten_done
-	C_LINE	8,"./engine/playermods/va.h::player_move::1::120"
+	C_LINE	8,"./engine/playermods/va.h::player_move::1::121"
 	ld	hl,(_p_y)
 	push	hl
 	ld	hl,_p_vy
@@ -5544,7 +5574,7 @@
 	ld	h,0
 	ld	a,l
 	ld	(_gpy),a
-	C_LINE	0,"./engine/playermods/va_collision_asm.h::player_move::1::120"
+	C_LINE	0,"./engine/playermods/va_collision_asm.h::player_move::1::121"
 		call _player_calc_bounding_box
 		xor a 
 		ld  (_hit_v), a
@@ -5667,8 +5697,8 @@
 	ld	l,a
 	ld	h,0
 	ld	(_gpyy),a
-	C_LINE	47,"./engine/playermods/va.h::player_move::1::120"
-	C_LINE	0,"./engine/playermods/possee.h::player_move::1::120"
+	C_LINE	47,"./engine/playermods/va.h::player_move::1::121"
+	C_LINE	0,"./engine/playermods/possee.h::player_move::1::121"
 	ld	hl,(_gpy)
 	ld	h,0
 	ld	bc,16
@@ -5724,8 +5754,8 @@
 	ld	h,0
 	ld	a,l
 	ld	(_p_safe_y),a
-	C_LINE	52,"./engine/playermods/va.h::player_move::1::122"
-	C_LINE	0,"./engine/playermods/jump_sideview.h::player_move::1::122"
+	C_LINE	52,"./engine/playermods/va.h::player_move::1::123"
+	C_LINE	0,"./engine/playermods/jump_sideview.h::player_move::1::123"
 .i_188
 	ld	hl,(_pad_this_frame)
 	ld	h,0
@@ -5823,10 +5853,10 @@
 	ld	a,l
 	ld	(_p_jmp_on),a
 .i_199
-	C_LINE	59,"./engine/playermods/va.h::player_move::1::125"
-	C_LINE	403,"engine/player.h::player_move::1::125"
-	C_LINE	0,"./engine/playermods/ha.h::player_move::1::125"
-	C_LINE	0,"./engine/playermods/ha_controller.h::player_move::1::125"
+	C_LINE	59,"./engine/playermods/va.h::player_move::1::126"
+	C_LINE	405,"engine/player.h::player_move::1::126"
+	C_LINE	0,"./engine/playermods/ha.h::player_move::1::126"
+	C_LINE	0,"./engine/playermods/ha_controller.h::player_move::1::126"
 	ld	hl,(_pad0)
 	ld	h,0
 	ld	a,4
@@ -5948,7 +5978,7 @@
 	ld	a,l
 	ld	(_p_facing),a
 .i_211
-	C_LINE	7,"./engine/playermods/ha.h::player_move::1::132"
+	C_LINE	7,"./engine/playermods/ha.h::player_move::1::133"
 .i_210
 	ld	hl,(_p_x)
 	push	hl
@@ -5989,7 +6019,7 @@
 	ld	h,0
 	ld	a,l
 	ld	(_gpx),a
-	C_LINE	0,"./engine/playermods/ha_collision_asm.h::player_move::1::132"
+	C_LINE	0,"./engine/playermods/ha_collision_asm.h::player_move::1::133"
 		call _player_calc_bounding_box
 					xor a 
 			ld  (_hit_h), a
@@ -6064,11 +6094,11 @@
 		ld  (_wall_h), a
 	._ha_collision_checkevil
 	._ha_collision_done
-	C_LINE	27,"./engine/playermods/ha.h::player_move::1::132"
-	C_LINE	409,"engine/player.h::player_move::1::132"
-	C_LINE	0,"./engine/playermods/type10.h::player_move::1::132"
-	C_LINE	458,"engine/player.h::player_move::1::132"
-	C_LINE	0,"./engine/playermods/fire.h::player_move::1::132"
+	C_LINE	27,"./engine/playermods/ha.h::player_move::1::133"
+	C_LINE	411,"engine/player.h::player_move::1::133"
+	C_LINE	0,"./engine/playermods/type10.h::player_move::1::133"
+	C_LINE	460,"engine/player.h::player_move::1::133"
+	C_LINE	0,"./engine/playermods/fire.h::player_move::1::133"
 	ld	hl,(_pad0)
 	ld	h,0
 	ld	a,128
@@ -6086,12 +6116,12 @@
 	ld	a,l
 	ld	(_p_disparando),a
 	call	_fire_bullet
-	C_LINE	464,"engine/player.h::player_move::1::133"
-	C_LINE	0,"./engine/playermods/hitter.h::player_move::1::133"
-	C_LINE	470,"engine/player.h::player_move::1::133"
-	C_LINE	0,"./engine/playermods/bombs.h::player_move::1::133"
-	C_LINE	476,"engine/player.h::player_move::1::133"
-	C_LINE	0,"./engine/playermods/fire_button.h::player_move::1::133"
+	C_LINE	466,"engine/player.h::player_move::1::134"
+	C_LINE	0,"./engine/playermods/hitter.h::player_move::1::134"
+	C_LINE	472,"engine/player.h::player_move::1::134"
+	C_LINE	0,"./engine/playermods/bombs.h::player_move::1::134"
+	C_LINE	478,"engine/player.h::player_move::1::134"
+	C_LINE	0,"./engine/playermods/fire_button.h::player_move::1::134"
 .i_215
 	ld	hl,(_pad0)
 	ld	h,0
@@ -6105,7 +6135,7 @@
 	ld	hl,0	;const
 	ld	a,l
 	ld	(_p_disparando),a
-	C_LINE	479,"engine/player.h::player_move::1::134"
+	C_LINE	481,"engine/player.h::player_move::1::135"
 .i_218
 	xor	a
 	ld	(_hit),a
@@ -6235,14 +6265,14 @@
 	ret
 
 
-	C_LINE	181,"mk2.c::player_move::0::141"
-	C_LINE	0,"engine/enems.h::player_move::0::141"
-	C_LINE	0,"./engine/enemmods/helper_funcs.h::player_move::0::141"
-	C_LINE	2,"./engine/enemmods/helper_funcs.h::player_move::0::141"
+	C_LINE	182,"mk2.c::player_move::0::142"
+	C_LINE	0,"engine/enems.h::player_move::0::142"
+	C_LINE	0,"./engine/enemmods/helper_funcs.h::player_move::0::142"
+	C_LINE	2,"./engine/enemmods/helper_funcs.h::player_move::0::142"
 
 ; Function distance flags 0x00000200 __smallc 
 ; unsigned char distance()
-	C_LINE	2,"./engine/enemmods/helper_funcs.h::distance::0::141"
+	C_LINE	2,"./engine/enemmods/helper_funcs.h::distance::0::142"
 ._distance
 				ld  a, (_cx1)
 				ld  c, a
@@ -6292,11 +6322,11 @@
 	ret
 
 
-	C_LINE	81,"./engine/enemmods/helper_funcs.h::distance::0::142"
+	C_LINE	81,"./engine/enemmods/helper_funcs.h::distance::0::143"
 
 ; Function coco_clear_sprite flags 0x00000200 __smallc 
 ; void coco_clear_sprite()
-	C_LINE	81,"./engine/enemmods/helper_funcs.h::coco_clear_sprite::0::142"
+	C_LINE	81,"./engine/enemmods/helper_funcs.h::coco_clear_sprite::0::143"
 ._coco_clear_sprite
 				ld  a, (_coco_it)
 				sla a
@@ -6317,11 +6347,11 @@
 	ret
 
 
-	C_LINE	108,"./engine/enemmods/helper_funcs.h::coco_clear_sprite::0::143"
+	C_LINE	108,"./engine/enemmods/helper_funcs.h::coco_clear_sprite::0::144"
 
 ; Function init_cocos flags 0x00000200 __smallc 
 ; void init_cocos()
-	C_LINE	108,"./engine/enemmods/helper_funcs.h::init_cocos::0::143"
+	C_LINE	108,"./engine/enemmods/helper_funcs.h::init_cocos::0::144"
 ._init_cocos
 	xor	a
 	ld	(_coco_it),a
@@ -6349,11 +6379,11 @@
 	ret
 
 
-	C_LINE	115,"./engine/enemmods/helper_funcs.h::init_cocos::0::145"
+	C_LINE	115,"./engine/enemmods/helper_funcs.h::init_cocos::0::146"
 
 ; Function shoot_coco flags 0x00000200 __smallc 
 ; void shoot_coco()
-	C_LINE	115,"./engine/enemmods/helper_funcs.h::shoot_coco::0::145"
+	C_LINE	115,"./engine/enemmods/helper_funcs.h::shoot_coco::0::146"
 ._shoot_coco
 	ld	hl,(__en_x)
 	ld	h,0
@@ -6477,11 +6507,11 @@
 	ret
 
 
-	C_LINE	148,"./engine/enemmods/helper_funcs.h::shoot_coco::0::150"
+	C_LINE	148,"./engine/enemmods/helper_funcs.h::shoot_coco::0::151"
 
 ; Function destroy_cocos flags 0x00000200 __smallc 
 ; void destroy_cocos()
-	C_LINE	148,"./engine/enemmods/helper_funcs.h::destroy_cocos::0::150"
+	C_LINE	148,"./engine/enemmods/helper_funcs.h::destroy_cocos::0::151"
 ._destroy_cocos
 	ld	de,_coco_s
 	ld	hl,(_coco_it)
@@ -6494,11 +6524,11 @@
 	ret
 
 
-	C_LINE	153,"./engine/enemmods/helper_funcs.h::destroy_cocos::0::151"
+	C_LINE	153,"./engine/enemmods/helper_funcs.h::destroy_cocos::0::152"
 
 ; Function move_cocos flags 0x00000200 __smallc 
 ; void move_cocos()
-	C_LINE	153,"./engine/enemmods/helper_funcs.h::move_cocos::0::151"
+	C_LINE	153,"./engine/enemmods/helper_funcs.h::move_cocos::0::152"
 ._move_cocos
 				ld  a,  3 
 				ld  (_coco_it), a
@@ -6605,15 +6635,15 @@
 	ret
 
 
-	C_LINE	362,"./engine/enemmods/helper_funcs.h::move_cocos::0::152"
-	C_LINE	16,"engine/enems.h::move_cocos::0::152"
-	C_LINE	0,"./engine/enemmods/kill_enemy.h::move_cocos::0::152"
-	C_LINE	3,"./engine/enemmods/kill_enemy.h::move_cocos::0::152"
+	C_LINE	362,"./engine/enemmods/helper_funcs.h::move_cocos::0::153"
+	C_LINE	16,"engine/enems.h::move_cocos::0::153"
+	C_LINE	0,"./engine/enemmods/kill_enemy.h::move_cocos::0::153"
+	C_LINE	3,"./engine/enemmods/kill_enemy.h::move_cocos::0::153"
 
 ; Function enems_kill flags 0x00000200 __smallc 
 ; void enems_kill(unsigned char amount)
 ; parameter 'unsigned char amount' at sp+2 size(1)
-	C_LINE	3,"./engine/enemmods/kill_enemy.h::enems_kill::0::152"
+	C_LINE	3,"./engine/enemmods/kill_enemy.h::enems_kill::0::153"
 ._enems_kill
 	ld	hl,_en_an_n_f
 	push	hl
@@ -6655,27 +6685,24 @@
 	ret
 
 
-	C_LINE	21,"engine/enems.h::enems_kill::0::154"
-	C_LINE	24,"engine/enems.h::enems_kill::0::154"
+	C_LINE	21,"engine/enems.h::enems_kill::0::155"
+	C_LINE	24,"engine/enems.h::enems_kill::0::155"
 
 ; Function enems_init flags 0x00000200 __smallc 
 ; void enems_init()
-	C_LINE	24,"engine/enems.h::enems_init::0::154"
+	C_LINE	24,"engine/enems.h::enems_init::0::155"
 ._enems_init
-	ld	a,(_do_respawn)
-	and	a
-	jp	z,i_240	;
 	xor	a
 	ld	(_gpit),a
-	jp	i_243	;EOS
-.i_241
+	jp	i_242	;EOS
+.i_240
 	ld	hl,_gpit
 	ld	a,(hl)
 	inc	(hl)
-.i_243
+.i_242
 	ld	a,(_gpit)
 	sub	3
-	jp	nc,i_242	;
+	jp	nc,i_241	;
 	ld	de,_en_an_count
 	ld	hl,(_gpit)
 	ld	h,0
@@ -6690,6 +6717,9 @@
 	ld	a,(_gpit)
 	add	(hl)
 	ld	(_enoffsmasi),a
+	ld	a,(_do_respawn)
+	and	a
+	jp	z,i_243	;
 	ld	hl,_baddies
 	push	hl
 	ld	hl,(_enoffsmasi)
@@ -6734,6 +6764,7 @@
 	ld	a,(hl)
 	pop	de
 	ld	(de),a
+.i_243
 	ld	hl,_baddies
 	push	hl
 	ld	hl,(_enoffsmasi)
@@ -6936,7 +6967,7 @@
 	ld	(hl),0
 	jp	i_248	;EOS
 .i_251
-	C_LINE	0,"./addons/drops/init.h::enems_init::5::159"
+	C_LINE	0,"./addons/drops/init.h::enems_init::5::160"
 	ld	hl,_baddies
 	push	hl
 	ld	hl,(_enoffsmasi)
@@ -6972,24 +7003,23 @@
 	ld	(hl),0
 	ld	l,(hl)
 	ld	h,0
-	C_LINE	113,"engine/enems.h::enems_init::5::159"
+	C_LINE	131,"engine/enems.h::enems_init::5::160"
 	jp	i_248	;EOS
-	C_LINE	0,"./my/extra_enems_init.h::enems_init::5::159"
-	C_LINE	121,"engine/enems.h::enems_init::5::159"
+	C_LINE	0,"./my/extra_enems_init.h::enems_init::5::160"
+	C_LINE	141,"engine/enems.h::enems_init::5::160"
 	jp	i_248	;EOS
 	defc	i_252 = i_248
-	defc	i_248 = i_241
-	defc	i_244 = i_241
-.i_242
-.i_240
+	defc	i_248 = i_240
+	defc	i_244 = i_240
+.i_241
 	ret
 
 
-	C_LINE	137,"engine/enems.h::enems_init::0::159"
+	C_LINE	158,"engine/enems.h::enems_init::0::160"
 
 ; Function enems_move_spr_abs flags 0x00000200 __smallc 
 ; void enems_move_spr_abs()
-	C_LINE	137,"engine/enems.h::enems_move_spr_abs::0::159"
+	C_LINE	158,"engine/enems.h::enems_move_spr_abs::0::160"
 ._enems_move_spr_abs
 		; enter: IX = sprite structure address 
 		;        IY = clipping rectangle, set it to "ClipStruct" for full screen 
@@ -7056,11 +7086,11 @@
 	ret
 
 
-	C_LINE	232,"engine/enems.h::enems_move_spr_abs::0::160"
+	C_LINE	253,"engine/enems.h::enems_move_spr_abs::0::161"
 
 ; Function enems_move flags 0x00000200 __smallc 
 ; void enems_move()
-	C_LINE	232,"engine/enems.h::enems_move::0::160"
+	C_LINE	253,"engine/enems.h::enems_move::0::161"
 ._enems_move
 	ld	hl,0	;const
 	ld	a,l
@@ -7269,7 +7299,7 @@
 	ld	a,l
 	ld	(_killable),a
 .i_269
-	C_LINE	0,"./engine/enemmods/move_linear.h::enems_move::5::170"
+	C_LINE	0,"./engine/enemmods/move_linear.h::enems_move::5::171"
 		ld 	a, 1
 		ld  (_active), a
 		ld  (_animate), a
@@ -7322,11 +7352,11 @@
 	defc	i_271 = i_270
 .i_272_i_271
 	call	_shoot_coco
-	C_LINE	462,"engine/enems.h::enems_move::5::170"
+	C_LINE	483,"engine/enems.h::enems_move::5::171"
 	jp	i_266	;EOS
 	defc	i_270 = i_266
 .i_273
-	C_LINE	0,"./engine/enemmods/move_fanty_asm.h::enems_move::5::170"
+	C_LINE	0,"./engine/enemmods/move_fanty_asm.h::enems_move::5::171"
 		ld  a, 1
 		ld  (_active), a
 		ld  (_killable), a
@@ -7593,13 +7623,13 @@
 		ld  (hl), e 
 		inc hl
 		ld  (hl), d		
-	C_LINE	467,"engine/enems.h::enems_move::5::170"
+	C_LINE	488,"engine/enems.h::enems_move::5::171"
 	jp	i_266	;EOS
 .i_274
 	ld	hl,1	;const
 	ld	a,l
 	ld	(_killable),a
-	C_LINE	0,"./addons/drops/move.h::enems_move::5::170"
+	C_LINE	0,"./addons/drops/move.h::enems_move::5::171"
 	ld	a,(__en_mx)
 	and	a
 	jp	z,i_275	;
@@ -7730,13 +7760,13 @@
 	ld	hl,1	;const
 	ld	a,l
 	ld	(_active),a
-	C_LINE	485,"engine/enems.h::enems_move::5::176"
+	C_LINE	506,"engine/enems.h::enems_move::5::177"
 	jp	i_266	;EOS
 .i_281
 	ld	hl,1	;const
 	ld	a,l
 	ld	(_killable),a
-	C_LINE	0,"./addons/arrows/move.h::enems_move::5::176"
+	C_LINE	0,"./addons/arrows/move.h::enems_move::5::177"
 	xor	a
 	ld	(__en_y2),a
 	ld	a,(__en_my)
@@ -7865,10 +7895,10 @@
 	ld	hl,1	;const
 	ld	a,l
 	ld	(_active),a
-	C_LINE	493,"engine/enems.h::enems_move::5::180"
+	C_LINE	514,"engine/enems.h::enems_move::5::181"
 	jp	i_266	;EOS
-	C_LINE	0,"./my/extra_enems_move.h::enems_move::5::180"
-	C_LINE	501,"engine/enems.h::enems_move::5::180"
+	C_LINE	0,"./my/extra_enems_move.h::enems_move::5::181"
+	C_LINE	522,"engine/enems.h::enems_move::5::181"
 .i_293
 	ld	hl,_en_an_n_f
 	push	hl
@@ -7942,7 +7972,7 @@
 	call	l_gint	;
 	pop	de
 	call	l_pint
-	C_LINE	0,"./engine/enemmods/bullets.h::enems_move::5::183"
+	C_LINE	0,"./engine/enemmods/bullets.h::enems_move::5::184"
 .i_295
 	ld	a,(_killable)
 	and	a
@@ -8013,8 +8043,8 @@
 	defc	i_304 = i_300
 	defc	i_303 = i_300
 .i_301
-	C_LINE	538,"engine/enems.h::enems_move::5::187"
-	C_LINE	0,"./engine/enemmods/platforms.h::enems_move::5::187"
+	C_LINE	559,"engine/enems.h::enems_move::5::188"
+	C_LINE	0,"./engine/enemmods/platforms.h::enems_move::5::188"
 .i_299
 .i_298
 			ld  a, (_gpt)
@@ -8106,7 +8136,7 @@
 			ld  (_p_y), hl
 			ret 
 		._enems_platforms_done
-	C_LINE	546,"engine/enems.h::enems_move::5::187"
+	C_LINE	567,"engine/enems.h::enems_move::5::188"
 					ld  a, (_tocado)
 					or  a
 					jp  nz, _enems_collision_skip
@@ -8241,13 +8271,13 @@
 	ret
 
 
-	C_LINE	195,"mk2.c::enems_move::0::191"
-	C_LINE	0,"engine/update_sprites.h::enems_move::0::191"
-	C_LINE	1,"engine/update_sprites.h::enems_move::0::191"
+	C_LINE	196,"mk2.c::enems_move::0::192"
+	C_LINE	0,"engine/update_sprites.h::enems_move::0::192"
+	C_LINE	1,"engine/update_sprites.h::enems_move::0::192"
 
 ; Function update_sprites flags 0x00000200 __smallc 
 ; void update_sprites()
-	C_LINE	1,"engine/update_sprites.h::update_sprites::0::191"
+	C_LINE	1,"engine/update_sprites.h::update_sprites::0::192"
 ._update_sprites
 	ld	hl,(_p_state)
 	ld	h,0
@@ -8390,13 +8420,13 @@
 	ret
 
 
-	C_LINE	198,"mk2.c::update_sprites::0::197"
-	C_LINE	0,"engine/drawscr.h::update_sprites::0::197"
-	C_LINE	7,"engine/drawscr.h::update_sprites::0::197"
+	C_LINE	199,"mk2.c::update_sprites::0::198"
+	C_LINE	0,"engine/drawscr.h::update_sprites::0::198"
+	C_LINE	11,"engine/drawscr.h::update_sprites::0::198"
 
 ; Function advance_worm flags 0x00000200 __smallc 
 ; void advance_worm()
-	C_LINE	7,"engine/drawscr.h::advance_worm::0::197"
+	C_LINE	11,"engine/drawscr.h::advance_worm::0::198"
 ._advance_worm
 			ld  bc, (_gpit)
 			ld  b, 0
@@ -8448,12 +8478,12 @@
 	ret
 
 
-	C_LINE	110,"engine/drawscr.h::advance_worm::0::199"
-	C_LINE	113,"engine/drawscr.h::advance_worm::0::199"
+	C_LINE	119,"engine/drawscr.h::advance_worm::0::200"
+	C_LINE	122,"engine/drawscr.h::advance_worm::0::200"
 
 ; Function draw_scr_background flags 0x00000200 __smallc 
 ; void draw_scr_background()
-	C_LINE	113,"engine/drawscr.h::draw_scr_background::0::199"
+	C_LINE	122,"engine/drawscr.h::draw_scr_background::0::200"
 ._draw_scr_background
 	ld	de,_seed1
 	ld	hl,(_n_pant)
@@ -8588,11 +8618,11 @@
 	ret
 
 
-	C_LINE	550,"engine/drawscr.h::draw_scr_background::0::200"
+	C_LINE	559,"engine/drawscr.h::draw_scr_background::0::201"
 
 ; Function draw_scr flags 0x00000200 __smallc 
 ; void draw_scr()
-	C_LINE	550,"engine/drawscr.h::draw_scr::0::200"
+	C_LINE	559,"engine/drawscr.h::draw_scr::0::201"
 ._draw_scr
 	ld	hl,1	;const
 	ld	a,l
@@ -8650,15 +8680,15 @@
 	ret
 
 
-	C_LINE	201,"mk2.c::draw_scr::0::203"
-	C_LINE	0,"engine/hud.h::draw_scr::0::203"
-	C_LINE	7,"engine/hud.h::draw_scr::0::203"
-	C_LINE	18,"engine/hud.h::draw_scr::0::203"
-	C_LINE	29,"engine/hud.h::draw_scr::0::203"
+	C_LINE	202,"mk2.c::draw_scr::0::204"
+	C_LINE	0,"engine/hud.h::draw_scr::0::204"
+	C_LINE	7,"engine/hud.h::draw_scr::0::204"
+	C_LINE	18,"engine/hud.h::draw_scr::0::204"
+	C_LINE	29,"engine/hud.h::draw_scr::0::204"
 
 ; Function update_hud flags 0x00000200 __smallc 
 ; void update_hud()
-	C_LINE	29,"engine/hud.h::update_hud::0::203"
+	C_LINE	29,"engine/hud.h::update_hud::0::204"
 ._update_hud
 	ld	hl,(_p_life)
 	ld	h,0
@@ -8705,13 +8735,13 @@
 	ret
 
 
-	C_LINE	204,"mk2.c::update_hud::0::206"
-	C_LINE	0,"engine/flickscreen.h::update_hud::0::206"
-	C_LINE	53,"engine/flickscreen.h::update_hud::0::206"
+	C_LINE	205,"mk2.c::update_hud::0::207"
+	C_LINE	0,"engine/flickscreen.h::update_hud::0::207"
+	C_LINE	53,"engine/flickscreen.h::update_hud::0::207"
 
 ; Function flick_screen flags 0x00000200 __smallc 
 ; void flick_screen()
-	C_LINE	53,"engine/flickscreen.h::flick_screen::0::206"
+	C_LINE	53,"engine/flickscreen.h::flick_screen::0::207"
 ._flick_screen
 	ld	a,(_gpx)
 	and	a
@@ -8834,15 +8864,15 @@
 	ret
 
 
-	C_LINE	212,"mk2.c::flick_screen::0::211"
-	C_LINE	0,"mainloop/mainloop.h::flick_screen::0::211"
-	C_LINE	0,"./mainloop/hide_sprites.h::flick_screen::0::211"
-	C_LINE	1,"./mainloop/hide_sprites.h::flick_screen::0::211"
+	C_LINE	213,"mk2.c::flick_screen::0::212"
+	C_LINE	0,"mainloop/mainloop.h::flick_screen::0::212"
+	C_LINE	0,"./mainloop/hide_sprites.h::flick_screen::0::212"
+	C_LINE	1,"./mainloop/hide_sprites.h::flick_screen::0::212"
 
 ; Function hide_sprites flags 0x00000200 __smallc 
 ; void hide_sprites(unsigned char which_ones)
 ; parameter 'unsigned char which_ones' at sp+2 size(1)
-	C_LINE	1,"./mainloop/hide_sprites.h::hide_sprites::0::211"
+	C_LINE	1,"./mainloop/hide_sprites.h::hide_sprites::0::212"
 ._hide_sprites
 	ld	hl,2	;const
 	add	hl,sp
@@ -8925,15 +8955,15 @@
 	ret
 
 
-	C_LINE	8,"mainloop/mainloop.h::hide_sprites::0::213"
-	C_LINE	12,"mainloop/mainloop.h::hide_sprites::0::213"
+	C_LINE	8,"mainloop/mainloop.h::hide_sprites::0::214"
+	C_LINE	12,"mainloop/mainloop.h::hide_sprites::0::214"
 
 ; Function main flags 0x00000000 __stdc 
 ; void main()
-	C_LINE	12,"mainloop/mainloop.h::main::0::214"
+	C_LINE	12,"mainloop/mainloop.h::main::0::215"
 ._main
 		di
-	C_LINE	0,"./mainloop/mysystem.h::main::1::215"
+	C_LINE	0,"./mainloop/mysystem.h::main::1::216"
 	ld	hl,61937	;const
 	push	hl
 	call	sp_InitIM2
@@ -9001,8 +9031,8 @@
 	or	l
 	jp	nz,i_344	;EOS
 .i_343
-	C_LINE	22,"mainloop/mainloop.h::main::1::216"
-	C_LINE	0,"./mainloop/sprdefs.h::main::1::216"
+	C_LINE	22,"mainloop/mainloop.h::main::1::217"
+	C_LINE	0,"./mainloop/sprdefs.h::main::1::217"
 	ld	hl,0	;const
 	push	hl
 	ld	hl,3	;const
@@ -9213,12 +9243,12 @@
 	pop	bc
 	jp	i_351	;EOS
 .i_352
-	C_LINE	25,"mainloop/mainloop.h::main::1::219"
+	C_LINE	25,"mainloop/mainloop.h::main::1::220"
 			ei
 	call	_cortina
 	call	_wyz_init
 .i_354
-	C_LINE	0,"./my/title_screen.h::main::2::220"
+	C_LINE	0,"./my/title_screen.h::main::2::221"
 	call	sp_UpdateNow
 	ld	hl,0	;const
 	push	hl
@@ -9231,8 +9261,8 @@
 	call	_wyz_play_music
 	call	_select_joyfunc
 	call	_wyz_stop_sound
-	C_LINE	57,"mainloop/mainloop.h::main::2::220"
-	C_LINE	0,"./mainloop/game_init.h::main::2::220"
+	C_LINE	57,"mainloop/mainloop.h::main::2::221"
+	C_LINE	0,"./mainloop/game_init.h::main::2::221"
 	ld	a,1
 	ld	(_mlplaying),a
 	xor	a
@@ -9245,7 +9275,7 @@
 	ld	hl,0	;const
 	ld	a,l
 	ld	(_p_killme),a
-	C_LINE	63,"mainloop/mainloop.h::main::2::220"
+	C_LINE	63,"mainloop/mainloop.h::main::2::221"
 .i_356
 	ld	hl,(_mlplaying)
 	ld	h,0
@@ -9253,7 +9283,7 @@
 	or	l
 	jp	z,i_357	;
 	call	_prepare_level
-	C_LINE	0,"./my/new_level.h::main::3::221"
+	C_LINE	0,"./my/new_level.h::main::3::222"
 	ld	a,(_silent_level)
 	and	a
 	jp	nz,i_358	;
@@ -9291,8 +9321,8 @@
 	ld	hl,1	;const
 	ld	a,l
 	ld	(_silent_level),a
-	C_LINE	73,"mainloop/mainloop.h::main::3::222"
-	C_LINE	0,"./mainloop/level_init.h::main::3::222"
+	C_LINE	73,"mainloop/mainloop.h::main::3::223"
+	C_LINE	0,"./mainloop/level_init.h::main::3::223"
 	ld	hl,1	;const
 	ld	a,l
 	ld	(_playing),a
@@ -9337,7 +9367,7 @@
 	ld	hl,0	;const
 	ld	a,l
 	ld	(_no_draw),a
-	C_LINE	80,"mainloop/mainloop.h::main::3::223"
+	C_LINE	80,"mainloop/mainloop.h::main::3::224"
 .i_359
 	ld	hl,(_playing)
 	ld	h,0
@@ -9345,7 +9375,7 @@
 	or	l
 	jp	z,i_360	;
 	call	_read_controller
-	C_LINE	0,"./mainloop/timer.h::main::4::224"
+	C_LINE	0,"./mainloop/timer.h::main::4::225"
 	ld	a,(_ctimer)
 	and	a
 	jp	z,i_361	;
@@ -9379,7 +9409,7 @@
 	push	hl
 	call	_run_script
 	pop	bc
-	C_LINE	91,"mainloop/mainloop.h::main::4::229"
+	C_LINE	91,"mainloop/mainloop.h::main::4::230"
 .i_365
 	ld	hl,(_n_pant)
 	ld	h,0
@@ -9388,8 +9418,8 @@
 	ld	h,0
 	call	l_ne
 	jp	nc,i_366	;
-	C_LINE	0,"./my/before_flick.h::main::5::230"
-	C_LINE	95,"mainloop/mainloop.h::main::5::230"
+	C_LINE	0,"./my/before_flick.h::main::5::231"
+	C_LINE	95,"mainloop/mainloop.h::main::5::231"
 	ld	hl,(_n_pant)
 	ld	h,0
 	ld	a,l
@@ -9411,35 +9441,48 @@
 	call	_move_cocos
 	call	_mueve_bullets
 	call	_tilanims_do
-	call	_update_sprites
+	ld	hl,(_n_pant)
+	ld	h,0
+	ex	de,hl
+	ld	hl,(_o_pant)
+	ld	h,0
+	call	l_eq
+	call	c,_update_sprites
 .i_367
+.i_368
 	ld	hl,(_isrc)
 	ld	h,0
 	ld	a,l
 	sub	2
-	jp	nc,i_368	;
+	jp	nc,i_369	;
 						halt
-	jp	i_367	;EOS
-.i_368
-	ld	hl,0	;const
-	ld	a,l
+	jp	i_368	;EOS
+.i_369
+	xor	a
 	ld	(_isrc),a
-	call	sp_UpdateNow
+	ld	hl,(_n_pant)
+	ld	h,0
+	ex	de,hl
+	ld	hl,(_o_pant)
+	ld	h,0
+	call	l_eq
+	call	c,sp_UpdateNow
+.i_370
 	ld	a,(_p_state)
 	and	a
-	jp	z,i_369	;
+	jp	z,i_371	;
 	ld	hl,_p_state_ct
 	ld	a,(hl)
 	dec	(hl)
 	ld	a,(_p_state_ct)
 	and	a
-	jp	nz,i_370	;
+	jp	nz,i_372	;
 	ld	hl,0	;const
 	ld	a,l
 	ld	(_p_state),a
-.i_370
-	C_LINE	0,"./mainloop/hotspots.h::main::4::232"
-.i_369
+.i_372
+	C_LINE	0,"./mainloop/hotspots.h::main::4::233"
+.i_371
 		ld  a, (_hotspot_x)
 		ld  c, a
 		ld  a, (_gpx)
@@ -9480,7 +9523,7 @@
 	inc	hl
 	ld	a,(hl)
 	and	a
-	jp	z,i_371	;
+	jp	z,i_373	;
 	ld	hl,_hotspots
 	push	hl
 	ld	hl,(_n_pant)
@@ -9494,11 +9537,11 @@
 	inc	hl
 	ld	l,(hl)
 	ld	h,0
-.i_374
+.i_376
 	ld	a,l
 	cp	+(3% 256)
-	jp	nz,i_373	;EOS
-.i_375
+	jp	nz,i_375	;EOS
+.i_377
 	ld	hl,(_p_life)
 	inc	l
 	ld	a,l
@@ -9506,17 +9549,17 @@
 	ld	(hl),a
 	ld	a,5
 	sub	(hl)
-	jp	nc,i_376	;
+	jp	nc,i_378	;
 	ld	a,5
 	ld	(_p_life),a
-.i_376
+.i_378
 	ld	hl,7	;const
 	call	_wyz_play_sound
+.i_375
 .i_373
-.i_371
 	ld	a,(_gpit)
 	and	a
-	jp	nz,i_377	;
+	jp	nz,i_379	;
 	ld	hl,(_hotspot_x)
 	ld	h,0
 	ld	a,l
@@ -9557,112 +9600,112 @@
 	inc	hl
 	inc	hl
 	ld	(hl),0
-	jp	i_378	;EOS
-.i_377
+	jp	i_380	;EOS
+.i_379
 	ld	hl,2	;const
 	call	_wyz_play_sound
-.i_378
+.i_380
 	ld	hl,240	;const
 	ld	a,l
 	ld	(_hotspot_y),a
 	._hotspots_skip
-	C_LINE	192,"mainloop/mainloop.h::main::4::237"
+	C_LINE	192,"mainloop/mainloop.h::main::4::238"
 	call	_do_ingame_scripting
-	C_LINE	0,"./mainloop/win_game.h::main::4::237"
+	C_LINE	0,"./mainloop/win_game.h::main::4::238"
 	ld	a,(_level_data+7)
 	and	a
-	jp	nz,i_380	;
+	jp	nz,i_382	;
 	ld	hl,(_p_objs)
 	ld	h,0
 	ex	de,hl
 	ld	hl,(_level_data+5)
 	ld	h,0
 	call	l_eq
-	jp	c,i_382	;
-.i_380
-	jr	i_380_i_381
-.i_381
+	jp	c,i_384	;
+.i_382
+	jr	i_382_i_383
+.i_383
 	ld	a,h
 	or	l
-	jp	nz,i_382	;
-.i_380_i_381
+	jp	nz,i_384	;
+.i_382_i_383
 	ld	a,(_level_data+7)
 	cp	1
-	jp	nz,i_383	;
+	jp	nz,i_385	;
 	ld	hl,(_n_pant)
 	ld	h,0
 	ex	de,hl
 	ld	hl,(_level_data+8)
 	ld	h,0
 	call	l_eq
-	jp	c,i_382	;
-.i_383
-	jr	i_383_i_384
-.i_384
+	jp	c,i_384	;
+.i_385
+	jr	i_385_i_386
+.i_386
 	ld	a,h
 	or	l
-	jp	nz,i_382	;
-.i_383_i_384
+	jp	nz,i_384	;
+.i_385_i_386
 	ld	a,(_level_data+7)
 	cp	2
-	jp	nz,i_385	;
+	jp	nz,i_387	;
 	ld	a,(_script_result)
 	cp	1
-	jp	nz,i_385	;
-.i_382
-	defc	i_385 = i_379
-.i_387_i_385
+	jp	nz,i_387	;
+.i_384
+	defc	i_387 = i_381
+.i_389_i_387
 	ld	a,1
 	ld	(_success),a
 	ld	hl,0	;const
 	ld	a,l
 	ld	(_playing),a
-	C_LINE	216,"mainloop/mainloop.h::main::4::238"
-	C_LINE	0,"./mainloop/game_over.h::main::4::238"
-.i_379
+	C_LINE	216,"mainloop/mainloop.h::main::4::239"
+	C_LINE	0,"./mainloop/game_over.h::main::4::239"
+.i_381
 	ld	a,(_p_life)
 	and	a
-	jp	nz,i_389	;
+	jp	nz,i_391	;
 	ld	a,(_p_killme)
 	and	a
-	jp	z,i_389	;
+	jp	z,i_391	;
 	ld	hl,1	;const
-	jr	i_390
-.i_389
+	jr	i_392
+.i_391
 	ld	hl,0	;const
-.i_390
+.i_392
 	ld	a,h
 	or	l
-	jp	nz,i_391	;
+	jp	nz,i_393	;
 	ld	a,(_script_result)
 	cp	2
-	jp	nz,i_388	;
-.i_391
+	jp	nz,i_390	;
+.i_393
 	ld	hl,0	;const
 	ld	a,l
 	ld	(_playing),a
-	C_LINE	219,"mainloop/mainloop.h::main::4::239"
-.i_388
+	C_LINE	219,"mainloop/mainloop.h::main::4::240"
+.i_390
 	ld	hl,(_script_result)
 	ld	h,0
 	ld	a,2
 	sub	l
-	jp	nc,i_393	;
+	jp	nc,i_395	;
 	ld	a,(_script_result)
 	ld	(_success),a
 	xor	a
 	ld	(_playing),a
-.i_393
+.i_395
 	ld	hl,(_p_killme)
 	ld	h,0
 	ld	a,h
 	or	l
-	jp	z,i_394	;
+	jp	z,i_396	;
 	call	_player_kill
 	ld	hl,0	;const
 	ld	a,l
 	ld	(_p_killme),a
-.i_394
+.i_396
 	call	_flick_screen
 	jp	i_359	;EOS
 .i_360
@@ -9674,18 +9717,18 @@
 	call	sp_UpdateNow
 	ld	hl,(_success)
 	ld	h,0
-.i_397
+.i_399
 	ld	a,l
 	and	a
-	jp	z,i_398	;
-	cp	+(1% 256)
-	jp	z,i_399	;
-	cp	+(3% 256)
 	jp	z,i_400	;
-	cp	+(4% 256)
+	cp	+(1% 256)
 	jp	z,i_401	;
-	jp	i_396	;EOS
-.i_398
+	cp	+(3% 256)
+	jp	z,i_402	;
+	cp	+(4% 256)
+	jp	z,i_403	;
+	jp	i_398	;EOS
+.i_400
 	ld	hl,i_1+121
 	ld	(_gp_gen),hl
 	call	_print_message
@@ -9695,8 +9738,8 @@
 	push	hl
 	call	_active_sleep
 	pop	bc
-	jp	i_396	;EOS
-.i_399
+	jp	i_398	;EOS
+.i_401
 	ld	hl,i_1+180
 	ld	(_gp_gen),hl
 	call	_print_message
@@ -9707,14 +9750,14 @@
 	push	hl
 	call	_active_sleep
 	pop	bc
-	jp	i_396	;EOS
-.i_400
+	jp	i_398	;EOS
+.i_402
 	call	_blackout_area
 	ld	hl,(_warp_to_level)
 	ld	a,l
 	ld	(_level),a
-	jp	i_396	;EOS
-.i_401
+	jp	i_398	;EOS
+.i_403
 	ld	hl,2	;const
 	push	hl
 	ld	hl,16384	;const
@@ -9735,7 +9778,7 @@
 	xor	a
 	ld	(_mlplaying),a
 	jp	i_356	;EOS
-	defc	i_396 = i_356
+	defc	i_398 = i_356
 .i_357
 	call	_cortina
 	jp	i_354	;EOS
@@ -9743,7 +9786,7 @@
 	ret
 
 
-	C_LINE	217,"mk2.c::main::0::242"
+	C_LINE	218,"mk2.c::main::0::243"
 	SECTION	rodata_compiler
 .i_1
 	defm	"            "
@@ -10363,6 +10406,7 @@
 	GLOBAL	_spacer
 	GLOBAL	_invalidate_tile
 	GLOBAL	_invalidate_viewport
+	GLOBAL	_validate_viewport
 	GLOBAL	_draw_invalidate_coloured_tile_gamearea
 	GLOBAL	_print_str
 	GLOBAL	_utaux

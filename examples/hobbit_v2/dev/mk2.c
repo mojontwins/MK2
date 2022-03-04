@@ -15,6 +15,7 @@
 		LIB SPPrintAtInv
 		LIB SPTileArray
 		LIB SPInvalidate
+		LIB SPValidate
 		LIB SPCompDListAddr
 #endasm
 
@@ -94,11 +95,11 @@
 
 #ifdef ACTIVATE_SCRIPTING
 	#ifdef ENABLE_EXTERN_CODE
-	#ifdef EXTERN_E
-		#include "my/extern_e.h"
-	#else
-		#include "my/extern.h"
-	#endif
+		#ifdef EXTERN_E
+			#include "my/extern_e.h"
+		#else
+			#include "my/extern.h"
+		#endif
 	#endif
 	#include "my/msc.h"
 #endif

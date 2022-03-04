@@ -94,6 +94,29 @@ void read_two_bytes_D_E (void) {
                 call SetRAMBank
                 ei
             #endif
+
+			// D, E may be flag references!
+				ld  a, d
+				call undo_flag_reference
+				ld  d, a
+				ld  a, e
+				call undo_flag_reference
+				ld  e, a
+
+                ret
+
+            .undo_flag_reference
+                bit 7, a
+                ret z
+
+                and 0x7f
+            .undo_flag_reference_do
+                ld  b, 0
+                ld  c, a
+                ld  hl, _flags
+                add hl, bc
+                ld  a, (hl)
+                ret
     #endasm
 }
 unsigned char *next_script;
@@ -155,12 +178,9 @@ void run_script (unsigned char whichs) {
                     // sc_terminado = (flags [sc_x] != sc_y);
                     #asm
                             call _read_two_bytes_D_E
-                            // Set sc_terminado if flags [C] != E
-                            ld  b, 0
-                            ld  c, d
-                            ld  hl, _flags
-                            add hl, bc
-                            ld  a, (hl)
+                            // Set sc_terminado if flags [D] != E
+                            ld  a, d
+                            call undo_flag_reference_do
                             cp  e
                             jr  z, _flag_equal_val_ok
                             ld  a, 1
@@ -176,11 +196,8 @@ void run_script (unsigned char whichs) {
                     #asm
                             call _read_two_bytes_D_E
                             // Set sc_terminado if flags [C] == E
-                            ld  b, 0
-                            ld  c, d
-                            ld  hl, _flags
-                            add hl, bc
-                            ld  a, (hl)
+                            ld  a, d
+                            call undo_flag_reference_do
                             cp  e
                             jr  nz, _flag_different_val_ok
                             ld  a, 1

@@ -224,6 +224,7 @@ unsigned char AD_FREE [NUMBLOCKS * 15];
 
 #define ENABLE_PATROLLERS				// Yeah, you can now deactivate good ol' patrollers...
 //#define PATROLLERS_HIT			9 	// If defined, patrollers take THIS life, otherwise 1
+//#define PATROLLERS_RESET 				// If defined, patrollers are repositioned to x1,y1 on enter
 #define ENEMS_DYING_FRAMES 			12	// Show explosion for # frames
 
 #define ENABLE_FANTIES					// If defined, add code for flying enemies.
@@ -236,6 +237,7 @@ unsigned char AD_FREE [NUMBLOCKS * 15];
 // #define FANTIES_HIT 				12 	// If defined, fanties take THIS life, otherwise 1
 //#define FANTIES_FIXED_CELL 		2	// Always use this
 //#define FANTIES_WITH_FACING 			// If defined, 0 = facing left, 1 = facing right
+//#define FANTIES_INIT_ON_CURRENT		// If defined, init on (x, y) rather than (x1, y1)
 
 //#define ENABLE_PURSUE_ENEMIES 		// If defined, type 7 enemies are active
 //#define DEATH_COUNT_EXPRESSION	20+(rand()&15)
@@ -571,6 +573,7 @@ unsigned char AD_FREE [NUMBLOCKS * 15];
 //#define TWO_SETS_MAPPED				// Two sets, but which set to use is mapped after map data (1 byte per screen)
 //#define ENABLE_LEVEL_NAMES			// Give a name for each level/screen in engine/levelnames.h
 //#define ENABLE_EXTRA_PRINTS			// Configure extra tile prints for some screens in engine/extraprints.h
+//#define CUSTOM_BACKGROUND				// Use a custom background tile changer @ my/custom_background.h
 
 // Animated tiles v.3
 

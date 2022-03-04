@@ -31,9 +31,9 @@ echo ### COMPRESSING ENEMS ###
 ..\..\..\src\utils\apack.exe ..\bin\level1.hotspots.bin ..\bin\level1.hotspots.c.bin > nul
 
 echo ### MAKING TILESET ###
-..\..\..\src\utils\ts2bin.exe ..\gfx\font.png notiles ..\bin\font.bin forcezero >nul
-..\..\..\src\utils\ts2bin.exe nofont ..\gfx\tileset0.png ..\bin\level0.ts.bin forcezero >nul
-..\..\..\src\utils\ts2bin.exe nofont ..\gfx\tileset1.png ..\bin\level1.ts.bin forcezero >nul
+..\..\..\src\utils\ts2bin.exe ..\gfx\font.png notiles ..\bin\font.bin  >nul
+..\..\..\src\utils\ts2bin.exe nofont ..\gfx\tileset0.png ..\bin\level0.ts.bin  >nul
+..\..\..\src\utils\ts2bin.exe nofont ..\gfx\tileset1.png ..\bin\level1.ts.bin  >nul
 
 echo ### COMPRESSING METATILESETS ###
 ..\..\..\src\utils\apack.exe ..\bin\level0.ts.bin ..\bin\level0.ts.c.bin > nul

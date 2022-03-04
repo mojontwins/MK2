@@ -3,7 +3,7 @@
 ;
 ;	Reconstructed for z80 Module Assembler
 ;
-;	Module compile time: Thu Mar 03 12:50:28 2022
+;	Module compile time: Fri Mar 04 11:56:02 2022
 
 
 	C_LINE	0,"mk2.c"
@@ -166,6 +166,7 @@
 		LIB SPPrintAtInv
 		LIB SPTileArray
 		LIB SPInvalidate
+		LIB SPValidate
 		LIB SPCompDListAddr
 	C_LINE	0,"my/config.h"
 	C_LINE	39,"my/config.h"
@@ -185,9 +186,9 @@
 	defw	383
 	defw	0
 	SECTION	code_compiler
-	C_LINE	21,"mk2.c"
-	C_LINE	0,"my/sfx_config.h"
 	C_LINE	22,"mk2.c"
+	C_LINE	0,"my/sfx_config.h"
+	C_LINE	23,"mk2.c"
 	C_LINE	0,"definitions.h"
 	C_LINE	55,"definitions.h"
 	C_LINE	56,"definitions.h"
@@ -316,7 +317,7 @@
 	C_LINE	406,"definitions.h::my_malloc::0::1"
 	C_LINE	409,"definitions.h::my_malloc::0::1"
 	C_LINE	410,"definitions.h::my_malloc::0::1"
-	C_LINE	26,"mk2.c::my_malloc::0::1"
+	C_LINE	27,"mk2.c::my_malloc::0::1"
 	C_LINE	0,"autodefs.h::my_malloc::0::1"
 	C_LINE	31,"autodefs.h::my_malloc::0::1"
 	C_LINE	32,"autodefs.h::my_malloc::0::1"
@@ -330,7 +331,7 @@
 	C_LINE	41,"autodefs.h::my_malloc::0::1"
 	C_LINE	43,"autodefs.h::my_malloc::0::1"
 	C_LINE	44,"autodefs.h::my_malloc::0::1"
-	C_LINE	27,"mk2.c::my_malloc::0::1"
+	C_LINE	28,"mk2.c::my_malloc::0::1"
 	C_LINE	0,"system/aplib.h::my_malloc::0::1"
 	C_LINE	7,"system/aplib.h::my_malloc::0::1"
 	C_LINE	8,"system/aplib.h::my_malloc::0::1"
@@ -478,7 +479,7 @@
 	ret
 
 
-	C_LINE	37,"mk2.c::unpack::0::3"
+	C_LINE	38,"mk2.c::unpack::0::3"
 	C_LINE	0,"assets/pantallas.h::unpack::0::3"
 	C_LINE	8,"assets/pantallas.h::unpack::0::3"
 	C_LINE	9,"assets/pantallas.h::unpack::0::3"
@@ -490,7 +491,7 @@
 	C_LINE	22,"assets/pantallas.h::unpack::0::3"
 	._s_ending
 		BINARY "../bin/ending.bin"
-	C_LINE	38,"mk2.c::unpack::0::3"
+	C_LINE	39,"mk2.c::unpack::0::3"
 	C_LINE	0,"assets/levels.h::unpack::0::3"
 	C_LINE	11,"assets/levels.h::unpack::0::3"
 	C_LINE	15,"assets/levels.h::unpack::0::3"
@@ -1873,9 +1874,9 @@
 	._sprite_18_c
 		defb 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255
 	C_LINE	189,"assets/levels.h::unpack::0::3"
-	C_LINE	56,"mk2.c::unpack::0::3"
+	C_LINE	57,"mk2.c::unpack::0::3"
 	C_LINE	0,"addons/helpers.h::unpack::0::3"
-	C_LINE	66,"mk2.c::unpack::0::3"
+	C_LINE	67,"mk2.c::unpack::0::3"
 	C_LINE	0,"sound/beeper.h::unpack::0::3"
 	C_LINE	11,"sound/beeper.h::unpack::0::3"
 .sound_play
@@ -2096,7 +2097,7 @@
 	ret
 
 
-	C_LINE	85,"mk2.c::beep_fx::0::4"
+	C_LINE	86,"mk2.c::beep_fx::0::4"
 	C_LINE	0,"engine/isrc.h::beep_fx::0::4"
 	C_LINE	5,"engine/isrc.h::beep_fx::0::4"
 	defw 0
@@ -2114,7 +2115,7 @@
 	ret
 
 
-	C_LINE	87,"mk2.c::ISR::0::5"
+	C_LINE	88,"mk2.c::ISR::0::5"
 	C_LINE	0,"engine/printer.h::ISR::0::5"
 	C_LINE	8,"engine/printer.h::ISR::0::5"
 	SECTION	data_compiler
@@ -2444,20 +2445,42 @@
 
 	C_LINE	524,"engine/printer.h::invalidate_viewport::0::10"
 
+; Function validate_viewport flags 0x00000200 __smallc 
+; void validate_viewport()
+	C_LINE	524,"engine/printer.h::validate_viewport::0::10"
+._validate_viewport
+			; Invalidate Rectangle
+			;
+			; enter:  B = row coord top left corner
+			;         C = col coord top left corner
+			;         D = row coord bottom right corner
+			;         E = col coord bottom right corner
+			;        IY = clipping rectangle, set it to "ClipStruct" for full screen
+			ld  b,  2 
+			ld  c,  1 
+			ld  d,  2 +19
+			ld  e,  1 +29
+			ld  iy, vpClipStruct
+			call SPValidate
+	ret
+
+
+	C_LINE	545,"engine/printer.h::validate_viewport::0::11"
+
 ; Function draw_invalidate_coloured_tile_gamearea flags 0x00000200 __smallc 
 ; void draw_invalidate_coloured_tile_gamearea()
-	C_LINE	524,"engine/printer.h::draw_invalidate_coloured_tile_gamearea::0::10"
+	C_LINE	545,"engine/printer.h::draw_invalidate_coloured_tile_gamearea::0::11"
 ._draw_invalidate_coloured_tile_gamearea
 	call	_draw_coloured_tile_gamearea
 	call	_invalidate_tile
 	ret
 
 
-	C_LINE	529,"engine/printer.h::draw_invalidate_coloured_tile_gamearea::0::11"
+	C_LINE	550,"engine/printer.h::draw_invalidate_coloured_tile_gamearea::0::12"
 
 ; Function draw_coloured_tile_gamearea flags 0x00000200 __smallc 
 ; void draw_coloured_tile_gamearea()
-	C_LINE	529,"engine/printer.h::draw_coloured_tile_gamearea::0::11"
+	C_LINE	550,"engine/printer.h::draw_coloured_tile_gamearea::0::12"
 ._draw_coloured_tile_gamearea
 	ld	hl,(__x)
 	ld	h,0
@@ -2477,11 +2500,11 @@
 	ret
 
 
-	C_LINE	545,"engine/printer.h::draw_coloured_tile_gamearea::0::12"
+	C_LINE	564,"engine/printer.h::draw_coloured_tile_gamearea::0::13"
 
 ; Function print_number2 flags 0x00000200 __smallc 
 ; void print_number2()
-	C_LINE	545,"engine/printer.h::print_number2::0::12"
+	C_LINE	564,"engine/printer.h::print_number2::0::13"
 ._print_number2
 	ld	hl,(__t)
 	ld	h,0
@@ -2525,11 +2548,11 @@
 	ret
 
 
-	C_LINE	582,"engine/printer.h::print_number2::0::13"
+	C_LINE	601,"engine/printer.h::print_number2::0::14"
 
 ; Function draw_objs flags 0x00000200 __smallc 
 ; void draw_objs()
-	C_LINE	582,"engine/printer.h::draw_objs::0::13"
+	C_LINE	601,"engine/printer.h::draw_objs::0::14"
 ._draw_objs
 	ld	a,17
 	ld	(__x),a
@@ -2550,11 +2573,11 @@
 	ret
 
 
-	C_LINE	668,"engine/printer.h::draw_objs::0::14"
+	C_LINE	687,"engine/printer.h::draw_objs::0::15"
 
 ; Function print_str flags 0x00000200 __smallc 
 ; void print_str()
-	C_LINE	668,"engine/printer.h::print_str::0::14"
+	C_LINE	687,"engine/printer.h::print_str::0::15"
 ._print_str
 		ld  hl, (_gp_gen)
 		.print_str_loop
@@ -2578,11 +2601,11 @@
 	ret
 
 
-	C_LINE	701,"engine/printer.h::print_str::0::15"
+	C_LINE	720,"engine/printer.h::print_str::0::16"
 
 ; Function blackout_area flags 0x00000200 __smallc 
 ; void blackout_area()
-	C_LINE	701,"engine/printer.h::blackout_area::0::15"
+	C_LINE	720,"engine/printer.h::blackout_area::0::16"
 ._blackout_area
 			ld  de, 22528 + 32 *  2  +  1 
 			ld  b, 20
@@ -2601,16 +2624,16 @@
 	ret
 
 
-	C_LINE	722,"engine/printer.h::blackout_area::0::16"
+	C_LINE	741,"engine/printer.h::blackout_area::0::17"
 	SECTION	data_compiler
 ._utaux
 	defb	0
 	SECTION	code_compiler
-	C_LINE	723,"engine/printer.h::blackout_area::0::16"
+	C_LINE	742,"engine/printer.h::blackout_area::0::17"
 
 ; Function update_tile flags 0x00000200 __smallc 
 ; void update_tile()
-	C_LINE	723,"engine/printer.h::update_tile::0::16"
+	C_LINE	742,"engine/printer.h::update_tile::0::17"
 ._update_tile
 		ld  a, (__x)
 		ld  c, a
@@ -2640,11 +2663,11 @@
 	ret
 
 
-	C_LINE	762,"engine/printer.h::update_tile::0::17"
+	C_LINE	781,"engine/printer.h::update_tile::0::18"
 
 ; Function print_message flags 0x00000200 __smallc 
 ; void print_message()
-	C_LINE	762,"engine/printer.h::print_message::0::17"
+	C_LINE	781,"engine/printer.h::print_message::0::18"
 ._print_message
 	ld	a,10
 	ld	(__x),a
@@ -2677,13 +2700,13 @@
 	ret
 
 
-	C_LINE	91,"mk2.c::print_message::0::18"
-	C_LINE	0,"engine/general.h::print_message::0::18"
-	C_LINE	11,"engine/general.h::print_message::0::18"
+	C_LINE	92,"mk2.c::print_message::0::19"
+	C_LINE	0,"engine/general.h::print_message::0::19"
+	C_LINE	11,"engine/general.h::print_message::0::19"
 
 ; Function read_controller flags 0x00000200 __smallc 
 ; void read_controller()
-	C_LINE	11,"engine/general.h::read_controller::0::18"
+	C_LINE	11,"engine/general.h::read_controller::0::19"
 ._read_controller
 			ld  a, (_pad0)
 			ld  (_pad_this_frame), a
@@ -2720,11 +2743,11 @@
 	ret
 
 
-	C_LINE	81,"engine/general.h::read_controller::0::19"
+	C_LINE	81,"engine/general.h::read_controller::0::20"
 
 ; Function button_pressed flags 0x00000200 __smallc 
 ; unsigned char button_pressed()
-	C_LINE	81,"engine/general.h::button_pressed::0::19"
+	C_LINE	81,"engine/general.h::button_pressed::0::20"
 ._button_pressed
 	call	_read_controller
 	ld	a,(_pad_this_frame)
@@ -2735,11 +2758,11 @@
 	ret
 
 
-	C_LINE	85,"engine/general.h::button_pressed::0::20"
+	C_LINE	85,"engine/general.h::button_pressed::0::21"
 
 ; Function step flags 0x00000200 __smallc 
 ; void step()
-	C_LINE	85,"engine/general.h::step::0::20"
+	C_LINE	85,"engine/general.h::step::0::21"
 ._step
 		ld a, 16
 		out (254), a
@@ -2757,11 +2780,11 @@
 	ret
 
 
-	C_LINE	105,"engine/general.h::step::0::21"
+	C_LINE	105,"engine/general.h::step::0::22"
 
 ; Function cortina flags 0x00000200 __smallc 
 ; void cortina()
-	C_LINE	105,"engine/general.h::cortina::0::21"
+	C_LINE	105,"engine/general.h::cortina::0::22"
 ._cortina
 		ld b, 7
 	.fade_out_extern
@@ -2797,13 +2820,13 @@
 	ret
 
 
-	C_LINE	151,"engine/general.h::cortina::0::22"
+	C_LINE	151,"engine/general.h::cortina::0::23"
 
 ; Function addsign flags 0x00000200 __smallc 
 ; int addsign(int n, int value)
 ; parameter 'int value' at sp+2 size(2)
 ; parameter 'int n' at sp+4 size(2)
-	C_LINE	151,"engine/general.h::addsign::0::22"
+	C_LINE	151,"engine/general.h::addsign::0::23"
 ._addsign
 	ld	hl,4	;const
 	add	hl,sp
@@ -2840,12 +2863,12 @@
 	ret
 
 
-	C_LINE	156,"engine/general.h::addsign::0::23"
+	C_LINE	156,"engine/general.h::addsign::0::24"
 
 ; Function abs flags 0x00000200 __smallc 
 ; unsigned int abs(int n)
 ; parameter 'int n' at sp+2 size(2)
-	C_LINE	156,"engine/general.h::abs::0::23"
+	C_LINE	156,"engine/general.h::abs::0::24"
 ._abs
 	pop	bc
 	pop	hl
@@ -2874,12 +2897,12 @@
 	ret
 
 
-	C_LINE	163,"engine/general.h::abs::0::24"
+	C_LINE	163,"engine/general.h::abs::0::25"
 
 ; Function active_sleep flags 0x00000200 __smallc 
 ; void active_sleep(int espera)
 ; parameter 'int espera' at sp+2 size(2)
-	C_LINE	163,"engine/general.h::active_sleep::0::24"
+	C_LINE	163,"engine/general.h::active_sleep::0::25"
 ._active_sleep
 .i_28
 	ld	a,250
@@ -2919,11 +2942,11 @@
 	ret
 
 
-	C_LINE	179,"engine/general.h::active_sleep::0::27"
+	C_LINE	179,"engine/general.h::active_sleep::0::28"
 
 ; Function select_joyfunc flags 0x00000200 __smallc 
 ; void select_joyfunc()
-	C_LINE	179,"engine/general.h::select_joyfunc::0::27"
+	C_LINE	179,"engine/general.h::select_joyfunc::0::28"
 ._select_joyfunc
 			; Music generated by beepola
 			call musicstart
@@ -3050,9 +3073,9 @@
 	ret
 
 
-	C_LINE	93,"mk2.c::select_joyfunc::0::31"
-	C_LINE	0,"engine/frames.h::select_joyfunc::0::31"
-	C_LINE	37,"engine/frames.h::select_joyfunc::0::31"
+	C_LINE	94,"mk2.c::select_joyfunc::0::32"
+	C_LINE	0,"engine/frames.h::select_joyfunc::0::32"
+	C_LINE	37,"engine/frames.h::select_joyfunc::0::32"
 	SECTION	data_compiler
 ._player_frames
 	defw	_sprite_5_a + 0
@@ -3066,7 +3089,7 @@
 	defw	_sprite_8_a + 0
 	defw	_sprite_4_a + 0
 	SECTION	code_compiler
-	C_LINE	45,"engine/frames.h::select_joyfunc::0::31"
+	C_LINE	45,"engine/frames.h::select_joyfunc::0::32"
 	SECTION	data_compiler
 ._enem_frames
 	defw	_sprite_9_a + 0
@@ -3078,13 +3101,13 @@
 	defw	_sprite_15_a + 0
 	defw	_sprite_16_a + 0
 	SECTION	code_compiler
-	C_LINE	111,"mk2.c::select_joyfunc::0::31"
-	C_LINE	0,"engine/clevels.h::select_joyfunc::0::31"
-	C_LINE	88,"engine/clevels.h::select_joyfunc::0::31"
+	C_LINE	112,"mk2.c::select_joyfunc::0::32"
+	C_LINE	0,"engine/clevels.h::select_joyfunc::0::32"
+	C_LINE	88,"engine/clevels.h::select_joyfunc::0::32"
 
 ; Function prepare_level flags 0x00000200 __smallc 
 ; void prepare_level()
-	C_LINE	88,"engine/clevels.h::prepare_level::0::31"
+	C_LINE	88,"engine/clevels.h::prepare_level::0::32"
 ._prepare_level
 	ld	hl,_levels
 	push	hl
@@ -3338,13 +3361,13 @@
 	ret
 
 
-	C_LINE	117,"mk2.c::prepare_level::0::32"
-	C_LINE	0,"engine/collision.h::prepare_level::0::32"
-	C_LINE	7,"engine/collision.h::prepare_level::0::32"
+	C_LINE	118,"mk2.c::prepare_level::0::33"
+	C_LINE	0,"engine/collision.h::prepare_level::0::33"
+	C_LINE	7,"engine/collision.h::prepare_level::0::33"
 
 ; Function collide_pixel flags 0x00000200 __smallc 
 ; unsigned char collide_pixel()
-	C_LINE	7,"engine/collision.h::collide_pixel::0::32"
+	C_LINE	7,"engine/collision.h::collide_pixel::0::33"
 ._collide_pixel
 			ld  hl, 0
 			ld  a, (_cx2)
@@ -3377,11 +3400,11 @@
 	ret
 
 
-	C_LINE	52,"engine/collision.h::collide_pixel::0::33"
+	C_LINE	52,"engine/collision.h::collide_pixel::0::34"
 
 ; Function cm_two_points flags 0x00000200 __smallc 
 ; unsigned char cm_two_points()
-	C_LINE	52,"engine/collision.h::cm_two_points::0::33"
+	C_LINE	52,"engine/collision.h::cm_two_points::0::34"
 ._cm_two_points
 			ld  a, (_cx1)
 			cp  15
@@ -3440,11 +3463,11 @@
 	ret
 
 
-	C_LINE	127,"engine/collision.h::cm_two_points::0::34"
+	C_LINE	127,"engine/collision.h::cm_two_points::0::35"
 
 ; Function attr flags 0x00000200 __smallc 
 ; unsigned char attr()
-	C_LINE	127,"engine/collision.h::attr::0::34"
+	C_LINE	127,"engine/collision.h::attr::0::35"
 ._attr
 			ld  a, (_cx1)
 			cp  15
@@ -3477,11 +3500,11 @@
 	ret
 
 
-	C_LINE	169,"engine/collision.h::attr::0::35"
+	C_LINE	169,"engine/collision.h::attr::0::36"
 
 ; Function qtile flags 0x00000200 __smallc 
 ; unsigned char qtile()
-	C_LINE	169,"engine/collision.h::qtile::0::35"
+	C_LINE	169,"engine/collision.h::qtile::0::36"
 ._qtile
 			ld  a, (_cx1)
 			cp  15
@@ -3514,20 +3537,20 @@
 	ret
 
 
-	C_LINE	121,"mk2.c::qtile::0::36"
-	C_LINE	0,"engine/random.h::qtile::0::36"
-	C_LINE	7,"engine/random.h::qtile::0::36"
-	C_LINE	8,"engine/random.h::qtile::0::36"
-	C_LINE	9,"engine/random.h::qtile::0::36"
-	C_LINE	10,"engine/random.h::qtile::0::36"
+	C_LINE	122,"mk2.c::qtile::0::37"
+	C_LINE	0,"engine/random.h::qtile::0::37"
+	C_LINE	7,"engine/random.h::qtile::0::37"
+	C_LINE	8,"engine/random.h::qtile::0::37"
+	C_LINE	9,"engine/random.h::qtile::0::37"
+	C_LINE	10,"engine/random.h::qtile::0::37"
 	._seed1 defw 0
 	._seed2 defw 0
 	._randres defb 0
-	C_LINE	18,"engine/random.h::qtile::0::36"
+	C_LINE	18,"engine/random.h::qtile::0::37"
 
 ; Function rand flags 0x00000200 __smallc 
 ; unsigned char rand()
-	C_LINE	18,"engine/random.h::rand::0::36"
+	C_LINE	18,"engine/random.h::rand::0::37"
 ._rand
 		.rnd 
 			ld  hl,0xA280
@@ -3557,11 +3580,11 @@
 	ret
 
 
-	C_LINE	49,"engine/random.h::rand::0::37"
+	C_LINE	49,"engine/random.h::rand::0::38"
 
 ; Function srand flags 0x00000200 __smallc 
 ; void srand()
-	C_LINE	49,"engine/random.h::srand::0::37"
+	C_LINE	49,"engine/random.h::srand::0::38"
 ._srand
 			ld	hl, (_seed1)
 			ld	(rnd+1),hl
@@ -3570,14 +3593,14 @@
 	ret
 
 
-	C_LINE	124,"mk2.c::srand::0::38"
-	C_LINE	0,"engine/messages.h::srand::0::38"
-	C_LINE	9,"engine/messages.h::srand::0::38"
-	C_LINE	12,"engine/messages.h::srand::0::38"
+	C_LINE	125,"mk2.c::srand::0::39"
+	C_LINE	0,"engine/messages.h::srand::0::39"
+	C_LINE	9,"engine/messages.h::srand::0::39"
+	C_LINE	12,"engine/messages.h::srand::0::39"
 
 ; Function game_ending flags 0x00000200 __smallc 
 ; void game_ending()
-	C_LINE	12,"engine/messages.h::game_ending::0::38"
+	C_LINE	12,"engine/messages.h::game_ending::0::39"
 ._game_ending
 	call	sp_UpdateNow
 	ld	hl,_s_ending
@@ -3615,11 +3638,11 @@
 	ret
 
 
-	C_LINE	31,"engine/messages.h::game_ending::0::40"
+	C_LINE	31,"engine/messages.h::game_ending::0::41"
 
 ; Function game_over flags 0x00000200 __smallc 
 ; void game_over()
-	C_LINE	31,"engine/messages.h::game_over::0::40"
+	C_LINE	31,"engine/messages.h::game_over::0::41"
 ._game_over
 	ld	a,6
 	ld	(__x),a
@@ -3661,15 +3684,15 @@
 	ret
 
 
-	C_LINE	127,"mk2.c::game_over::0::42"
-	C_LINE	0,"engine/inits.h::game_over::0::42"
-	C_LINE	157,"mk2.c::game_over::0::42"
-	C_LINE	0,"engine/blocks.h::game_over::0::42"
-	C_LINE	12,"engine/blocks.h::game_over::0::42"
+	C_LINE	128,"mk2.c::game_over::0::43"
+	C_LINE	0,"engine/inits.h::game_over::0::43"
+	C_LINE	158,"mk2.c::game_over::0::43"
+	C_LINE	0,"engine/blocks.h::game_over::0::43"
+	C_LINE	12,"engine/blocks.h::game_over::0::43"
 
 ; Function process_tile flags 0x00000200 __smallc 
 ; void process_tile()
-	C_LINE	12,"engine/blocks.h::process_tile::0::42"
+	C_LINE	12,"engine/blocks.h::process_tile::0::43"
 ._process_tile
 	ld	a,(_x0)
 	ld	(_cx1),a
@@ -3771,13 +3794,13 @@
 	ret
 
 
-	C_LINE	175,"mk2.c::process_tile::0::46"
-	C_LINE	0,"engine/player.h::process_tile::0::46"
-	C_LINE	25,"engine/player.h::process_tile::0::46"
+	C_LINE	176,"mk2.c::process_tile::0::47"
+	C_LINE	0,"engine/player.h::process_tile::0::47"
+	C_LINE	25,"engine/player.h::process_tile::0::47"
 
 ; Function player_init flags 0x00000200 __smallc 
 ; void player_init()
-	C_LINE	25,"engine/player.h::player_init::0::46"
+	C_LINE	25,"engine/player.h::player_init::0::47"
 ._player_init
 	xor	a
 	ld	(_p_vy),a
@@ -3812,11 +3835,11 @@
 	ret
 
 
-	C_LINE	146,"engine/player.h::player_init::0::47"
+	C_LINE	146,"engine/player.h::player_init::0::48"
 
 ; Function player_calc_bounding_box flags 0x00000200 __smallc 
 ; void player_calc_bounding_box()
-	C_LINE	146,"engine/player.h::player_calc_bounding_box::0::47"
+	C_LINE	146,"engine/player.h::player_calc_bounding_box::0::48"
 ._player_calc_bounding_box
 			ld  a, (_gpx)
 			add 4
@@ -3849,11 +3872,11 @@
 	ret
 
 
-	C_LINE	276,"engine/player.h::player_calc_bounding_box::0::48"
+	C_LINE	276,"engine/player.h::player_calc_bounding_box::0::49"
 
 ; Function player_kill flags 0x00000200 __smallc 
 ; void player_kill()
-	C_LINE	276,"engine/player.h::player_kill::0::48"
+	C_LINE	276,"engine/player.h::player_kill::0::49"
 ._player_kill
 	ld	hl,_p_life
 	ld	a,(hl)
@@ -3871,11 +3894,11 @@
 	ret
 
 
-	C_LINE	375,"engine/player.h::player_kill::0::49"
+	C_LINE	377,"engine/player.h::player_kill::0::50"
 
 ; Function player_move flags 0x00000200 __smallc 
 ; unsigned char player_move()
-	C_LINE	375,"engine/player.h::player_move::0::49"
+	C_LINE	377,"engine/player.h::player_move::0::50"
 ._player_move
 	ld	hl,0	;const
 	ld	a,l
@@ -3883,8 +3906,8 @@
 	ld	h,0
 	ld	a,l
 	ld	(_wall_v),a
-	C_LINE	0,"./engine/playermods/va.h::player_move::1::50"
-	C_LINE	0,"./engine/playermods/va_gravity_asm.h::player_move::1::50"
+	C_LINE	0,"./engine/playermods/va.h::player_move::1::51"
+	C_LINE	0,"./engine/playermods/va_gravity_asm.h::player_move::1::51"
 			ld  a, (_do_gravity)
 			or  a
 			jr  z, _player_gravity_done
@@ -3912,7 +3935,7 @@
 			xor a
 			ld  (_p_vy), a
 		._player_gravity_p_gotten_done
-	C_LINE	8,"./engine/playermods/va.h::player_move::1::50"
+	C_LINE	8,"./engine/playermods/va.h::player_move::1::51"
 	ld	hl,(_p_y)
 	push	hl
 	ld	hl,_p_vy
@@ -3940,7 +3963,7 @@
 	ld	h,0
 	ld	a,l
 	ld	(_gpy),a
-	C_LINE	0,"./engine/playermods/va_collision_asm.h::player_move::1::50"
+	C_LINE	0,"./engine/playermods/va_collision_asm.h::player_move::1::51"
 		call _player_calc_bounding_box
 		xor a 
 		ld  (_hit_v), a
@@ -4064,8 +4087,8 @@
 	ld	l,a
 	ld	h,0
 	ld	(_gpyy),a
-	C_LINE	47,"./engine/playermods/va.h::player_move::1::50"
-	C_LINE	0,"./engine/playermods/possee.h::player_move::1::50"
+	C_LINE	47,"./engine/playermods/va.h::player_move::1::51"
+	C_LINE	0,"./engine/playermods/possee.h::player_move::1::51"
 	ld	hl,(_gpy)
 	ld	h,0
 	ld	bc,16
@@ -4111,8 +4134,8 @@
 	ld	h,0
 	ld	a,l
 	ld	(_possee),a
-	C_LINE	52,"./engine/playermods/va.h::player_move::1::50"
-	C_LINE	0,"./engine/playermods/jump_sideview.h::player_move::1::50"
+	C_LINE	52,"./engine/playermods/va.h::player_move::1::51"
+	C_LINE	0,"./engine/playermods/jump_sideview.h::player_move::1::51"
 	ld	hl,(_pad_this_frame)
 	ld	h,0
 	ld	a,128
@@ -4211,10 +4234,10 @@
 	ld	a,l
 	ld	(_p_jmp_on),a
 .i_76
-	C_LINE	59,"./engine/playermods/va.h::player_move::1::53"
-	C_LINE	403,"engine/player.h::player_move::1::53"
-	C_LINE	0,"./engine/playermods/ha.h::player_move::1::53"
-	C_LINE	0,"./engine/playermods/ha_controller.h::player_move::1::53"
+	C_LINE	59,"./engine/playermods/va.h::player_move::1::54"
+	C_LINE	405,"engine/player.h::player_move::1::54"
+	C_LINE	0,"./engine/playermods/ha.h::player_move::1::54"
+	C_LINE	0,"./engine/playermods/ha_controller.h::player_move::1::54"
 	ld	hl,(_pad0)
 	ld	h,0
 	ld	a,4
@@ -4336,7 +4359,7 @@
 	ld	a,l
 	ld	(_p_facing),a
 .i_88
-	C_LINE	7,"./engine/playermods/ha.h::player_move::1::60"
+	C_LINE	7,"./engine/playermods/ha.h::player_move::1::61"
 .i_87
 	ld	hl,(_p_x)
 	push	hl
@@ -4377,7 +4400,7 @@
 	ld	h,0
 	ld	a,l
 	ld	(_gpx),a
-	C_LINE	0,"./engine/playermods/ha_collision_asm.h::player_move::1::60"
+	C_LINE	0,"./engine/playermods/ha_collision_asm.h::player_move::1::61"
 		call _player_calc_bounding_box
 		ld  a, (_pty1)
 		ld  (_cy1), a
@@ -4452,9 +4475,9 @@
 		ld  (_wall_h), a
 	._ha_collision_checkevil
 	._ha_collision_done
-	C_LINE	27,"./engine/playermods/ha.h::player_move::1::60"
-	C_LINE	409,"engine/player.h::player_move::1::60"
-	C_LINE	0,"./engine/playermods/type10.h::player_move::1::60"
+	C_LINE	27,"./engine/playermods/ha.h::player_move::1::61"
+	C_LINE	411,"engine/player.h::player_move::1::61"
+	C_LINE	0,"./engine/playermods/type10.h::player_move::1::61"
 	ld	hl,(_p_x)
 	ld	de,4
 	call	l_asr_hl_by_e
@@ -4556,15 +4579,15 @@
 	ld	(_x1),a
 	call	_process_tile
 .i_96
-	C_LINE	458,"engine/player.h::player_move::1::64"
-	C_LINE	0,"./engine/playermods/fire.h::player_move::1::64"
-	C_LINE	464,"engine/player.h::player_move::1::64"
-	C_LINE	0,"./engine/playermods/hitter.h::player_move::1::64"
-	C_LINE	470,"engine/player.h::player_move::1::64"
-	C_LINE	0,"./engine/playermods/bombs.h::player_move::1::64"
-	C_LINE	476,"engine/player.h::player_move::1::64"
-	C_LINE	0,"./engine/playermods/fire_button.h::player_move::1::64"
-	C_LINE	479,"engine/player.h::player_move::1::64"
+	C_LINE	460,"engine/player.h::player_move::1::65"
+	C_LINE	0,"./engine/playermods/fire.h::player_move::1::65"
+	C_LINE	466,"engine/player.h::player_move::1::65"
+	C_LINE	0,"./engine/playermods/hitter.h::player_move::1::65"
+	C_LINE	472,"engine/player.h::player_move::1::65"
+	C_LINE	0,"./engine/playermods/bombs.h::player_move::1::65"
+	C_LINE	478,"engine/player.h::player_move::1::65"
+	C_LINE	0,"./engine/playermods/fire_button.h::player_move::1::65"
+	C_LINE	481,"engine/player.h::player_move::1::65"
 .i_95
 .i_94
 	ld	a,(_hit_v)
@@ -4681,30 +4704,27 @@
 	ret
 
 
-	C_LINE	181,"mk2.c::player_move::0::71"
-	C_LINE	0,"engine/enems.h::player_move::0::71"
-	C_LINE	0,"./engine/enemmods/helper_funcs.h::player_move::0::71"
-	C_LINE	16,"engine/enems.h::player_move::0::71"
-	C_LINE	24,"engine/enems.h::player_move::0::71"
+	C_LINE	182,"mk2.c::player_move::0::72"
+	C_LINE	0,"engine/enems.h::player_move::0::72"
+	C_LINE	0,"./engine/enemmods/helper_funcs.h::player_move::0::72"
+	C_LINE	16,"engine/enems.h::player_move::0::72"
+	C_LINE	24,"engine/enems.h::player_move::0::72"
 
 ; Function enems_init flags 0x00000200 __smallc 
 ; void enems_init()
-	C_LINE	24,"engine/enems.h::enems_init::0::71"
+	C_LINE	24,"engine/enems.h::enems_init::0::72"
 ._enems_init
-	ld	a,(_do_respawn)
-	and	a
-	jp	z,i_106	;
 	xor	a
 	ld	(_gpit),a
-	jp	i_109	;EOS
-.i_107
+	jp	i_108	;EOS
+.i_106
 	ld	hl,_gpit
 	ld	a,(hl)
 	inc	(hl)
-.i_109
+.i_108
 	ld	a,(_gpit)
 	sub	3
-	jp	nc,i_108	;
+	jp	nc,i_107	;
 	ld	de,_en_an_count
 	ld	hl,(_gpit)
 	ld	h,0
@@ -4746,12 +4766,12 @@
 	ld	hl,_gpt
 	ld	(hl),a
 	and	a
-	jp	z,i_111	;
+	jp	z,i_110	;
 	ld	a,(_gpt)
 	sub	16
-	jp	nc,i_111	;
-	defc	i_111 = i_110
-.i_112_i_111
+	jp	nc,i_110	;
+	defc	i_110 = i_109
+.i_111_i_110
 	ld	de,_en_an_base_frame
 	ld	hl,(_gpit)
 	ld	h,0
@@ -4768,25 +4788,24 @@
 	ld	(de),a
 	ld	hl,(_gpt)
 	ld	h,0
-.i_115
+.i_114
 	ld	a,l
-	jp	i_116	;EOS
-	C_LINE	0,"./my/extra_enems_init.h::enems_init::5::75"
-	C_LINE	121,"engine/enems.h::enems_init::5::75"
-	jp	i_114	;EOS
-	defc	i_116 = i_114
-	defc	i_114 = i_107
-	defc	i_110 = i_107
-.i_108
-.i_106
+	jp	i_115	;EOS
+	C_LINE	0,"./my/extra_enems_init.h::enems_init::5::76"
+	C_LINE	141,"engine/enems.h::enems_init::5::76"
+	jp	i_113	;EOS
+	defc	i_115 = i_113
+	defc	i_113 = i_106
+	defc	i_109 = i_106
+.i_107
 	ret
 
 
-	C_LINE	137,"engine/enems.h::enems_init::0::75"
+	C_LINE	158,"engine/enems.h::enems_init::0::76"
 
 ; Function enems_move_spr_abs flags 0x00000200 __smallc 
 ; void enems_move_spr_abs()
-	C_LINE	137,"engine/enems.h::enems_move_spr_abs::0::75"
+	C_LINE	158,"engine/enems.h::enems_move_spr_abs::0::76"
 ._enems_move_spr_abs
 		; enter: IX = sprite structure address 
 		;        IY = clipping rectangle, set it to "ClipStruct" for full screen 
@@ -4853,11 +4872,11 @@
 	ret
 
 
-	C_LINE	232,"engine/enems.h::enems_move_spr_abs::0::76"
+	C_LINE	253,"engine/enems.h::enems_move_spr_abs::0::77"
 
 ; Function enems_move flags 0x00000200 __smallc 
 ; void enems_move()
-	C_LINE	232,"engine/enems.h::enems_move::0::76"
+	C_LINE	253,"engine/enems.h::enems_move::0::77"
 ._enems_move
 	ld	hl,0	;const
 	ld	a,l
@@ -4871,17 +4890,17 @@
 	xor	a
 	ld	(_tocado),a
 	ld	(_enit),a
-	jp	i_119	;EOS
-.i_117
+	jp	i_118	;EOS
+.i_116
 	ld	hl,(_enit)
 	ld	h,0
 	inc	hl
 	ld	a,l
 	ld	(_enit),a
-.i_119
+.i_118
 	ld	a,(_enit)
 	sub	3
-	jp	nc,i_118	;
+	jp	nc,i_117	;
 	ld	hl,0	;const
 	ld	a,l
 	ld	(_animate),a
@@ -4939,7 +4958,7 @@
 				ld  (__en_life), a
 	ld	a,(__en_t)
 	and	a
-	jp	nz,i_120	;
+	jp	nz,i_119	;
 	ld	hl,_en_an_n_f
 	push	hl
 	ld	hl,(_enit)
@@ -4950,8 +4969,8 @@
 	ex	de,hl
 	ld	hl,_sprite_18_a
 	call	l_pint
-	jp	i_121	;EOS
-.i_120
+	jp	i_120	;EOS
+.i_119
 	ld	hl,(__en_t)
 	ld	h,0
 	ld	a,l
@@ -4965,7 +4984,7 @@
 	ld	h,0
 	ld	a,l
 	cp	8
-	jp	nz,i_122	;
+	jp	nz,i_121	;
 								ld  a, (__en_x)
 								ld  c, a
 								ld  a, (_gpx)
@@ -4984,22 +5003,22 @@
 								xor a
 							._enems_move_pregotten_set
 								ld  (_pregotten), a			
-.i_122
+.i_121
 	ld	hl,(_gpt)
 	ld	h,0
-.i_125
+.i_124
 	ld	a,l
 	cp	+(1% 256)
-	jp	z,i_126	;
+	jp	z,i_125	;
 	cp	+(8% 256)
-	jp	z,i_127	;
-	jp	i_128	;EOS
-.i_126
+	jp	z,i_126	;
+	jp	i_127	;EOS
+.i_125
 	ld	hl,1	;const
 	ld	a,l
 	ld	(_killable),a
-.i_127
-	C_LINE	0,"./engine/enemmods/move_linear.h::enems_move::5::82"
+.i_126
+	C_LINE	0,"./engine/enemmods/move_linear.h::enems_move::5::83"
 		ld 	a, 1
 		ld  (_active), a
 		ld  (_animate), a
@@ -5037,11 +5056,11 @@
 		neg
 		ld  (__en_my), a
 	._enems_lm_change_axis_y_done
-	C_LINE	462,"engine/enems.h::enems_move::5::82"
-	jp	i_124	;EOS
-	C_LINE	0,"./my/extra_enems_move.h::enems_move::5::82"
-	C_LINE	501,"engine/enems.h::enems_move::5::82"
-.i_128
+	C_LINE	483,"engine/enems.h::enems_move::5::83"
+	jp	i_123	;EOS
+	C_LINE	0,"./my/extra_enems_move.h::enems_move::5::83"
+	C_LINE	522,"engine/enems.h::enems_move::5::83"
+.i_127
 	ld	hl,_en_an_n_f
 	push	hl
 	ld	hl,(_enit)
@@ -5052,16 +5071,16 @@
 	ex	de,hl
 	ld	hl,_sprite_18_a
 	call	l_pint
-.i_124
+.i_123
 	ld	a,(_active)
 	and	a
-	jp	z,i_129	;
+	jp	z,i_128	;
 	ld	a,(_animate)
 	and	a
-	jp	z,i_130	;
+	jp	z,i_129	;
 	ld	a,(__en_mx)
 	and	a
-	jp	z,i_131	;
+	jp	z,i_130	;
 	ld	hl,(__en_x)
 	ld	h,0
 	ld	bc,4
@@ -5073,8 +5092,8 @@
 	and	1
 	ld	l,a
 	ld	h,0
-	jp	i_132	;
-.i_131
+	jp	i_131	;
+.i_130
 	ld	hl,(__en_y)
 	ld	h,0
 	ld	bc,4
@@ -5086,7 +5105,7 @@
 	and	1
 	ld	l,a
 	ld	h,0
-.i_132
+.i_131
 	ld	a,l
 	ld	(_gpjt),a
 	ld	hl,_en_an_n_f
@@ -5114,8 +5133,8 @@
 	call	l_gint	;
 	pop	de
 	call	l_pint
-	C_LINE	0,"./engine/enemmods/platforms.h::enems_move::5::85"
-.i_130
+	C_LINE	0,"./engine/enemmods/platforms.h::enems_move::5::86"
+.i_129
 			ld  a, (_gpt)
 			cp  8
 			jp  nz, _enems_platforms_done
@@ -5205,7 +5224,7 @@
 			ld  (_p_y), hl
 			ret 
 		._enems_platforms_done
-	C_LINE	546,"engine/enems.h::enems_move::5::85"
+	C_LINE	567,"engine/enems.h::enems_move::5::86"
 					ld  a, (_tocado)
 					or  a
 					jp  nz, _enems_collision_skip
@@ -5238,17 +5257,17 @@
 					jp  c, _enems_collision_skip			
 	ld	a,(_p_life)
 	and	a
-	jp	z,i_133	;
+	jp	z,i_132	;
 	ld	a,1
 	ld	(_tocado),a
-.i_133
+.i_132
 	ld	hl,2	;const
 	ld	a,l
 	ld	(_p_killme),a
 					._enems_collision_skip
-.i_129
-.i_121
-.i_134
+.i_128
+.i_120
+.i_133
 			.enems_loop_continue_a
 	call	_enems_move_spr_abs
 				ld  hl, (__baddies_pointer) 		 
@@ -5281,29 +5300,29 @@
 				inc hl
 				ld  a, (__en_life)
 				ld  (hl), a
-	jp	i_117	;EOS
-.i_118
+	jp	i_116	;EOS
+.i_117
 	ret
 
 
-	C_LINE	195,"mk2.c::enems_move::0::87"
-	C_LINE	0,"engine/update_sprites.h::enems_move::0::87"
-	C_LINE	1,"engine/update_sprites.h::enems_move::0::87"
+	C_LINE	196,"mk2.c::enems_move::0::88"
+	C_LINE	0,"engine/update_sprites.h::enems_move::0::88"
+	C_LINE	1,"engine/update_sprites.h::enems_move::0::88"
 
 ; Function update_sprites flags 0x00000200 __smallc 
 ; void update_sprites()
-	C_LINE	1,"engine/update_sprites.h::update_sprites::0::87"
+	C_LINE	1,"engine/update_sprites.h::update_sprites::0::88"
 ._update_sprites
 	ld	hl,(_p_state)
 	ld	h,0
 	ld	a,2
 	and	l
 	ld	l,a
-	jp	z,i_136	;
+	jp	z,i_135	;
 	ld	a,(_half_life)
 	and	a
-	jp	nz,i_135	;
-.i_136
+	jp	nz,i_134	;
+.i_135
 					ld  ix, (_sp_player)
 					ld  iy, vpClipStruct
 					ld  hl, (_p_n_f)
@@ -5331,8 +5350,8 @@
 					and 7
 					ld  e, a
 					call SPMoveSprAbs
-	jp	i_138	;EOS
-.i_135
+	jp	i_137	;EOS
+.i_134
 					ld  ix, (_sp_player)
 					ld  iy, vpClipStruct
 					ld  hl, (_p_n_f)
@@ -5344,19 +5363,19 @@
 					ld  hl, 0xfefe
 					ld  de, 0
 					call SPMoveSprAbs
-.i_138
+.i_137
 	ld	hl,(_p_n_f)
 	ld	(_p_c_f),hl
 	ret
 
 
-	C_LINE	198,"mk2.c::update_sprites::0::90"
-	C_LINE	0,"engine/drawscr.h::update_sprites::0::90"
-	C_LINE	7,"engine/drawscr.h::update_sprites::0::90"
+	C_LINE	199,"mk2.c::update_sprites::0::91"
+	C_LINE	0,"engine/drawscr.h::update_sprites::0::91"
+	C_LINE	11,"engine/drawscr.h::update_sprites::0::91"
 
 ; Function advance_worm flags 0x00000200 __smallc 
 ; void advance_worm()
-	C_LINE	7,"engine/drawscr.h::advance_worm::0::90"
+	C_LINE	11,"engine/drawscr.h::advance_worm::0::91"
 ._advance_worm
 					call _rand 
 			ld   a, l
@@ -5373,7 +5392,7 @@
 			add hl, bc
 			ld  (hl), a
 			ld  a, (_gpd)
-				ld  d, a
+							ld  d, a
 				or  a
 				jr  nz, _draw_scr_alt_tile_skip
 				ld  a, (_gpjt)
@@ -5404,11 +5423,11 @@
 	ret
 
 
-	C_LINE	113,"engine/drawscr.h::advance_worm::0::91"
+	C_LINE	122,"engine/drawscr.h::advance_worm::0::92"
 
 ; Function draw_scr_background flags 0x00000200 __smallc 
 ; void draw_scr_background()
-	C_LINE	113,"engine/drawscr.h::draw_scr_background::0::91"
+	C_LINE	122,"engine/drawscr.h::draw_scr_background::0::92"
 ._draw_scr_background
 	ld	de,_seed1
 	ld	hl,(_n_pant)
@@ -5583,23 +5602,23 @@
 	ret
 
 
-	C_LINE	551,"engine/drawscr.h::draw_scr_background::0::92"
+	C_LINE	560,"engine/drawscr.h::draw_scr_background::0::93"
 
 ; Function draw_scr flags 0x00000200 __smallc 
 ; void draw_scr()
-	C_LINE	551,"engine/drawscr.h::draw_scr::0::92"
+	C_LINE	560,"engine/drawscr.h::draw_scr::0::93"
 ._draw_scr
 	ld	a,1
 	ld	(_is_rendering),a
 	ld	a,(_no_draw)
 	and	a
-	jp	z,i_139	;
+	jp	z,i_138	;
 	xor	a
 	ld	(_no_draw),a
-	jp	i_140	;EOS
-.i_139
+	jp	i_139	;EOS
+.i_138
 	call	_draw_scr_background
-.i_140
+.i_139
 	ld	hl,(_n_pant)
 	ld	h,0
 	push	hl
@@ -5637,14 +5656,14 @@
 	ret
 
 
-	C_LINE	201,"mk2.c::draw_scr::0::95"
-	C_LINE	0,"engine/hud.h::draw_scr::0::95"
-	C_LINE	7,"engine/hud.h::draw_scr::0::95"
-	C_LINE	29,"engine/hud.h::draw_scr::0::95"
+	C_LINE	202,"mk2.c::draw_scr::0::96"
+	C_LINE	0,"engine/hud.h::draw_scr::0::96"
+	C_LINE	7,"engine/hud.h::draw_scr::0::96"
+	C_LINE	29,"engine/hud.h::draw_scr::0::96"
 
 ; Function update_hud flags 0x00000200 __smallc 
 ; void update_hud()
-	C_LINE	29,"engine/hud.h::update_hud::0::95"
+	C_LINE	29,"engine/hud.h::update_hud::0::96"
 ._update_hud
 	ld	hl,(_p_objs)
 	ld	h,0
@@ -5652,20 +5671,20 @@
 	ld	hl,(_objs_old)
 	ld	h,0
 	call	l_ne
-	jp	nc,i_141	;
+	jp	nc,i_140	;
 	call	_draw_objs
 	ld	hl,(_p_objs)
 	ld	h,0
 	ld	a,l
 	ld	(_objs_old),a
-.i_141
+.i_140
 	ld	hl,(_p_life)
 	ld	h,0
 	ex	de,hl
 	ld	hl,(_life_old)
 	ld	h,0
 	call	l_ne
-	jp	nc,i_142	;
+	jp	nc,i_141	;
 	ld	a,6
 	ld	(__x),a
 	xor	a
@@ -5679,32 +5698,32 @@
 	ld	h,0
 	ld	a,l
 	ld	(_life_old),a
-.i_142
+.i_141
 	ret
 
 
-	C_LINE	204,"mk2.c::update_hud::0::98"
-	C_LINE	0,"engine/flickscreen.h::update_hud::0::98"
-	C_LINE	53,"engine/flickscreen.h::update_hud::0::98"
+	C_LINE	205,"mk2.c::update_hud::0::99"
+	C_LINE	0,"engine/flickscreen.h::update_hud::0::99"
+	C_LINE	53,"engine/flickscreen.h::update_hud::0::99"
 
 ; Function flick_screen flags 0x00000200 __smallc 
 ; void flick_screen()
-	C_LINE	53,"engine/flickscreen.h::flick_screen::0::98"
+	C_LINE	53,"engine/flickscreen.h::flick_screen::0::99"
 ._flick_screen
 	ld	a,(_gpx)
 	and	a
-	jp	nz,i_144	;
+	jp	nz,i_143	;
 	ld	hl,_p_vx
 	ld	a,(hl)
 	rla
-	jp	nc,i_144	;
+	jp	nc,i_143	;
 	ld	hl,(_x_pant)
 	ld	h,0
 	xor	a
 	sub	l
-	jp	nc,i_144	;
-	defc	i_144 = i_143
-.i_145_i_144
+	jp	nc,i_143	;
+	defc	i_143 = i_142
+.i_144_i_143
 	ld	hl,(_n_pant)
 	dec	l
 	ld	a,l
@@ -5713,17 +5732,17 @@
 	ld	(_p_x),hl
 	ld	a,224
 	ld	(_gpx),a
-	jp	i_146	;EOS
-.i_143
+	jp	i_145	;EOS
+.i_142
 	ld	a,(_gpx)
 	cp	224
-	jp	nz,i_148	;
+	jp	nz,i_147	;
 	ld	hl,_p_vx
 	call	l_gchar
 	ld	de,0
 	ex	de,hl
 	call	l_gt
-	jp	nc,i_148	;
+	jp	nc,i_147	;
 	ld	hl,(_x_pant)
 	ld	h,0
 	push	hl
@@ -5734,9 +5753,9 @@
 	ex	de,hl
 	and	a
 	sbc	hl,de
-	jp	nc,i_148	;
-	defc	i_148 = i_147
-.i_149_i_148
+	jp	nc,i_147	;
+	defc	i_147 = i_146
+.i_148_i_147
 	ld	hl,(_n_pant)
 	inc	l
 	ld	a,l
@@ -5745,22 +5764,22 @@
 	ld	a,l
 	ld	(_gpx),a
 	ld	(_p_x),hl
-.i_147
 .i_146
+.i_145
 	ld	a,(_gpy)
 	and	a
-	jp	nz,i_151	;
+	jp	nz,i_150	;
 	ld	hl,_p_vy
 	ld	a,(hl)
 	rla
-	jp	nc,i_151	;
+	jp	nc,i_150	;
 	ld	hl,(_y_pant)
 	ld	h,0
 	xor	a
 	sub	l
-	jp	nc,i_151	;
-	defc	i_151 = i_150
-.i_152_i_151
+	jp	nc,i_150	;
+	defc	i_150 = i_149
+.i_151_i_150
 	ld	hl,(_n_pant)
 	ld	h,0
 	ex	de,hl
@@ -5780,23 +5799,23 @@
 	ld	de,65456
 	ex	de,hl
 	call	l_gt
-	jp	nc,i_153	;
+	jp	nc,i_152	;
 	ld	a,176
 	call	l_sxt
 	ld	a,l
 	ld	(_p_vy),a
-	jp	i_154	;EOS
-	defc	i_153 = i_154
-.i_150
+	jp	i_153	;EOS
+	defc	i_152 = i_153
+.i_149
 	ld	a,(_gpy)
 	cp	144
-	jp	nz,i_156	;
+	jp	nz,i_155	;
 	ld	hl,_p_vy
 	call	l_gchar
 	ld	de,0
 	ex	de,hl
 	call	l_gt
-	jp	nc,i_156	;
+	jp	nc,i_155	;
 	ld	hl,(_y_pant)
 	ld	h,0
 	push	hl
@@ -5807,9 +5826,9 @@
 	ex	de,hl
 	and	a
 	sbc	hl,de
-	jp	nc,i_156	;
-	defc	i_156 = i_155
-.i_157_i_156
+	jp	nc,i_155	;
+	defc	i_155 = i_154
+.i_156_i_155
 	ld	hl,_n_pant
 	ld	a,(_level_data)
 	add	(hl)
@@ -5818,33 +5837,33 @@
 	ld	a,l
 	ld	(_gpy),a
 	ld	(_p_y),hl
-.i_155
 .i_154
+.i_153
 	ret
 
 
-	C_LINE	212,"mk2.c::flick_screen::0::103"
-	C_LINE	0,"mainloop/mainloop.h::flick_screen::0::103"
-	C_LINE	0,"./mainloop/hide_sprites.h::flick_screen::0::103"
-	C_LINE	1,"./mainloop/hide_sprites.h::flick_screen::0::103"
+	C_LINE	213,"mk2.c::flick_screen::0::104"
+	C_LINE	0,"mainloop/mainloop.h::flick_screen::0::104"
+	C_LINE	0,"./mainloop/hide_sprites.h::flick_screen::0::104"
+	C_LINE	1,"./mainloop/hide_sprites.h::flick_screen::0::104"
 
 ; Function hide_sprites flags 0x00000200 __smallc 
 ; void hide_sprites(unsigned char which_ones)
 ; parameter 'unsigned char which_ones' at sp+2 size(1)
-	C_LINE	1,"./mainloop/hide_sprites.h::hide_sprites::0::103"
+	C_LINE	1,"./mainloop/hide_sprites.h::hide_sprites::0::104"
 ._hide_sprites
 	ld	hl,2	;const
 	add	hl,sp
 	ld	a,(hl)
 	and	a
-	jp	nz,i_158	;
+	jp	nz,i_157	;
 			ld  ix, (_sp_player)
 			ld  iy, vpClipStruct
 			ld  bc, 0
 			ld  hl, 0xdede
 			ld  de, 0
 			call SPMoveSprAbs
-.i_158
+.i_157
 			xor a
 		.hide_sprites_enems_loop
 			ld  (_gpit), a
@@ -5870,15 +5889,15 @@
 	ret
 
 
-	C_LINE	8,"mainloop/mainloop.h::hide_sprites::0::105"
-	C_LINE	12,"mainloop/mainloop.h::hide_sprites::0::105"
+	C_LINE	8,"mainloop/mainloop.h::hide_sprites::0::106"
+	C_LINE	12,"mainloop/mainloop.h::hide_sprites::0::106"
 
 ; Function main flags 0x00000000 __stdc 
 ; void main()
-	C_LINE	12,"mainloop/mainloop.h::main::0::106"
+	C_LINE	12,"mainloop/mainloop.h::main::0::107"
 ._main
 		di
-	C_LINE	0,"./mainloop/mysystem.h::main::1::107"
+	C_LINE	0,"./mainloop/mysystem.h::main::1::108"
 	ld	hl,61937	;const
 	push	hl
 	call	sp_InitIM2
@@ -5923,7 +5942,7 @@
 	ld	(_gen_pt),hl
 	xor	a
 	ld	(_gpit),a
-.i_161
+.i_160
 	ld	hl,(_gpit)
 	ld	h,0
 	push	hl
@@ -5939,15 +5958,15 @@
 	ld	hl,_gpit
 	ld	a,(hl)
 	inc	(hl)
-.i_159
+.i_158
 	ld	hl,(_gpit)
 	ld	h,0
 	ld	a,h
 	or	l
-	jp	nz,i_161	;EOS
-.i_160
-	C_LINE	22,"mainloop/mainloop.h::main::1::108"
-	C_LINE	0,"./mainloop/sprdefs.h::main::1::108"
+	jp	nz,i_160	;EOS
+.i_159
+	C_LINE	22,"mainloop/mainloop.h::main::1::109"
+	C_LINE	0,"./mainloop/sprdefs.h::main::1::109"
 	ld	hl,0	;const
 	push	hl
 	ld	hl,3	;const
@@ -5977,15 +5996,15 @@
 	ld	(_p_c_f),hl
 	xor	a
 	ld	(_gpit),a
-	jp	i_164	;EOS
-.i_162
+	jp	i_163	;EOS
+.i_161
 	ld	hl,_gpit
 	ld	a,(hl)
 	inc	(hl)
-.i_164
+.i_163
 	ld	a,(_gpit)
 	sub	3
-	jp	nc,i_163	;
+	jp	nc,i_162	;
 	ld	hl,_sp_moviles
 	push	hl
 	ld	hl,(_gpit)
@@ -6058,13 +6077,13 @@
 	call	l_pint
 	pop	de
 	call	l_pint
-	jp	i_162	;EOS
-.i_163
-	C_LINE	25,"mainloop/mainloop.h::main::1::109"
+	jp	i_161	;EOS
+.i_162
+	C_LINE	25,"mainloop/mainloop.h::main::1::110"
 			ei
 	call	_cortina
-.i_165
-	C_LINE	0,"./my/title_screen.h::main::2::110"
+.i_164
+	C_LINE	0,"./my/title_screen.h::main::2::111"
 	call	sp_UpdateNow
 	ld	hl,_s_title
 	push	hl
@@ -6074,8 +6093,8 @@
 	pop	bc
 	pop	bc
 	call	_select_joyfunc
-	C_LINE	57,"mainloop/mainloop.h::main::2::110"
-	C_LINE	0,"./mainloop/game_init.h::main::2::110"
+	C_LINE	57,"mainloop/mainloop.h::main::2::111"
+	C_LINE	0,"./mainloop/game_init.h::main::2::111"
 	ld	a,1
 	ld	(_mlplaying),a
 	xor	a
@@ -6083,18 +6102,18 @@
 	ld	hl,0	;const
 	ld	a,l
 	ld	(_level),a
-	C_LINE	63,"mainloop/mainloop.h::main::2::110"
-.i_167
+	C_LINE	63,"mainloop/mainloop.h::main::2::111"
+.i_166
 	ld	hl,(_mlplaying)
 	ld	h,0
 	ld	a,h
 	or	l
-	jp	z,i_168	;
+	jp	z,i_167	;
 	call	_prepare_level
-	C_LINE	0,"./my/new_level.h::main::3::111"
+	C_LINE	0,"./my/new_level.h::main::3::112"
 	ld	a,(_silent_level)
 	and	a
-	jp	nz,i_169	;
+	jp	nz,i_168	;
 	call	_blackout_area
 	ld	a,12
 	ld	(__x),a
@@ -6120,12 +6139,12 @@
 	push	hl
 	call	_active_sleep
 	pop	bc
-.i_169
+.i_168
 	ld	hl,0	;const
 	ld	a,l
 	ld	(_silent_level),a
-	C_LINE	73,"mainloop/mainloop.h::main::3::112"
-	C_LINE	0,"./mainloop/level_init.h::main::3::112"
+	C_LINE	73,"mainloop/mainloop.h::main::3::113"
+	C_LINE	0,"./mainloop/level_init.h::main::3::113"
 	ld	hl,1	;const
 	ld	a,l
 	ld	(_playing),a
@@ -6149,31 +6168,31 @@
 	ld	hl,0	;const
 	ld	a,l
 	ld	(_no_draw),a
-	C_LINE	80,"mainloop/mainloop.h::main::3::112"
-.i_170
+	C_LINE	80,"mainloop/mainloop.h::main::3::113"
+.i_169
 	ld	hl,(_playing)
 	ld	h,0
 	ld	a,h
 	or	l
-	jp	z,i_171	;
+	jp	z,i_170	;
 	call	_read_controller
-	C_LINE	0,"./mainloop/timer.h::main::4::113"
-	C_LINE	91,"mainloop/mainloop.h::main::4::113"
+	C_LINE	0,"./mainloop/timer.h::main::4::114"
+	C_LINE	91,"mainloop/mainloop.h::main::4::114"
 	ld	hl,(_n_pant)
 	ld	h,0
 	ex	de,hl
 	ld	hl,(_o_pant)
 	ld	h,0
 	call	l_ne
-	jp	nc,i_172	;
-	C_LINE	0,"./my/before_flick.h::main::5::114"
-	C_LINE	95,"mainloop/mainloop.h::main::5::114"
+	jp	nc,i_171	;
+	C_LINE	0,"./my/before_flick.h::main::5::115"
+	C_LINE	95,"mainloop/mainloop.h::main::5::115"
 	ld	hl,(_n_pant)
 	ld	h,0
 	ld	a,l
 	ld	(_o_pant),a
 	call	_draw_scr
-.i_172
+.i_171
 	call	_update_hud
 	ld	hl,_maincounter
 	ld	a,(hl)
@@ -6186,7 +6205,14 @@
 	ld	(_half_life),a
 	call	_player_move
 	call	_enems_move
-	call	_update_sprites
+	ld	hl,(_n_pant)
+	ld	h,0
+	ex	de,hl
+	ld	hl,(_o_pant)
+	ld	h,0
+	call	l_eq
+	call	c,_update_sprites
+.i_172
 .i_173
 	ld	hl,(_isrc)
 	ld	h,0
@@ -6196,25 +6222,31 @@
 						halt
 	jp	i_173	;EOS
 .i_174
-	ld	hl,0	;const
-	ld	a,l
+	xor	a
 	ld	(_isrc),a
-	call	sp_UpdateNow
+	ld	hl,(_n_pant)
+	ld	h,0
+	ex	de,hl
+	ld	hl,(_o_pant)
+	ld	h,0
+	call	l_eq
+	call	c,sp_UpdateNow
+.i_175
 	ld	a,(_p_state)
 	and	a
-	jp	z,i_175	;
+	jp	z,i_176	;
 	ld	hl,_p_state_ct
 	ld	a,(hl)
 	dec	(hl)
 	ld	a,(_p_state_ct)
 	and	a
-	jp	nz,i_176	;
+	jp	nz,i_177	;
 	ld	hl,0	;const
 	ld	a,l
 	ld	(_p_state),a
+.i_177
+	C_LINE	0,"./mainloop/hotspots.h::main::4::117"
 .i_176
-	C_LINE	0,"./mainloop/hotspots.h::main::4::116"
-.i_175
 		ld  a, (_hotspot_x)
 		ld  c, a
 		ld  a, (_gpx)
@@ -6255,7 +6287,7 @@
 	inc	hl
 	ld	a,(hl)
 	and	a
-	jp	nz,i_177	;
+	jp	nz,i_178	;
 	ld	hl,(_p_life)
 	inc	l
 	ld	a,l
@@ -6263,10 +6295,10 @@
 	ld	(hl),a
 	ld	a,9
 	sub	(hl)
-	jp	nc,i_178	;
+	jp	nc,i_179	;
 	ld	a,9
 	ld	(_p_life),a
-.i_178
+.i_179
 	ld	hl,_hotspots
 	push	hl
 	ld	hl,(_n_pant)
@@ -6284,8 +6316,8 @@
 	push	hl
 	call	_beep_fx
 	pop	bc
-	jp	i_179	;EOS
-.i_177
+	jp	i_180	;EOS
+.i_178
 	ld	hl,_hotspots
 	push	hl
 	ld	hl,(_n_pant)
@@ -6299,14 +6331,14 @@
 	inc	hl
 	ld	l,(hl)
 	ld	h,0
-.i_182
+.i_183
 	ld	a,l
 	cp	+(1% 256)
-	jp	z,i_183	;
-	cp	+(2% 256)
 	jp	z,i_184	;
-	jp	i_181	;EOS
-.i_183
+	cp	+(2% 256)
+	jp	z,i_185	;
+	jp	i_182	;EOS
+.i_184
 	ld	hl,_p_objs
 	ld	a,(hl)
 	inc	(hl)
@@ -6314,8 +6346,8 @@
 	push	hl
 	call	_beep_fx
 	pop	bc
-	jp	i_181	;EOS
-.i_184
+	jp	i_182	;EOS
+.i_185
 	ld	hl,_p_keys
 	ld	a,(hl)
 	inc	(hl)
@@ -6323,11 +6355,11 @@
 	push	hl
 	call	_beep_fx
 	pop	bc
-.i_181
-.i_179
+.i_182
+.i_180
 	ld	a,(_gpit)
 	and	a
-	jp	nz,i_185	;
+	jp	nz,i_186	;
 	ld	hl,(_hotspot_x)
 	ld	h,0
 	ld	a,l
@@ -6368,83 +6400,83 @@
 	inc	hl
 	inc	hl
 	ld	(hl),0
-	jp	i_186	;EOS
-.i_185
+	jp	i_187	;EOS
+.i_186
 	ld	hl,2	;const
 	push	hl
 	call	_beep_fx
 	pop	bc
-.i_186
+.i_187
 	ld	hl,240	;const
 	ld	a,l
 	ld	(_hotspot_y),a
 	._hotspots_skip
-	C_LINE	192,"mainloop/mainloop.h::main::4::122"
-	C_LINE	0,"./mainloop/win_game.h::main::4::122"
+	C_LINE	192,"mainloop/mainloop.h::main::4::123"
+	C_LINE	0,"./mainloop/win_game.h::main::4::123"
 	ld	a,(_level_data+7)
 	and	a
-	jp	nz,i_188	;
+	jp	nz,i_189	;
 	ld	hl,(_p_objs)
 	ld	h,0
 	ex	de,hl
 	ld	hl,(_level_data+5)
 	ld	h,0
 	call	l_eq
-	jp	c,i_190	;
-.i_188
-	jr	i_188_i_189
+	jp	c,i_191	;
 .i_189
+	jr	i_189_i_190
+.i_190
 	ld	a,h
 	or	l
-	jp	nz,i_190	;
-.i_188_i_189
+	jp	nz,i_191	;
+.i_189_i_190
 	ld	a,(_level_data+7)
 	cp	1
-	jp	nz,i_191	;
+	jp	nz,i_192	;
 	ld	hl,(_n_pant)
 	ld	h,0
 	ex	de,hl
 	ld	hl,(_level_data+8)
 	ld	h,0
 	call	l_eq
-	jp	nc,i_191	;
-.i_190
-	defc	i_191 = i_187
-.i_193_i_191
+	jp	nc,i_192	;
+.i_191
+	defc	i_192 = i_188
+.i_194_i_192
 	ld	a,1
 	ld	(_success),a
 	ld	hl,0	;const
 	ld	a,l
 	ld	(_playing),a
-	C_LINE	216,"mainloop/mainloop.h::main::4::123"
-	C_LINE	0,"./mainloop/game_over.h::main::4::123"
-.i_187
+	C_LINE	216,"mainloop/mainloop.h::main::4::124"
+	C_LINE	0,"./mainloop/game_over.h::main::4::124"
+.i_188
 	ld	a,(_p_life)
 	and	a
-	jp	nz,i_195	;
+	jp	nz,i_196	;
 	ld	a,(_p_killme)
 	and	a
-	jp	z,i_195	;
-	defc	i_195 = i_194
-.i_196_i_195
+	jp	z,i_196	;
+	defc	i_196 = i_195
+.i_197_i_196
 	ld	hl,0	;const
 	ld	a,l
 	ld	(_playing),a
-	C_LINE	219,"mainloop/mainloop.h::main::4::124"
-.i_194
+	C_LINE	219,"mainloop/mainloop.h::main::4::125"
+.i_195
 	ld	hl,(_p_killme)
 	ld	h,0
 	ld	a,h
 	or	l
-	jp	z,i_197	;
+	jp	z,i_198	;
 	call	_player_kill
 	ld	hl,0	;const
 	ld	a,l
 	ld	(_p_killme),a
-.i_197
+.i_198
 	call	_flick_screen
-	jp	i_170	;EOS
-.i_171
+	jp	i_169	;EOS
+.i_170
 	ld	hl,0	;const
 	push	hl
 	call	_hide_sprites
@@ -6452,14 +6484,14 @@
 	call	sp_UpdateNow
 	ld	hl,(_success)
 	ld	h,0
-.i_200
+.i_201
 	ld	a,l
 	and	a
-	jp	z,i_201	;
-	cp	+(1% 256)
 	jp	z,i_202	;
-	jp	i_199	;EOS
-.i_201
+	cp	+(1% 256)
+	jp	z,i_203	;
+	jp	i_200	;EOS
+.i_202
 	ld	hl,i_1+13
 	ld	(_gp_gen),hl
 	call	_print_message
@@ -6469,8 +6501,8 @@
 	push	hl
 	call	_active_sleep
 	pop	bc
-	jp	i_199	;EOS
-.i_202
+	jp	i_200	;EOS
+.i_203
 	ld	hl,i_1+32
 	ld	(_gp_gen),hl
 	call	_print_message
@@ -6481,27 +6513,27 @@
 	push	hl
 	call	_active_sleep
 	pop	bc
-.i_199
+.i_200
 	ld	hl,(_level)
 	ld	h,0
 	ld	a,l
 	cp	2
-	jp	nz,i_203	;
+	jp	nz,i_204	;
 	call	_game_ending
 	xor	a
 	ld	(_mlplaying),a
-	jp	i_167	;EOS
-	defc	i_203 = i_167
-.i_168
+	jp	i_166	;EOS
+	defc	i_204 = i_166
+.i_167
 	call	_cortina
-	jp	i_165	;EOS
-.i_166
+	jp	i_164	;EOS
+.i_165
 	ret
 
 
-	C_LINE	217,"mk2.c::main::0::127"
-	C_LINE	0,"sound/music.h::main::0::127"
-	C_LINE	8,"sound/music.h::main::0::127"
+	C_LINE	218,"mk2.c::main::0::128"
+	C_LINE	0,"sound/music.h::main::0::128"
+	C_LINE	8,"sound/music.h::main::0::128"
 ; *****************************************************************************
 ; * Phaser1 Engine, with synthesised drums
 ; *
@@ -7179,7 +7211,7 @@
          DEFB 123
      DEFB 4
          DEFB $00
-	C_LINE	221,"mk2.c::main::0::127"
+	C_LINE	222,"mk2.c::main::0::128"
 	SECTION	rodata_compiler
 .i_1
 	defm	"            "
@@ -7715,6 +7747,7 @@
 	GLOBAL	_spacer
 	GLOBAL	_invalidate_tile
 	GLOBAL	_invalidate_viewport
+	GLOBAL	_validate_viewport
 	GLOBAL	_draw_invalidate_coloured_tile_gamearea
 	GLOBAL	_draw_objs
 	GLOBAL	_print_str

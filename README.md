@@ -5,7 +5,7 @@ MT Engine MK2 is a framework composed by a modular engine coded in C and a power
 
 MK2 needs z88dk v1.10 to compile and uses a modified version of splib2 by Alvin Albrecht.
 
-We "abandoned" MK2 in 2018, but continued support by some developers has resurrected the proyect, which will eventually get more enhancements and additions.
+We "abandoned" MK2 in 2018, but continued support by some developers has resurrected the project, which will eventually get more enhancements and additions.
 
 Installation
 ============
@@ -13,8 +13,8 @@ Installation
 There's a couple of things you have to do to get this working.
 
 1. Download or clone this repository.
-2. Install the stripped-down, minimal version of z88dk10 in C:. Just decompress the file `env/z88dk10-stripped.zip` to `C:/`. You shouls get a `C:\z88dk10\` folder.
-3. Compile and install the modified **splib2** library. To do that, just run `lib/splib2/Makefile.bat`.
+2. Install the stripped-down, minimal version of z88dk in C:. Just decompress the file `env/z88dk_mt.7z` to `C:/`. You should get a `C:\z88dk\` folder.
+3. Compile and install the modified **splib2** library. To do that, open a command line console, navigate to  `lib/splib2/` then run `Makefile.bat`.
 
 How to Build
 ============

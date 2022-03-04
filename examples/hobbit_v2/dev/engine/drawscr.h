@@ -4,6 +4,10 @@
 // drawscr.h
 // Screen drawing functions
 
+#ifdef CUSTOM_BACKGROUND
+	#include "my/custom_background.h"
+#endif
+
 void advance_worm (void) {
 	#asm
 		#ifdef ALT_TILE
@@ -33,6 +37,11 @@ void advance_worm (void) {
 			add hl, bc
 			ld  (hl), a
 
+	#endasm
+	#ifdef CUSTOM_BACKGROUND
+		custom_bg (); // Change gpd!
+	#endif
+	#asm
 			ld  a, (_gpd)
 			#ifdef ALT_TILE
 				ld  d, a
@@ -565,6 +574,7 @@ void draw_scr (void) {
 		no_draw = 0;
 	} else {
 		#ifdef SHOW_LEVEL_ON_SCREEN
+			hide_sprites (0); validate_viewport ();
 			blackout_area ();
 			_x = 12; _y = 12; _t = 71; gp_gen = (unsigned char *) ("LEVEL"); print_str ();
 			_x = 18; _y = 12; _t = n_pant + 1; print_number2 ();
@@ -586,7 +596,7 @@ void draw_scr (void) {
 	#ifdef RESPAWN_ON_ENTER
 		do_respawn = 1;
 	#endif
-	
+ 	
 	#ifdef ENABLE_FLOATING_OBJECTS
 		FO_clear ();
 	#endif

@@ -43,9 +43,6 @@ void enems_init (void) {
 		flags [COUNT_SCR_ENEMS_ON_FLAG]	= 0;
 	#endif
 
-	#ifndef RESPAWN_ON_REENTER
-		if (do_respawn)
-	#endif
 	for (gpit = 0; gpit < 3; gpit ++) {
 		//en_an_frame [gpit] = 0;
 		en_an_count [gpit] = 3;
@@ -53,6 +50,9 @@ void enems_init (void) {
 		enoffsmasi = enoffs + gpit;
 		
 		#ifdef RESPAWN_ON_ENTER
+			#ifndef RESPAWN_ON_REENTER
+				if (do_respawn)
+			#endif
 			// Back to life!
 			{		
 				baddies [enoffsmasi].t &= 0x7f;
@@ -78,23 +78,39 @@ void enems_init (void) {
 			en_an_base_frame [gpit] = (_en_t & 3) << 1;
 
 			switch (gpt) {
+				#if defined ENABLE_PATROLLERS && defined PATROLLERS_RESET
+					case 1:
+						// Reset
+						baddies [enoffsmasi].x = baddies [enoffsmasi].x1;
+						baddies [enoffsmasi].y = baddies [enoffsmasi].y1;
+						break;
+				#endif
+
 				#ifdef ENABLE_FANTIES
 					case 2:
 						// Flying
 						#ifdef FANTIES_FIXED_CELL
 							en_an_base_frame [gpit] = FANTIES_FIXED_CELL << 1;
 						#endif
-						en_an_x [gpit] = baddies [enoffsmasi].x1 << FIXBITS;
-						baddies [enoffsmasi].x = baddies [enoffsmasi].x1;
-						en_an_y [gpit] = baddies [enoffsmasi].y1 << FIXBITS;
-						baddies [enoffsmasi].y = baddies [enoffsmasi].y1;
+
+						#ifdef FANTIES_INIT_ON_CURRENT
+							en_an_x [gpit] = baddies [enoffsmasi].x << FIXBITS;
+							en_an_y [gpit] = baddies [enoffsmasi].y << FIXBITS;
+						#else
+							en_an_x [gpit] = baddies [enoffsmasi].x1 << FIXBITS;
+							baddies [enoffsmasi].x = baddies [enoffsmasi].x1;
+							en_an_y [gpit] = baddies [enoffsmasi].y1 << FIXBITS;
+							baddies [enoffsmasi].y = baddies [enoffsmasi].y1;
+						#endif
 						
 						en_an_vx [gpit] = en_an_vy [gpit] = 0;
+
 						#ifdef FANTIES_SIGHT_DISTANCE					
 							en_an_state [gpit] = FANTIES_IDLE;
 						#endif					
 						break;
 				#endif
+
 				#ifdef ENABLE_PURSUE_ENEMIES
 					case 3:
 						// Pursuing
@@ -102,23 +118,28 @@ void enems_init (void) {
 						en_an_dead_row [gpit] = 0;//DEATH_COUNT_EXPRESSION;
 						break;
 				#endif
+
 				#ifdef ENABLE_CLOUDS
 					case 4:
 						// Make sure mx is positive!
 						baddies [enoffsmasi].mx = abs (baddies [enoffsmasi].mx);
 						break;
 				#endif
+
 				#ifdef ENABLE_DROPS
 					case 9:
 						#include "addons/drops/init.h"
 						break;
 				#endif
+
 				#ifdef ENABLE_HANNA_MONSTERS_11
 					case 11:
 						en_an_state [gpit] = 0;
 						break;
 				#endif
+
 				#include "my/extra_enems_init.h"
+						
 				default:
 					break;
 			}

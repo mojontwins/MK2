@@ -517,6 +517,25 @@ void invalidate_viewport (void) {
 	#endasm
 }
 
+void validate_viewport (void) {
+	#asm
+			; Invalidate Rectangle
+			;
+			; enter:  B = row coord top left corner
+			;         C = col coord top left corner
+			;         D = row coord bottom right corner
+			;         E = col coord bottom right corner
+			;        IY = clipping rectangle, set it to "ClipStruct" for full screen
+
+			ld  b, VIEWPORT_Y
+			ld  c, VIEWPORT_X
+			ld  d, VIEWPORT_Y+19
+			ld  e, VIEWPORT_X+29
+			ld  iy, vpClipStruct
+			call SPValidate
+	#endasm
+}
+
 void draw_invalidate_coloured_tile_gamearea (void) {
 	draw_coloured_tile_gamearea ();
 	invalidate_tile ();

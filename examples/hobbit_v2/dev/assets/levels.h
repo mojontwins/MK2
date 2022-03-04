@@ -68,7 +68,7 @@ typedef struct {
 
 // Heap
 
-extern LEVELHEADER level_data [0];
+extern LEVELHEADER level_data;
 #asm
 	._level_data defs 16
 #endasm

@@ -39,6 +39,7 @@ Dim As Any Ptr img
 Dim As uByte tileset (2303)
 Dim As String dummy
 Dim As EnemyIn e
+Dim As uByte mx, my
 
 Print "ene2bin v0.2 20191212 ~ ";
 
@@ -68,8 +69,8 @@ Open Command (4) For Binary as #f
 dummy = Input (261, f)
 ' Read enems
 max = map_w * map_h * 3 
-Print "" & max & " enemies: ";
-For idx = 1 To max
+Print "" & max & " enemies: "
+For idx = 0 To max-1
 	' Read
 	Get #f, , e.t
 	Get #f, , e.x
@@ -84,7 +85,28 @@ For idx = 1 To max
 	' ubyte x, y; 
 	d = e.x * 16: Put #fout, , d
 	d = e.y * 16: Put #fout, , d
+
+	mx = e.n * sgn (e.xx - e.x)
+	my = e.n * sgn (e.yy - e.y)
 	
+	'' Swap x1/x2 & y1/y2 if enemy of type 1 (patroller)
+	If (e.t Shr 3) = 1 Then
+		? ">" & idx & ": " & (idx \ 3) & "." & (idx Mod 3) & " e.t = " & e.t & " - ";
+		If e.xx < e.x Then 
+			d = e.x 
+			e.x = e.xx 
+			e.xx = d
+			? "Swapping x1/x2";
+		End If
+		If e.yy < e.y Then 
+			d = e.y 
+			e.y = e.yy 
+			e.yy = d
+			? "Swapping y1/y2";
+		End If
+		?
+	End If
+
 	' ubyte x1, y1, x2, y2
 	d = 16 * e.x: Put #fout, , d
 	d = 16 * e.y: Put #fout, , d
@@ -92,8 +114,8 @@ For idx = 1 To max
 	d = 16 * e.yy: Put #fout, , d
 	
 	' ubyte mx, my
-	sd = e.n * sgn (e.xx - e.x): Put #fout, , sd
-	sd = e.n * sgn (e.yy - e.y): Put #fout, , sd
+	sd = mx: Put #fout, , sd
+	sd = my: Put #fout, , sd
 	
 	' ubyte t
 	d = e.t: Put #fout, , d

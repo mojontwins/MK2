@@ -20,6 +20,8 @@ void do_extern_action (unsigned char n) {
 	gpt = n;
 	if (gpt == 0) {
 		// Cortina
+		hide_sprites (0);
+		validate_viewport ();
 		
 		for (exti = 0; exti < 10; exti ++) {
 			for (extx = exti; extx < 30 - exti; extx ++) {
@@ -70,165 +72,165 @@ void do_extern_action (unsigned char n) {
 				}
 			}
 			#ifdef MODE_128K
-				#asm
-					halt
-				#endasm
+			#asm
+				halt
+			#endasm
 			#endif
 			sp_UpdateNowEx (0);
 		}
 		return;
 	} else if (n < 250) {
-		
-		// Show text gpt
-		stepbystep = 1;
-		
-		asm_int = (gpt - 1) << 1;
-		#asm
-		._extern_depack_text
-				; First we get where to look for the packed string
-				
-				ld  hl, (_asm_int)
+	
+	// Show text gpt
+	stepbystep = 1;
+	
+	asm_int = (gpt - 1) << 1;
+	#asm
+	._extern_depack_text
+			; First we get where to look for the packed string
+			
+			ld  hl, (_asm_int)
 				ld  de, _textos_load
-				add hl, de
-				ld  a, (hl)
-				inc hl
-				ld  h, (hl)
-				ld  l, a
-				add hl, de
+			add hl, de
+			ld  a, (hl)
+			inc hl
+			ld  h, (hl)
+			ld  l, a
+			add hl, de
 
-				ld de, _textbuff
+			ld de, _textbuff
 
-				; 5-bit scaped depacker by na_th_an
-				; Contains code by Antonio Villena
-				
-				ld  a, $80
-
-		.fbsd_mainb
-				call fbsd_unpackc
-
-				ld  c, a
-				ld  a, b
-				and a
-				jr  z, fbsd_fin
-
-				call fbsd_stor
-
-				ld  a, c
-				jr  fbsd_mainb	
-
-		.fbsd_stor
-				cp  31
-				jr  z, fbsd_escaped
-				add a, 64
-				jr  fbsd_stor2
-
-		.fbsd_escaped
-				ld  a, c
-
-				call fbsd_unpackc
-				
-				ld  c, a
-				ld  a, b
-				add a, 32
-		.fbsd_stor2
-				ld  (de), a
-				inc de
-				ret
-
-		.fbsd_unpackc
-				ld  b, 0x08
-		.fbsd_bucle
-				call fbsd_getbit
-
-				rl  b
-				jr  nc, fbsd_bucle
-				ret
-
-		.fbsd_getbit
-				add a, a
-				ret nz
-				ld  a, (hl)
-				inc hl
-				rla
-				ret        
-				
-		.fbsd_fin
-				ld (de), a	
-				;
-				;		
-
-		#endasm	
-		
-		if (is_cutscene == 0) {
-			// Show
-			exti = textbuff [0] - 64;
+			; 5-bit scaped depacker by na_th_an
+			; Contains code by Antonio Villena
 			
-			// Draw empty frame
-			extx = 3 + exti + exti;		
-		
-			_x = 3; _y = 3; _t = 1; gp_gen = (unsigned char *) ("#$$$$$$$$$$$$$$$$$$$$$$$$%"); print_str ();
-			_x = 3; _t = 1; gp_gen = (unsigned char *) ("&                        '");
-			for (_y = 4; _y < extx; ++ _y) { _x = 3; print_str (); }
-			_x = 3; _y = extx; _t = 1; gp_gen = (unsigned char *) ("())))))))))))))))))))))))*"); print_str ();
+			ld  a, $80
+
+	.fbsd_mainb
+			call fbsd_unpackc
+
+			ld  c, a
+			ld  a, b
+			and a
+			jr  z, fbsd_fin
+
+			call fbsd_stor
+
+			ld  a, c
+			jr  fbsd_mainb	
+
+	.fbsd_stor
+			cp  31
+			jr  z, fbsd_escaped
+			add a, 64
+			jr  fbsd_stor2
+
+	.fbsd_escaped
+			ld  a, c
+
+			call fbsd_unpackc
 			
-			exty = 4;
+			ld  c, a
+			ld  a, b
+			add a, 32
+	.fbsd_stor2
+			ld  (de), a
+			inc de
+			ret
+
+	.fbsd_unpackc
+			ld  b, 0x08
+	.fbsd_bucle
+			call fbsd_getbit
+
+			rl  b
+			jr  nc, fbsd_bucle
+			ret
+
+	.fbsd_getbit
+			add a, a
+			ret nz
+			ld  a, (hl)
+			inc hl
+			rla
+			ret        
+			
+	.fbsd_fin
+			ld (de), a	
+			;
+			;		
+			
+	#endasm	
+	
+	if (is_cutscene == 0) {
+		// Show
+		exti = textbuff [0] - 64;
+		
+		// Draw empty frame
+		extx = 3 + exti + exti;		
+	
+		_x = 3; _y = 3; _t = 1; gp_gen = (unsigned char *) ("#$$$$$$$$$$$$$$$$$$$$$$$$%"); print_str ();
+		_x = 3; _t = 1; gp_gen = (unsigned char *) ("&                        '");
+		for (_y = 4; _y < extx; ++ _y) { _x = 3; print_str (); }
+		_x = 3; _y = extx; _t = 1; gp_gen = (unsigned char *) ("())))))))))))))))))))))))*"); print_str ();
+		
+		exty = 4;
+	} else {
+		exty = 13;
+	}
+	
+	// Draw text
+	extx = 4; 
+	gp_gen = textbuff + 1;
+	keyp = 1;
+	while (exti = *gp_gen ++) {
+		if (exti == '%') {
+			extx = 4; exty += 2;
 		} else {
-			exty = 13;
-		}
-		
-		// Draw text
-		extx = 4; 
-		gp_gen = textbuff + 1;
-		keyp = 1;
-		while (exti = *gp_gen ++) {
-			if (exti == '%') {
+			// sp_PrintAtInv (exty, extx, 71, exti - 32);
+			#asm
+				ld  a, (_exti)
+				sub 32
+				ld  e, a
+				ld  a, (_extx)
+				ld  c, a
+				ld  a, (_exty)
+				ld  d, 71				
+				call SPPrintAtInv
+			#endasm
+			++ extx;
+			if (extx == 28) {
 				extx = 4; exty += 2;
-			} else {
-				// sp_PrintAtInv (exty, extx, 71, exti - 32);
-				#asm
-					ld  a, (_exti)
-					sub 32
-					ld  e, a
-					ld  a, (_extx)
-					ld  c, a
-					ld  a, (_exty)
-					ld  d, 71				
-					call SPPrintAtInv
-				#endasm
-				++ extx;
-				if (extx == 28) {
-					extx = 4; exty += 2;
-				}
 			}
-			if (stepbystep) {
+		}
+		if (stepbystep) {
 				#ifdef MODE_128K
-					#asm
-						halt
-					#endasm
-					if (exti != 32 && is_cutscene == 0) _AY_PL_SND (8);
-					#asm
-						halt
-						halt
-					#endasm
+			#asm
+				halt
+			#endasm
+			if (exti != 32 && is_cutscene == 0) _AY_PL_SND (8);
+			#asm
+				halt
+				halt
+			#endasm
 				#else
 					beep_fx (2);
 				#endif
-				sp_UpdateNowEx (0);
-			}
-			
-			if (button_pressed ()) {
-				if (keyp == 0) {
-					stepbystep = 0;
-				} 
-			} else {
-				keyp = 0;
-			}
+			sp_UpdateNowEx (0);
 		}
+		
+		if (button_pressed ()) {
+			if (keyp == 0) {
+				stepbystep = 0;
+			} 
+		} else {
+			keyp = 0;
+		}
+	}
 
-		sp_UpdateNowEx (0);
-		sp_WaitForNoKey ();
-		while (button_pressed ());
-		active_sleep (5000);
+	sp_UpdateNowEx (0);
+	sp_WaitForNoKey ();
+	while (button_pressed ());
+	active_sleep (5000);
 
 		if (is_cutscene) {
 			for (exti = 11; exti < 24; exti ++) {
@@ -241,11 +243,5 @@ void do_extern_action (unsigned char n) {
 		sp_UpdateNow ();	
 	} else if (n == 250) {
 		is_cutscene = 0;
-	} else if (n == 255) {
-		for (gpit = 0; gpit < 3; gpit ++) {
-			enoffsmasi = enoffs + gpit;
-			baddies [enoffsmasi].x = baddies [enoffsmasi].x1;
-			baddies [enoffsmasi].y = baddies [enoffsmasi].y1;
-		}
-	}
+	} 
 }

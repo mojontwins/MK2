@@ -15,6 +15,7 @@
 		LIB SPPrintAtInv
 		LIB SPTileArray
 		LIB SPInvalidate
+		LIB SPValidate
 		LIB SPCompDListAddr
 #endasm
 

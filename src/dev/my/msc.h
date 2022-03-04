@@ -72,30 +72,6 @@ void reloc_player (void) {
 #endif
 }
 
-void read_two_bytes_D_E (void) {
-    #asm
-            // Read two bytes: flag #, number
-
-            #ifdef MODE_128K
-                di
-                ld  b, SCRIPT_PAGE
-                call SetRAMBank
-            #endif
-
-                ld  hl, (_script)
-                ld  d, (hl)         // flag #
-                inc hl
-                ld  e, (hl)         // number
-                inc hl
-                ld  (_script), hl
-
-            #ifdef MODE_128K
-                ld  b, 0
-                call SetRAMBank
-                ei
-            #endif
-    #endasm
-}
 unsigned char *next_script;
 void run_script (unsigned char whichs) {
 
@@ -148,26 +124,6 @@ void run_script (unsigned char whichs) {
         sc_terminado = sc_continuar = 0;
         while (!sc_terminado) {
             switch (read_byte ()) {
-                case 0x10:
-                    // IF FLAG sc_x = sc_n
-                    // Opcode: 10 sc_x sc_n
-                    // readxy ();
-                    // sc_terminado = (flags [sc_x] != sc_y);
-                    #asm
-                            call _read_two_bytes_D_E
-                            // Set sc_terminado if flags [C] != E
-                            ld  b, 0
-                            ld  c, d
-                            ld  hl, _flags
-                            add hl, bc
-                            ld  a, (hl)
-                            cp  e
-                            jr  z, _flag_equal_val_ok
-                            ld  a, 1
-                            ld  (_sc_terminado), a
-                        ._flag_equal_val_ok
-                    #endasm
-                    break;
                 case 0xF0:
                      // IF TRUE
                      // Opcode: F0
@@ -184,106 +140,6 @@ void run_script (unsigned char whichs) {
             sc_terminado = 0;
             while (!sc_terminado) {
                 switch (read_byte ()) {
-                    case 0x01:
-                        // SET FLAG sc_x = sc_n
-                        // Opcode: 01 sc_x sc_n
-                        #asm
-                                call _readxy
-                                ld  de, (_sc_x)
-                                ld  d, 0
-                                ld  hl, _flags
-                                add hl, de
-                                ld  a, (_sc_y)
-                                ld  (hl), a
-                        #endasm
-                        break;
-                    case 0x10:
-                        // INC FLAG sc_x, sc_n
-                        // Opcode: 10 sc_x sc_n
-                        #asm
-                                call _readxy
-                                ld  de, (_sc_x)
-                                ld  d, 0
-                                ld  hl, _flags
-                                add hl, de
-                                ld  c, (hl)
-                                ld  a, (_sc_y)
-                                add c
-                                ld  (hl), a
-                        #endasm
-                        break;
-                    case 0x68:
-                        // SETXY sc_x sc_y
-                        reloc_player ();
-                        break;
-                    case 0x6D:
-                        // WARP_TO sc_n
-                        // Opcode: 6D sc_n
-                        n_pant = read_vbyte ();
-                        o_pant = 99;
-                        reloc_player ();
-                        return;
-                    case 0x6E:
-                        // REDRAW
-                        // Opcode: 6E
-                        sc_x = sc_y = 0;
-                        for (sc_c = 0; sc_c < 150; sc_c ++) {
-                            _x = sc_x; _y = sc_y; _n = map_attr [sc_c]; _t = map_buff [sc_c]; update_tile ();
-                            sc_x ++; if (sc_x == 15) { sc_x = 0; sc_y ++; }
-						}
-#ifdef ENABLE_FLOATING_OBJECTS
-                        FO_paint_all ();
-#endif
-						break;
-                    case 0x70:
-                        // SET_TIMER a, b
-                        // Opcode: 0x70 a b
-                        ctimer.t = read_vbyte ();
-                        ctimer.frames = read_vbyte ();
-                        ctimer.count = ctimer.zero = 0;
-                        break;
-                    case 0x73:
-                        // REHASH
-                        // Opcode: 73
-                        do_respawn = 0;
-                        o_pant = 99; 
-                        sc_terminado = 1;
-                        no_draw = 1;
-                        return;
-                    case 0x83:
-                        // ENEMY n TYPE t
-                        sc_n = enoffs + read_vbyte ();
-                        if (baddies [sc_n]) {
-                            baddies [sc_n].t &= 0x80;
-                            baddies [sc_n].t |= read_vbyte ();
-                        }
-                        break;
-                    case 0x84:
-                        // ENEMIES RESTORE
-                        for (sc_n = 0; sc_n < 3; sc_n ++) {
-                            enoffsmasi = enoffs + sc_n;
-                            baddies [enoffsmasi].t = enemy_backup [enoffsmasi];
-                            en_an_base_frame [sc_n] = (baddies [enoffsmasi].t & 3) << 1;
-                        }
-                        break;
-                    case 0xE0:
-                        // SOUND sc_n
-                        // Opcode: E0 sc_n
-#ifdef MODE_128K
-                        _AY_PL_SND (read_vbyte ());
-#else
-                        beep_fx (read_vbyte ());
-#endif
-                        break;
-                    case 0xE4:
-                        // EXTERN sc_n
-                        // Opcode: 0xE4 sc_n
-                        do_extern_action (read_byte ());
-                        break;
-                    case 0xF1:
-                        // WIN
-                        script_result = 1;
-                        return;
                     case 0xF4:
                         // DECORATIONS
                         while (0xff != (sc_x = read_byte ())) {

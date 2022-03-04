@@ -313,10 +313,12 @@ void player_kill (void) {
 			half_life = 0;
 		}
 	#endif
+
 	#ifdef PLAYER_FLICKERS
 		p_state = EST_PARP;
 		p_state_ct = 50;
 	#endif
+		
 	#ifdef REENTER_ON_DEATH
 		o_pant = 99;
 		hide_sprites (0);
