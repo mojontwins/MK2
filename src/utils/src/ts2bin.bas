@@ -96,29 +96,31 @@ Function getBitPattern (img As Any Ptr, x0 As Integer, y0 As Integer) as uByte
 End Function
 
 Sub usage
-	puts ("ts2bin 0.2")
-	puts ("usage")
-	puts ("")
-	puts ("$ ts2bin work.png/nofont work.png ts.bin [forcezero]")
-	Puts ("")
-	Puts ("where:")
-	Puts ("   * font.png is a 256x16 file with 64 chars ascii 32-95")
-	Puts ("     (use 'nofont' if you don't want to include a font & gen. 192 tiles)")
-	Puts ("   * work.png is a 256x48 file with your 16x16 tiles")
-	Puts ("   * ts.bin is the output, 2304 bytes bin file.")
-	Puts ("   * forcezero: adds 0 as 2nd colour when there's only one per 8x8 cell")
+	Print "Usage: "
+	Print 
+	Print "$ ts2bin font.png/nofont work.png/notiles ts.bin [forcezero]"
+	Print
+	Print "where:"
+	Print "   * font.png is a 256x16 file with 64 chars ascii 32-95"
+	Print "     (use 'nofont' if you don't want to include a font & gen. 192 tiles)"
+	Print "   * work.png is a 256x48 file with your 16x16 tiles"
+	Print "     (use 'notiles' if you don't want to include a tileset & gen. 64 tiles)"
+	Print "   * ts.bin is the output, 2304 bytes bin file."
+	Print "   * forcezero: adds 0 as 2nd colour when there's only one per 8x8 cell"
 End Sub
 
 ' VARS.
 
 Dim As Byte flag, is_packed
-Dim As integer i, j, x, y, xx, yy, f, fout, idx, byteswritten, totalsize
+Dim As integer i, j, x, y, xx, yy, f, fout, idx, byteswritten, totalsize, iniByte, finByte
 Dim As uByte d
 Dim As String levelBin
 Dim As Any Ptr img
 Dim As uByte tileset (2303)
 
 ' DO
+
+Print "ts2bin v0.3 20191202 ~ ";
 
 If Len (Command (3)) = 0 Then
 	usage
@@ -140,61 +142,43 @@ Open levelBin for Binary as #fout
 '' *************
 
 ' Puts ("building tileset")
-idx = 0
+
+
 If command (1) <> "nofont" then
-	Puts ("reading font")
-	img = png_load (Command (1))
-	Puts ("    font filename = " & Command (1))
-	idx = 0
+	printf ("Reading font ~ ")
+	img = png_load (Command (1))	
+	idx = 0 
 	For y = 0 To 1
 		For x = 0 To 31
 			getUDGIntoCharset img, x * 8, y * 8, tileset (), idx
-			idx = idx + 1	
+			idx = idx + 1
 		Next x
 	Next y
-	Puts ("    converted 64 chars")
-	Puts ("reading 16x16 tiles")
-	img = png_load (Command (2))
-	Puts ("    tileset filename = " & Command (2))
-	x = 0
-	y = 0
-	For idx = 0 to 47
-		getUDGIntoCharset img, x, y, tileset (), idx * 4 + 64
-		getUDGIntoCharset img, x + 8, y, tileset (), idx * 4 + 65
-		getUDGIntoCharset img, x, y + 8, tileset (), idx * 4 + 66
-		getUDGIntoCharset img, x + 8, y + 8, tileset (), idx * 4 + 67
-		x = x + 16: If x = 256 Then x = 0: y = y + 16
-	Next idx
-	Puts ("    converted 192 chars")
-	Puts ("writing tileset")
-	
-	For idx = 0 To 2303
-		d = tileset (idx)
-		put #fout, , d
-	Next idx
-	Puts ("    2304 bytes written")
-	Puts ("")
+	iniByte = 0
 Else
-	Puts ("reading 16x16 tiles")
-	img = png_load (Command (2))
-	Puts ("    tileset filename = " & Command (2))
-	x = 0
-	y = 0
-	For idx = 0 to 47
-		getUDGIntoCharset img, x, y, tileset (), idx * 4 + 64
-		getUDGIntoCharset img, x + 8, y, tileset (), idx * 4 + 65
-		getUDGIntoCharset img, x, y + 8, tileset (), idx * 4 + 66
-		getUDGIntoCharset img, x + 8, y + 8, tileset (), idx * 4 + 67
-		x = x + 16: If x = 256 Then x = 0: y = y + 16
-	Next idx
-	Puts ("    converted 192 chars")
-	Puts ("writing tileset")
-	
-	For idx = 512 To 2303
-		d = tileset (idx)
-		put #fout, , d
-	Next idx
-	Puts ("    1792 bytes written")
-	Puts ("")	
+	iniByte = 64*8
 End If
+
+If command (2) <> "notiles" then
+	printf ("reading metatiles ~ ")
+	img = png_load (Command (2))	
+	x = 0: y = 0: idx = 64
+	For i = 0 to 47
+		getUDGIntoCharset img, x, y, tileset (), idx: idx = idx + 1
+		getUDGIntoCharset img, x + 8, y, tileset (), idx: idx = idx + 1
+		getUDGIntoCharset img, x, y + 8, tileset (), idx: idx = idx + 1
+		getUDGIntoCharset img, x + 8, y + 8, tileset (), idx: idx = idx + 1
+		x = x + 16: If x = 256 Then x = 0: y = y + 16		
+	Next i	
+	finByte = 2303
+Else 
+	finByte = 64*8-1
+End If
+
+For i = iniByte To finByte
+	d = tileset (i)
+	put #fout, , d
+Next i
+Puts (" " & (finByte - iniByte + 1) & " bytes written")
+
 Close

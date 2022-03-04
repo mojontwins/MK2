@@ -1,12 +1,16 @@
-' ponedor v0.1
-' Copyleft 2016 by the Mojon Twins
+' ponedor v0.2
+' Copyleft 2016, 2019 by the Mojon Twins
 ' Simple GUI program to place enemies and hotspots
 ' I need to get rid of the crashy, allegro-needing old one.
 
-' fbc.exe ponedor.bas cmdlineparser.bas mtparser.bas gui.bas bmp.bas
+' v0.2 - adds support for 2-byte-per hotspot 'legacy' .ene 
 
+' fbc.exe ponedor.bas cmdlineparser.bas mtparser.bas gui.bas bmp.bas
 ' Needs libpng.a, fbpng.bi, cmdlineparser.*, mtparser.*, gui.*, bmp.* to compile.
 ' Needs zlib1.dll to run.
+
+#define WIN_INCLUDEALL
+#include once "windows.bi"
 
 #include "file.bi"
 #include "fbpng.bi"
@@ -27,21 +31,27 @@
 #define SC_RIGHT 	&H4D
 #define SC_UP 		&H48
 #define SC_DOWN 	&H50
+#define SC_E 		&H12
 #define SC_S        &H1F
 #define SC_G 		&H22
+#define SC_H 		&H23
+#define SC_L 		&H26
 #define SC_ENTER 	&H1C
 #define SC_TAB		&H0F
 #define SC_MINUS    &H0C
 #define SC_PLUS 	&H4E
 
-#define CS_LEFT 	&H01
-#define CS_RIGHT 	&H02
-#define CS_UP 		&H04
-#define CS_DOWN 	&H08
-#define CS_SAVE 	&H10
-#define CS_GRID 	&H20
-#define CS_PLUS		&H40
-#define CS_MINUS 	&H80
+#define CS_LEFT 	&H0001
+#define CS_RIGHT 	&H0002
+#define CS_UP 		&H0004
+#define CS_DOWN 	&H0008
+#define CS_SAVE 	&H0010
+#define CS_GRID 	&H0020
+#define CS_PLUS		&H0040
+#define CS_MINUS 	&H0080
+
+#define CS_LMT 		&H0100
+#define CS_H        &H0200
 
 #define STATE_INITIAL 0
 #define STATE_LAYINGOUTENEMY 1
@@ -88,6 +98,7 @@ End Type
 
 Dim Shared As OptionsType options
 Dim Shared As MapDescriptorType mapDescriptor
+Dim Shared As String exportFilename
 
 Redim Shared As uByte mapData (0, 0, 0, 0)
 Redim Shared As EnemiesType enems (0, 0, 0)
@@ -106,6 +117,7 @@ Dim Shared As Integer stretchX2
 
 Dim Shared As Integer ratio
 Dim Shared As Integer offsetr
+Dim Shared As Integer legacyMode
 
 Dim Shared As uByte thinNumbers (135) = { _
 	0, 14, 10, 10, 10, 10, 14, 0, _
@@ -126,6 +138,172 @@ Dim Shared As uByte thinNumbers (135) = { _
 	0, 14, 8, 14, 8, 8, 8, 0, _
 	0, 14, 14, 14, 14, 14, 14, 0 _
 }
+
+Sub sanitizeSlashes (ByRef spec As String)
+	Dim As Integer i
+	For i = 1 To Len (spec)
+		If Mid (spec, i, 1) = Chr (92) Then Mid (spec, i, 1) = "/"
+	Next
+End Sub
+
+Function absoluteToRelative (fileSpec As String, refSpec As String) As String
+	Dim As Integer i
+	Dim As Integer fi
+	Dim As Integer numBacks
+	Dim As String res
+
+	sanitizeSlashes fileSpec
+	sanitizeSlashes refSpec
+
+	If Right (refSpec, 1) <> "/" Then refSpec = refSpec & "/"
+
+	' Check how much of fileSpec and refSpec are the same
+	For i = 1 To Len (fileSpec)
+		If i > Len (refSpec) Then Exit For
+		If Mid (fileSpec, i, 1) <> Mid (refSpec, i, 1) Then Exit For
+	Next i
+
+	fi = i
+
+	numBacks = 0
+	If fi <= Len (refSpec) Then
+		For i = fi To Len (refSpec)
+			If Mid (refSpec, i, 1) = "/" Then numBacks = numBacks + 1
+		Next i
+	End If
+
+	res = ""
+	For i = 1 To numBacks
+		res = res & "../"
+	Next i
+
+	res = res & Right (fileSpec, Len (fileSpec) - fi + 1)
+
+	Return res
+End Function
+
+Function filebrowserTS () As String 
+	Dim ofn As OPENFILENAME
+	Dim filename As Zstring * (MAX_PATH + 1)
+	Dim title As Zstring * 32 => "Find Tileset..."
+
+	Dim myCurDir As String
+	myCurDir = Curdir
+
+	Dim initialdir As Zstring * 256 => myCurDir
+
+	With ofn
+	.lStructSize       = Sizeof(OPENFILENAME)
+	.hwndOwner         = NULL
+	.hInstance         = GetModuleHandle(NULL)
+	.lpstrFilter       = Strptr(!"Png Files, (*.png)\0*.png\0BMP Files, (*.bmp)\0*.bmp\0All Files, (*.*)\0*.*\0\0")
+	.lpstrCustomFilter = NULL
+	.nMaxCustFilter    = 0
+	.nFilterIndex      = 1
+	.lpstrFile         = @filename
+	.nMaxFile          = Sizeof(filename)
+	.lpstrFileTitle    = NULL
+	.nMaxFileTitle     = 0
+	.lpstrInitialDir   = @initialdir
+	.lpstrTitle        = @title
+	.Flags             = OFN_EXPLORER Or OFN_FILEMUSTEXIST Or OFN_PATHMUSTEXIST
+	.nFileOffset       = 0
+	.nFileExtension    = 0
+	.lpstrDefExt       = NULL
+	.lCustData         = 0
+	.lpfnHook          = NULL
+	.lpTemplateName    = NULL
+	End With
+
+	If (GetOpenFileName(@ofn) = FALSE) Then Return ""
+
+	filename = absoluteToRelative (filename, myCurDir)
+	ChDir myCurDir
+
+	Return filename
+End Function
+
+Function filebrowserMap () As String
+	Dim ofn As OPENFILENAME
+	Dim filename As Zstring * (MAX_PATH + 1)
+	Dim title As Zstring * 32 => "Find MAP..."
+
+	Dim myCurDir As String
+	myCurDir = Curdir
+
+	Dim initialdir As Zstring * 256 => myCurDir
+
+	With ofn
+	.lStructSize       = Sizeof(OPENFILENAME)
+	.hwndOwner         = NULL
+	.hInstance         = GetModuleHandle(NULL)
+	.lpstrFilter       = Strptr(!"MAP Files, (*.MAP)\0*.MAP\0All Files, (*.*)\0*.*\0\0")
+	.lpstrCustomFilter = NULL
+	.nMaxCustFilter    = 0
+	.nFilterIndex      = 1
+	.lpstrFile         = @filename
+	.nMaxFile          = Sizeof(filename)
+	.lpstrFileTitle    = NULL
+	.nMaxFileTitle     = 0
+	.lpstrInitialDir   = @initialdir
+	.lpstrTitle        = @title
+	.Flags             = OFN_EXPLORER Or OFN_FILEMUSTEXIST Or OFN_PATHMUSTEXIST
+	.nFileOffset       = 0
+	.nFileExtension    = 0
+	.lpstrDefExt       = NULL
+	.lCustData         = 0
+	.lpfnHook          = NULL
+	.lpTemplateName    = NULL
+	End With
+
+	If (GetOpenFileName(@ofn) = FALSE) Then Return ""
+
+	filename = absoluteToRelative (filename, myCurDir)
+	ChDir myCurDir
+
+	Return filename
+End Function
+
+Function filebrowserEne () As String
+	Dim ofn As OPENFILENAME
+	Dim filename As Zstring * (MAX_PATH + 1)
+	Dim title As Zstring * 32 => "Find enems file"
+
+	Dim myCurDir As String
+	myCurDir = Curdir
+
+	Dim initialdir As Zstring * 256 => myCurDir
+
+	With ofn
+	.lStructSize       = Sizeof(OPENFILENAME)
+	.hwndOwner         = NULL
+	.hInstance         = GetModuleHandle(NULL)
+	.lpstrFilter       = Strptr(!"Enem Files, (*.ene)\0*.ene\0All Files, (*.*)\0*.*\0\0")
+	.lpstrCustomFilter = NULL
+	.nMaxCustFilter    = 0
+	.nFilterIndex      = 1
+	.lpstrFile         = @filename
+	.nMaxFile          = Sizeof(filename)
+	.lpstrFileTitle    = NULL
+	.nMaxFileTitle     = 0
+	.lpstrInitialDir   = @initialdir
+	.lpstrTitle        = @title
+	.Flags             = OFN_EXPLORER Or OFN_FILEMUSTEXIST Or OFN_PATHMUSTEXIST
+	.nFileOffset       = 0
+	.nFileExtension    = 0
+	.lpstrDefExt       = NULL
+	.lCustData         = 0
+	.lpfnHook          = NULL
+	.lpTemplateName    = NULL
+	End With
+
+	If (GetOpenFileName(@ofn) = FALSE) Then Return ""
+
+	filename = absoluteToRelative (filename, myCurDir)
+	ChDir myCurDir
+
+	Return filename
+End Function
 
 Function myFileExists (fn As String) As Integer
 	Dim fH As Integer
@@ -188,7 +366,7 @@ Sub writeSizedString (s As String, n As Integer, fH As Integer)
 End Sub
 
 Sub parseHeaders
-	Dim As Integer fIn
+	Dim As Integer fIn, expectedLength
 	Dim As uByte d 
 
 	If Not (myFileExists (enemsFn)) Then Puts ("ERROR: " & enemsFn & " does not exist. Can't continue."): System
@@ -206,8 +384,165 @@ Sub parseHeaders
 	Get #fIn, , d: mapDescriptor.scrH = d
 	Get #fIn, , d: mapDescriptor.nenems = d
 
+	' Autodetect legacy mode.
+	' .ene files should be exactly of this length
+	' 261 + mapW * mapH * nenems * 8 + 3 * mapW * mapH
+	' it the length is less, the file is in the old 2 bytes per hotspot format
+	expectedLength = 261 + 8 * mapDescriptor.mapW * mapDescriptor.mapH * mapDescriptor.nenems + _
+					3 * mapDescriptor.mapW * mapDescriptor.mapH
+	legacyMode = (Lof (fIn) < expectedLength)
+
 	Close #fIn
 End Sub
+
+Sub sve
+	Get (0, 0)-(options.winW - 1, options.winH - 1), buffer
+End Sub
+
+Sub rec 
+	Put (0,0), buffer, PSET
+End Sub
+
+Sub removeMainButtons
+	Line (options.borderLeft, options.winH - 22)-(options.borderLeft + 52 + 52 + 52 + 60 + 16 + 8, options.winH), bgmain, BF
+End Sub
+
+Function fileNamePrompt (title As String, defaultFn As String) As String
+	Dim As String res
+	Dim As Integer x0, y0
+	Dim As Button buttonOk
+	Dim As TextBox textFilename
+
+	While (MultiKey (1) Or Window_Event_close): Wend
+
+	res = ""
+	sve
+	removeMainButtons
+
+	x0 = options.winW \ 2 - 90
+	y0 = options.winH \ 2 - 28
+
+	Line (x0, y0)-(x0 + 179, y0 + 55), RGBA (127,127,127,127), BF 
+	Line (x0, y0)-(x0 + 179, y0 + 55), 0, B
+
+	Var Label_a =	Label_New	(x0 + 8, y0 + 8, 18*8, 20, title, black, bgmain)
+	textFilename =  TextBox_New (x0 + 8, y0 + 8 + 20, 128, 20, defaultFn)
+	buttonOk = 		Button_New	(x0 + 8 + 128 + 8, y0 + 8 + 20, 40, 20, "Save")
+	
+	Do
+		TextBox_Edit (textFilename)
+
+		If Button_Event (buttonOk) Then res = TextBox_GetText (textFilename): Exit Do
+		If MultiKey (1) Then 			res = "": Exit Do
+		If MultiKey (SC_ENTER) Then		res = TextBox_GetText (textFilename): Exit Do
+	Loop
+
+	rec
+	While (MultiKey (1) Or Window_Event_close): Wend
+
+	Return res
+End Function
+
+Function saveChurrera As Integer
+	Dim As Integer fOut
+	Dim As Integer baddiesCount
+	Dim As Integer xP, yP, i
+	Dim As uByte d
+
+	exportFilename = fileNamePrompt ("Export MK1 .h", exportFilename)
+	If exportFilename <> "" Then
+		fOut = FreeFile
+		Open exportFilename For Output As #fOut
+		Print #fOut, "// Exported by ponedor.exe - Churrera MK1 mode!"
+		Print #fOut, ""
+
+		baddiesCount = 0
+		For yP = 0 To mapDescriptor.mapH - 1
+			For xP = 0 To mapDescriptor.mapW - 1
+				For i = 0 To mapDescriptor.nenems - 1
+					d = enems (xP, yP, i).t
+					If d > 0 And d <> 4 Then baddiesCount = baddiesCount + 1
+		Next i, xP, yP
+
+		Print #fOut, "#define BADDIES_COUNT " & baddiesCount 
+		Print #fOut, ""
+
+		Print #fOut, "typedef struct {"
+		Print #fOut, "    int x, y;"
+		Print #fOut, "    unsigned char x1, y1, x2, y2;"
+		Print #fOut, "    char mx, my;"
+		Print #fOut, "    char t;"
+		Print #fOut, "    #ifdef PLAYER_CAN_FIRE"
+		Print #fOut, "        unsigned char life;"
+		Print #fOut, "    #endif"
+		Print #fOut, "} MALOTE;"
+		Print #fOut, ""
+
+		Print #fOut, "MALOTE malotes [] = {"
+
+		For yP = 0 To mapDescriptor.mapH - 1
+			For xP = 0 To mapDescriptor.mapW - 1
+				For i = 0 To mapDescriptor.nenems - 1
+
+					Print #fOut, "    {";
+
+					Print #fOut, Str (enems (xP, yP, i).x * 16) & ", ";
+					Print #fOut, Str (enems (xP, yP, i).y * 16) & ", ";
+					Print #fOut, Str (enems (xP, yP, i).x * 16) & ", ";
+					Print #fOut, Str (enems (xP, yP, i).y * 16) & ", ";
+					Print #fOut, Str (enems (xP, yP, i).xx * 16) & ", ";
+					Print #fOut, Str (enems (xP, yP, i).yy * 16) & ", ";
+					Print #fOut, Str (Sgn (enems (xP, yP, i).xx - enems (xP, yP, i).x) * enems (xP, yP, i).n) & ", ";
+					Print #fOut, Str (Sgn (enems (xP, yP, i).yy - enems (xP, yP, i).y) * enems (xP, yP, i).n) & ", ";
+					Print #fOut, Str (enems (xP, yP, i).t) & ", ";
+
+					Print #fOut, "}";
+					If yP < mapDescriptor.mapH - 1 Or _
+						xP < mapDescriptor.mapW - 1 Or _
+						i < mapDescriptor.nenems Then
+						Print #fOut, ","
+					Else
+						Print #fOut, ""
+					End If
+		Next i, xP, yP
+
+		Print #fOut, "};"
+		Print #fOut, ""
+
+		Print #fOut, "typedef struct {"
+		Print #fOut, "    unsigned char xy, tipo, act;"
+		Print #fOut, "} HOTSPOT;"
+		Print #fOut, ""
+
+		Print #fOut, "HOTSPOT hotspots [] = {"
+
+		For yP = 0 To mapDescriptor.mapH - 1
+			For xP = 0 To mapDescriptor.mapW - 1
+
+				Print #fOut, "    {";
+
+				Print #fOut, Str (16*hotspots (xP,yP).x + hotspots (xP,yP).y) & ", ";
+				Print #fOut, Str (hotspots (xP,yP).t) & ", 0";
+
+				Print #fOut, "}";
+
+				If yP < mapDescriptor.mapH - 1 Or _
+					xP < mapDescriptor.mapW - 1 Then
+					Print #fOut, ","
+				Else
+					Print #fOut, ""
+				End If
+		Next xP, yP
+
+		Print #fOut, "};"
+		Print #fOut, ""
+
+		Close #fOut
+		Return -1
+	Else 
+		Return 0
+	End If
+End Function
 
 Sub saveProject
 	Dim As Integer fOut
@@ -256,13 +591,247 @@ Sub saveProject
 				hotspots (xP,yP).x = 0
 				hotspots (xP,yP).y = 0 
 			End if
-			d = hotspots (xP, yP).x: Put #fOut, , d
-			d = hotspots (xP, yP).y: Put #fOut, , d
+			If legacyMode Then
+				d = hotspots (xP, yP).x * 16 + hotspots (xP, yP).y: Put #fOut, , d
+			Else
+				d = hotspots (xP, yP).x: Put #fOut, , d
+				d = hotspots (xP, yP).y: Put #fOut, , d
+			End If
 			d = hotspots (xP, yP).t: Put #fOut, , d
 	Next xP, yP
 
 	Close #fOut
 End Sub
+
+Sub usage
+	Print "Edit an existing set:"
+	Print "$ ponedor.exe file.ene"
+	Print
+	Print "Create new set:"
+	Print "$ ponedor.exe new out=file.ene map=file.map tiles=file.png|bmp [adjust=n] size=w,h"
+	Print "                  [scrsize=w,h] [nenems=n] [x2]"
+	Print
+	Print "out           output filename"
+	Print "map           map file (raw, headerless, 1 byte per tile, row order)"
+	Print "tiles         tileset in png or bmp format."
+	Print "adjust        substract this number from every byte read from the map file. Def=0"
+	Print "size          map size in screens"
+	Print "scrsize       screen size in tiles. Def=16,12"
+	Print "nenems        number of enemies per screen. Def=3"
+	Print "x2            zoom x2 (hacky)"
+End Sub
+
+Sub openingScreenNoParams
+	Dim As Button buttonExit
+	Dim As Button buttonTilesetfile
+	Dim As Button buttonMapfile
+	Dim As Button buttonEnemsfile
+	Dim As Button buttonCreateNew
+	Dim As Button buttonLoadExisting
+	Dim As Button buttonToggleSize
+
+	Dim As TextBox textMapW
+	Dim As TextBox textMapH
+	Dim As TextBox textScrW
+	Dim As TextBox textScrH
+	Dim As TextBox textNenems
+	Dim As TextBox textAdjust
+	Dim As TextBox textTilesetfile
+	Dim As TextBox textMapfile
+	Dim As TextBox textEnemsfile
+	Dim As TextBox textEnemsLoadFile
+
+	Dim As HWND hwnd
+
+	Dim As Integer prevStretchX2
+	Dim As String lm
+
+	OpenWindow 320, 268, "Mojon Twins' Ponedowr"
+	ScreenControl fb.GET_WINDOW_HANDLE, Cast (Integer, hwnd)
+	
+	Line (8, 8)-(312, 166), &H404040, b
+
+	Var Label_CN =  Label_new   (16, 0, 11*8, 16, "Create New", black, bgmain)
+
+	Var Label_MW = 	Label_New 	(16, 18, 6*8, 16, "Map W", black, bgmain)
+	textMapW = 		TextBox_New (72, 18, 32, 16, "")
+	Var Label_MH = 	Label_New 	(120, 18, 6*8, 16, "Map H", black, bgmain)
+	textMapH = 		TextBox_New (176, 18, 32, 16, "")
+
+	Var Label_SW = 	Label_New 	(16, 38, 6*8, 16, "Scr W", black, bgmain)
+	textScrW = 		TextBox_New (72, 38, 32, 16, "15")
+	Var Label_SH = 	Label_New 	(120, 38, 6*8, 16, "Scr H", black, bgmain)
+	textScrH = 		TextBox_New (176, 38, 32, 16, "10")
+
+	Var Label_NE = 	Label_New 	(16, 58, 7*8, 16, "Nenems", black, bgmain)
+	textNenems = 	TextBox_New (72, 58, 32, 16, "3")
+	Var Label_A = 	Label_New 	(120, 58, 7*8, 16, "Adjust", black, bgmain)
+	textAdjust = 	TextBox_New (176, 58, 32, 16, "0")
+
+	Var LabelTSF =  Label_new   (16, 78, 4*8, 16, "TS", black, bgmain)
+	textTilesetfile = TextBox_New (72, 78, 128, 16, "")
+	buttonTilesetfile = Button_New (208, 78, 48, 16, "Find")
+
+	Var LabelMF =  	Label_new   (16, 98, 4*8, 16, "Map", black, bgmain)
+	textMapfile =   TextBox_New (72, 98, 128, 16, "")
+	buttonMapfile = Button_New  (208, 98, 48, 16, "Find")
+
+	Var LabelOut =  Label_New   (16, 118, 7*8, 16, "Output", red, bgmain)
+	textEnemsfile = TextBox_New (72, 118, 128, 16, "enems.ene")
+
+	buttonCreateNew = Button_New (312-12*8, 138, 11*8, 20, "Create New")
+
+	Line (8, 176)-(312, 232), &H404040, b
+
+	Var Label_OE =  Label_new   (16, 166, 14*8, 16, "Open existing", black, bgmain)
+
+	Var LabelIn =   Label_new   (16, 184, 7*8, 16, "Input", red, bgmain)
+	textEnemsLoadFile = TextBox_New (72, 184, 128, 16, "")
+	buttonEnemsfile = Button_New (208, 184, 48, 16, "Find")
+
+	buttonLoadExisting = Button_New (312-15*8, 204, 14*8, 20, "Load Existing")
+
+	buttonToggleSize = Button_New (8, 240, 6*8, 20, "Size")
+	
+	Dim As Integer res, which
+
+	res = 0: which = 0
+	prevStretchX2 = Not stretchX2
+
+	Do
+		If prevStretchX2 <> stretchX2 Then
+			If stretchX2 then lm = "Double" Else lm = "Normal"
+			SetText 64, 242, _
+				7*8, 16, _
+				lm, _
+				0, bgmain
+			prevStretchX2 = stretchX2
+		End If
+
+		Select Case which
+			Case 0: TextBox_Edit (textMapW): TextBox_SetText (textMapW, Str (Val (TextBox_GetText (textMapW))))
+			Case 1: TextBox_Edit (textMapH): TextBox_SetText (textMapH, Str (Val (TextBox_GetText (textMapH))))
+			Case 2: TextBox_Edit (textScrW): TextBox_SetText (textScrW, Str (Val (TextBox_GetText (textScrW))))
+			Case 3: TextBox_Edit (textScrH): TextBox_SetText (textScrH, Str (Val (TextBox_GetText (textScrH))))
+			Case 4: TextBox_Edit (textNenems): TextBox_SetText (textNenems, Str (Val (TextBox_GetText (textNenems))))
+			Case 5: TextBox_Edit (textAdjust): TextBox_SetText (textAdjust, Str (Val (TextBox_GetText (textAdjust))))
+			Case 6: TextBox_Edit (textTilesetfile)
+			Case 7: TextBox_Edit (textMapfile)
+			Case 8: TextBox_Edit (textEnemsfile): If TextBox_GetText (textEnemsfile) = "" Then TextBox_SetText (textEnemsfile, "enems.ene")
+			Case 9: TextBox_Edit (textEnemsLoadFile)
+		End Select
+
+		If MultiKey (1) Or Button_Event (buttonExit) Or Window_Event_Close Then res = -1: Exit Do 
+		If MultiKey (SC_TAB) Then which = which + 1: If which = 10 Then which = 0
+
+		If TextBox_Event (textMapW) Then which = 0		
+		If TextBox_Event (textMapH) Then which = 1
+		If TextBox_Event (textScrW) Then which = 2
+		If TextBox_Event (textScrH) Then which = 3
+		If TextBox_Event (textNenems) Then which = 4		
+		If TextBox_Event (textAdjust) Then which = 5
+		If TextBox_Event (textTilesetfile) Then which = 6
+		If TextBox_Event (textMapfile) Then which = 7
+		If TextBox_Event (textEnemsfile) Then which = 8
+		If TextBox_Event (textEnemsLoadFile) Then which = 9
+
+		If Button_Event (buttonCreateNew) Then
+			doLoad = 0
+			enemsFn = TextBox_GetText (textEnemsfile)
+			sanitizeSlashes enemsFn
+
+			mapDescriptor.mapFile = TextBox_GetText (textMapfile)
+			mapDescriptor.tilesFile = TextBox_GetText (textTilesetfile)
+			mapDescriptor.adjust = Val (TextBox_GetText (textAdjust))
+			mapDescriptor.mapW = Val (TextBox_GetText (textMapW))
+			mapDescriptor.mapH = Val (TextBox_GetText (textMapH))
+			If mapDescriptor.mapW = 0 Or mapDescriptor.mapH = 0 Then Puts ("Wrong map size"): System
+			mapDescriptor.scrW = Val (TextBox_GetText (textScrW))
+			mapDescriptor.scrH = Val (TextBox_GetText (textScrH))
+			If mapDescriptor.scrW = 0 Or mapDescriptor.scrH = 0 Then Puts ("Wrong screen size"): System
+			mapDescriptor.nenems = Val (TextBox_GetText (textNenems))
+			If mapDescriptor.nenems = 0 Then mapDescriptor.nenems = 3
+			doLoad = 0
+			Exit Do
+		End If
+
+		If Button_Event (buttonMapfile) Then 
+			TextBox_SetText ( _
+				textMapfile, _
+				filebrowserMap () _
+			)
+			ShowWindow (hwnd, SW_SHOW)
+			SetForegroundWindow (hwnd)
+		End If
+		If Button_Event (buttonTilesetfile) Then 
+			TextBox_SetText ( _
+				textTilesetfile, _
+				filebrowserTS () _
+			)
+			ShowWindow (hwnd, SW_SHOW)
+			SetForegroundWindow (hwnd)
+		End If
+		If Button_Event (buttonEnemsfile) Then 
+			TextBox_SetText ( _
+				textEnemsLoadFile, _
+				filebrowserEne () _
+			)
+			ShowWindow (hwnd, SW_SHOW)
+			SetForegroundWindow (hwnd)
+		End If
+		If Button_Event (buttonLoadExisting) Then
+			enemsFn = TextBox_GetText (textEnemsLoadFile)
+			sanitizeSlashes enemsFn
+
+			parseHeaders
+			doLoad = -1
+			Exit Do
+		End If
+		If Button_Event (buttonToggleSize) Then
+			stretchX2 = Not stretchX2
+		End If
+	Loop
+
+	If stretchX2 Then ratio = 32: offsetr = 8 Else ratio = 16: offsetr = 0
+
+	If res Then System
+End Sub
+
+Function confirmarSalida As Integer
+	Dim As Integer res 
+	Dim As Integer x0, y0
+	Dim As Button buttonYes
+	Dim As Button buttonNo
+
+	While (MultiKey (1) Or Window_Event_close): Wend
+
+	res = 0
+	sve
+	removeMainButtons
+
+	x0 = options.winW \ 2 - 90
+	y0 = options.winH \ 2 - 28
+
+	Line (x0, y0)-(x0 + 179, y0 + 55), RGBA (127,127,127,127), BF 
+	Line (x0, y0)-(x0 + 179, y0 + 55), 0, B
+
+	Var Label_a =	Label_New	(x0 + 8, y0 + 8, 18*8, 20, "Seguro de verdad?", black, bgmain)
+	buttonYes = 	Button_New	(x0 + 8, y0 + 8 + 20, 112, 20, "Seguro, Paco")
+	buttonNo = 		Button_New 	(x0 + 8 + 112 + 4, y0 + 8 + 20, 48, 20, "Huy!")
+
+	Do
+		If Button_Event (buttonYes) Then	res = -1: Exit Do
+		If Button_Event (buttonNo) Then 	res = 0: Exit Do
+		If Window_Event_Close Then 			res = -1: Exit Do
+		If MultiKey (1) Then 				res = 0: Exit Do
+		If MultiKey (SC_ENTER) Then			res = -1: Exit Do
+	Loop
+
+	rec
+	While (MultiKey (1) Or Window_Event_close): Wend
+
+	Return res
+End Function
 
 Function parseInput As Integer
 	Dim As String mandatory (3) = { "out", "map", "tiles", "size" }
@@ -270,6 +839,11 @@ Function parseInput As Integer
 
 	' Parse the command line
 	sclpParseAttrs
+
+	If sclpGetValue ("/h") <> "" Or sclpGetValue ("-h") <> "" Or sclpGetValue ("/?") <> "" Then
+		usage
+		End
+	End If
 
 	debug = (sclpGetValue ("debug") <> "")
 	stretchX2 = (sclpGetValue ("x2") <> "")
@@ -320,47 +894,49 @@ Function parseInput As Integer
 		doLoad = 0
 	Else
 		' Editing.
-		If Command (1) = "" Then Return 0
-		enemsFn = Command (1)
+		If Command (1) = "" Or Command (1) = "x2" Then 
+			openingScreenNoParams
+		Else
+			enemsFn = Command (1)
+			sanitizeSlashes enemsFn
+			parseHeaders
+			doLoad = -1
+		End If
 
-		parseHeaders
-		doLoad = -1
 	End If
 
 	Return -1
 End Function
 
-Sub usage
-	Print "Edit an existing set:"
-	Print "$ ponedor.exe file.ene"
-	Print
-	Print "Create new set:"
-	Print "$ ponedor.exe new out=file.ene map=file.map tiles=file.png|bmp [adjust=n] size=w,h"
-	Print "                  [scrsize=w,h] [nenems=n] [x2]"
-	Print
-	Print "out           output filename"
-	Print "map           map file (raw, headerless, 1 byte per tile, row order)"
-	Print "tiles         tileset in png or bmp format."
-	Print "adjust        substract this number from every byte read from the map file. Def=0"
-	Print "size          map size in screens"
-	Print "scrsize       screen size in tiles. Def=16,12"
-	Print "nenems        number of enemies per screen. Def=3"
-	Print "x2            zoom x2 (hacky)"
-End Sub
+Function addPathTo (spec As String) As String
+	Dim As String enemsFnPath
+
+	' Get path from enemsFn
+	If Instr (enemsFn, "/") Then
+		enemsFnPath = Left (enemsFn, Instrrev (enemsFn, "/"))
+	Else
+		enemsFnPath = ""
+	End If
+
+	Return enemsFnPath & spec
+End Function
 
 Sub cutTileSet
 	Dim As Any ptr img
 	Dim As Any ptr work
 	Dim As Integer w, h, x, y, i, xx, yy, c
+	Dim As String fixedFileName
 
-	If Not (myFileExists (Trim (mapDescriptor.tilesFile, Any Chr (0)+Chr (9)+Chr (32)))) Then Puts ("ERROR: " & Trim (mapDescriptor.tilesFile, Any Chr (0)+Chr (9)+Chr (32)) & " does not exist. Can't continue."): System
+	fixedFileName = addPathTo (mapDescriptor.tilesFile)
 
-	If Right (Trim (mapDescriptor.tilesFile, Any Chr (0)+Chr (9)+Chr (32)), 4) = ".png" Then
-		If debug Then puts ("Reading PNG file " & Trim (mapDescriptor.tilesFile, Any Chr (0)+Chr (9)+Chr (32)))
-		img = png_load (mapDescriptor.tilesFile)
+	If Not (myFileExists (Trim (fixedFileName, Any Chr (0)+Chr (9)+Chr (32)))) Then Puts ("ERROR: " & Trim (mapDescriptor.tilesFile, Any Chr (0)+Chr (9)+Chr (32)) & " does not exist. Can't continue."): System
+
+	If Right (Trim (fixedFileName, Any Chr (0)+Chr (9)+Chr (32)), 4) = ".png" Then
+		If debug Then puts ("Reading PNG file " & Trim (fixedFileName, Any Chr (0)+Chr (9)+Chr (32)))
+		img = png_load (fixedFileName)
 	Else
-		If debug Then puts ("Reading BMP file " & Trim (mapDescriptor.tilesFile, Any Chr (0)+Chr (9)+Chr (32)))
-		img = bmp_load (mapDescriptor.tilesFile)
+		If debug Then puts ("Reading BMP file " & Trim (fixedFileName, Any Chr (0)+Chr (9)+Chr (32)))
+		img = bmp_load (fixedFileName)
 	End If
 	If ImageInfo (img, w, h, , , , ) Then
 		' Error!
@@ -430,8 +1006,11 @@ End Sub
 Sub loadMap
 	Dim As Integer fIn, x, y, xMap, yMap, xScr, yScr
 	Dim As uByte d
+	Dim As String fixedFileName
 
-	If Not (myFileExists (Trim (mapDescriptor.mapFile, Any Chr (0)+Chr (9)+Chr (32)))) Then Puts ("ERROR: " & Trim (mapDescriptor.mapFile, Any Chr (0)+Chr (9)+Chr (32)) & " does not exist. Can't continue."): System
+	fixedFileName = addPathTo (mapDescriptor.mapFile)
+
+	If Not (myFileExists (Trim (fixedFileName, Any Chr (0)+Chr (9)+Chr (32)))) Then Puts ("ERROR: " & Trim (mapDescriptor.mapFile, Any Chr (0)+Chr (9)+Chr (32)) & " does not exist. Can't continue."): System
 
 	If debug Then 
 		Puts ("loading Map")
@@ -440,7 +1019,7 @@ Sub loadMap
 	End If
 
 	fIn = FreeFile
-	Open Trim (mapDescriptor.mapFile, Any Chr (0)+Chr (9)+Chr (32)) For Binary As #fIn
+	Open Trim (fixedFileName, Any Chr (0)+Chr (9)+Chr (32)) For Binary As #fIn
 	For y = 0 To mapDescriptor.mapH * mapDescriptor.scrH - 1
 		yScr = y Mod mapDescriptor.scrH
 		yMap = y \ mapDescriptor.scrH
@@ -456,7 +1035,7 @@ End Sub
 
 Sub loadProjectAssets
 	Dim As Integer fIn
-	Dim As uByte d 
+	Dim As uByte d, x, y
 	Dim As Integer xP, yP, i
 	Dim As String dummy
 
@@ -488,14 +1067,25 @@ Sub loadProjectAssets
 	Next i, xP, yP
 
 	' Read hotspots
+	
 	For yP = 0 To mapDescriptor.mapH - 1
 		For xP = 0 To mapDescriptor.mapW - 1
-			Get #fIn, , d
-			If d > mapDescriptor.scrW Then d = 0
-			hotspots (xP, yP).x = d
-			Get #fIn, , d
-			If d > mapDescriptor.scrH Then d = 0
-			hotspots (xP, yP).y = d
+			If legacyMode Then
+				Get #fIn, , d
+				y = d And 15: x = d \ 16				
+				If x >= mapDescriptor.scrW Then x = 0
+				hotspots (xP, yP).x = x
+				If y >= mapDescriptor.scrH Then y = 0
+				hotspots (xP, yP).y = y
+			Else
+				Get #fIn, , d
+				If d >= mapDescriptor.scrW Then d = 0
+				hotspots (xP, yP).x = d
+				Get #fIn, , d
+				If d >= mapDescriptor.scrH Then d = 0
+				hotspots (xP, yP).y = d
+			End If
+
 			Get #fIn, , d: hotspots (xP, yP).t = d
 
 			' Safe
@@ -550,7 +1140,7 @@ Sub drawLastBox (xC As Integer, yC As Integer, n As Integer)
 	Circle (x0 + 8, y0 + 8), 6, RGB (0, 0, 0), , , , F
 	Circle (x0 + 8, y0 + 8), 5, RGB (255,220,120), , , , F
 
-	drawThinHexNumber2 x0 + 5, y0 + 4, RGB (127, 127, 127), -1, n
+	drawThinHexNumber2 x0 + 5, y0 + 4, bgmain, -1, n
 End Sub
 
 Sub drawHotspot (xC As Integer, yC as Integer, n as Integer)
@@ -613,60 +1203,12 @@ Function countEnemsThisScreen (xP As Integer, yP As Integer) As Integer
 	Return res
 End Function
 
-Sub sve
-	Get (0, 0)-(options.winW - 1, options.winH - 1), buffer
-End Sub
-
-Sub rec 
-	Put (0,0), buffer, PSET
-End Sub
-
 Sub waitNoMouse
 	Dim As Integer x, y, mbtn
 	Do
 		Getmouse x, y, , mbtn
 	Loop While mbtn
 End Sub
-
-Sub removeMainButtons
-	Line (options.borderLeft, options.winH - 22)-(options.borderLeft + 52 + 52 + 52, options.winH), RGB (127,127,127), BF
-End Sub
-
-Function confirmarSalida As Integer
-	Dim As Integer res 
-	Dim As Integer x0, y0
-	Dim As Button buttonYes
-	Dim As Button buttonNo
-
-	While (MultiKey (1) Or Window_Event_close): Wend
-
-	res = 0
-	sve
-	removeMainButtons
-
-	x0 = options.winW \ 2 - 90
-	y0 = options.winH \ 2 - 28
-
-	Line (x0, y0)-(x0 + 179, y0 + 55), RGBA (127,127,127,127), BF 
-	Line (x0, y0)-(x0 + 179, y0 + 55), 0, B
-
-	Var Label_a =	Label_New	(x0 + 8, y0 + 8, 18*8, 20, "Seguro de verdad?", black, RGB (127,127,127))
-	buttonYes = 	Button_New	(x0 + 8, y0 + 8 + 20, 112, 20, "Seguro, Paco")
-	buttonNo = 		Button_New 	(x0 + 8 + 112 + 4, y0 + 8 + 20, 48, 20, "Huy!")
-
-	Do
-		If Button_Event (buttonYes) Then	res = -1: Exit Do
-		If Button_Event (buttonNo) Then 	res = 0: Exit Do
-		If Window_Event_Close Then 			res = -1: Exit Do
-		If MultiKey (1) Then 				res = 0: Exit Do
-		If MultiKey (SC_ENTER) Then			res = -1: Exit Do
-	Loop
-
-	rec
-	While (MultiKey (1) Or Window_Event_close): Wend
-
-	Return res
-End Function
 
 Sub noPuedesPonerMas
 	Dim As Integer x0, y0
@@ -681,7 +1223,7 @@ Sub noPuedesPonerMas
 	Line (x0, y0)-(x0 + 127, y0 + 55), RGBA (127,127,127,127), BF 
 	Line (x0, y0)-(x0 + 127, y0 + 55), 0, B
 
-	Var Label_a = 	Label_New 	(x0 + 8, y0 + 8, 15 * 8, 20, "Ya estan los " & mapDescriptor.nenems, black, RGB (127,127,127))
+	Var Label_a = 	Label_New 	(x0 + 8, y0 + 8, 15 * 8, 20, "Ya estan los " & mapDescriptor.nenems, black, bgmain)
 	buttonFuck = 	Button_New	(x0 + 64 - 28, y0 + 8 + 20, 56, 20, "Fuck!")
 
 	Do
@@ -703,7 +1245,29 @@ Sub grabadoPerfe
 	Line (x0, y0)-(x0 + 127, y0 + 55), RGBA (127,127,127,127), BF 
 	Line (x0, y0)-(x0 + 127, y0 + 55), 0, B
 
-	Var Label_a = 	Label_New 	(x0 + 8, y0 + 8, 15 * 8, 20, "Grabado perfe", black, RGB (127,127,127))
+	Var Label_a = 	Label_New 	(x0 + 8, y0 + 8, 15 * 8, 20, "Grabado perfe", black, bgmain)
+	buttonOk = 	Button_New	(x0 + 64 - 28, y0 + 8 + 20, 56, 20, "OK!")
+
+	Do
+	Loop Until MultiKey (1) Or MultiKey (SC_ENTER) Or Button_Event (buttonOk)
+
+	rec
+End Sub
+
+Sub grabadoChurreraPerfe
+	Dim As Integer x0, y0
+	Dim As Button buttonOk
+
+	sve
+	removeMainButtons
+
+	x0 = options.winW \ 2 - 64
+	y0 = options.winH \ 2 - 28
+
+	Line (x0, y0)-(x0 + 127, y0 + 55), RGBA (127,127,127,127), BF 
+	Line (x0, y0)-(x0 + 127, y0 + 55), 0, B
+
+	Var Label_a = 	Label_New 	(x0 + 8, y0 + 8, 13*8, 20, "Export .h ok", black, bgmain)
 	buttonOk = 	Button_New	(x0 + 64 - 28, y0 + 8 + 20, 56, 20, "OK!")
 
 	Do
@@ -729,7 +1293,7 @@ Function hotspotsCreateDialog (t As Integer) As Integer
 	Line (x0, y0)-(x0 + 127, y0 + 55), RGBA (127,127,127,127), BF 
 	Line (x0, y0)-(x0 + 127, y0 + 55), 0, B
 
-	Var Label_a = 	Label_New 	(x0 + 8, y0 + 8, 10*8, 20, "Hotspot:", black, RGB (127,127,127))
+	Var Label_a = 	Label_New 	(x0 + 8, y0 + 8, 10*8, 20, "Hotspot:", black, bgmain)
 	If t <> 0 Then
 		textT = 		TextBox_New (x0 + 8 + 10*8, y0 + 8, 32, 20, Hex (t))
 	Else 
@@ -770,7 +1334,7 @@ Function enemsCreateDialogStep1 As Integer
 	Line (x0, y0)-(x0 + 127, y0 + 55), RGBA (127,127,127,127), BF 
 	Line (x0, y0)-(x0 + 127, y0 + 55), 0, B
 
-	Var Label_a = 	Label_New 	(x0 + 8, y0 + 8, 10*8, 20, "Type H:", black, RGB (127,127,127))
+	Var Label_a = 	Label_New 	(x0 + 8, y0 + 8, 10*8, 20, "Type H:", black, bgmain)
 	textT = 		TextBox_New (x0 + 8 + 10*8, y0 + 8, 32, 20, "")
 	buttonOk = 		Button_New	(x0 + 8, y0 + 8 + 20, 32, 20, "OK")
 	buttonCancel = 	Button_New 	(x0 + 8 + 32 + 4, y0 + 8 + 20, 40, 20, "Mal")
@@ -810,13 +1374,13 @@ Function enemsCreateDialogStep2 (ByRef a As Integer, ByRef s1 As Integer, ByRef 
 	Line (x0, y0)-(x0 + 127, y0 + 95), RGBA (127,127,127,127), BF 
 	Line (x0, y0)-(x0 + 127, y0 + 95), 0, B
 
-	Var Label_a = 	Label_New 	(x0 + 8, y0 + 8, 10*8, 20, "Attr:", black, RGB (127,127,127))
+	Var Label_a = 	Label_New 	(x0 + 8, y0 + 8, 10*8, 20, "Attr:", black, bgmain)
 	textA = 		TextBox_New (x0 + 8 + 10*8, y0 + 8, 32, 20, "")
 	
-	Var Label_b = 	Label_New 	(x0 + 8, y0 + 8 + 20, 10*8, 20, "s1:", black, RGB (127,127,127))
+	Var Label_b = 	Label_New 	(x0 + 8, y0 + 8 + 20, 10*8, 20, "s1:", black, bgmain)
 	textS1 = 		TextBox_New (x0 + 8 + 10*8, y0 + 8 + 20, 32, 20, "")
 
-	Var Label_c = 	Label_New 	(x0 + 8, y0 + 8 + 20 + 20, 10*8, 20, "s2:", black, RGB (127,127,127))
+	Var Label_c = 	Label_New 	(x0 + 8, y0 + 8 + 20 + 20, 10*8, 20, "s2:", black, bgmain)
 	textS2 = 		TextBox_New (x0 + 8 + 10*8, y0 + 8 + 20 + 20, 32, 20, "")
 
 	buttonOk = 		Button_New	(x0 + 8, y0 + 8 + 20 + 20 + 20, 32, 20, "OK")
@@ -880,16 +1444,16 @@ Function enemsEditDialog (xP As Integer, yP As Integer, _
 	Line (x0, y0)-(x0 + 127, y0 + 115), RGBA (127,127,127,127), BF 
 	Line (x0, y0)-(x0 + 127, y0 + 115), 0, B
 
-	Var Label_t = 	Label_New 	(x0 + 8, y0 + 8, 10*8, 20, "Type:", black, RGB (127,127,127))
+	Var Label_t = 	Label_New 	(x0 + 8, y0 + 8, 10*8, 20, "Type:", black, bgmain)
 	textT = 		TextBox_New (x0 + 8 + 10*8, y0 + 8, 32, 20, Hex (t, 2))
 
-	Var Label_a = 	Label_New 	(x0 + 8, y0 + 8 + 20, 10*8, 20, "Attr:", black, RGB (127,127,127))
+	Var Label_a = 	Label_New 	(x0 + 8, y0 + 8 + 20, 10*8, 20, "Attr:", black, bgmain)
 	textA = 		TextBox_New (x0 + 8 + 10*8, y0 + 8 + 20, 32, 20, Hex (a, 2))
 	
-	Var Label_b = 	Label_New 	(x0 + 8, y0 + 8 + 20 + 20, 10*8, 20, "s1:", black, RGB (127,127,127))
+	Var Label_b = 	Label_New 	(x0 + 8, y0 + 8 + 20 + 20, 10*8, 20, "s1:", black, bgmain)
 	textS1 = 		TextBox_New (x0 + 8 + 10*8, y0 + 8 + 20 + 20, 32, 20, Hex (s1, 2))
 
-	Var Label_c = 	Label_New 	(x0 + 8, y0 + 8 + 20 + 20 + 20, 10*8, 20, "s2:", black, RGB (127,127,127))
+	Var Label_c = 	Label_New 	(x0 + 8, y0 + 8 + 20 + 20 + 20, 10*8, 20, "s2:", black, bgmain)
 	textS2 = 		TextBox_New (x0 + 8 + 10*8, y0 + 8 + 20 + 20 + 20, 32, 20, Hex (s2, 2))
 
 	buttonOk = 		Button_New	(x0 + 8, y0 + 8 + 20 + 20 + 20 + 20, 32, 20, "OK")
@@ -930,8 +1494,8 @@ Function enemsEditDialog (xP As Integer, yP As Integer, _
 	Return res
 End Function
 
-Function readCursors As uByte
-	Dim As uByte res 
+Function readCursors As uInteger
+	Dim As uInteger res 
 	res = 0
 	If MultiKey (SC_LEFT) Then 	res = res Or CS_LEFT
 	If MultiKey (SC_RIGHT) Then res = res Or CS_RIGHT
@@ -941,6 +1505,10 @@ Function readCursors As uByte
 	If MultiKey (SC_G) Then 	res = res Or CS_GRID
 	If MultiKey (SC_MINUS) Then res = res Or CS_MINUS
 	If MultiKey (SC_PLUS) Then 	res = res Or CS_PLUS
+
+	If MultiKey (SC_L) Then     res = res Or CS_LMT
+	If MultiKey (SC_H) Then     res = res Or CS_H
+	If MultiKey (SC_E) Then     res = res Or CS_H
 
 	Return res
 End Function
@@ -1060,21 +1628,35 @@ Sub processRightClick (xP As Integer, yP As Integer, xC As Integer, yC As Intege
 	End If
 End Sub
 
+Sub printHotspotsMode ()
+	' Prints whether we are in legacy mode or not
+	Dim As String lm
+
+	If legacyMode Then lm = "2b" Else lm = "3b"
+
+	SetText options.borderLeft+18*8, 0, _
+			24, 16, _
+			lm, _
+			0, RGB (0, 127, 127)
+	Sve
+End Sub
+
 ' Controls
 Dim As Button buttonSave
 Dim As Button buttonExit
 Dim As Button buttonGrid
 Dim As Button buttonReload
+Dim As Button buttonH
 
 ' Variables
 Dim As Integer xP, yP, xPO, yPO, xC, yC, xCO, yCO, mx, my, mbtn
-Dim As uByte keys, keysTF
+Dim As uInteger keys, keysTF
 
 '' Main
-If Not parseInput () Then
-	usage
-	End
-End If
+
+exportFilename = "enems.h"
+
+parseInput () 
 
 '' Project info is already loaded, so
 initOptions
@@ -1095,11 +1677,13 @@ buttonSave = Button_New (options.borderLeft, options.winH - 22, 48, 20, "Save")
 buttonExit = Button_New (options.borderLeft + 52, options.winH - 22, 48, 20, "Exit")
 buttonGrid = Button_New (options.borderLeft + 52 + 52, options.winH - 22, 48, 20, "Grid")
 buttonReload = Button_New (options.borderLeft + 52 + 52 + 52, options.winH - 22, 56, 20, "Reload")
+buttonH = Button_New (options.borderLeft + 52 + 52 + 52 + 60, options.winH - 22, 16, 20, "H")
 
 '' Last things
 editingState = 0
 xP = 0: yP = 0: xPO = &HFF: yPO = &HFF
 xCO = &HFF: yCO = &HFF
+printHotspotsMode
 
 '' And the loop
 Do 
@@ -1116,7 +1700,7 @@ Do
 			options.borderLeft, 0, _
 			18*8, 16, _
 			"XP:" & Hex (xP, 2) & " YP:" & Hex (yP, 2) & " NP:" & Hex ((yP * mapDescriptor.mapW + xP), 2), _
-			0, RGB (127, 127, 127)
+			0, bgmain
 		Sve
 	End If
 
@@ -1131,7 +1715,7 @@ Do
 		yC = (my - options.mapViewOffsetY) \ ratio
 
 		If xC <> xCO Or yC <> yCO Then
-			SetText options.winW - options.borderRight - 60, 0, 8*8, 16, "X:" & Hex (xC, 1) & " Y:" & Hex (yC, 1), 0, RGB (127, 127, 127)
+			SetText options.winW - options.borderRight - 60, 0, 8*8, 16, "X:" & Hex (xC, 1) & " Y:" & Hex (yC, 1), 0, bgmain
 			xCO = xC: yCO = yC
 		End If
 
@@ -1150,9 +1734,9 @@ Do
 		If mbtn And 1 Then waitNoMouse: processLeftClick xP, yP, xC, yC
 		If mbtn And 2 Then waitNoMouse: processRightClick xP, yP, xC, yC
 	Else 
-		SetText options.winW - options.borderRight - 60, 0, 8*8, 16, "       ", 0, RGB (127, 127, 127)
+		SetText options.winW - options.borderRight - 60, 0, 8*8, 16, "       ", 0, bgmain
 		xCO = &HFF: yCO = &HFF
-	End If
+	End If	
 
 	'' Adjust
 	If (keysTF And CS_PLUS) Then
@@ -1169,6 +1753,12 @@ Do
 	If (keysTF And CS_RIGHT)	And xP < mapDescriptor.mapW - 1 Then	xP = xP + 1
 	If (keysTF And CS_UP) 		And yP > 0 Then							yP = yP - 1
 	If (keysTF And CS_DOWN) 	And yP < mapDescriptor.mapH - 1 Then 	yP = yP + 1
+
+	'' Toggle legacy mode
+	If (keysTF And CS_LMT) Then
+		legacyMode = Not legacyMode
+		printHotspotsMode
+	End If
 
 	'' Grid
 	If (keysTF And CS_GRID) Or Button_Event (buttonGrid) Then
@@ -1188,6 +1778,13 @@ Do
 		cutTileSet
 		loadMap
 		renderScreen xP, yP
+	End If
+
+	'' H
+	If (KeysTF And CS_H) Or Button_Event (buttonH) Then
+		If saveChurrera Then
+			grabadoChurreraPerfe
+		End If
 	End If
 
 	'' Exit

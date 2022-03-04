@@ -32,6 +32,11 @@ resId = 0
 
 Print "THE LIBRARIAN"
 Print
+Open "list.txt" for binary as #1
+If Lof (1) = 0 Then Close #1: Kill "list.txt": Print "list.txt does not exist. Exitting and closing the door loudly.": System
+Close #1
+
+
 Print "Processing list.txt"
 
 f1 = FreeFile

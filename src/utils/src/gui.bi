@@ -4,7 +4,7 @@
 
 Const	black = &H000000, blue = &H0000FF, green = &H00FF00, cyan = &H00FFFF, _
 		red = &HFF0000, magenta = &HFF00FF, yellow = &HFFFF00, grey = &HAAAAAA, _
-		white = &HFCCCCCC
+		white = &HFCCCCCC, bgmain = &H7F7F7F
 
 Type Button
 	x As Integer	'Position left top

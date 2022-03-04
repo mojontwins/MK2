@@ -1,0 +1,238 @@
+# El Hobbit script file
+# Copyleft 2011 by The Mojon Twins.
+# Churrera 4.5
+
+# Initial actions
+
+# flags:
+# 1 = talked to gandalf
+# 2 = can get dwarves
+# 3 = dwarves gotten
+# 5 = open door
+# 6 = tiene anillo
+
+ENTERING GAME
+	IF TRUE
+	THEN
+		SET FLAG 1 = 0
+		SET FLAG 2 = 0
+		SET FLAG 3 = 0
+		SET FLAG 4 = 0
+		SET FLAG 5 = 0
+		SET FLAG 6 = 0
+	END
+END
+
+# General actions
+# Activates door if dwarves gotten
+# placed correctly.
+
+ENTERING ANY
+	IF FLAG 3 = 13
+	IF FLAG 5 = 0
+	THEN
+		SET FLAG 5 = 1
+		TEXT ____THE_CAVE_IS_NOW_OPEN____
+	END	
+	
+	IF FLAG 1 = 0
+	THEN
+		TEXT ______LOOK_FOR_GANDALF______
+	END
+END
+
+PRESS_FIRE AT ANY
+	IF FLAG 6 = 1
+	IF NPANT_NOT 5
+	THEN
+		TEXT ____YOU_PUT_THE_RING_ON_____
+		SHOW
+		FLICKER
+		DIZZY
+		SOUND 6
+	END
+	
+	IF FLAG 6 = 1
+	IF NPANT 5
+	THEN
+		TEXT _YOU_CANT_USE_THE_RING_HERE_
+		SHOW
+		SOUND 4
+	END
+	
+	# Para que not pite
+	IF TRUE
+	THEN
+	END
+END
+
+# Initial screen, show text
+
+ENTERING SCREEN 28
+	IF TRUE
+	THEN
+		TEXT ___A_NICE_DAY_AT_HOBBITON___
+	END
+END
+
+# Gandalf
+
+ENTERING SCREEN 0
+	IF TRUE
+	THEN
+		SET TILE (2, 2) = 46
+	END
+END
+
+PRESS_FIRE AT SCREEN 0	
+	IF FLAG 1 != 1
+	IF PLAYER_TOUCHES 2, 2
+	THEN
+		TEXT ___GATHER_THE_13_DWARVES!___
+		SHOW
+		SOUND 7
+		SET FLAG 1 = 1
+		SET FLAG 2 = 1
+	END
+END
+
+# Entrada cueva
+
+ENTERING SCREEN 31
+	IF FLAG 5 = 0
+	THEN
+		SET TILE (9, 0) = 31
+	END
+END
+
+ENTERING SCREEN 24
+	IF TRUE
+	THEN
+		TEXT __LOOK_FOR_SMAUGS_TREASURE__
+	END
+END
+
+# Moto seminueva
+
+ENTERING SCREEN 1
+	IF TRUE
+	THEN
+		SET TILE (10, 1) = 32
+		SET TILE (11, 1) = 33
+	END
+END
+
+PRESS_FIRE AT SCREEN 1
+	IF PLAYER_IN_Y_TILES 1, 1
+	IF PLAYER_IN_X_TILES 10, 11
+	THEN
+		TEXT ____VENDO_MOTO_SEMINUEVA____
+		SHOW
+		SOUND 7
+	END
+END
+
+# Anillo
+
+ENTERING SCREEN 4
+	IF FLAG 6 = 0
+	THEN
+		SET TILE (5, 4) = 34
+		TEXT _WHOAH!_THAT_RING_IS_SHINY!_
+	END
+END
+
+PRESS_FIRE AT SCREEN 4
+	IF FLAG 6 != 1
+	IF PLAYER_TOUCHES 5, 4
+	THEN
+		SET TILE (5, 4) = 0
+		SOUND 8
+		TEXT _____IT_IS_THE_ONE_RING_____
+		SHOW
+		SOUND 7
+		SET FLAG 6 = 1
+		PRINT_TILE_AT (2, 22) = 18
+	END
+END
+
+ENTERING SCREEN 3
+	IF FLAG 6 = 1
+	THEN
+		TEXT __FIRE_TO_PUT_THE_RING_ON___
+	END
+END
+
+ENTERING SCREEN 10
+	IF FLAG 6 = 1
+	THEN
+		TEXT __THE_RING_MAKES_YOU_DIZZY__
+	END
+END
+
+# Gollum
+
+ENTERING SCREEN 12
+	IF TRUE
+	THEN
+		TEXT __BEWARE_OF_GRUMPY_GOLLUM___
+	END
+END
+
+# Si te ve
+
+ENTERING SCREEN 6
+	IF TRUE
+	THEN
+		TEXT _HE_WILL_KILL_YOU_ON_SIGHT__
+	END
+END
+
+# Dragon
+
+ENTERING SCREEN 5
+	IF TRUE
+	THEN
+		SET TILE (6, 4) = 36
+		SET TILE (7, 4) = 37
+		SET TILE (6, 3) = 38
+		SET TILE (7, 3) = 39
+		SET TILE (5, 1) = 42
+		SET TILE (6, 1) = 43
+		SET TILE (7, 1) = 44
+		SET TILE (8, 1) = 45
+		SET_FIRE_ZONE 0, 64, 255, 79
+		TEXT _______TERRIBLE_SMAUG_______
+	END	
+END
+
+PRESS_FIRE AT SCREEN 5
+	IF PLAYER_IN_Y 64, 79
+	IF PLAYER_IN_X 128, 255
+	THEN
+		TEXT _____SMAUG_HAS_SEEN_YOU_____
+		SHOW
+		SOUND 7
+		SOUND 4
+		SOUND 8
+		SOUND 4
+		GAME OVER
+	END
+	
+	IF PLAYER_IN_Y 64, 79
+	IF PLAYER_IN_X 0, 127
+	THEN
+		SET_FIRE_ZONE 0, 16, 255, 31
+	END
+	
+	IF PLAYER_IN_Y 16, 31
+	THEN
+		TEXT ____YOU_GOT_THE_TREASURE____
+		SHOW
+		SOUND 7
+		SOUND 6
+		SOUND 8
+		SOUND 6
+		WIN GAME
+	END
+END

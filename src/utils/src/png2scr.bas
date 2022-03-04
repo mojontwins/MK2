@@ -42,17 +42,16 @@ Dim As Integer x, y, i, j, third, lineInChar, charLine, column, idx, c1, c2, b, 
 Dim As uByte c
 Dim cpBuff (23, 31) as colourPair
 
-Sub usage
-	puts ("png2scr 0.1")
-	puts ("usage")
-	puts ("")
-	puts ("$ png2scr img.png img.scr [thirds]")
-	Puts ("")
-	Puts ("where:")
-	Puts ("   * img.png is a 256x192 image, speccy formatted")
-	Puts ("   * img.scr is the converted, output file")
-	Puts ("   * [thirds] = 1, 2, 3; don't include for full image+attrs")
+Sub usage	
+	Print "usage:"
+	Print ""
+	Print "$ png2scr.exe img.png img.scr [thirds]"
+	Print "   * img.png is a 256x192 image, speccy formatted"
+	Print "   * img.scr is the converted, output file"
+	Print "   * [thirds] = 1, 2, 3; don't include for full image+attrs"
 End Sub
+
+Print "png2scr v0.2.20191119 ~ ";
 
 If Len (Command (1)) = 0 Or Len (Command (2)) = 0 Then
 	usage
@@ -70,13 +69,13 @@ else
 	tc = thirds
 end if
 
+Print "Reading ~ ";
+
 screenres 640, 480, 32, , -1
-
-Puts ("Reading input png")
 img = png_load (Command (1))
-Puts ("    input filename = " & Command (1))
 
-Puts ("Reading colour pairs")
+Printf ("Converting ~ ")
+
 pc1 = 99: pc2 = 99
 For y = 0 to 23
 	For x = 0 to 31
@@ -112,9 +111,9 @@ For y = 0 to 23
 	Next x
 Next y
 
-Puts ("Examining and reordering bitmap")
-
 numbytes = 0
+
+printf ("Writing bitmap ~ ")
 
 idx = 0
 For third = 0 To 2
@@ -137,7 +136,7 @@ For third = 0 To 2
 Next third
 
 if thirds = 0 then
-	Puts ("Adding attribute file")
+	printf ("Writing attributes ~ ")
 	For y = 0 To 23
 		For x = 0 To 31
 			c1 = cpBuff (y, x).c1
@@ -151,9 +150,6 @@ if thirds = 0 then
 	Next y
 end if
 
-Puts ("Writing output")
-Puts ("    output filename = " & Command (2))
-
 Open Command (2) For Binary As #1
 if thirds = 0 then 
 	numbytes = 6912
@@ -165,4 +161,4 @@ For i = 0 To numbytes - 1
 	Put #1, , scrOut (i)
 Next i
 Close #1
-Puts ("    " & numbytes & " bytes written")
+Puts ("DONE")

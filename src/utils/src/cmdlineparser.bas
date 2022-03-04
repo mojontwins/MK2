@@ -51,3 +51,17 @@ Function sclpGIsDef (key As String) As Integer
 	sclpGIsDef = (sclpGetValue (key) <> "")
 End Function
 	
+Function sclpCheck (mandatory () As String) As Integer
+	Dim As Integer i
+	
+	For i = Lbound (mandatory) To Ubound (mandatory)
+		If Not sclpGIsDef (mandatory (i)) Then
+			Print "**ERROR** " & mandatory (i) & " is Missing!":?
+			sclpCheck = 0
+			Exit Function
+		End If
+	Next i
+	
+	sclpCheck = -1
+	Exit Function
+End Function

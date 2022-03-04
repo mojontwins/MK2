@@ -1,0 +1,43 @@
+﻿---------------------------------------------------------
+Ninjakul 2: The Last Ninja for ZX Spectrum 128K/+2/A/B/+3
+---------------------------------------------------------
+Desarrollador: Pat Morita Team
+Año: 2019
+Genero: Action - Platform
+Motor: basado en MK2 (Mojon Twins) con muchas mejoras.
+---------------------------------------------------------
+
+
+---------
+ARGUMENTO
+---------
+Después de la muerte de su hermano, Akul, el último ninja de su clan, buscará venganza derrotando a la mafia del opio: El clan Gunshi.
+
+En este juego de acción y plataformas, tendrás que hallar los cuatro pergaminos sagrados y luchar contra el clan y sus guardianes. Cuando completes las cuatro primeras zonas, tendrás acceso a la zona final, donde Paco Romita, el gran jefe, te espera.
+
+
+---------------
+Características
+---------------
+- El juego tiene un progolo jugable y 5 niveles (zonas). Después del próogo, verás un mapa de Hong Kong.
+- Las zonas A,B,C y D están disponibles desde el principio y puedes elegir el orden en que completarla seleccionandola en el mapa.
+- Cuando las completes venciendo a sus jefes finales, podrás acceder a la zona final marcada con una interrogación.
+- Los pergaminos sagrados están ocultos por las 4 zonas, encuéntralos y regresa al mapa vivo para poder elegir un nuevo poder para tu ninja.
+- Dispones de 3 niveles de dificultad.
+- Hay items ocultos en los escenarios, descúbrelos.
+
+
+---------
+CONTROLES
+---------
+
+Puedes redefinir teclas o usar las que hay por defecto:
+
+Keyboard: 	A: Izquierda
+			D: Derecha 
+			W: Arriba 
+			S: Abajo 
+			N: Disparo (usar espada o lanzar shurikens)
+			M: Salto
+			Enter: Cambiar de arma
+		

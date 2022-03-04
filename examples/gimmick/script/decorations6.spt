@@ -1,0 +1,223 @@
+ENTERING SCREEN 0
+	IF TRUE
+	THEN
+		DECORATIONS
+			9, 6, 20
+			10, 6, 21
+			9, 7, 36
+			10, 7, 37
+			3, 8, 19
+		END
+	END
+END
+ 
+ENTERING SCREEN 1
+	IF TRUE
+	THEN
+		DECORATIONS
+			4, 4, 17
+			6, 4, 17
+			8, 4, 17
+			10, 4, 17
+			2, 8, 19
+		END
+	END
+END
+ 
+ENTERING SCREEN 2
+	IF TRUE
+	THEN
+		DECORATIONS
+			3, 8, 19
+			9, 8, 22
+		END
+	END
+END
+ 
+ENTERING SCREEN 3
+	IF TRUE
+	THEN
+		DECORATIONS
+			2, 3, 19
+			9, 8, 17
+		END
+	END
+END
+ 
+ENTERING SCREEN 4
+	IF TRUE
+	THEN
+		DECORATIONS
+			12, 6, 19
+			4, 8, 23
+		END
+	END
+END
+ 
+ENTERING SCREEN 5
+	IF TRUE
+	THEN
+		DECORATIONS
+			3, 3, 19
+			3, 8, 19
+		END
+	END
+END
+ 
+ENTERING SCREEN 6
+	IF TRUE
+	THEN
+		DECORATIONS
+		END
+	END
+END
+ 
+ENTERING SCREEN 7
+	IF TRUE
+	THEN
+		DECORATIONS
+			6, 7, 24
+			7, 7, 25
+		END
+	END
+END
+ 
+ENTERING SCREEN 8
+	IF TRUE
+	THEN
+		DECORATIONS
+			13, 1, 17
+			13, 8, 19
+		END
+	END
+END
+ 
+ENTERING SCREEN 9
+	IF TRUE
+	THEN
+		DECORATIONS
+		END
+	END
+END
+ 
+ENTERING SCREEN 10
+	IF TRUE
+	THEN
+		DECORATIONS
+			12, 3, 19
+			4, 7, 19
+		END
+	END
+END
+ 
+ENTERING SCREEN 11
+	IF TRUE
+	THEN
+		DECORATIONS
+			5, 2, 19
+			12, 3, 19
+		END
+	END
+END
+ 
+ENTERING SCREEN 12
+	IF TRUE
+	THEN
+		DECORATIONS
+			9, 5, 17
+			2, 7, 19
+		END
+	END
+END
+ 
+ENTERING SCREEN 13
+	IF TRUE
+	THEN
+		DECORATIONS
+			1, 7, 19
+		END
+	END
+END
+ 
+ENTERING SCREEN 14
+	IF TRUE
+	THEN
+		DECORATIONS
+			1, 1, 19
+		END
+	END
+END
+ 
+ENTERING SCREEN 15
+	IF TRUE
+	THEN
+		DECORATIONS
+			2, 8, 19
+		END
+	END
+END
+ 
+ENTERING SCREEN 16
+	IF TRUE
+	THEN
+		DECORATIONS
+			3, 5, 19
+			5, 8, 19
+			12, 8, 19
+		END
+	END
+END
+ 
+ENTERING SCREEN 17
+	IF TRUE
+	THEN
+		DECORATIONS
+			1, 2, 19
+			9, 8, 17
+		END
+	END
+END
+ 
+ENTERING SCREEN 18
+	IF TRUE
+	THEN
+		DECORATIONS
+			4, 6, 19
+		END
+	END
+END
+ 
+ENTERING SCREEN 19
+	IF TRUE
+	THEN
+		DECORATIONS
+			9, 7, 20
+			10, 7, 21
+			3, 8, 19
+			9, 8, 36
+			10, 8, 37
+		END
+	END
+END
+ 
+ 
+// If you use extraprints.h, trim this bit and use it!
+const unsigned char ep_scr_00 [] = { 0x96, 20, 0xA6, 21, 0x97, 36, 0xA7, 37, 0x38, 19 };
+const unsigned char ep_scr_01 [] = { 0x44, 17, 0x64, 17, 0x84, 17, 0xA4, 17, 0x28, 19 };
+const unsigned char ep_scr_02 [] = { 0x38, 19, 0x98, 22 };
+const unsigned char ep_scr_03 [] = { 0x23, 19, 0x98, 17 };
+const unsigned char ep_scr_04 [] = { 0xC6, 19, 0x48, 23 };
+const unsigned char ep_scr_05 [] = { 0x33, 19, 0x38, 19 };
+const unsigned char ep_scr_07 [] = { 0x67, 24, 0x77, 25 };
+const unsigned char ep_scr_08 [] = { 0xD1, 17, 0xD8, 19 };
+const unsigned char ep_scr_0A [] = { 0xC3, 19, 0x47, 19 };
+const unsigned char ep_scr_0B [] = { 0x52, 19, 0xC3, 19 };
+const unsigned char ep_scr_0C [] = { 0x95, 17, 0x27, 19 };
+const unsigned char ep_scr_0D [] = { 0x17, 19 };
+const unsigned char ep_scr_0E [] = { 0x11, 19 };
+const unsigned char ep_scr_0F [] = { 0x28, 19 };
+const unsigned char ep_scr_10 [] = { 0x35, 19, 0x58, 19, 0xC8, 19 };
+const unsigned char ep_scr_11 [] = { 0x12, 19, 0x98, 17 };
+const unsigned char ep_scr_12 [] = { 0x46, 19 };
+const unsigned char ep_scr_13 [] = { 0x97, 20, 0xA7, 21, 0x38, 19, 0x98, 36, 0xA8, 37 };
+const unsigned char *prints [] = { ep_scr_00, ep_scr_01, ep_scr_02, ep_scr_03, ep_scr_04, ep_scr_05, 0, ep_scr_07, ep_scr_08, 0, ep_scr_0A, ep_scr_0B, ep_scr_0C, ep_scr_0D, ep_scr_0E, ep_scr_0F, ep_scr_10, ep_scr_11, ep_scr_12, ep_scr_13 };

@@ -1,0 +1,1 @@
+In this folder you can find all the docs I've managed to find scattered around covering MK2. Mostly in Spanish.

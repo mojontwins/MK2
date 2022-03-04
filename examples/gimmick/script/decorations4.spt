@@ -1,0 +1,181 @@
+ENTERING SCREEN 0
+	IF TRUE
+	THEN
+		DECORATIONS
+			1, 6, 21
+		END
+	END
+END
+ 
+ENTERING SCREEN 1
+	IF TRUE
+	THEN
+		DECORATIONS
+		END
+	END
+END
+ 
+ENTERING SCREEN 2
+	IF TRUE
+	THEN
+		DECORATIONS
+		END
+	END
+END
+ 
+ENTERING SCREEN 3
+	IF TRUE
+	THEN
+		DECORATIONS
+		END
+	END
+END
+ 
+ENTERING SCREEN 4
+	IF TRUE
+	THEN
+		DECORATIONS
+		END
+	END
+END
+ 
+ENTERING SCREEN 5
+	IF TRUE
+	THEN
+		DECORATIONS
+			13, 3, 21
+		END
+	END
+END
+ 
+ENTERING SCREEN 6
+	IF TRUE
+	THEN
+		DECORATIONS
+		END
+	END
+END
+ 
+ENTERING SCREEN 7
+	IF TRUE
+	THEN
+		DECORATIONS
+			13, 8, 17
+		END
+	END
+END
+ 
+ENTERING SCREEN 8
+	IF TRUE
+	THEN
+		DECORATIONS
+			13, 3, 17
+		END
+	END
+END
+ 
+ENTERING SCREEN 9
+	IF TRUE
+	THEN
+		DECORATIONS
+		END
+	END
+END
+ 
+ENTERING SCREEN 10
+	IF TRUE
+	THEN
+		DECORATIONS
+		END
+	END
+END
+ 
+ENTERING SCREEN 11
+	IF TRUE
+	THEN
+		DECORATIONS
+		END
+	END
+END
+ 
+ENTERING SCREEN 12
+	IF TRUE
+	THEN
+		DECORATIONS
+		END
+	END
+END
+ 
+ENTERING SCREEN 13
+	IF TRUE
+	THEN
+		DECORATIONS
+		END
+	END
+END
+ 
+ENTERING SCREEN 14
+	IF TRUE
+	THEN
+		DECORATIONS
+		END
+	END
+END
+ 
+ENTERING SCREEN 15
+	IF TRUE
+	THEN
+		DECORATIONS
+			2, 7, 21
+		END
+	END
+END
+ 
+ENTERING SCREEN 16
+	IF TRUE
+	THEN
+		DECORATIONS
+			13, 7, 21
+		END
+	END
+END
+ 
+ENTERING SCREEN 17
+	IF TRUE
+	THEN
+		DECORATIONS
+			3, 4, 21
+			13, 4, 21
+			3, 8, 21
+		END
+	END
+END
+ 
+ENTERING SCREEN 18
+	IF TRUE
+	THEN
+		DECORATIONS
+			4, 4, 21
+		END
+	END
+END
+ 
+ENTERING SCREEN 19
+	IF TRUE
+	THEN
+		DECORATIONS
+		END
+	END
+END
+ 
+ 
+// If you use extraprints.h, trim this bit and use it!
+const unsigned char ep_scr_00 [] = { 0x16, 21 };
+const unsigned char ep_scr_05 [] = { 0xD3, 21 };
+const unsigned char ep_scr_07 [] = { 0xD8, 17 };
+const unsigned char ep_scr_08 [] = { 0xD3, 17 };
+const unsigned char ep_scr_0F [] = { 0x27, 21 };
+const unsigned char ep_scr_10 [] = { 0xD7, 21 };
+const unsigned char ep_scr_11 [] = { 0x34, 21, 0xD4, 21, 0x38, 21 };
+const unsigned char ep_scr_12 [] = { 0x44, 21 };
+const unsigned char *prints [] = { ep_scr_00, 0, 0, 0, 0, ep_scr_05, 0, ep_scr_07, ep_scr_08, 0, 0, 0, 0, 0, 0, ep_scr_0F, ep_scr_10, ep_scr_11, ep_scr_12, 0 };

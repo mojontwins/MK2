@@ -26,6 +26,7 @@ Sub usage
 	Print "wordwrap       # of chars before a line break (% char)"
 	Print "wordwrap_c     # of chars before a line break, for characters talk."
 	Print "offset         An offset to be added to every value in the index. Optional."
+	Print "space          Generate this value for spaces. Default is 30. [**]"
 	Print "ramiro         Special for screen names in ramiro. Don't use. "
 	Print "               ramiro=N makes first N lines be preceded by a X coordinate"
 	Print "               rather than # of lines, used for text centering. Custom"
@@ -42,6 +43,7 @@ Sub usage
 	Print "    simple mode doesn't need the wordwrap_c parameter thus it can be "
 	Print "    omitted."
 	Print
+	Print "[**] Actual character is CHAR n+32 (ASCII n+64)."
 End Sub
 
 Dim as Integer fin, fout
@@ -58,6 +60,7 @@ Dim as uByte wordWrap, wordWrapC, ww
 Dim as uByte x
 Dim as Byte mode
 Dim as uByte code
+Dim as uByte spaceN
 Dim as Integer charSubCounter, charCounter, lineCounter, byteCounter
 Dim as Integer lineThreshold
 
@@ -87,6 +90,12 @@ End If
 If sclpGetValue ("textfile") = "" Then
 	Print "How could you forget to specify the input file?"
 	errors = -1
+End If
+
+If sclpGetValue ("space") <> "" Then
+	spaceN = Val (sclpGetValue ("space"))
+Else
+	spaceN = 30
 End If
 
 ' Mode = 0 (simple) or -1 (character)
@@ -229,7 +238,7 @@ While Not Eof (fin)
 		If j = 0 Then
 			binaryString = binaryString + "00000"
 		ElseIf j = 32 Then
-			binaryString = binaryString + Bin (30, 5)
+			binaryString = binaryString + Bin (spaceN, 5)
 		ElseIf j < 64 Then
 			' add 31 & j - 32
 			binaryString = binaryString + "11111" + Bin (j - 32, 5)

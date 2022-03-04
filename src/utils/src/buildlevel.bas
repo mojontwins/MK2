@@ -1,4 +1,4 @@
-' Buildlevel v0.3 [MK2 0.90+]
+' Buildlevel v0.4 20191212 [MK2 1.0+]
 ' Copyleft 2015 by The Mojon Twins
 
 ' Compile with fbc buildlevel.bas cmdlineparser.bas
@@ -189,8 +189,8 @@ Dim As Integer nSprites
 
 '' DO 
 
-Print "buildlevel v0.3"
-Print "Builds a level bundle for MK2 0.90+"
+Print "buildlevel v0.4 20191212"
+Print "Builds a level bundle for MK2 1.0+"
 Print ""
 
 ' Get command line parameters parsed.
@@ -525,37 +525,43 @@ idx = 0
 Puts ("reading font")
 img = png_load (sclpGetValue ("fontfile"))
 Puts ("    font filename = " & sclpGetValue ("fontfile"))
+byteswritten = 0
 idx = 0
 For y = 0 To 1
 	For x = 0 To 31
 		getUDGIntoCharset img, x * 8, y * 8, tileset (), idx
 		idx = idx + 1	
+		byteswritten = byteswritten + 9
 	Next x
 Next y
 Puts ("    converted 64 chars")
 Puts ("reading 16x16 tiles")
 img = png_load (sclpGetValue ("tilesfile"))
+If ImageInfo (img, xx, yy, , , , ) Then
+	Puts ("Something wrong happened"): End
+End If
 Puts ("    tileset filename = " & sclpGetValue ("tilesfile"))
 x = 0
 y = 0
-For idx = 0 to 47
+For idx = 0 to (((xx\16)*(yy\16)) - 1)
 	getUDGIntoCharset img, x, y, tileset (), idx * 4 + 64
 	getUDGIntoCharset img, x + 8, y, tileset (), idx * 4 + 65
 	getUDGIntoCharset img, x, y + 8, tileset (), idx * 4 + 66
 	getUDGIntoCharset img, x + 8, y + 8, tileset (), idx * 4 + 67
-	x = x + 16: If x = 256 Then x = 0: y = y + 16
+	x = x + 16: If x = xx Then x = 0: y = y + 16
+	byteswritten = byteswritten + 36
 Next idx
-Puts ("    converted 192 chars")
+Puts ("    converted " & (((xx\16)*(yy\16))*4) & " chars")
 Puts ("writing tileset")
 
-For idx = 0 To 2303
+For idx = 0 To byteswritten - 1
 	d = tileset (idx)
 	put #fout, , d
 Next idx
-Puts ("    2304 bytes written")
+Puts ("    " & byteswritten & " bytes written")
 Puts ("")
 
-totalsize = totalsize + 2304
+totalsize = totalsize + byteswritten
 
 '' ***************
 '' ** SPRITESET **
@@ -635,14 +641,9 @@ For idx = 1 To max
 	Get #f, , e.s2
 	
 	' Write		
-	' int16 x, y; lsb msb
-	x = e.x * 16
-	d = x And &hff: Put #fout, , d
-	d = (x Shr 8) And &hff: Put #fout, , d
-	
-	y = e.y * 16
-	d = y And &hff: Put #fout, , d
-	d = (y Shr 8) And &hff: Put #fout, , d
+	' ubyte x, y;
+	d = e.x * 16: Put #fout, , d
+	d = e.y * 16: Put #fout, , d
 	
 	' ubyte x1, y1, x2, y2
 	d = 16 * e.x: Put #fout, , d
@@ -661,7 +662,7 @@ For idx = 1 To max
 	d = life: Put #fout, , d
 	
 	'puts ("->" & x & ", " & y & ", " & e.x & ", " & e.y & ", " & e.xx & ", " & e.yy & ", " & 
-	byteswritten = byteswritten + 12	
+	byteswritten = byteswritten + 10
 Next idx
 Puts ("    written " & max & " enemies")
 Puts ("    " & byteswritten & " bytes written.")

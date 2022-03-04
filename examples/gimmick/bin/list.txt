@@ -1,0 +1,15 @@
+title.bin
+marco.bin
+ending.bin
+level0c.bin
+level1c.bin
+level2c.bin
+level3c.bin
+level4c.bin
+level5c.bin
+level6c.bin
+level7c.bin
+level8c.bin
+dragon.bin
+fingod.bin
+logogw.bin
